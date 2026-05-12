@@ -1,0 +1,41 @@
+# macOS
+.DS_Store
+
+# 作業用一時ファイル (機密含む)
+.tmp/
+
+# worktree (linked working trees、本体ではない)
+worktrees/
+
+# AI 管理対象の個別プロジェクトは独立 git repo
+# (例: ait913/meishilink, ait913/tomori, ait913/tsunagu, ...)
+# embedded repo として追跡しない。Muraki が管理するのは _TEMPLATE.md と _pre/ のみ
+projects/*
+!projects/_TEMPLATE.md
+!projects/_pre
+!projects/_pre/**
+
+# Node.js
+node_modules/
+dist/
+build/
+*.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# エディタ
+.vscode/
+.idea/
+*.swp
+
+# Local Claude Code 設定で機密が混入しうる場合の防御
+.claude/settings.json
+
+# 環境変数ファイル (Muraki 直下に置かれることは想定してないが念のため)
+.env
+.env.*
+!.env.example

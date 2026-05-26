@@ -13,6 +13,10 @@ sources:
 ---
 
 ## Context
+
+> **2026-05 追記**: better-auth 1.6.x が stable 化し、Auth.js v5 はまだ beta (5.0.0-beta.31)。
+> 新規 PJ は [[library/better-auth-2026]] を優先検討。本書は Auth.js v5 を選んだ場合の参照として残す。
+
 Next.js 15 App Router + Prisma + better-sqlite3 で Auth.js v5 を使い、
 Magic Link (Email) + Google OAuth を実装する場合の最小構成。
 

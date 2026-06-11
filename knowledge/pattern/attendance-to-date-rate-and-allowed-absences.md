@@ -8,6 +8,7 @@ updated: 2026-06-11
 sources:
   - Atender .designs/20260611-semester-redesign.md
   - Atender .designs/20260611-semester-fixes.md
+  - Atender .designs/20260611-occurrence-based-denominator.md
   - Atender apps/api/src/services/attendanceStats.ts
 ---
 
@@ -27,14 +28,15 @@ occurrence (実日付に展開された授業実体) を 3 クラスに分けて
 
 1. **今日まで率** = 過去分の Σnum / Σden。**過去未記録 (floating past) は分母に入れて分子に入れない = 欠席扱い**。未記録は件数バナー/バッジで強めに別出しし、記録を促す
 2. **射影** projectedNum/Den = fixed 全期間 + floating **future** を出席仮定。**floating past (過去未記録) は分母にだけ残し分子から外す** (= 欠席扱い、楽観射影しない)
-3. **あと N 回休める** = `floor((1 − r) × D − 消化済み欠席 + 1e-9)` (r = 必要出席率)。**D = 学期全体の有効授業数** (`totalSessions − denominatorReduction`、休講/SEPARATE/REDUCE を除外)。**消化済み欠席 = 記録済みの欠席相当重み** (ABSENT=1.0, HALF_PRESENT[遅刻/早退]=0.5, PRESENT=0)。未記録は消化に数えない (=学期全体視点の楽観値)
+3. **あと N 回休める** = `floor((1 − r) × D − 消化済み欠席 + 1e-9)` (r = 必要出席率)。**D = 学期全体の有効授業数 = occurrence 実数ベース** (`course.occurrences.length − denominatorReduction`、休講/SEPARATE/REDUCE を除外)。**消化済み欠席 = 記録済みの欠席相当重み** (ABSENT=1.0, HALF_PRESENT[遅刻/早退]=0.5, PRESENT=0)。未記録は消化に数えない (=学期全体視点の楽観値)
 
 ### ★「あと N 回休める」は学期全体ベース・「率」は今日まで — 別物 (2026-06-11 tweaks)
 
 ユーザーのメンタルモデルは2指標で**母数も未記録の扱いも別**:
 - **率 (出席率)** = 今日まで実績。未記録=欠席 (上記1)。「今のところの達成度」
 - **あと N 回休める** = 学期全体で許される総欠席枠 − 消化済み欠席。**「今学期トータルで3回休める授業、すでに2回休んだ → あと1回」というカウントダウン**。未記録は枠を消費しない (楽観)
-- 実装: `allowedAbsences = floor((1−r)×D − (fixedDenAll − fixedNumAll) + 1e-9)`。`D = denominator`(totalSessionsベース)、消化欠席=`fixedDenAll − fixedNumAll`(記録済みのみ集計=未記録を構造的に除外)
+- 実装: `allowedAbsences = floor((1−r)×D − (fixedDenAll − fixedNumAll) + 1e-9)`。`D = denominator = course.occurrences.length − denominatorReduction`(occurrence実数ベース)、消化欠席=`fixedDenAll − fixedNumAll`(記録済みのみ集計=未記録を構造的に除外)
+- ★**母数 D は occurrence 実数ベースに統一する** (2026-06-11 occurrence-based-denominator)。`totalSessions`(ユーザー手入力・デフォ15)ベースだと occurrence 実態と乖離 (水曜2限×4日=8コマでも15固定で「あと4限休める」と甘く出る)。`D = occurrences.length − denominatorReduction` は `fixedDenAll + floatingPast + floatingFuture`(旧 projectedDen)と恒等的に一致 (occurrences.length = suspended+fixed件数+floatingPast+floatingFuture、denominatorReduction = suspended+separate+reduceDen)。全期間率・今日まで率・あと N 回の母数がすべて occurrence 実数で揃う。totalSessions は概念ごと不要になり Course/TemplateCourse から物理削除した
 - ★**`denominator − numerator` を消化欠席に使ってはいけない** — numerator は記録済み分子だが denominator は totalSessions ベースで未記録分も含むため、差分に未記録が混入する。必ず「記録済みのみの den−num」(`fixedDenAll − fixedNumAll`) を使う
 - overall は floor 非線形なので科目別 `(1−r)×D − 消化欠席` の**生値を合算してから floor**
 

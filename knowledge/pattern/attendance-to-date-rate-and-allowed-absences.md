@@ -9,6 +9,7 @@ sources:
   - Atender .designs/20260611-semester-redesign.md
   - Atender .designs/20260611-semester-fixes.md
   - Atender .designs/20260611-occurrence-based-denominator.md
+  - Atender .designs/20260611-date-input-and-allowed-days.md
   - Atender apps/api/src/services/attendanceStats.ts
 ---
 
@@ -62,3 +63,22 @@ occurrence (実日付に展開された授業実体) を 3 クラスに分けて
 - 過去未記録の符号に注意: 今日まで率の分母 `toDateDen += floatingPast`、射影の分子 `projectedNum` には floatingPast を**足さない** (分母 `projectedDen` には足す)。初版から反転した点なので、改修時は両方の式を必ず確認
 - DTO は既存の学期全体率フィールドを壊さず `toDate` / `remainingCount` / `allowedAbsences` を追加する形が安全 (他画面の後方互換)
 - UI 分岐: N<0「残り全部出席しても届かない」/ N>=残り回数「全休でも維持」/ それ以外「あと N 回休める」
+
+### ★「あとN限」→「あとN日」への日数換算 (2026-06-11 date-input-and-allowed-days)
+
+コマ単位の `allowedAbsences` (限) に加え「あと何日休める」を併記する場合、**保守的に「1日の時限数が最も多い曜日」で割る**:
+- `maxDayPeriods` = 科目の各 dayOfWeek ごとの `Σ periodCount` の**最大値** (同曜日は合算、Meeting 無しは 0)
+- `allowedAbsenceDays = floor(allowedAbsences / maxDayPeriods)`
+- 異時限 (水2限・金4限) は max=4 で割る = 「どの曜日を休んでも保証される最低日数」。avg/min は実際の消費とズレて保証にならない (min は楽観的すぎ枠切れ、avg は休む曜日次第で超過)
+- エッジ: `allowedAbsences == null` (母数0) → days=null / `maxDayPeriods === 0` (Meeting無し、ゼロ除算回避) → null / `allowedAbsences < 0` (下回る見込み) → null (日数非表示、限側の負値文言に従属) / `allowedAbsences == 0` → 0日
+- **全体 (overall) には日数を出さない**: 科目ごとに 1 日の時限数が違い、休む日と科目の対応が無いため合算する基準が崩壊する。日数は科目別のみ、overall は「あとN限」のまま
+- DTO は `maxDayPeriods:Int` (非null) と `allowedAbsenceDays:Int|null` の 2 つを科目 DTO に持たせる。max を持たせると days の独立検算と「1日◯限」表示拡張が server 改修なしで可能
+
+### ★date/time input のモバイル幅はみ出し (WebKit Bug 136041、2026-06-11)
+
+iOS Safari 17 系は `<input type="date">`/`type="time"` を `inline-flex` 扱いし `width:100%` を無視 → intrinsic 幅でコンテナをはみ出す (iOS18+ は修正済)。**グローバル CSS 1 ルールで全 date/time input 一括修正**:
+```css
+input[type="date"], input[type="time"] { display:block; min-width:0; max-width:100%; box-sizing:border-box; }
+input[type="date"]::-webkit-date-and-time-value { text-align:left; }  /* block 化で中央寄せになる副作用を打ち消し */
+```
+個別 className より `styles.css` のグローバルセレクタが最小・確実 (date/time を使う全箇所が共通 Input 経由でも漏れない)。PC では元から width:100% が効くので見た目不変、収まっている input にも無害。**jsdom では検証不能** (`::-webkit-*` 疑似要素も inline-flex 固有挙動も非評価) → 自動テスト対象外にし実機目視で確認する旨を Reviewer に明記

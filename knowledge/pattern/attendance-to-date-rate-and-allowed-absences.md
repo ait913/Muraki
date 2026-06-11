@@ -4,8 +4,10 @@ category: pattern
 project: global
 tags: [attendance, stats, denominator, projection, occurrence, ux]
 created: 2026-06-11
+updated: 2026-06-11
 sources:
   - Atender .designs/20260611-semester-redesign.md
+  - Atender .designs/20260611-semester-fixes.md
   - Atender apps/api/src/services/attendanceStats.ts
 ---
 
@@ -23,9 +25,16 @@ occurrence (実日付に展開された授業実体) を 3 クラスに分けて
 
 3 指標:
 
-1. **今日まで率** = 過去 fixed の Σnum / Σden。**未記録は分母に入れない** (記録忘れで率が暴落すると数字への信頼を失う)。未記録は件数チップで別出しして記録を促す
-2. **楽観射影** projectedNum/Den = fixed 全期間 + floating 全部を出席仮定 (num1/den1)
+1. **今日まで率** = 過去分の Σnum / Σden。**過去未記録 (floating past) は分母に入れて分子に入れない = 欠席扱い**。未記録は件数バナー/バッジで強めに別出しし、記録を促す
+2. **射影** projectedNum/Den = fixed 全期間 + floating **future** を出席仮定。**floating past (過去未記録) は分母にだけ残し分子から外す** (= 欠席扱い、楽観射影しない)
 3. **あと N 回休める** = `floor(projectedNum − r × projectedDen + 1e-9)` (r = 必要出席率)。ABSENT が num −1 / den ±0 だから一次式で解ける。負値はそのまま返し UI が「下回る見込み」表示
+
+### ★方針転換 (2026-06-11、redesign → fixes)
+
+初版 (redesign) は「過去未記録も出席仮定 (率からは除外)」だったが、**ユーザーは「未記録は出席扱いするな・欠席として扱え」と要求**。fixes で上記へ反転:
+- 過去未記録は **今日まで率の分母にも射影の分母にも入り、分子には入らない** (= 欠席と同じ寄与)。記録忘れがあると率が下がり allowedAbsences が保守的になる = 正直側に倒す
+- 未来未記録 (floating future) だけは出席仮定のまま (「残りを出席する前提であと何回休めるか」が問いの意味なので未来は楽観で対称)
+- 「未記録は率から除外して暴落を防ぐ」という初版の親切心は、**未記録を強く可視化して記録を促す UX** に置換 (率を歪めるより、記録させる動線で解く)
 
 ## Why
 
@@ -38,5 +47,6 @@ occurrence (実日付に展開された授業実体) を 3 クラスに分けて
 
 - HALF_PRESENT 等で分子が 0.5 刻みになっても floor が端数を吸収するので式はそのまま
 - 未来日に事前記録があれば fixed 扱い (floating から外す)
+- 過去未記録の符号に注意: 今日まで率の分母 `toDateDen += floatingPast`、射影の分子 `projectedNum` には floatingPast を**足さない** (分母 `projectedDen` には足す)。初版から反転した点なので、改修時は両方の式を必ず確認
 - DTO は既存の学期全体率フィールドを壊さず `toDate` / `remainingCount` / `allowedAbsences` を追加する形が安全 (他画面の後方互換)
 - UI 分岐: N<0「残り全部出席しても届かない」/ N>=残り回数「全休でも維持」/ それ以外「あと N 回休める」

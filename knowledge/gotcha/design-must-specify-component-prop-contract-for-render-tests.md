@@ -4,7 +4,7 @@ category: gotcha
 tags: [reviewer, testing, design-doc, react-testing-library, props]
 created: 2026-06-02
 project: atender
-sources: [".designs/20260602-ui-improvements.md 項目1 TimetableView"]
+sources: [".designs/20260602-ui-improvements.md 項目1 TimetableView", "kinketsu-taisaku .designs/20260608-ui-cloudflare-redesign.md §6.1/§10 MonthView empty-records"]
 ---
 
 ## Context
@@ -44,3 +44,38 @@ doc に転記されないと Reviewer から見えない。
 - Reviewer: 描画テストが「要素が見つからない」で全 fail し、pure 関数側は通る場合、
   まず prop 契約が doc に無いことを疑い、src を読んで合わせにいかず YELLOW で
   「doc に prop 契約が無くテスト不能」と報告する (実装に合わせると検証機能が死ぬ)。
+
+## 追補: query で駆動する View コンポーネントは「query data shape」も同じ責務 (kinketsu-taisaku 2026-06-08)
+
+CF風 UI 再設計の Reviewer 検証で同根の問題が再発。`empty-records` (records 0 件で空状態) を
+RTL で検証しようと MonthView を render したが、`useQuery` を queryKey 別にモックしても
+`MonthView.tsx:94` が `undefined.incomeForecast` で落ち続けた。設計 doc には:
+- §2 に query key 一覧 (`["month"]` `["forecast"]` 等) はある
+- §8.1 に summary 値 (currentBalance / endingBalanceForecast) の data-testid 不変条件はある
+
+が、**各 query が返す data の shape** と **MonthView がどの query のどのフィールドを
+どう派生して読むか** が無い。`incomeForecast` を month data 直下に入れても forecast に入れても
+落ちる = 実装は別の派生 (useMemo / 別 query 要素) から読んでおり、src を読まない Reviewer
+には mock 契約が一意に決まらない。prop 契約と全く同じ構造の欠落で、対象が props でなく
+**TanStack Query の data 契約**に移っただけ。
+
+対して同 doc でも:
+- `useTheme/resolveTheme` (シグネチャ + 戻り型が doc に明記) → 全 GREEN
+- `SummaryCard` (props 4 つを §6.1 メトリクスから確定でき、§8.1 に不変条件) → 全 GREEN
+- `ThemeToggle` / `AppShell` (testid 存在のみ + 最小 router/auth mock) → GREEN
+
+つまり「doc にシグネチャ or 入力契約があるものは通り、無いものだけ落ちる」線引きが明瞭。
+
+### 追加の How to apply
+- Architect: 「Reviewer がこの View を render して testid X を検証する」と書く項目は、
+  その View が消費する **query の data shape** (型) を doc に転記する。
+  例: `month query data = { currentBalance:number|null, endingBalanceForecast:number,
+  incomeForecast:number, expenseForecast:number, records:Record[], bundles:Bundle[] }`。
+  派生値 (useMemo で組む summary 等) を testid 検証が踏むなら、その派生元 query も明記。
+- 代替として、空状態のような「データ非依存で出る UI」は **presentational に切り出して
+  props (`records: Record[]`) で render させる**設計にすると、query mock 不要で Reviewer が
+  純粋に検証できる (prop 契約だけで済む)。doc 段階でこの切り出しを指定すると検証可能性が上がる。
+- Reviewer: query mock を当て続けて render を通そうとすると「実装当てパズル」になり検証機能が
+  死ぬ。2〜3 形試して通らなければ `it.skip` + 理由明記で止め、YELLOW として
+  「doc に query data shape が無く該当 testid を render 検証不能」を Leader に上げる。
+

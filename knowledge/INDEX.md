@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-06-08
+Generated: 2026-06-11
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -25,6 +25,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 ## pattern
 - [AI 振り返り対話のセッション設計と階層型メモリ](pattern/ai-reflection-dialog-memory.md) — `global` — 夜の振り返り (evening reflection) を AI と対話で行う UX。Stoic / Rosebud / Mindsera の 2025-2026 設計と、長期運用での memory アーキテクチャ。
 - [aisaba.net 系の視覚デザイン言語](pattern/aisaba-design-language.md) — `global` — aisaba.net・apps.aisaba.net・portfolio_manager 等、ユーザー (Touri Aida) が運営する複数サイトで一貫した視覚言語が使われている。新規 UI を作る・既存サイトに追加コンポーネントを差し
+- [出席率の3指標分解 — 「今日まで実績 / 楽観射影 / あとN回休める」標準計算パターン](pattern/attendance-to-date-rate-and-allowed-absences.md) — `global` — 出欠管理アプリで「学期全体の予定回数」を分母にすると、学期序盤は未来分が分母に入って率が不当に低く出る。ユーザーが本当に知りたいのは (1) 今日までの実績率と (2) あと何回休めるか。
 - [better-auth Cookie session を壊さず bearer plugin でネイティブを併存させる + Google web OAuth の token 中継](pattern/better-auth-bearer-native-token-relay.md) — `global` — 既に web で **better-auth の Cookie session** (`credentials:"include"`, SameSite=Lax, DB session) を運用しているプロダクトに、後から **iOS ネイ
 - [better-auth incremental scope (linkSocial) + cron 文脈での access token 取得パターン](pattern/better-auth-incremental-scope-and-cron-token.md) — `global` — 既に better-auth で Google Sign-In を持つアプリで、後から「Google Calendar 読み取り」など追加 scope が必要になる場面。sign-in 時に sensitive scope を最初から要求す
 - [週パターン (曜日+時限) → 絶対日付 occurrence 展開を Backend に寄せる pattern](pattern/calendar-week-pattern-meeting-expansion.md) — `global` — 時間割 / 繰り返し予定 / シフト等で「毎週月曜の 1 限」のような週パターンと、出欠記録のような「特定日の単位」を両立させる schema 設計。展開ロジックを Backend / Frontend のどちらに置くかの判断基準。
@@ -47,12 +48,14 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [モバイル密度を上げる Token 一括パス (font scale + spacing semantic)](pattern/mobile-density-tighten-token-pass.md) — `global` — モバイル Web アプリで「1 画面に情報を載せたい」要件が来たとき、コンポーネントを 1 個ずつ手で調整する
 - [モバイル first PWA の bottom tab bar 実装ベストプラクティス (2025-2026)](pattern/mobile-first-bottom-tab.md) — `global` — モバイル first Web アプリ (PWA / Capacitor / SwiftUI 移行予定 SPA) で、下端 bottom tab bar を実装するときの 2025-2026 BP。Atender redesign 調査でまと
 - [Modal/Sheet を基底コンポーネント化して overlay/ESC/× の 3 経路 close を強制する](pattern/modal-sheet-base-component-3way-close.md) — `global` — OMATASE-demo 実機検証 (Touri, 2026-05-26) で「モーダルは空白部分タップで戻れるようにして欲しい。全体的に」という体感悪化 fb が出た。原因は **各モーダル/Sheet 個別実装** で close 経路
+- [moneylog (ceez7 家計簿) のデザイン言語 — すりガラス + ぼかしグラデ blob + grid-rows 伸縮](pattern/moneylog-design-language.md) — `global` — Touri 本人が作った家計簿 moneylog の UI を後継アプリ (金欠対策 / kinketsu-taisaku) で**そのまま踏襲**したい。Touri が「センスがある」と認める自作デザインの design token と 
 - [LLM Ready な気分ログのスキーマと UX (Daylio / How We Feel / Finch 系)](pattern/mood-log-schema-llm-ready.md) — `global` — 気分ログ / 感情記録 / journaling 系アプリの構造化スキーマを設計するとき、後段で LLM (Claude 等) が読みやすい形にする方法。Daylio / How We Feel / Finch / Reflectly の 
 - [SQLite で polymorphic Feature プラグイン基盤を組む (kind + JSON config)](pattern/polymorphic-feature-plugin-sqlite.md) — `global` — エンティティに「種類の違う付加機能」を 0..N 個アタッチしたいケース。例:
 - [ポータブル設計のリアルタイム救命系スタック (Hono + Prisma+PostGIS + 自前 ws + Expo Push)](pattern/portable-realtime-rescue-stack.md) — `global` — 「位置共有 + 即時通知 + 双方向 WS」を要求する救命/防災/オンコール系アプリ。
 - [月次定期ルールを未確定 record として materialize する家計簿パターン (RRULE不採用・lazy補充)](pattern/recurring-rule-materialize-unpaid-records.md) — `global` — サブスク/クレカ/給料のような「毎月固定日・固定額の収支」を扱う家計簿で、定期収支を未来へ展開して残高着地予測に効かせたい場面。カレンダー系 (会議/シフト) とは要件が違う:
 - [RRULE 文字列保存 + オンザフライ展開 + 編集 3 択 (single/future/all) の標準パターン](pattern/rrule-string-onfly-expand-with-overrides.md) — `global` — カレンダー / 予約 / 共有予定アプリで「繰り返し予定」を持ちたい場面。Google Cal / Apple Cal / Outlook と互換性のある RRULE (RFC 5545) を取り扱う必要がある時。
 - [1 画面圧縮タイムライン (時間割 / シフト表 / カレンダー日 view)](pattern/single-screen-compressed-timetable.md) — `global` — 「複数メンバーの時間割を 1 画面に縦スクロールなしで並べる」「シフト表を viewport 高さに圧縮表示する」「Google Calendar 日 view のように重なるイベントを横並びで表現する」要件を、CSS Grid + パーセ
+- [スケルトンは実UIの外殻クラスを複製し決定的パターンで埋める](pattern/skeleton-structural-parity.md) — `global` — atender のスケルトン (CalendarMonth/Timetable 等) が実 UI と padding/gap/セル形状 (aspect-square vs min-h-24) で乖離し、ロード完了時にレイアウトシフトと違和感
 - [Spotify 歌詞風縦スクロール UI を framer-motion なしで実装するパターン](pattern/spotify-lyrics-scroll-css-only.md) — `global` — Spotify / Apple Music 歌詞のような「今のラインが画面中央に固定、過去は薄く流れ、未来は下に並ぶ」UI を React + Tailwind で実装したいケース。Atender の Today 画面 (現在進行中の授業を
 - [TanStack Query の invalidation を設計 doc にマトリクスで書く](pattern/tanstack-query-invalidation-matrix.md) — `global` — TanStack Query (旧 React Query) で SPA を組むとき、「mutation 後にキャッシュが古いままで、ブラウザリロードしないと反映されない」 (= invalidate 漏れ) は最頻ハマり所。
 - [TanStack Query Polling 設計 (refetchInterval 値の選び方と動的停止)](pattern/tanstack-query-polling-strategy.md) — `global` — リアルタイム性が必要だが SSE / WebSocket を導入するほどではない場面 (MVP・遅延数秒許容・stateless backend) で、TanStack Query の `refetchInterval` で polling
@@ -68,6 +71,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [個人カレンダーは時間割をクライアント側で日付展開して実授業を出す (出席集計ではない)](../projects/atender/.knowledge/personal-calendar-data-source-meeting-expansion.md) — `atender` — 個人カレンダー (Home の「カレンダー」タブ) で「TimeTree のように中身 (実授業) を表示」したい。`useSemesterOverview` の `days[]` は **1 日 1 件の出席ステータス集計** (ALL_
 
 ## gotcha
+- [API テストの日付 fixture は本番の正規化規約 (JST midnight instant) に合わせる](gotcha/api-test-date-fixtures-must-match-production-normalization.md) — `global` — Atender 学期再設計の Reviewer 検証。`POST /api/attendance/bulk` 等の新 bulk API への
 - [better-auth bearer は raw DB session token を受け付けない (signed token / set-auth-token 経由が必須)](gotcha/better-auth-bearer-plugin-token-format-coupling.md) — `global` — Atender iOS 土台で web の Cookie session に加えネイティブ用に better-auth `bearer()` plugin を足し、`Authorization: Bearer <token>` で `/ap
 - [better-auth テスト helper の cookie は Hono signed cookie 形式を再現する必要がある](gotcha/better-auth-test-cookie-must-match-hono-signed-format.md) — `global` — better-auth 1.6.x + Hono 4.12.x の API を Vitest + `app.request()` でテストする際、テスト helper で「Session 行を直接 prisma で作って Cookie ヘッ
 - [chrome-devtools MCP の fill は React controlled input の onChange を発火させない](gotcha/chrome-devtools-mcp-fill-react-controlled-input.md) — `global` — `mcp__chrome-devtools__fill` (またはツール呼び出し名 `fill`) で React の controlled input (`<input value={state} onChange={...} />`) 
@@ -76,6 +80,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Coolify は private GitHub repo を default で clone できない (Public Repo 用フロー)](gotcha/coolify-private-repo-cannot-clone.md) — `global` — Coolify (`coolify.aisaba.net`) で **Public Repo** build pack (`POST /applications/public`) を使ってアプリを作成し、`git_repository: "
 - [Coolify で全パス self-redirect ループになる時の復旧手順](gotcha/coolify-traefik-stale-label-loop.md) — `global` — Coolify (Traefik) で Dockerfile アプリをデプロイ。`fqdn` 個別指定 (例 `https://meishilink.appily.run`) + server に `wildcard_domain=http
 - [CSS Grid で一部だけ明示配置すると自動配置アイテムがズレて流れる](gotcha/css-grid-mixed-explicit-auto-placement-collision.md) — `global` — CSS Grid で背景セル (罫線・ヘッダ・ラベル) を素直に並べ (自動配置)、その上に一部のアイテム (イベントブロック等) だけ `gridColumn`/`gridRow` を明示指定して重ねる構成。「明示したやつだけ位置が決まっ
+- [設計docの導出数値 (個数合計) は生成規則と矛盾しうる — 規則を規範とする](gotcha/design-doc-derived-counts-vs-generative-rule.md) — `global` — Atender UI小修正のレビューで、設計docが skeleton のプレースホルダ配置を「`(dayIndex + rowIndex) % 3 === 0` のセルだけ Skeleton」という生成規則で定義しつつ、「days=5, 
 - [型付き言語(Swift等)では設計docに「挙動」だけでなく型/シグネチャを書かないとReviewerが実装に寄る](gotcha/design-doc-must-specify-swift-type-signatures.md) — `global` — Web(TS/RTL)では「挙動仕様(○○のとき△△)」だけで Reviewer がテストを書け、実装を見ずに独立検証できた。だが Swift のような静的型 + コンパイル必須の言語で iOS テストを書かせたら、設計に**型・メソッドシ
 - [設計 doc にテスト用 app export path を明示しないと Developer と Reviewer が分離して詰む](gotcha/design-must-specify-app-export-path-for-tests.md) — `global` — Atender MVP の Reviewer 召集で、`apps/api` のテストを設計 doc 根拠で生成 → Vitest を実行 → 81 件中 76 件 fail。失敗の原因はすべて単一: テスト helper が import 
 - [描画テストを起こすなら設計docにコンポーネントの prop 契約を明記させる](gotcha/design-must-specify-component-prop-contract-for-render-tests.md) — `global` — atender UI改善 項目1。設計docの「挙動仕様」が TimetableView の描画結果
@@ -84,6 +89,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Hono の app.request() はテスト経路で HTTP ヘッダ値を Latin-1 (ByteString) に制限する](gotcha/hono-app-request-header-latin1-constraint.md) — `global` — better-auth + Hono + Vitest で「匿名サインインに日本語名を `x-guest-name` ヘッダで渡す」テストを書こうとすると、
 - [Hono の errorMiddleware で AppError の status を読み損ねると全部 500 になる](gotcha/hono-error-middleware-apperror-status.md) — `global` — Hono で `class AppError extends Error { status, code, ... }` を定義し、route handler で `throw new AppError(409, "EMAIL_TAKEN",
 - [jsdom の getBoundingClientRect は常に 0 を返す](gotcha/jsdom-getboundingclientrect-zero.md) — `global` — OMATASE デザインモック (Vitest + RTL + jsdom) のレビューで、設計 §10.9 にあった
+- [Vitest の jsdom 環境で localStorage が未提供 (setItem is not a function)](gotcha/jsdom-no-localstorage-in-vitest.md) — `global` — CF風 UI 再設計 (kinketsu-taisaku) の Reviewer 検証。`useTheme` は ThemeMode を
 - [lazy materialize の rolling 補充が「生成 record の手動編集」を壊す](gotcha/lazy-materialize-rolling-vs-edit-conflict.md) — `global` — 定期ルール (月次) から未確定 record を未来へ実体生成する materialize 方式。
 - [Leaflet マップを使う画面で modal/overlay は z-index 1000 超え必須](gotcha/leaflet-zindex-vs-modal.md) — `global` — React アプリで Leaflet (react-leaflet) の地図と同一スクリーン内に modal / overlay を出した時、Tailwind の `z-20` や `z-50` 程度だと **modal が地図の Zoom
 - [移行関数を「移行後 schema で立つ test DB」でテストすると no such column で必ず落ちる](gotcha/migration-fn-untestable-on-final-schema.md) — `global` — カラムを A テーブルから B テーブルへ移す migration (例: Course.room → Meeting.room) のデータ移行ロジックを、テスト可能にするため service 関数 `migrateCourseRoomTo

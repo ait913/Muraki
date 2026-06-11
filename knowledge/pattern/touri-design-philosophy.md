@@ -8,7 +8,7 @@ sources:
   - /Users/touri/Desktop/ceez7 bin/ceez7/main/index.py
   - /Users/touri/Desktop/ceez7 bin/ceez7/app/index.py
   - /Users/touri/Desktop/ceez7 bin/ceez7/app/moneylog/index.py
-  - /Users/touri/Desktop/ceez7 bin/ceez7/app/moneylog/common/app/v1_117/js/app.js
+  - /Users/touri/Desktop/ceez7 bin/ceez7/app/moneylog/common/app/v1_121/js/app.js
 ---
 
 ## Context
@@ -23,14 +23,16 @@ sources:
 
 ```js
 {
-  record_id, type, paid, category_id, tag_id,
+  record_id, paid, category_id, tag_id,
   date, discription, amount
 }
 ```
 
-- **`type` フィールドが収入/支出/その他を区別する** — 別テーブルにしない
-- 新しい記録種別 (例: 投資・送金・節約目標) を追加したくなったら **`type` の取り得る値を増やすだけ**
-- スキーマ変更不要、UI 側でアイコン色を `p-ml__display__month__records__record__icon__${type}` のように type 名をクラスサフィックスに混ぜて派生
+- **収入/支出は別テーブルにしない**。1 種類の record shape で全取引を表す
+- ★ **discriminator は record に保存された `type` フィールドではなく、`amount` の符号** (収入=正/支出=負) で render 時に導出される (v1_121 `app.js:1757-1760`)。符号正規化は入力時 `proof_text()` がカテゴリ種別(収入=1/支出=2)から強制。移動(=4)は符号フリー
+- 派生 type 値は live コードでは `"inc"` / `"exp"` の 2 値のみ
+- UI 側でアイコン色を `p-ml__display__month__records__record__icon__${type}` のように導出 type 名をクラスサフィックスに混ぜて派生 (`app.js:666`)
+- 「新種別を足す = enum を 1 個増やす」という拡張思想自体は健在。ただし現 live は明示 `type` フィールドを持たない暗黙実装。**新規設計では `type` enum を明示的に持たせる方が安全** (符号導出の暗黙ルールを TS で表現しづらいため)
 
 settings 側も flat dict で拡張容易:
 ```js

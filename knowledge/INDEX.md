@@ -1,12 +1,13 @@
 # Knowledge Index
 
-Generated: 2026-06-12
+Generated: 2026-07-05
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
 ## library
 - [Aisaba 自作スタック (Appera + Nexom + aisaba_platform)](library/aisaba-stack.md) — `global` — ユーザーが運用している Web アプリ群 (apps.aisaba.net 配下: portfolio_manager / permissions / file_size_sense / カレンダー / MeishiLink ダッシュボード
 - [Anthropic Claude API のデータ保持・学習利用ポリシー (2026年5月時点)](library/anthropic-api-data-retention.md) — `global` — 個人ヘルスケア・メンタル系アプリで Claude API を使うとき、「ユーザーの会話を Anthropic 側にどれだけ残されるか」「学習に使われるか」を正確に知っておく必要がある。ZDR (Zero Data Retention) を契
+- [Apple developer docs は SPA — JSON エンドポイント直叩きで全文取得](library/apple-developer-docs-json-endpoint.md) — `global` — HIG や developer.apple.com/documentation を一次ソースで精読したいとき。
 - [Auth.js v5 + PrismaAdapter + SQLite (Magic Link + Google) 最小構成](library/authjs-v5-prisma-sqlite.md) — `global` — Next.js 15 App Router + Prisma + better-sqlite3 で Auth.js v5 を使い、
 - [better-auth 1.6.x (2026-05) — Next.js + Prisma + Magic Link + OAuth 最小構成](library/better-auth-2026.md) — `global` — Next.js (App Router) + Prisma + SQLite で「Magic Link + Google OAuth + DB session」を最小コストで組みたい場面。Auth.js v5 が長らく beta のままなの
 - [better-auth 1.6.x + Hono + Drizzle + SQLite 構成 (Anonymous Plugin 含む 2026-05)](library/better-auth-hono-drizzle-sqlite.md) — `global` — Web アプリで「Hono + Drizzle + SQLite + better-auth」スタックを採用する場面、特に Anonymous Plugin で「名前のみのゲスト運用」をする場合。既存 [`library/better-au
@@ -19,6 +20,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [日本のOHCA・救急医療マクロ統計 (2023年実績)](library/jp-ohca-stats.md) — `global` — 日本向け救命系アプリ・防災UX設計時の基礎データ。2026年5月時点で確認した最新公式値。
 - [Lucia v3 は 2026-03 で完全 deprecated — 新規 PJ で採用してはならない](library/lucia-deprecated-2025.md) — `global` — Web アプリで session-based 認証を組む際、Lucia v3 を選びたくなる場面。session DB + cookie の純度を取る設計で過去人気があったが、**作者 pilcrow が 2024-10 (= 2025年1
 - [Next.js 15 + Prisma + better-sqlite3 + Coolify スタック概要](library/nextjs15-prisma-sqlite-coolify.md) — `global` — Next.js 15 + Prisma 6.x + better-sqlite3 + SQLite を 1コンテナで Coolify デプロイする構成。`output: "standalone"` で薄い image を作り、SQLite 
+- [リモートMCPサーバー + OAuth のホスト対応と認可spec (2026)](library/remote-mcp-oauth-hosts-2026.md) — `global` — クラウド上のリモートMCPサーバーを Claude Code / Codex CLI (agent型ホスト) から URL 追加 + OAuth 認可で使わせる設計の前提確認。
 - [vCard 日本語名刺生成 (vCard 3.0 + 振り仮名)](library/vcard-japanese.md) — `global` — 日本向け Web 名刺アプリで、iOS/Android 連絡先に取り込める .vcf を Node で生成する。
 - [OMATASE-demo Pre-design Research Summary](../projects/omatase-demo/.knowledge/00-research-summary.md) — `omatase-demo` — OMATASE (URL 共有で待ち合わせ・イベント進行) MVP の設計**前**リサーチ。Hono + Drizzle + SQLite + better-auth(anonymous) を初採用するため、各 API の存在確認・連携パ
 
@@ -53,11 +55,13 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [SQLite で polymorphic Feature プラグイン基盤を組む (kind + JSON config)](pattern/polymorphic-feature-plugin-sqlite.md) — `global` — エンティティに「種類の違う付加機能」を 0..N 個アタッチしたいケース。例:
 - [ポータブル設計のリアルタイム救命系スタック (Hono + Prisma+PostGIS + 自前 ws + Expo Push)](pattern/portable-realtime-rescue-stack.md) — `global` — 「位置共有 + 即時通知 + 双方向 WS」を要求する救命/防災/オンコール系アプリ。
 - [月次定期ルールを未確定 record として materialize する家計簿パターン (RRULE不採用・lazy補充)](pattern/recurring-rule-materialize-unpaid-records.md) — `global` — サブスク/クレカ/給料のような「毎月固定日・固定額の収支」を扱う家計簿で、定期収支を未来へ展開して残高着地予測に効かせたい場面。カレンダー系 (会議/シフト) とは要件が違う:
+- [リモートMCPのマルチテナント設計 — per-project URL バインド + 自前AS + 事実/判断の線引き](pattern/remote-mcp-multitenant-self-as.md) — `global` — クラウド上のリモート MCP サーバー（Claude Code / Codex から URL 追加 + OAuth）を、複数チーム・複数リポでマルチテナント運用したい。かつ「推論はホスト agent に委譲、サーバーは事実だけ持つ」構成（d
 - [RRULE 文字列保存 + オンザフライ展開 + 編集 3 択 (single/future/all) の標準パターン](pattern/rrule-string-onfly-expand-with-overrides.md) — `global` — カレンダー / 予約 / 共有予定アプリで「繰り返し予定」を持ちたい場面。Google Cal / Apple Cal / Outlook と互換性のある RRULE (RFC 5545) を取り扱う必要がある時。
 - [オンボーディング完了判定は単一の純粋関数に集約する (二重定義はデッドロックを生む)](pattern/setup-completion-guard-single-source-of-truth.md) — `global` — atender 本番で「新規ユーザーが Setup から抜け出せないデッドロック」が発生。
 - [1 画面圧縮タイムライン (時間割 / シフト表 / カレンダー日 view)](pattern/single-screen-compressed-timetable.md) — `global` — 「複数メンバーの時間割を 1 画面に縦スクロールなしで並べる」「シフト表を viewport 高さに圧縮表示する」「Google Calendar 日 view のように重なるイベントを横並びで表現する」要件を、CSS Grid + パーセ
 - [スケルトンは実UIの外殻クラスを複製し決定的パターンで埋める](pattern/skeleton-structural-parity.md) — `global` — atender のスケルトン (CalendarMonth/Timetable 等) が実 UI と padding/gap/セル形状 (aspect-square vs min-h-24) で乖離し、ロード完了時にレイアウトシフトと違和感
 - [Spotify 歌詞風縦スクロール UI を framer-motion なしで実装するパターン](pattern/spotify-lyrics-scroll-css-only.md) — `global` — Spotify / Apple Music 歌詞のような「今のラインが画面中央に固定、過去は薄く流れ、未来は下に並ぶ」UI を React + Tailwind で実装したいケース。Atender の Today 画面 (現在進行中の授業を
+- [TanStack Query を SwiftUI へ移植する — prefix invalidation キャッシュ + 楽観更新を純粋関数に分離](pattern/swiftui-tanstack-query-port-invalidation-cache.md) — `global` — Web (React) が TanStack Query の (a) クエリキャッシュ (b) prefix invalidation マトリクス (c) 楽観更新+ロールバック を持ち、それを SwiftUI ネイティブへ**忠実移植**
 - [TanStack Query の invalidation を設計 doc にマトリクスで書く](pattern/tanstack-query-invalidation-matrix.md) — `global` — TanStack Query (旧 React Query) で SPA を組むとき、「mutation 後にキャッシュが古いままで、ブラウザリロードしないと反映されない」 (= invalidate 漏れ) は最頻ハマり所。
 - [TanStack Query Polling 設計 (refetchInterval 値の選び方と動的停止)](pattern/tanstack-query-polling-strategy.md) — `global` — リアルタイム性が必要だが SSE / WebSocket を導入するほどではない場面 (MVP・遅延数秒許容・stateless backend) で、TanStack Query の `refetchInterval` で polling
 - [テーマ auto を JS で解決し data-theme 常設 + matchMedia ライブ監視](pattern/theme-auto-resolve-data-theme-matchmedia.md) — `global` — ダーク/ライト + 「自動 (OS 追従)」の 3 モードを持つ Web アプリ。「自動」が OS 設定に追従しない/切り替わらないバグの定番。
@@ -65,6 +69,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [時間割の連続コマは「描画前 coalesce + CSS Grid grid-row span」で結合](pattern/timetable-consecutive-cell-grid-row-span-coalesce.md) — `global` — 時間割グリッドで、同一授業が連続コマ (例 月1限+2限) にまたがるとき 1 つの縦長ブロックとして表示したい。データ上は隣接コマが別レコード (各 periodCount=1) に割れていることがある (後付け追加・テンプレ取込・週ビュ
 - [Touri 流の「シンプル + 並列拡張」設計パターン](pattern/touri-design-philosophy.md) — `global` — ユーザー (Touri Aida) が CGI 時代から積み上げてきたコードベース (ceez7 / マネログ) を読んで抽出した設計パターン。本人いわく「**目的に対してなるべくシンプルな実装と、汎用性・拡張性に長けた設計**」。AI コ
 - [既存 UI を視覚再設計する際に描画テストを壊さない設計規律](pattern/ui-restyle-without-breaking-render-tests.md) — `global` — 既に動いている React アプリの **見た目だけ** を別デザイン言語 (例: Cloudflare dashboard 風) に全面再設計する場面。データモデル/API/挙動は変えない「純 UI 再設計」。Reviewer が既存の描
+- [UI/UX 設計の汎用観点集 (Web + SwiftUI 共通、出典タグ付き)](pattern/ui-ux-design-perspectives.md) — `global` — Muraki の Architect が設計doc の UI/UX 節を書くとき・Leader/Reviewer が UI を評価するときに**通す観点の集合**。Touri の要望「Apple ガイドラインベースの要素感覚 + フォント/
 - [Web 先行 → Capacitor 後付けを見越した Next.js 設計 (output: 'export' 縛り)](pattern/web-first-capacitor-later-design.md) — `global` — 「最終的に iOS ハイブリッドアプリにしたいが、最初は Web 完結 MVP で検証したい」場面。tomori Phase 1 で採用した戦略。Phase 1 で Server Actions / middleware を 1 箇所でも使
 - [Atender Modal / Bottom Sheet 実装 BP (React 19 + Tailwind v4, 2025-2026)](../projects/atender/.knowledge/05-modal-best-practice-2026.md) — `atender` — Atender redesign で Modal / Bottom Sheet を作り直す。React 19 + Tailwind v4 で、既存 OMATASE-demo の知見 ([[pattern/modal-sheet-base-c
 - [Atender RoomCalendar に Google Calendar 相当 (RRULE + .ics import + タイトルマッピング) を載せる BP](../projects/atender/.knowledge/06-calendar-rrule-ics-import.md) — `atender` — Atender は時間割 (`Meeting` / `MeetingOccurrence`) と Room ベースの単発予定 (`RoomEvent`) を持つ。現状 `RoomEvent` は **単発のみ** で recurrence 
@@ -82,12 +87,14 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Coolify で全パス self-redirect ループになる時の復旧手順](gotcha/coolify-traefik-stale-label-loop.md) — `global` — Coolify (Traefik) で Dockerfile アプリをデプロイ。`fqdn` 個別指定 (例 `https://meishilink.appily.run`) + server に `wildcard_domain=http
 - [CSS Grid で一部だけ明示配置すると自動配置アイテムがズレて流れる](gotcha/css-grid-mixed-explicit-auto-placement-collision.md) — `global` — CSS Grid で背景セル (罫線・ヘッダ・ラベル) を素直に並べ (自動配置)、その上に一部のアイテム (イベントブロック等) だけ `gridColumn`/`gridRow` を明示指定して重ねる構成。「明示したやつだけ位置が決まっ
 - [設計docの導出数値 (個数合計) は生成規則と矛盾しうる — 規則を規範とする](gotcha/design-doc-derived-counts-vs-generative-rule.md) — `global` — Atender UI小修正のレビューで、設計docが skeleton のプレースホルダ配置を「`(dayIndex + rowIndex) % 3 === 0` のセルだけ Skeleton」という生成規則で定義しつつ、「days=5, 
+- [設計docの例示値がformula/正典と矛盾しうる — Reviewerは例を鵜呑みにしない](gotcha/design-doc-example-values-can-contradict-formula.md) — `global` — Atender iOS Phase B の Reviewer テスト生成中、`DayConvention.resolveDisplayDays` の
 - [型付き言語(Swift等)では設計docに「挙動」だけでなく型/シグネチャを書かないとReviewerが実装に寄る](gotcha/design-doc-must-specify-swift-type-signatures.md) — `global` — Web(TS/RTL)では「挙動仕様(○○のとき△△)」だけで Reviewer がテストを書け、実装を見ずに独立検証できた。だが Swift のような静的型 + コンパイル必須の言語で iOS テストを書かせたら、設計に**型・メソッドシ
 - [segmented/enum の value キー名 (英字 testid) を設計が一部しか例示しないと Reviewer が推測して fail](gotcha/design-enum-value-key-naming-must-be-explicit-for-testid.md) — `global` — DESIGN.md §3.1 で `<select>` を segmented ボタン群に全置換し、testid 規約を
 - [設計 doc にテスト用 app export path を明示しないと Developer と Reviewer が分離して詰む](gotcha/design-must-specify-app-export-path-for-tests.md) — `global` — Atender MVP の Reviewer 召集で、`apps/api` のテストを設計 doc 根拠で生成 → Vitest を実行 → 81 件中 76 件 fail。失敗の原因はすべて単一: テスト helper が import 
 - [描画テストを起こすなら設計docにコンポーネントの prop 契約を明記させる](gotcha/design-must-specify-component-prop-contract-for-render-tests.md) — `global` — atender UI改善 項目1。設計docの「挙動仕様」が TimetableView の描画結果
 - [設計書の error code 表記が「明示」か「例示」か曖昧で実装/テストが食い違う](gotcha/design-spec-implicit-vs-explicit-error-codes.md) — `global` — 設計書 §4.x で API エラーレスポンスを以下のように列挙していた:
 - [Expo の `process.env.EXPO_PUBLIC_*` は **直接参照** しないと bundle に inline されない](gotcha/expo-public-env-static-replacement.md) — `global` — Expo (SDK 50+) は `process.env.EXPO_PUBLIC_*` を build時に **literal 値で static 置換** する。これにより mobile bundle / web bundle に en
+- [忠実移植で handle の "@" 前置はView層限定 (データ/純粋ロジックは生handle)](gotcha/faithful-port-handle-at-prefix-is-view-only.md) — `global` — Atender iOS Phase D の RoomCalendarLogic.buildCalendarEvents / RoomTimetableLogic.buildEvents で、
 - [chrome-devtools MCP の headless スクショは backdrop-filter 多用ページで captureScreenshot がタイムアウト](gotcha/headless-screenshot-backdrop-filter-timeout.md) — `global` — frosted glass (glassmorphism) UI を chrome-devtools MCP の headless で `take_screenshot` すると `Page.captureScreenshot timed 
 - [Hono の app.request() はテスト経路で HTTP ヘッダ値を Latin-1 (ByteString) に制限する](gotcha/hono-app-request-header-latin1-constraint.md) — `global` — better-auth + Hono + Vitest で「匿名サインインに日本語名を `x-guest-name` ヘッダで渡す」テストを書こうとすると、
 - [Hono の errorMiddleware で AppError の status を読み損ねると全部 500 になる](gotcha/hono-error-middleware-apperror-status.md) — `global` — Hono で `class AppError extends Error { status, code, ... }` を定義し、route handler で `throw new AppError(409, "EMAIL_TAKEN",
@@ -97,12 +104,15 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Leaflet マップを使う画面で modal/overlay は z-index 1000 超え必須](gotcha/leaflet-zindex-vs-modal.md) — `global` — React アプリで Leaflet (react-leaflet) の地図と同一スクリーン内に modal / overlay を出した時、Tailwind の `z-20` や `z-50` 程度だと **modal が地図の Zoom
 - [移行関数を「移行後 schema で立つ test DB」でテストすると no such column で必ず落ちる](gotcha/migration-fn-untestable-on-final-schema.md) — `global` — カラムを A テーブルから B テーブルへ移す migration (例: Course.room → Meeting.room) のデータ移行ロジックを、テスト可能にするため service 関数 `migrateCourseRoomTo
 - [Next.js route の baseUrl は req URL ではなく env 変数 (PUBLIC_BASE_URL) 由来](gotcha/nextjs-route-baseurl-env-vs-req.md) — `global` — vcard route handler が `PHOTO;VALUE=URI:` に絶対 URL を埋め込む。Reviewer のテストで `new Request("https://example.com/yamada/vcard")` 
+- [共有DTOに非Optionalフィールドを足すと inline JSON を持つ既存テストが decode throw で落ちる](gotcha/non-optional-dto-field-breaks-inline-json-tests.md) — `global` — iOS Phase iOS-1 再同期で `MeResponse.User` に `requiredAttendanceRate: Int` を**非Optional**で追加した (設計 §3.4、zod `z.number().int(
 - [PostgreSQL enum と text の比較は明示 cast が必要 (raw SQL)](gotcha/postgres-enum-text-cast-in-raw-sql.md) — `global` — Prisma で `enum Tier { TIER1 TIER2 TIER3 }` を定義し、設計書通りの raw SQL で半径検索 + Tier フィルタを書いた:
+- [prefix invalidation の対象は「素の prefix」であって完全修飾 queryKey ではない](gotcha/prefix-invalidation-target-must-be-bare-prefix.md) — `global` — TanStack Query の prefix invalidation を自前キャッシュ (Swift `QueryKey{ parts:[String] }` +
 - [occurrence の delete→regen は onDelete:Cascade で子レコードを道連れにする](gotcha/prisma-cascade-deletes-records-on-occurrence-regen.md) — `global` — 時間割アプリで「授業実体 (MeetingOccurrence) を日付範囲から再生成する」操作が複数ある (時間割編集・学期日付変更)。occurrence には出席記録 (AttendanceRecord) が `occurrenceI
 - [Prisma + better-sqlite3 + Next.js 15 standalone を Coolify Docker で動かす完全形](gotcha/prisma-coolify-dockerfile.md) — `global` — Next.js 15 + Prisma + better-sqlite3 + SQLite を Coolify (Traefik、1コンテナ standalone build) にデプロイする構成。`output: "standalone"
 - [Prisma $queryRaw が PostGIS geography カラムをデシリアライズできない](gotcha/prisma-geography-deserialize-error.md) — `global` — Prisma schema で `geom geography` を `Unsupported("geography")` で宣言している場合、
 - [app の PrismaClient シングルトンが .env.test の DATABASE_URL を pin して、テスト毎の DB 切替が効かない](gotcha/prisma-singleton-pinned-to-env-test-database-url.md) — `global` — Atender Phase 4 (v3) の Reviewer 召集で、API テスト 110 件中 101 件が `PrismaClientInitializationError: Error querying the database:
 - [SwiftUI の final class + @MainActor な Store/ViewModel は XCTest でサブクラスモックできない](gotcha/swiftui-final-mainactor-store-not-mockable-in-xctest.md) — `global` — SwiftUI + Observation で `@Observable @MainActor final class AuthStore`/`ViewModel` を作り、設計doc に「テスト時は Keychain / APIClien
+- [SwiftUI 1 View 内の複数シートは兄弟に並べず単一 .sheet に集約する](gotcha/swiftui-multiple-sibling-sheets-only-one-fires.md) — `global` — Atender iOS で 1 つの View から複数のボトムシート (DayDetailSheet / BulkEditSheet 等) を出し分けたい場面。共通コンポーネント `BottomSheet` は内部で native `.s
 - [TanStack Router factory export 時のテスト用 memory history 注入](gotcha/tanstack-router-factory-test-memory-history.md) — `global` — Atender web (Vite + React + TanStack Router) で Reviewer が RTL + jsdom 環境のテストを書く際、router を Provider 経由で立ち上げる helper を作ろうと
 - [pickFirstFunction の Object.values fallback で Prisma.sql タグ等を誤拾い](gotcha/test-pickfirstfunction-fallback-traps.md) — `global` — Reviewer がテスト生成時、対象モジュールの export 名が設計書に明示されていない場合、
 - [testcontainers + postgres で 「ready to accept connections」を 1 回だけ待つと早期接続失敗](gotcha/testcontainers-postgres-double-ready-log.md) — `global` — testcontainers で PostgreSQL を spawn し、global setup で `Wait.forLogMessage(/database system is ready to accept connections

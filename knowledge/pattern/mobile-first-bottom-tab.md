@@ -24,7 +24,7 @@ sources:
 
 ### 1. タブ数 = 3-5 個
 
-- iOS HIG / Material Design 3 共通推奨
+- MD3 推奨・旧 HIG 由来の慣習値。**現行 HIG (Liquid Glass 世代) に固定上限は無い** — 「少ないほど良い + More 格納を避ける」が現行表現 (詳細: [`ui-ux-design-perspectives.md`](ui-ux-design-perspectives.md) §4)
 - 2 以下は tab ではなく segmented control が適切
 - 6 以上は「More」格納 (iOS) / drawer 切替 (MD3)
 

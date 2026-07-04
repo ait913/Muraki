@@ -3,7 +3,7 @@ title: Coolify API の癖と未公開仕様
 category: tool-quirk
 tags: [coolify, api, openapi, deploy]
 created: 2026-05-10
-updated: 2026-05-12
+updated: 2026-07-04
 project: global
 sources:
   - https://coolify.io/docs/api-reference
@@ -52,6 +52,20 @@ curl -sS -X PATCH -H "Authorization: Bearer $COOLIFY_API_TOKEN" \
   "$COOLIFY_API_BASE/applications/<uuid>/envs/bulk" \
   -d '{"data":[{"key":"...","value":"...","is_preview":false}, ...]}'
 ```
+
+★ **`envs/bulk` は重複行を作ることがある**: 1 回の bulk 投入で各キーが 2 行できた (同 key が別 `uuid` で二重化)。原因未確定だが実害あり。投入後は必ず `GET /applications/{uuid}/envs` で重複を確認し、余分を `DELETE /applications/{uuid}/envs/{env_uuid}` で掃除する運用にする。
+
+### resource 作成 (project / app / database) の癖
+
+- **`POST /projects` の `description` は許可文字が限定**: letters / numbers / spaces と `- _ . , ! ? ( ) ' " + = * / @ &` のみ。**emダッシュ `—` や日本語の一部記号を含めると 422**。OpenAPI schema には pattern 記述がない (実装側のバリデーション)。ASCII 無難記号で書く。`name` は制約ゆるめ。
+- **app / database 作成は `environment_uuid` が必須**: `POST /applications/private-github-app` `/public` `/private-deploy-key` `/dockerfile` `/dockerimage` および `POST /databases/*` の required に `environment_name` と `environment_uuid` **両方**が載っている。description は "at least one" と書くが、実踏では `environment_name` だけでは作成できず uuid が要る。environment uuid は `GET /projects/{uuid}` の `.environments[].uuid` からしか取れない (project 一覧には出ない)。
+- **private repo の deploy key が org ポリシーで無効なことがある**: `POST /applications/private-deploy-key` が `Deploy keys are disabled` で 422 (例: `n-wasabi` org)。その場合は **GitHub App ソース経由** (`private-github-app`) に切り替える。
+
+### GitHub App ソースの癖
+
+- **`POST /github-apps` は API 登録可**だが必須項目 `installation_id` は **GitHub 側で App を org に install 済みでないと存在しない**。App の作成/install は GitHub のブラウザ manifest フローが必須で REST 不可。→ 現実は **Coolify UI の Sources → GitHub App フロー**が「App 作成 + org install + Coolify 登録」を束ねて最短。app 作成に渡す `github_app_uuid` は登録後 `GET /github-apps` の `.uuid`。
+- **`GET /github-apps/{github_app_id}/repositories` (load-repositories) は path に数値 `id` を要求**。uuid を渡すと 500 (`SQLSTATE 22P02 invalid input syntax`)。`GET /github-apps` の `.id` (integer) を使う。同 endpoint は `.id` と `.uuid` の両方を返すので用途で使い分け (app 作成は uuid、repo/branch ロードは id)。
+- `docker_compose_raw` (`POST /services`) と `custom_labels` (PATCH app) は **base64 encoded** で送る。生 string は reject。
 
 ### ログ取得の癖
 

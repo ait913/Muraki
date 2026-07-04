@@ -39,3 +39,12 @@ sources:
 - テスト: coalesce は pure で隣接結合/非隣接据置/曜日違い/mergeKey違い/undefined素通し/id温存/ソートを unit。描画は jsdom で `style` 生文字列が `grid-row` に `span N` を含むこと・継続行に空セルが出ないこと・結合タイルが 1 つに集約されることを構造 assert (getComputedStyle/calc は jsdom で評価不可)。
 - 描画テストを Reviewer に書かせるなら、対象の**公開 prop 契約**を設計doc に明記すること: [[gotcha/design-must-specify-component-prop-contract-for-render-tests]]
 - 関連: [[pattern/single-screen-compressed-timetable]] [[pattern/grid-table-borders-bp]]
+
+## SwiftUI へ移植する場合 (CSS Grid row-span → 二層絶対配置)
+
+SwiftUI の `Grid` / `LazyVGrid` は**行スパンを持たない** (`gridCellColumns` は列のみ)。CSS の `grid-row: <start> / span <N>` をそのまま置けないので、`GeometryReader` で領域幅高を取り **2 レイヤの絶対配置**にする:
+
+1. **背景レイヤ**: 左上コーナー + 曜日ヘッダ + 限目ラベル列 + 本体セル (空セルボタン/境界線) を、`periodIndexes` と `days` の index から `x = labelW + col*colW`, `y = headerH + row*rowH` で配置。
+2. **イベントレイヤ** (背景の上): coalesce 済ブロックを `startRowIndex`/`dayColumnIndex` から矩形算出、高さ `span * rowH`。同一開始セルの複数ブロックは 1 矩形内で `HStack` 等幅横並び。
+
+**要点**: 背景セルとイベントの座標は**同一の index 由来関数 (`periodIndexes`/`days`) を共有**し二重定義しない (CSS の mixed placement 崩れの iOS 版 = 座標ズレ)。coalesce はグリッド内部で 1 回だけ。`occupiedSet` で占有セルに空セルボタンを出さない。列幅・行高は viewport から `(W - labelW)/days.count`, `(H - headerH)/rowCount` で等分し、`min-height` に相当する下限 frame を持たせる。出典: atender iOS Phase B 設計 (`.designs/20260701-ios-port-phase-b-home.md`)。

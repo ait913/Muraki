@@ -28,6 +28,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Next.js 15 + Prisma + better-sqlite3 + Coolify スタック概要](library/nextjs15-prisma-sqlite-coolify.md) — `global` — Next.js 15 + Prisma 6.x + better-sqlite3 + SQLite を 1コンテナで Coolify デプロイする構成。`output: "standalone"` で薄い image を作り、SQLite 
 - [公式 Python MCP SDK (FastMCP) — hosted/stateful/認証の現行API (2026-07)](library/python-mcp-sdk-2026.md) — `global` — Python で hosted・stateful・マルチテナントなリモート MCP サーバー (per-member auth, join でセッション確立, claim/poll 系ツール) を組めるかの裏取り。既存 knowledge 
 - [リモートMCPサーバー + OAuth のホスト対応と認可spec (2026)](library/remote-mcp-oauth-hosts-2026.md) — `global` — クラウド上のリモートMCPサーバーを Claude Code / Codex CLI (agent型ホスト) から URL 追加 + OAuth 認可で使わせる設計の前提確認。
+- [Starlette 1.x + Jinja2 + htmx セルフホスト + hatchling データ同梱](library/starlette-jinja-htmx-hatchling.md) — `global` — Python の Starlette アプリに Jinja2 テンプレート + htmx(self-host)で SSR フロントを同居させ、hatchling ビルドで .html/.css/.js を wheel に含めたいとき。SPA
 - [vCard 日本語名刺生成 (vCard 3.0 + 振り仮名)](library/vcard-japanese.md) — `global` — 日本向け Web 名刺アプリで、iOS/Android 連絡先に取り込める .vcf を Node で生成する。
 - [OMATASE-demo Pre-design Research Summary](../projects/omatase-demo/.knowledge/00-research-summary.md) — `omatase-demo` — OMATASE (URL 共有で待ち合わせ・イベント進行) MVP の設計**前**リサーチ。Hono + Drizzle + SQLite + better-auth(anonymous) を初採用するため、各 API の存在確認・連携パ
 
@@ -112,6 +113,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [chrome-devtools MCP の headless スクショは backdrop-filter 多用ページで captureScreenshot がタイムアウト](gotcha/headless-screenshot-backdrop-filter-timeout.md) — `global` — frosted glass (glassmorphism) UI を chrome-devtools MCP の headless で `take_screenshot` すると `Page.captureScreenshot timed 
 - [Hono の app.request() はテスト経路で HTTP ヘッダ値を Latin-1 (ByteString) に制限する](gotcha/hono-app-request-header-latin1-constraint.md) — `global` — better-auth + Hono + Vitest で「匿名サインインに日本語名を `x-guest-name` ヘッダで渡す」テストを書こうとすると、
 - [Hono の errorMiddleware で AppError の status を読み損ねると全部 500 になる](gotcha/hono-error-middleware-apperror-status.md) — `global` — Hono で `class AppError extends Error { status, code, ... }` を定義し、route handler で `throw new AppError(409, "EMAIL_TAKEN",
+- [iCloud 同期下の venv/git が間欠 import・checkout stall する](gotcha/icloud-synced-venv-git-stall.md) — `global` — Muraki の repo は `/Users/touri/Documents/Creatives/Developments/Muraki/...` にある。macOS の `~/Documents` は **iCloud Drive 同期
 - [iOS Info.plist に UILaunchScreen が無いとレターボックス(上下黒帯)描画になる](gotcha/ios-missing-uilaunchscreen-letterbox.md) — `global` — atender iOS を実機/シミュレータで起動すると、画面上下に黒帯が出て「小型デバイス(SE)相当に縮小描画」されているように見えた。時間割グリッドが途中で切れ、safe-area も狂ってタブバー下の余白が不揃いだった。
 - [jsdom の getBoundingClientRect は常に 0 を返す](gotcha/jsdom-getboundingclientrect-zero.md) — `global` — OMATASE デザインモック (Vitest + RTL + jsdom) のレビューで、設計 §10.9 にあった
 - [Vitest の jsdom 環境で localStorage が未提供 (setItem is not a function)](gotcha/jsdom-no-localstorage-in-vitest.md) — `global` — CF風 UI 再設計 (kinketsu-taisaku) の Reviewer 検証。`useTheme` は ThemeMode を

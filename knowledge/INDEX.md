@@ -26,11 +26,13 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [リモートMCPのエージェント誘導サーフェス (server instructions / tool search / prompts / entry tool) 2026](library/mcp-agent-ux-steering-2026.md) — `global` — 多ツール (20+) のリモート MCP サーバーで「エージェントにどのツールから始めるか・ワークフローをどう運ばせるか」を設計する場面。ホストは Claude Code / Codex CLI。
 - [MCP Apps (io.modelcontextprotocol/ui) の仕様現状とホスト描画マトリクス (2026-07)](library/mcp-apps-host-support-2026.md) — `global` — dandan-app 再設計で MCP Apps (iframe UI) をメイン機能に据える方針の前提確認。「どの実ホストで描画されるか」が土台。
 - [Next.js 15 + Prisma + better-sqlite3 + Coolify スタック概要](library/nextjs15-prisma-sqlite-coolify.md) — `global` — Next.js 15 + Prisma 6.x + better-sqlite3 + SQLite を 1コンテナで Coolify デプロイする構成。`output: "standalone"` で薄い image を作り、SQLite 
+- [公式 Python MCP SDK (FastMCP) — hosted/stateful/認証の現行API (2026-07)](library/python-mcp-sdk-2026.md) — `global` — Python で hosted・stateful・マルチテナントなリモート MCP サーバー (per-member auth, join でセッション確立, claim/poll 系ツール) を組めるかの裏取り。既存 knowledge 
 - [リモートMCPサーバー + OAuth のホスト対応と認可spec (2026)](library/remote-mcp-oauth-hosts-2026.md) — `global` — クラウド上のリモートMCPサーバーを Claude Code / Codex CLI (agent型ホスト) から URL 追加 + OAuth 認可で使わせる設計の前提確認。
 - [vCard 日本語名刺生成 (vCard 3.0 + 振り仮名)](library/vcard-japanese.md) — `global` — 日本向け Web 名刺アプリで、iOS/Android 連絡先に取り込める .vcf を Node で生成する。
 - [OMATASE-demo Pre-design Research Summary](../projects/omatase-demo/.knowledge/00-research-summary.md) — `omatase-demo` — OMATASE (URL 共有で待ち合わせ・イベント進行) MVP の設計**前**リサーチ。Hono + Drizzle + SQLite + better-auth(anonymous) を初採用するため、各 API の存在確認・連携パ
 
 ## pattern
+- [AI が人間 identity を共有する MCP での「承認ゲート」設計 (構造ゲートで代理)](pattern/ai-collab-mcp-shared-identity-approval-gate.md) — `global` — AI グループ開発ツール (agent-hub 等) で「意思決定は人間が承認する (ブラックボックス化を防ぐ)」を
 - [AI 振り返り対話のセッション設計と階層型メモリ](pattern/ai-reflection-dialog-memory.md) — `global` — 夜の振り返り (evening reflection) を AI と対話で行う UX。Stoic / Rosebud / Mindsera の 2025-2026 設計と、長期運用での memory アーキテクチャ。
 - [aisaba.net 系の視覚デザイン言語](pattern/aisaba-design-language.md) — `global` — aisaba.net・apps.aisaba.net・portfolio_manager 等、ユーザー (Touri Aida) が運営する複数サイトで一貫した視覚言語が使われている。新規 UI を作る・既存サイトに追加コンポーネントを差し
 - [出席率の3指標分解 — 「今日まで実績 / 楽観射影 / あとN回休める」標準計算パターン](pattern/attendance-to-date-rate-and-allowed-absences.md) — `global` — 出欠管理アプリで「学期全体の予定回数」を分母にすると、学期序盤は未来分が分母に入って率が不当に低く出る。ユーザーが本当に知りたいのは (1) 今日までの実績率と (2) あと何回休めるか。

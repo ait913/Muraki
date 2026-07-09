@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-07-05
+Generated: 2026-07-09
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -13,12 +13,18 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [better-auth 1.6.x + Hono + Drizzle + SQLite 構成 (Anonymous Plugin 含む 2026-05)](library/better-auth-hono-drizzle-sqlite.md) — `global` — Web アプリで「Hono + Drizzle + SQLite + better-auth」スタックを採用する場面、特に Anonymous Plugin で「名前のみのゲスト運用」をする場合。既存 [`library/better-au
 - [Capacitor HealthKit プラグインの現状 (2026年5月)](library/capacitor-healthkit-plugins.md) — `global` — Capacitor iOS アプリから HealthKit の睡眠ステージ・心拍・HRV などを読みたい。2026年5月時点でどのプラグインが現役か、何ができて何ができないかを確定したい。
 - [Capacitor 8 + Next.js 16 で iOS ハイブリッドアプリを組む (2026年5月時点)](library/capacitor-nextjs-ios-2026.md) — `global` — 個人開発で「iPhone がメイン、Web も触れる」ハイブリッドアプリを最小コストで作る場面。Expo (React Native) との二択で Capacitor を選んだ時。
+- [ChatGPT developer mode カスタム MCP コネクタの仕様と OAuth 実態 (2026-07)](library/chatgpt-mcp-connector-oauth-2026.md) — `global` — dandan-app 再設計で ChatGPT developer mode を MCP Apps iframe UI の一級ホストに昇格させる。自前 AS (DCR + PKCE) と噛み合うかの事実確認。
 - [Claude Haiku 4.5 API 仕様 (2026年5月時点)](library/claude-haiku-4-5-api.md) — `global` — 秘書系・チャット・軽量エージェント用途で Claude を使う際の最新スペック。Haiku 4.5 をデフォルトに据える時の参照。
 - [Cloudflare Tunnel 1 本でオンプレ全公開 (HTTPS + SSH, 2026年5月構成)](library/cloudflare-tunnel-2026.md) — `global` — オンプレ Ubuntu サーバー (`192.168.3.17`、SoftBank光) で運用している全サブドメイン (aisaba.net / appily.run / ceez7.com / SSH) を Cloudflare Tunn
+- [GitHub OAuth App (classic) の callback URL は 1 本のみ — redirect_uri はサブディレクトリ一致で分岐可](library/github-oauth-app-callback-url-rules.md) — `global` — 1 つの GitHub OAuth App (classic) を「MCP 認証の federate 先」と「Web ダッシュボードのログイン」の両方で使いたい場面 (dandan-app stateful 転換)。
+- [公式 GitHub MCP server の認証設計と MCP write/inform 指針 (2026)](library/github-official-mcp-auth-2026.md) — `global` — dandan (リモート MCP, GitHub App 認証, Issues R/W) の「書き込みを持つ意味・App install 摩擦の妥当性」を判断するため、公式 GitHub MCP と他社リモート MCP の認証・write設
+- [GitHub org members / collaborators API と classic OAuth scope (repo vs read:org) 2026](library/github-org-members-collaborators-scopes.md) — `global` — dandan-app (OAuth App classic, scope=`repo`) で org メンバーを名簿候補に拾う設計の事前調査 (2026-07-07)。
 - [日本の救急 時間帯別分布データ (令和元年→令和5年比較)](library/jp-emergency-time-distribution.md) — `global` — 日本の救急業務の「平均値」ではなく「分布形状」が必要なとき (UX訴求コピーや緊急度判定設計の根拠)。消防庁公式統計から確定したロングテール構造データ。
 - [日本のOHCA場所別生存率と現着時間の真実 (JAMA 2019・東京令和5年・全国Utstein 2018)](library/jp-ohca-location-survival.md) — `global` — 救急関連プロダクトで「平均14分」「20分以上ロングテール」の上位の話を求めるとき。OHCAの生存率は **発生場所で18倍違う**。EMS現着時間自体の場所差は1分しかない。設計判断を誤らないために必読。
 - [日本のOHCA・救急医療マクロ統計 (2023年実績)](library/jp-ohca-stats.md) — `global` — 日本向け救命系アプリ・防災UX設計時の基礎データ。2026年5月時点で確認した最新公式値。
 - [Lucia v3 は 2026-03 で完全 deprecated — 新規 PJ で採用してはならない](library/lucia-deprecated-2025.md) — `global` — Web アプリで session-based 認証を組む際、Lucia v3 を選びたくなる場面。session DB + cookie の純度を取る設計で過去人気があったが、**作者 pilcrow が 2024-10 (= 2025年1
+- [リモートMCPのエージェント誘導サーフェス (server instructions / tool search / prompts / entry tool) 2026](library/mcp-agent-ux-steering-2026.md) — `global` — 多ツール (20+) のリモート MCP サーバーで「エージェントにどのツールから始めるか・ワークフローをどう運ばせるか」を設計する場面。ホストは Claude Code / Codex CLI。
+- [MCP Apps (io.modelcontextprotocol/ui) の仕様現状とホスト描画マトリクス (2026-07)](library/mcp-apps-host-support-2026.md) — `global` — dandan-app 再設計で MCP Apps (iframe UI) をメイン機能に据える方針の前提確認。「どの実ホストで描画されるか」が土台。
 - [Next.js 15 + Prisma + better-sqlite3 + Coolify スタック概要](library/nextjs15-prisma-sqlite-coolify.md) — `global` — Next.js 15 + Prisma 6.x + better-sqlite3 + SQLite を 1コンテナで Coolify デプロイする構成。`output: "standalone"` で薄い image を作り、SQLite 
 - [リモートMCPサーバー + OAuth のホスト対応と認可spec (2026)](library/remote-mcp-oauth-hosts-2026.md) — `global` — クラウド上のリモートMCPサーバーを Claude Code / Codex CLI (agent型ホスト) から URL 追加 + OAuth 認可で使わせる設計の前提確認。
 - [vCard 日本語名刺生成 (vCard 3.0 + 振り仮名)](library/vcard-japanese.md) — `global` — 日本向け Web 名刺アプリで、iOS/Android 連絡先に取り込める .vcf を Node で生成する。
@@ -46,6 +52,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [LLM 対話アプリの安全境界スタック (regex 先行 + tool 強制 + AAD 暗号化)](pattern/llm-dialog-safety-stack.md) — `global` — メンタルウェルネス / 生活リズム / AI 秘書系で LLM (Claude Haiku 4.5 等) と長時間対話する。
 - [LLM 生成 Push 通知の現実的アーキテクチャ (iOS APNs + Claude Haiku)](pattern/llm-push-notification-architecture.md) — `global` — 「起床コーチ」「就寝リマインド」「夜の振り返り誘導」など、AI が文面を個別生成する push 通知を iOS に飛ばす場面。レイテンシ・コスト・UX の現実的トレードオフ。
 - [場所選択を共通 Sheet (検索 + 地図 + 現在地) として切り出す Nominatim MVP パターン](pattern/location-picker-common-sheet-nominatim.md) — `global` — イベント管理 / 待ち合わせ系アプリで「Schedule に場所を設定」「Feature (集合) に場所を設定」「event 作成時に集合場所を設定」など、**場所選択 UI が複数画面で必要**になる。
+- [MCP Apps iframe のマルチテナント文脈解決 — 通知非依存の user スコープ解決 + project pin](pattern/mcp-apps-multitenant-ui-context-pin.md) — `global` — シングルテナント MCP サーバー (MCP Apps iframe UI 付き) をマルチユーザー化するとき、「グローバル最新」「グローバル名簿」型の文脈参照をどう変換するか。iframe は「どのテナント文脈を描画すべきか」を自力で知る
 - [最小限の SNS レイヤ (Friend + Room) を Prisma + 単一 endpoint で設計するパターン](pattern/minimal-social-layer-friend-room.md) — `global` — 「友達追加 + グループ (ルーム) + 共有カレンダー」程度の軽量 SNS 機能を、既存アプリに**追加機能として後付け**するときの最小構成。LINE / Penmark / TimeTree のような **個人 ID + 招待リンク 
 - [モバイル密度を上げる Token 一括パス (font scale + spacing semantic)](pattern/mobile-density-tighten-token-pass.md) — `global` — モバイル Web アプリで「1 画面に情報を載せたい」要件が来たとき、コンポーネントを 1 個ずつ手で調整する
 - [モバイル first PWA の bottom tab bar 実装ベストプラクティス (2025-2026)](pattern/mobile-first-bottom-tab.md) — `global` — モバイル first Web アプリ (PWA / Capacitor / SwiftUI 移行予定 SPA) で、下端 bottom tab bar を実装するときの 2025-2026 BP。Atender redesign 調査でまと
@@ -61,6 +68,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [1 画面圧縮タイムライン (時間割 / シフト表 / カレンダー日 view)](pattern/single-screen-compressed-timetable.md) — `global` — 「複数メンバーの時間割を 1 画面に縦スクロールなしで並べる」「シフト表を viewport 高さに圧縮表示する」「Google Calendar 日 view のように重なるイベントを横並びで表現する」要件を、CSS Grid + パーセ
 - [スケルトンは実UIの外殻クラスを複製し決定的パターンで埋める](pattern/skeleton-structural-parity.md) — `global` — atender のスケルトン (CalendarMonth/Timetable 等) が実 UI と padding/gap/セル形状 (aspect-square vs min-h-24) で乖離し、ロード完了時にレイアウトシフトと違和感
 - [Spotify 歌詞風縦スクロール UI を framer-motion なしで実装するパターン](pattern/spotify-lyrics-scroll-css-only.md) — `global` — Spotify / Apple Music 歌詞のような「今のラインが画面中央に固定、過去は薄く流れ、未来は下に並ぶ」UI を React + Tailwind で実装したいケース。Atender の Today 画面 (現在進行中の授業を
+- [自前AS の発行JWTに upstream token を AEAD 埋め込みするステートレス federation](pattern/stateless-oauth-federation-encrypted-upstream-token.md) — `global` — リモート MCP サーバー（自前 Authorization Server が upstream IdP=GitHub OAuth に federate）で、
 - [TanStack Query を SwiftUI へ移植する — prefix invalidation キャッシュ + 楽観更新を純粋関数に分離](pattern/swiftui-tanstack-query-port-invalidation-cache.md) — `global` — Web (React) が TanStack Query の (a) クエリキャッシュ (b) prefix invalidation マトリクス (c) 楽観更新+ロールバック を持ち、それを SwiftUI ネイティブへ**忠実移植**
 - [TanStack Query の invalidation を設計 doc にマトリクスで書く](pattern/tanstack-query-invalidation-matrix.md) — `global` — TanStack Query (旧 React Query) で SPA を組むとき、「mutation 後にキャッシュが古いままで、ブラウザリロードしないと反映されない」 (= invalidate 漏れ) は最頻ハマり所。
 - [TanStack Query Polling 設計 (refetchInterval 値の選び方と動的停止)](pattern/tanstack-query-polling-strategy.md) — `global` — リアルタイム性が必要だが SSE / WebSocket を導入するほどではない場面 (MVP・遅延数秒許容・stateless backend) で、TanStack Query の `refetchInterval` で polling
@@ -78,6 +86,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
 ## gotcha
 - [API テストの日付 fixture は本番の正規化規約 (JST midnight instant) に合わせる](gotcha/api-test-date-fixtures-must-match-production-normalization.md) — `global` — Atender 学期再設計の Reviewer 検証。`POST /api/attendance/bulk` 等の新 bulk API への
+- [best-effort DB write の `_ =` が SQL 型エラーを無音で握りつぶす](gotcha/best-effort-write-swallows-sqlstate-errors.md) — `global` — dandan-app Slice 1 の last_used_at / last_seen_at (60s throttle 更新)。「失敗してもリクエストは通す」性質の write を `_ = store.TouchMCPToken(.
 - [better-auth bearer は raw DB session token を受け付けない (signed token / set-auth-token 経由が必須)](gotcha/better-auth-bearer-plugin-token-format-coupling.md) — `global` — Atender iOS 土台で web の Cookie session に加えネイティブ用に better-auth `bearer()` plugin を足し、`Authorization: Bearer <token>` で `/ap
 - [better-auth テスト helper の cookie は Hono signed cookie 形式を再現する必要がある](gotcha/better-auth-test-cookie-must-match-hono-signed-format.md) — `global` — better-auth 1.6.x + Hono 4.12.x の API を Vitest + `app.request()` でテストする際、テスト helper で「Session 行を直接 prisma で作って Cookie ヘッ
 - [chrome-devtools MCP の fill は React controlled input の onChange を発火させない](gotcha/chrome-devtools-mcp-fill-react-controlled-input.md) — `global` — `mcp__chrome-devtools__fill` (またはツール呼び出し名 `fill`) で React の controlled input (`<input value={state} onChange={...} />`) 
@@ -95,6 +104,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [設計書の error code 表記が「明示」か「例示」か曖昧で実装/テストが食い違う](gotcha/design-spec-implicit-vs-explicit-error-codes.md) — `global` — 設計書 §4.x で API エラーレスポンスを以下のように列挙していた:
 - [Expo の `process.env.EXPO_PUBLIC_*` は **直接参照** しないと bundle に inline されない](gotcha/expo-public-env-static-replacement.md) — `global` — Expo (SDK 50+) は `process.env.EXPO_PUBLIC_*` を build時に **literal 値で static 置換** する。これにより mobile bundle / web bundle に en
 - [忠実移植で handle の "@" 前置はView層限定 (データ/純粋ロジックは生handle)](gotcha/faithful-port-handle-at-prefix-is-view-only.md) — `global` — Atender iOS Phase D の RoomCalendarLogic.buildCalendarEvents / RoomTimetableLogic.buildEvents で、
+- [Go nil slice が JSON null になり MCP 空状態契約 (空配列) を破る](gotcha/go-nil-slice-null-breaks-mcp-empty-state-contract.md) — `global` — MCP ツールの typed struct 出力 (go-sdk `AddTool[In, Out]`) で「空状態はエラーでなく空コレクションで返す」契約を設計docに書いた。実装は Out struct の slice フィールドを未初
 - [chrome-devtools MCP の headless スクショは backdrop-filter 多用ページで captureScreenshot がタイムアウト](gotcha/headless-screenshot-backdrop-filter-timeout.md) — `global` — frosted glass (glassmorphism) UI を chrome-devtools MCP の headless で `take_screenshot` すると `Page.captureScreenshot timed 
 - [Hono の app.request() はテスト経路で HTTP ヘッダ値を Latin-1 (ByteString) に制限する](gotcha/hono-app-request-header-latin1-constraint.md) — `global` — better-auth + Hono + Vitest で「匿名サインインに日本語名を `x-guest-name` ヘッダで渡す」テストを書こうとすると、
 - [Hono の errorMiddleware で AppError の status を読み損ねると全部 500 になる](gotcha/hono-error-middleware-apperror-status.md) — `global` — Hono で `class AppError extends Error { status, code, ... }` を定義し、route handler で `throw new AppError(409, "EMAIL_TAKEN",
@@ -102,6 +112,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Vitest の jsdom 環境で localStorage が未提供 (setItem is not a function)](gotcha/jsdom-no-localstorage-in-vitest.md) — `global` — CF風 UI 再設計 (kinketsu-taisaku) の Reviewer 検証。`useTheme` は ThemeMode を
 - [lazy materialize の rolling 補充が「生成 record の手動編集」を壊す](gotcha/lazy-materialize-rolling-vs-edit-conflict.md) — `global` — 定期ルール (月次) から未確定 record を未来へ実体生成する materialize 方式。
 - [Leaflet マップを使う画面で modal/overlay は z-index 1000 超え必須](gotcha/leaflet-zindex-vs-modal.md) — `global` — React アプリで Leaflet (react-leaflet) の地図と同一スクリーン内に modal / overlay を出した時、Tailwind の `z-20` や `z-50` 程度だと **modal が地図の Zoom
+- [MCP Apps UI の headless ハーネステストの落とし穴 (report-back / hostLog race / ui-message 形)](gotcha/mcp-apps-ui-harness-testing.md) — `global` — MCP Apps (iframe UI) の bridge レベル挙動を CI 可能な形で検証する: 親ページがホスト役 (ui/initialize 応答 + tools/call を実 /mcp へ proxy) の自作ハーネス + h
 - [移行関数を「移行後 schema で立つ test DB」でテストすると no such column で必ず落ちる](gotcha/migration-fn-untestable-on-final-schema.md) — `global` — カラムを A テーブルから B テーブルへ移す migration (例: Course.room → Meeting.room) のデータ移行ロジックを、テスト可能にするため service 関数 `migrateCourseRoomTo
 - [Next.js route の baseUrl は req URL ではなく env 変数 (PUBLIC_BASE_URL) 由来](gotcha/nextjs-route-baseurl-env-vs-req.md) — `global` — vcard route handler が `PHOTO;VALUE=URI:` に絶対 URL を埋め込む。Reviewer のテストで `new Request("https://example.com/yamada/vcard")` 
 - [共有DTOに非Optionalフィールドを足すと inline JSON を持つ既存テストが decode throw で落ちる](gotcha/non-optional-dto-field-breaks-inline-json-tests.md) — `global` — iOS Phase iOS-1 再同期で `MeResponse.User` に `requiredAttendanceRate: Int` を**非Optional**で追加した (設計 §3.4、zod `z.number().int(
@@ -119,6 +130,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Vitest で Expo/React Native モジュールを import する時の落とし穴](gotcha/vitest-expo-rn-import-pitfalls.md) — `global` — Tsunagu Mobile (Expo + React Native + TypeScript) で Reviewer が Vitest テストを生成した際、Zustand store のテストで実装をimportした瞬間に
 - [vi.mock("node:fs/promises") は specifier が違うと当たらない](gotcha/vitest-mock-fs-specifier-mismatch.md) — `global` — Reviewer が Next.js App Router の route handler (例: `src/app/u/[handle]/logo/route.ts`) のテストを書く際、ファイル読み込みを mock するために `vi.
 - [Vitest server テストで app の DB に対し setup で migration を流さないと "no such table" で全 fail する](gotcha/vitest-server-setup-must-migrate-app-db.md) — `global` — Hono + Drizzle + better-sqlite3 + better-auth スタックで、設計 doc に「起動時 migration を `src/server/index.ts` で実行する」と書くと、**テストでは `i
+- [dandan-app 既知の失敗テスト台帳](../projects/dandan-app/.knowledge/known-failures.md) — `dandan-app` — 分類: テスト陳腐化 / 環境依存 / 未分類。**未分類を残したままのマージ不可** (Muraki/CLAUDE.md)。
 
 ## tool-quirk
 - [block-bash-amp.sh は heredoc/tee 内のコード文字列の論理積もブロックする](tool-quirk/bash-amp-hook-blocks-heredoc-content.md) — `global` — Muraki ルートに置かれた `block-bash-amp.sh` フックは、

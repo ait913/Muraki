@@ -15,11 +15,14 @@ sources:
 
 ## What
 
-### 1. テナント境界 = per-project MCP resource URL バインド
-- MCP URL を `https://<base>/p/{project_id}/mcp` のように **project ごとに分ける**。
-- OAuth の RFC8707 `resource` param = その project URL。発行トークンの audience をその URL に固定。
-- Bearer verifier で「リクエスト URL の resource == トークンの resource」を検証 → 他テナント越境を transport 境界で遮断。
-- **効果: MCP ツール引数から `project_id`/`owner`/`repo` を全廃できる**（URL バインドで暗黙化）。各ツールで越境チェックを書かずに済む。
+### 1. テナント境界 — 2 案あり (dandan は最終的に案 b を採用)
+- **案 a: per-project MCP resource URL バインド** (`https://<base>/p/{project_id}/mcp`)
+  - RFC8707 `resource` param = project URL、トークン audience をそこへ固定。verifier の resource 一致検証で越境を transport 境界で遮断。
+  - 効果: ツール引数から `project_id`/`owner`/`repo` を全廃できる。代償: **プロジェクトごとに MCP URL 登録 (mcp add) の摩擦**が発生する。
+- **案 b: 単一 `/mcp` + 引数 owner/repo + DB membership 検証** (dandan-app stateful 版 2026-07-05 採用)
+  - owner/repo 起点ツールは「呼び出し user の GitHub token で repo にアクセスできるか」を毎回実証し、成功時に project を**自動登録 + 自動参加** (invite フロー不要)。
+  - ID (plan_id 等) 起点ツールは「行 → project_id → project_members」の membership 検証に一元化。不在と越境は**同一エラー文言**にして存在有無を漏らさない。
+  - 選定基準: **install/登録摩擦ゼロを優先するなら b、越境検証をツール実装から完全に消したいなら a**。b は resolveProject/resolvePlan の 2 ヘルパに検証を集約すれば実装負担は小さい。
 
 ### 2. 自前 Authorization Server（token passthrough 禁止の実装形）
 - MCP server = OAuth2.1 Resource Server（go-sdk `auth.RequireBearerToken` + `ProtectedResourceMetadataHandler`）。

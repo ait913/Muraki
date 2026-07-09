@@ -3,7 +3,7 @@ title: Coolify API の癖と未公開仕様
 category: tool-quirk
 tags: [coolify, api, openapi, deploy]
 created: 2026-05-10
-updated: 2026-07-04
+updated: 2026-07-05
 project: global
 sources:
   - https://coolify.io/docs/api-reference
@@ -97,6 +97,14 @@ curl -sS -X PATCH -H "Authorization: Bearer $COOLIFY_API_TOKEN" \
 ```sh
 curl -X PATCH ... "$COOLIFY_API_BASE/applications/<uuid>?force_domain_override=true" -d '{"domains":"https://..."}'
 ```
+
+### database の接続 URL は API で取れる (OpenAPI spec に無い)
+
+`GET /databases` / `GET /databases/{uuid}` の実レスポンスには **`internal_db_url` / `external_db_url`** が含まれる (実測 2026-07-05)。OpenAPI yaml の schema にはこのフィールドが無い (★ spec 乖離、実装が正)。
+
+- `internal_db_url` = `postgres://user:pass@<container-name>:5432/<db>` 形式。同一 server の app からは docker 内部 network 経由でこの URL をそのまま `DATABASE_URL` に env 注入すればよい (ポート公開不要)
+- `is_public=true` + `public_port` を設定した時だけ `external_db_url` が外部接続可能になる (通常は不要・閉じておく)
+- app と DB が別 destination network の場合は app 側 `connect_to_docker_network` (PATCH 可、OpenAPI にあり) で predefined network 接続を有効化する。standalone (StandaloneDocker) 同士・同一 server なら通常そのまま届く
 
 ### 存在しない endpoint
 

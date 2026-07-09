@@ -88,6 +88,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
 ## gotcha
 - [API テストの日付 fixture は本番の正規化規約 (JST midnight instant) に合わせる](gotcha/api-test-date-fixtures-must-match-production-normalization.md) — `global` — Atender 学期再設計の Reviewer 検証。`POST /api/attendance/bulk` 等の新 bulk API への
+- [状態遷移・権限チェックは先行 read でなく atomic UPDATE の WHERE に置く (asyncpg)](gotcha/asyncpg-check-then-act-must-be-atomic-update.md) — `global` — AgentHub (Python/asyncpg/Postgres の MCP) の実装で、**同じ family のバグを3回踏んだ**。stateless・複数レプリカ・複数 AI が同時接続する前提だと「先に read して Pyth
 - [best-effort DB write の `_ =` が SQL 型エラーを無音で握りつぶす](gotcha/best-effort-write-swallows-sqlstate-errors.md) — `global` — dandan-app Slice 1 の last_used_at / last_seen_at (60s throttle 更新)。「失敗してもリクエストは通す」性質の write を `_ = store.TouchMCPToken(.
 - [better-auth bearer は raw DB session token を受け付けない (signed token / set-auth-token 経由が必須)](gotcha/better-auth-bearer-plugin-token-format-coupling.md) — `global` — Atender iOS 土台で web の Cookie session に加えネイティブ用に better-auth `bearer()` plugin を足し、`Authorization: Bearer <token>` で `/ap
 - [better-auth テスト helper の cookie は Hono signed cookie 形式を再現する必要がある](gotcha/better-auth-test-cookie-must-match-hono-signed-format.md) — `global` — better-auth 1.6.x + Hono 4.12.x の API を Vitest + `app.request()` でテストする際、テスト helper で「Session 行を直接 prisma で作って Cookie ヘッ
@@ -132,6 +133,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Vitest で Expo/React Native モジュールを import する時の落とし穴](gotcha/vitest-expo-rn-import-pitfalls.md) — `global` — Tsunagu Mobile (Expo + React Native + TypeScript) で Reviewer が Vitest テストを生成した際、Zustand store のテストで実装をimportした瞬間に
 - [vi.mock("node:fs/promises") は specifier が違うと当たらない](gotcha/vitest-mock-fs-specifier-mismatch.md) — `global` — Reviewer が Next.js App Router の route handler (例: `src/app/u/[handle]/logo/route.ts`) のテストを書く際、ファイル読み込みを mock するために `vi.
 - [Vitest server テストで app の DB に対し setup で migration を流さないと "no such table" で全 fail する](gotcha/vitest-server-setup-must-migrate-app-db.md) — `global` — Hono + Drizzle + better-sqlite3 + better-auth スタックで、設計 doc に「起動時 migration を `src/server/index.ts` で実行する」と書くと、**テストでは `i
+- [AgentHub 既知の失敗テスト台帳](../projects/agent-hub/.knowledge/known-failures.md) — `agent-hub` — Muraki 規約: 各 PJ は既知の失敗テストを分類付き (テスト陳腐化 / 環境依存 / 未分類) で持つ。**未分類の失敗を残したままのマージは不可**。この台帳と照合して初めて「既存破損だから無視」が言える。
 - [dandan-app 既知の失敗テスト台帳](../projects/dandan-app/.knowledge/known-failures.md) — `dandan-app` — 分類: テスト陳腐化 / 環境依存 / 未分類。**未分類を残したままのマージ不可** (Muraki/CLAUDE.md)。
 
 ## tool-quirk

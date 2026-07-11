@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-07-09
+Generated: 2026-07-12
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -56,6 +56,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [LLM 生成 Push 通知の現実的アーキテクチャ (iOS APNs + Claude Haiku)](pattern/llm-push-notification-architecture.md) — `global` — 「起床コーチ」「就寝リマインド」「夜の振り返り誘導」など、AI が文面を個別生成する push 通知を iOS に飛ばす場面。レイテンシ・コスト・UX の現実的トレードオフ。
 - [場所選択を共通 Sheet (検索 + 地図 + 現在地) として切り出す Nominatim MVP パターン](pattern/location-picker-common-sheet-nominatim.md) — `global` — イベント管理 / 待ち合わせ系アプリで「Schedule に場所を設定」「Feature (集合) に場所を設定」「event 作成時に集合場所を設定」など、**場所選択 UI が複数画面で必要**になる。
 - [MCP Apps iframe のマルチテナント文脈解決 — 通知非依存の user スコープ解決 + project pin](pattern/mcp-apps-multitenant-ui-context-pin.md) — `global` — シングルテナント MCP サーバー (MCP Apps iframe UI 付き) をマルチユーザー化するとき、「グローバル最新」「グローバル名簿」型の文脈参照をどう変換するか。iframe は「どのテナント文脈を描画すべきか」を自力で知る
+- [MCP server_instructions は二相化 (決定的オンボーディング + 能力パレット作業)](pattern/mcp-server-instructions-two-phase-onboarding.md) — `global` — MCP の `server_instructions` (FastMCP `instructions=...`) は接続直後の AI に渡す自由文。
 - [最小限の SNS レイヤ (Friend + Room) を Prisma + 単一 endpoint で設計するパターン](pattern/minimal-social-layer-friend-room.md) — `global` — 「友達追加 + グループ (ルーム) + 共有カレンダー」程度の軽量 SNS 機能を、既存アプリに**追加機能として後付け**するときの最小構成。LINE / Penmark / TimeTree のような **個人 ID + 招待リンク 
 - [モバイル密度を上げる Token 一括パス (font scale + spacing semantic)](pattern/mobile-density-tighten-token-pass.md) — `global` — モバイル Web アプリで「1 画面に情報を載せたい」要件が来たとき、コンポーネントを 1 個ずつ手で調整する
 - [モバイル first PWA の bottom tab bar 実装ベストプラクティス (2025-2026)](pattern/mobile-first-bottom-tab.md) — `global` — モバイル first Web アプリ (PWA / Capacitor / SwiftUI 移行予定 SPA) で、下端 bottom tab bar を実装するときの 2025-2026 BP。Atender redesign 調査でまと

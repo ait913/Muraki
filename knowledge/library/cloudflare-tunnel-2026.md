@@ -116,7 +116,33 @@ Coolify アプリを捌く vhost は `/var/aisaba_platform/gateway/` にある (
 2. **Nginx**: `/var/aisaba_platform/gateway/<name>.web.conf` を既存 `appiy.web.conf` のコピーで作り `server_name *.<zone>;` に。`cloudflare_only.conf` (loopback allow 済) と `security_headers.conf` を include
 3. **cloudflared: 変更不要**。ingress の catch-all `http://localhost:80` が新ホストも拾う
 4. `sudo nginx -t` → 通ったら `sudo systemctl reload nginx`。**全 zone 相乗りなので -t が通るまで reload しない**
-5. **切り分けプローブ**: Coolify がまだ知らないホストを叩いて **404** なら配線 OK (Traefik まで到達)。`403`=Nginx allowlist / `502,521`=tunnel↔Nginx / `526`=SSL mode
+5. **切り分けプローブ**: Coolify がまだ知らないホストを叩く。`403`=Nginx allowlist / `502,521`=tunnel↔Nginx / `526`=SSL mode。**404 の解釈は下記の罠に注意**
+
+### ★ 罠: 外から見た 404 は「Traefik まで到達した」証拠にならない (2026-07-16 実測で判明)
+
+`gateway/*.conf` は `proxy_intercept_errors on;` + `error_page 404 /404.html;` を持つため、**Traefik が返した 404 を Nginx が横取りして aisaba_platform 共通のカスタム 404 に差し替える**。結果、以下の 2 つが**バイト単位で同一**になる:
+
+| 404 の出どころ | 外から見た応答 |
+|---|---|
+| Traefik (Coolify が知らないホスト) → Nginx が横取り | `Server: nginx/1.28.0` / `Content-Type: text/html` / **`Content-Length: 1020`** |
+| `apply.default.conf` の `default_server` (vhost が拾えていない) | **完全に同一** |
+
+→ **「404 が返った = 配線 OK」は誤り。** vhost が存在せず default_server に落ちていても同じ 404 が返る。
+
+**正しい判別法** — Traefik を直接叩いて Nginx の横取りを迂回する (サーバー上で実行):
+
+```sh
+curl -s -H "Host: <知らないホスト>" http://127.0.0.1:8880/   # → body が "404 page not found" = Traefik の生 body
+curl -s -o /dev/null -w "%{http_code}\n" -H "Host: <既知ホスト>" http://127.0.0.1:8880/   # → 200
+```
+
+vhost が実ロードされているかは **`nginx -T`** (実設定のダンプ) で確定する。**`nginx -t` は構文チェックだけなので代用にならない**:
+
+```sh
+sudo nginx -T 2>/dev/null | grep "server_name .*<zone>"
+```
+
+★ **成功の証拠は 404 でなく 200 に置くこと**。200 は `error_page` の対象外なので横取りされず、経路が本当に通ったことの証拠になる。
 
 以降そのアプリを Coolify で足すときは `domains` を PATCH するだけ (DNS も Nginx も不要)。
 

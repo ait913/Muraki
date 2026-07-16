@@ -76,9 +76,21 @@ Coolify は healthcheck を **コンテナ内で実行する compose healthcheck
 
 - ★ **`curl` か `wget` か、最低でも shell がコンテナ内に必要**。`scratch` / `distroless`(非 debug) は shell も両者も無いので **常に unhealthy → デプロイ失敗**
   - Coolify 自身も rust テンプレで `// temporary: disable healthcheck for rust because the start phase does not have curl/wget` と書いて逃げている (ApplicationDeploymentJob.php)
-  - **alpine は busybox の `wget` を持つ** (`/usr/bin/wget`、`curl` は無い) ので `curl || wget` の後段が通る = そのまま動く (alpine 3.22.5 minirootfs で実測)
+  - **素の alpine は busybox の `wget` だけを持つ** (`/usr/bin/wget`、`curl` は無い) ので `curl || wget` の**後段**で通る (alpine 3.22.5 minirootfs で実測)。
+    ★ ただし**「wget があるから通る」ではない** — busybox wget は `localhost` を `::1` で引いて **fallback しない**ので、
+    コンテナが **IPv4-only bind** だと `Connection refused` で落ちる (omatase で実際にデプロイが落ちた)。
+    後段が通る条件は「コンテナが dual-stack で bind している」こと。詳細: [`gotcha/coolify-healthcheck-localhost-ipv6-vs-node-bind.md`](../gotcha/coolify-healthcheck-localhost-ipv6-vs-node-bind.md)
+  - ★ **`nginx:alpine` は実 curl (8.21.0、busybox でない) を同梱する**ので、IPv4-only bind でも**前段の curl** で通る (2026-07-16 実測)。
+    「alpine 系だから wget 経路」と一括りにしないこと。詳細: [`library/coolify-static-buildpack.md`](../library/coolify-static-buildpack.md)
 - `health_check_port` 未指定なら `ports_exposes` の**先頭**が使われる
-- ★ **`health_check_type` / `health_check_command` は GET レスポンス (`Application` schema) にしか無く、POST 作成 body にも PATCH body にも無い** → **API から cmd 型 healthcheck は設定できない** (UI 専用機能と思われる)。API 運用なら選択肢は「HTTP healthcheck が通るイメージにする」か「healthcheck を切る」の二択
+- ★ **`health_check_type` / `health_check_command` は API から設定できる** (訂正 2026-07-16、Coolify **4.1.2** = 稼働中 `coolify.aisaba.net` の実バージョンのソースで確認、clone SHA `e7dff30`)。
+  以前ここには「GET にしか無く POST/PATCH body には無い → cmd 型は API から設定できない」と書いてあったが**誤り**。
+  根拠が `openapi.yaml` だけだったのが原因 — spec には GET の `Application` schema にしか出て来ないが、**実装は受け付ける**:
+  - `ApplicationsController` の `$allowedFields` に **POST・PATCH 双方**で `health_check_type` / `health_check_command` が入っている
+  - `sharedDataApplications()` (`bootstrap/helpers/api.php`) にバリデーションがある: `'health_check_type' => 'string|in:http,cmd'`、`'health_check_command' => ['nullable','string','max:1000','regex:/^[a-zA-Z0-9 \-_.\/:=@,+]+$/']`
+  - `Application` model の `$fillable` に両方あり、`$application->fill($request->only($allowedFields))` で永続化される
+  - カラムは migration `2025_12_25_072315_add_cmd_healthcheck_to_applications_table.php` で追加 (`health_check_type` default `'http'`)。**比較的新しい機能**なので古い Coolify では無い可能性がある — 使う前に `GET /applications` で `health_check_type` が返るか確認する
+  - **本ファイルの他の「spec に無い」系の記述も openapi.yaml 由来なら実装を読み直すこと** (spec 乖離はこのリポジトリの常態)
 - Dockerfile 側 `HEALTHCHECK` を使わせたい場合の条件が非直感的:
   - `parseHealthcheckFromDockerfile()` が `custom_healthcheck_found = true` にするのは **`health_check_enabled = false` のとき** かつ HEALTHCHECK 行に `--interval` / `--timeout` / `--start-period` / `--retries` のいずれかがある場合のみ
   - `health_check_enabled = true` のままだと Coolify の curl/wget healthcheck が compose に書かれ、**イメージ側 HEALTHCHECK を上書きする**

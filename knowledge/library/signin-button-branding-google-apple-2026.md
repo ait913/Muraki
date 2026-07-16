@@ -85,8 +85,24 @@ sources:
 
 - 認可 endpoint 原文: *"response_mode: ... If you requested any scopes, the value must be `form_post`."* / *"redirect_uri: ... must use the HTTPS protocol, include a domain name, can't be an IP address or localhost"* → **localhost で開発できない**。
 - Service ID が必須 (*"You must use a unique identifier — a Services ID — to register each web service that supports Sign in with Apple authentication"*)。**ドメインの登録 + 検証が必須** (*"you must register and verify all top-level domains and subdomains that incorporate Sign in with Apple"*)。Individual アカウントは **URL 10本まで**。
-- 注意: *"For users to authenticate with your web service, you must have an existing app in the App Store that uses Sign in with Apple."* → **App Store 未公開 (TestFlight のみ) で Web 側 SIWA が通るかは不明**。
-- **Private Email Relay**: relay アドレス宛にメールを出すなら送信ドメインを Apple に email source として登録 + SPF/DKIM 必須。Individual は 32 sources まで。Magic Link を Resend 等で送るアプリで SIWA を併設すると**ここが抜けて bounce する**。
+- 注意: *"For users to authenticate with your web service, you must have an existing app in the App Store that uses Sign in with Apple."* → 字面上は App Store 公開が要るように読める。**atender (TestFlight のみ・未公開) で実測したところ authorize endpoint は 200 + sign-in ページを返した**が、これが証明するのは **Return URL 登録済み + ドメイン検証通過**までで、**実ユーザーが同意まで完走して callback が成立するかは未検証** (プローブは同意画面の手前まで)。この条項が後段で効く可能性は残る。
+- **★ 実測プローブ — ポータルにログインせず Return URL 登録の有無を確認する方法** (2026-07-16, atender):
+  ```sh
+  # 登録済みの redirect_uri → HTTP 200 + 本物の "Sign in to Apple Account" ページ (131KB)
+  curl -sG "https://appleid.apple.com/auth/authorize" \
+    --data-urlencode "client_id=<Service ID>" \
+    --data-urlencode "redirect_uri=https://<api-domain>/api/auth/callback/apple" \
+    --data-urlencode "response_type=code id_token" \
+    --data-urlencode "response_mode=form_post" \
+    --data-urlencode "scope=name email" --data-urlencode "state=probe"
+  # 対照群: redirect_uri=https://evil.example.com/cb → HTTP 403 Forbidden (146 bytes)
+  ```
+  対照群が 403 で弾かれるので 200 は偶然でない。**Apple Developer ポータルの GUI にアクセスできない AI でも、登録状態とドメイン検証の通過を確定できる。**
+
+- **Private Email Relay**: relay アドレス (`@privaterelay.appleid.com`) 宛にメールを出すなら送信ドメインを Apple に email source として登録 + SPF 必須。Individual は 32 sources まで。
+  - **★ Apple が見るのは From ヘッダでなく envelope sender (= MAIL FROM / Return-Path / bounce アドレス) のドメインで、しかも完全一致を要求する**: *"The domain in the envelope sender ... must be registered in the Domains section ... This domain must pass SPF validation, and the registered domain and envelope sender domain must match exactly."*
+  - → **Resend/SES 構成では登録すべきは `send.<domain>` であって `<domain>` ではない**。Resend はドメイン設定時に `send.<domain>` に `v=spf1 include:amazonses.com ~all` と `feedback-smtp.<region>.amazonses.com` の MX を張る (= SES custom MAIL FROM)。apex には DKIM (`resend._domainkey.<domain>`) だけが載り **SPF は無い**ので、apex を見て「SPF が無い」と誤判定しやすい。
+  - **要否の判定は「送信経路が実在するか」で決める**: relay ユーザーのアカウントメアドは relay アドレスになるが、**アプリが Magic Link しか送らないなら送信経路は実質存在しない** (本人は自分の relay アドレスを知らないのでメール欄に打てず、次回も SIWA ボタンで入る)。atender は `resend.emails.send` が `magicLink.sendMagicLink` 内の 1 箇所のみのため、**2026-07-16 時点では登録不要と判断して見送った**。通知・リマインダー等を足した瞬間に relay ユーザーだけ bounce するので、**メール送信を増やすときに再確認すること**。
 
 ### better-auth (1.6.11) の Apple web 対応状況
 

@@ -147,6 +147,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Vitest server テストで app の DB に対し setup で migration を流さないと "no such table" で全 fail する](gotcha/vitest-server-setup-must-migrate-app-db.md) — `global` — Hono + Drizzle + better-sqlite3 + better-auth スタックで、設計 doc に「起動時 migration を `src/server/index.ts` で実行する」と書くと、**テストでは `i
 - [AgentHub 既知の失敗テスト台帳](../projects/agent-hub/.knowledge/known-failures.md) — `agent-hub` — Muraki 規約: 各 PJ は既知の失敗テストを分類付き (テスト陳腐化 / 環境依存 / 未分類) で持つ。**未分類の失敗を残したままのマージは不可**。この台帳と照合して初めて「既存破損だから無視」が言える。
 - [dandan-app 既知の失敗テスト台帳](../projects/dandan-app/.knowledge/known-failures.md) — `dandan-app` — 分類: テスト陳腐化 / 環境依存 / 未分類。**未分類を残したままのマージ不可** (Muraki/CLAUDE.md)。
+- [omatase 既知の失敗テスト台帳](../projects/omatase/.knowledge/known-failures.md) — `omatase` — Muraki 規約: 各 PJ は既知の失敗テストを分類付き (テスト陳腐化 / 環境依存 / **未分類**) で持つ。**未分類の失敗を残したままのマージは不可**。この台帳と照合して初めて「既存破損だから無視」が言える。
 
 ## tool-quirk
 - [block-bash-amp.sh は heredoc/tee 内のコード文字列の論理積もブロックする](tool-quirk/bash-amp-hook-blocks-heredoc-content.md) — `global` — Muraki ルートに置かれた `block-bash-amp.sh` フックは、

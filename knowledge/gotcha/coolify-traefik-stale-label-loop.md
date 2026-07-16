@@ -41,6 +41,8 @@ Coolify が生成する Traefik label をソースで追っても (`bootstrap/he
 
 Coolify の Traefik dynamic config は `/data/coolify/proxy/dynamic/` 配下で file provider 経由で配布。アプリ設定変更時に **古い label set がクリアされず stale state で残ることがある** (公式 issue 多数)。fqdn 削除→戻しで強制再生成。
 
+★ **ただしこの「stale」説は症状の一部しか説明していない** (2026-07-16 omatase で判明): 新規作成した app 2 つが、**一度もデプロイされる前に** `is_force_https_enabled:false` を PATCH した上で初回デプロイしたにもかかわらず、両方ループした。過去のデプロイが無い = **クリアされるべき古い label が存在しない**ので、stale では説明がつかない。fqdn 削除→戻しで直る点は同じ。根本原因は未特定であり、**「古い設定を変えたときに起きる」と限定して理解しないこと** — 新規 app でも起きる。
+
 `is_force_https_enabled=true` の場合、Coolify は HTTP routers にだけ `redirect-to-https` middleware を付ける設計だが、stale state や middleware の重複適用で HTTPS 経路も巻き込むケースがある。
 
 Cloudflare (orange cloud) 経由でも、Origin (Coolify Traefik) が出した 301 をそのまま透過するので `server: cloudflare` ヘッダだけ見て Cloudflare のせいと決めつけない。**Origin と Cloudflare の切り分けは fqdn 削除実験**が手早い。

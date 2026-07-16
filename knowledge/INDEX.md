@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-07-12
+Generated: 2026-07-16
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -26,16 +26,18 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [リモートMCPのエージェント誘導サーフェス (server instructions / tool search / prompts / entry tool) 2026](library/mcp-agent-ux-steering-2026.md) — `global` — 多ツール (20+) のリモート MCP サーバーで「エージェントにどのツールから始めるか・ワークフローをどう運ばせるか」を設計する場面。ホストは Claude Code / Codex CLI。
 - [MCP Apps (io.modelcontextprotocol/ui) の仕様現状とホスト描画マトリクス (2026-07)](library/mcp-apps-host-support-2026.md) — `global` — dandan-app 再設計で MCP Apps (iframe UI) をメイン機能に据える方針の前提確認。「どの実ホストで描画されるか」が土台。
 - [Next.js 15 + Prisma + better-sqlite3 + Coolify スタック概要](library/nextjs15-prisma-sqlite-coolify.md) — `global` — Next.js 15 + Prisma 6.x + better-sqlite3 + SQLite を 1コンテナで Coolify デプロイする構成。`output: "standalone"` で薄い image を作り、SQLite 
+- [Next.js 16 standalone を pnpm workspace モノレポで Docker 化する](library/nextjs16-standalone-pnpm-monorepo.md) — `global` — pnpm workspace + Turborepo のモノレポ (`apps/web` が Next.js、`packages/*` を `workspace:*` 依存) を
 - [公式 Python MCP SDK (FastMCP) — hosted/stateful/認証の現行API (2026-07)](library/python-mcp-sdk-2026.md) — `global` — Python で hosted・stateful・マルチテナントなリモート MCP サーバー (per-member auth, join でセッション確立, claim/poll 系ツール) を組めるかの裏取り。既存 knowledge 
 - [リモートMCPサーバー + OAuth のホスト対応と認可spec (2026)](library/remote-mcp-oauth-hosts-2026.md) — `global` — クラウド上のリモートMCPサーバーを Claude Code / Codex CLI (agent型ホスト) から URL 追加 + OAuth 認可で使わせる設計の前提確認。
+- [Sign in with Google / Sign in with Apple ボタンのブランド規約 (2026-07 現行)](library/signin-button-branding-google-apple-2026.md) — `global` — ログイン画面に Google / Apple のソーシャルボタンを並べる時、各社のブランド規約が「塗り・フォント・ロゴ・文言」を縛る。自前デザイントークンで統一しようとすると規約と衝突する。2026-07-16 に一次ソースを全て実取得して
 - [Starlette 1.x + Jinja2 + htmx セルフホスト + hatchling データ同梱](library/starlette-jinja-htmx-hatchling.md) — `global` — Python の Starlette アプリに Jinja2 テンプレート + htmx(self-host)で SSR フロントを同居させ、hatchling ビルドで .html/.css/.js を wheel に含めたいとき。SPA
 - [vCard 日本語名刺生成 (vCard 3.0 + 振り仮名)](library/vcard-japanese.md) — `global` — 日本向け Web 名刺アプリで、iOS/Android 連絡先に取り込める .vcf を Node で生成する。
-- [OMATASE-demo Pre-design Research Summary](../projects/omatase-demo/.knowledge/00-research-summary.md) — `omatase-demo` — OMATASE (URL 共有で待ち合わせ・イベント進行) MVP の設計**前**リサーチ。Hono + Drizzle + SQLite + better-auth(anonymous) を初採用するため、各 API の存在確認・連携パ
 
 ## pattern
 - [AI が人間 identity を共有する MCP での「承認ゲート」設計 (構造ゲートで代理)](pattern/ai-collab-mcp-shared-identity-approval-gate.md) — `global` — AI グループ開発ツール (agent-hub 等) で「意思決定は人間が承認する (ブラックボックス化を防ぐ)」を
 - [AI 振り返り対話のセッション設計と階層型メモリ](pattern/ai-reflection-dialog-memory.md) — `global` — 夜の振り返り (evening reflection) を AI と対話で行う UX。Stoic / Rosebud / Mindsera の 2025-2026 設計と、長期運用での memory アーキテクチャ。
 - [aisaba.net 系の視覚デザイン言語](pattern/aisaba-design-language.md) — `global` — aisaba.net・apps.aisaba.net・portfolio_manager 等、ユーザー (Touri Aida) が運営する複数サイトで一貫した視覚言語が使われている。新規 UI を作る・既存サイトに追加コンポーネントを差し
+- [Apple Sign in の client secret を node:crypto で同期生成し auth 初期化の async 化を避ける](pattern/apple-client-secret-sync-nodecrypto.md) — `global` — better-auth (や NextAuth) の Apple provider は `clientSecret` を必須にするが、Apple の client secret は **ES256 で署名した JWT** で最長6ヶ月失効す
 - [出席率の3指標分解 — 「今日まで実績 / 楽観射影 / あとN回休める」標準計算パターン](pattern/attendance-to-date-rate-and-allowed-absences.md) — `global` — 出欠管理アプリで「学期全体の予定回数」を分母にすると、学期序盤は未来分が分母に入って率が不当に低く出る。ユーザーが本当に知りたいのは (1) 今日までの実績率と (2) あと何回休めるか。
 - [better-auth Cookie session を壊さず bearer plugin でネイティブを併存させる + Google web OAuth の token 中継](pattern/better-auth-bearer-native-token-relay.md) — `global` — 既に web で **better-auth の Cookie session** (`credentials:"include"`, SameSite=Lax, DB session) を運用しているプロダクトに、後から **iOS ネイ
 - [better-auth incremental scope (linkSocial) + cron 文脈での access token 取得パターン](pattern/better-auth-incremental-scope-and-cron-token.md) — `global` — 既に better-auth で Google Sign-In を持つアプリで、後から「Google Calendar 読み取り」など追加 scope が必要になる場面。sign-in 時に sensitive scope を最初から要求す
@@ -97,6 +99,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [better-auth テスト helper の cookie は Hono signed cookie 形式を再現する必要がある](gotcha/better-auth-test-cookie-must-match-hono-signed-format.md) — `global` — better-auth 1.6.x + Hono 4.12.x の API を Vitest + `app.request()` でテストする際、テスト helper で「Session 行を直接 prisma で作って Cookie ヘッ
 - [chrome-devtools MCP の fill は React controlled input の onChange を発火させない](gotcha/chrome-devtools-mcp-fill-react-controlled-input.md) — `global` — `mcp__chrome-devtools__fill` (またはツール呼び出し名 `fill`) で React の controlled input (`<input value={state} onChange={...} />`) 
 - [Cloudflare Tunnel 経由は loopback 接続 — Nginx の IP allowlist に 127.0.0.1 を入れ忘れると 403](gotcha/cloudflare-tunnel-nginx-allowlist-loopback.md) — `global` — aisaba_platform の Nginx vhost には Cloudflare edge IP からのみ受け付ける allowlist が `cloudflare_only.conf` として include されている (`all
+- [Coolify の healthcheck が localhost→::1 で落ちる (Node の HOSTNAME=0.0.0.0 は IPv4 のみ bind)](gotcha/coolify-healthcheck-localhost-ipv6-vs-node-bind.md) — `global` — Coolify に app を建てるとき `health_check_host: "localhost"` を設定すると、
 - [Coolify on Cloudflare の 307/302 HTTPS リダイレクトループ](gotcha/coolify-https-redirect-loop.md) — `global` — Coolify (`coolify.aisaba.net`) で新規 application を立てると、HTTP/2 307 or 302 で **location が自分自身** という無限リダイレクトループを起こす。Cloudflar
 - [Coolify は private GitHub repo を default で clone できない (Public Repo 用フロー)](gotcha/coolify-private-repo-cannot-clone.md) — `global` — Coolify (`coolify.aisaba.net`) で **Public Repo** build pack (`POST /applications/public`) を使ってアプリを作成し、`git_repository: "
 - [Coolify で全パス self-redirect ループになる時の復旧手順](gotcha/coolify-traefik-stale-label-loop.md) — `global` — Coolify (Traefik) で Dockerfile アプリをデプロイ。`fqdn` 個別指定 (例 `https://meishilink.appily.run`) + server に `wildcard_domain=http
@@ -108,6 +111,8 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [設計 doc にテスト用 app export path を明示しないと Developer と Reviewer が分離して詰む](gotcha/design-must-specify-app-export-path-for-tests.md) — `global` — Atender MVP の Reviewer 召集で、`apps/api` のテストを設計 doc 根拠で生成 → Vitest を実行 → 81 件中 76 件 fail。失敗の原因はすべて単一: テスト helper が import 
 - [描画テストを起こすなら設計docにコンポーネントの prop 契約を明記させる](gotcha/design-must-specify-component-prop-contract-for-render-tests.md) — `global` — atender UI改善 項目1。設計docの「挙動仕様」が TimetableView の描画結果
 - [設計書の error code 表記が「明示」か「例示」か曖昧で実装/テストが食い違う](gotcha/design-spec-implicit-vs-explicit-error-codes.md) — `global` — 設計書 §4.x で API エラーレスポンスを以下のように列挙していた:
+- [docker build が package.json#prepare の lefthook/husky install で落ちる](gotcha/docker-build-git-hook-prepare-script.md) — `global` — `.dockerignore` で `.git` を除外した Docker build context で `pnpm install` (npm/yarn も同様) を
+- [env モジュールの import 時パースが実行時 env 差し替えテストを無効化する](gotcha/env-module-import-time-parse-defeats-runtime-env-swap.md) — `global` — atender `apps/api` の `src/env.ts` は `EnvSchema.parse(process.env)` を **モジュール import 時に一度だけ**実行し、以後 `env` オブジェクトはその時点の値で固
 - [Expo の `process.env.EXPO_PUBLIC_*` は **直接参照** しないと bundle に inline されない](gotcha/expo-public-env-static-replacement.md) — `global` — Expo (SDK 50+) は `process.env.EXPO_PUBLIC_*` を build時に **literal 値で static 置換** する。これにより mobile bundle / web bundle に en
 - [忠実移植で handle の "@" 前置はView層限定 (データ/純粋ロジックは生handle)](gotcha/faithful-port-handle-at-prefix-is-view-only.md) — `global` — Atender iOS Phase D の RoomCalendarLogic.buildCalendarEvents / RoomTimetableLogic.buildEvents で、
 - [Go nil slice が JSON null になり MCP 空状態契約 (空配列) を破る](gotcha/go-nil-slice-null-breaks-mcp-empty-state-contract.md) — `global` — MCP ツールの typed struct 出力 (go-sdk `AddTool[In, Out]`) で「空状態はエラーでなく空コレクションで返す」契約を設計docに書いた。実装は Out struct の slice フィールドを未初
@@ -130,6 +135,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Prisma + better-sqlite3 + Next.js 15 standalone を Coolify Docker で動かす完全形](gotcha/prisma-coolify-dockerfile.md) — `global` — Next.js 15 + Prisma + better-sqlite3 + SQLite を Coolify (Traefik、1コンテナ standalone build) にデプロイする構成。`output: "standalone"
 - [Prisma $queryRaw が PostGIS geography カラムをデシリアライズできない](gotcha/prisma-geography-deserialize-error.md) — `global` — Prisma schema で `geom geography` を `Unsupported("geography")` で宣言している場合、
 - [app の PrismaClient シングルトンが .env.test の DATABASE_URL を pin して、テスト毎の DB 切替が効かない](gotcha/prisma-singleton-pinned-to-env-test-database-url.md) — `global` — Atender Phase 4 (v3) の Reviewer 召集で、API テスト 110 件中 101 件が `PrismaClientInitializationError: Error querying the database:
+- [set -e + resp=$(curl --fail-with-body) はエラー body をログに出さずに死ぬ](gotcha/set-e-swallows-curl-fail-with-body.md) — `global` — CI の step で外部 API を叩き、失敗時に**レスポンス body をログに残したい**とき。
 - [SwiftUI の final class + @MainActor な Store/ViewModel は XCTest でサブクラスモックできない](gotcha/swiftui-final-mainactor-store-not-mockable-in-xctest.md) — `global` — SwiftUI + Observation で `@Observable @MainActor final class AuthStore`/`ViewModel` を作り、設計doc に「テスト時は Keychain / APIClien
 - [SwiftUI で固定 minWidth のボタン群が幅超過すると親ごと画面幅を突破して全体が左シフトする](gotcha/swiftui-fixed-minwidth-row-overflows-parent.md) — `global` — atender ホームの出欠 CTA を展開すると、パネル内のステータスボタン(出/欠/公/遅/早/休 の6個)が並ぶ。展開した瞬間、**画面全体が左にずれて両端が見切れる**バグが出た(「自分」チップや学期名が画面外へ)。
 - [SwiftUI 1 View 内の複数シートは兄弟に並べず単一 .sheet に集約する](gotcha/swiftui-multiple-sibling-sheets-only-one-fires.md) — `global` — Atender iOS で 1 つの View から複数のボトムシート (DayDetailSheet / BulkEditSheet 等) を出し分けたい場面。共通コンポーネント `BottomSheet` は内部で native `.s
@@ -159,3 +165,4 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Atender 入力 UX / 視認性 BP リサーチ (Phase 3)](../projects/atender/.knowledge/02-input-ux-research.md) — `atender` — 調査日: 2026-05-18 / 調査者: researcher (Gemini + Codex)。
 - [Atender Phase 4 Pre-design Research — Rooms / Friends / Today UX 全面刷新](../projects/atender/.knowledge/03-v3-rooms-friends-research.md) — `atender` — 調査日: 2026-05-26 / 調査者: researcher (Gemini + ローカル既存コード読解)。
 - [Atender v5 — Mobile-first 時間割 UI + デザイン理論 Pre-design Research](../projects/atender/.knowledge/04-v5-design-theory-research.md) — `atender` — 調査日: 2026-05-26 / 調査者: researcher (Gemini × 2 + 既存実装読解 + 既存ナレッジ照合)。
+- [known-failures](../projects/atender/.knowledge/known-failures.md) — `atender` — CLAUDE.md「ベースライン失敗の台帳」に基づく。分類: テスト陳腐化 / 環境依存 / 未分類。

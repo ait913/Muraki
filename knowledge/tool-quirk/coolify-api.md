@@ -3,12 +3,13 @@ title: Coolify API の癖と未公開仕様
 category: tool-quirk
 tags: [coolify, api, openapi, deploy]
 created: 2026-05-10
-updated: 2026-07-05
+updated: 2026-07-16
 project: global
 sources:
   - https://coolify.io/docs/api-reference
   - https://raw.githubusercontent.com/coollabsio/coolify/main/openapi.yaml  # spec の info.version は '0.1' 固定で semver なし。確認時の commit SHA を残すこと
   - https://github.com/coollabsio/coolify/releases/tag/v4.0.0  # 2026-04-27 release
+  - https://github.com/coollabsio/coolify/blob/main/app/Jobs/ApplicationDeploymentJob.php  # 実装の真実。openapi で足りない時はここを読む (確認 SHA: 07f381b, 2026-07-16)
 ---
 
 > **不明点が出たら必ず公式を見る**: OpenAPI yaml と docs を一次情報として扱う。本ファイルは実踏知見の記録であり、最新仕様は公式と乖離している可能性がある。
@@ -33,6 +34,62 @@ Coolify (オンプレ Ubuntu サーバ `coolify.aisaba.net`) を HTTP API 経由
 | `git_repository` | **PATCHでは `owner/repo`、POSTでは完全URL** | ★ format がメソッドで違う罠。`POST /applications/public` 作成時は `https://github.com/owner/repo` (完全URL必須、`owner/repo` 形式は `must start with https://...` エラー)。**作成後の保存値は `owner/repo` に変換される**。PATCHで完全URL指定すると、Coolify内部で `https://github.com/` を再prefix → `https://github.com/https://github.com/...` になり `Not Found`。**PATCHは必ず `owner/repo` 形式で送る** |
 | `source_id` / `source_type` | PATCH **不可** | 作成時のみ指定可。後から変更したいなら delete + 再作成 |
 | `dockerfile_location` | **`base_directory` からの相対 path** (絶対 path セマンティクス) | ★ `/Dockerfile` のように `/` 始まりだが、これは「リポジトリroot」ではなく「base_directory の中」。`base_directory: "/mobile"` で `dockerfile_location: "/mobile/Dockerfile.web"` を指定すると `/artifacts/.../mobile/mobile/Dockerfile.web` と二重 prefix になり `lstat ... no such file`。正しくは `dockerfile_location: "/Dockerfile.web"` |
+
+### ★ Dockerfile build pack の build context は `base_directory` そのもの
+
+`ApplicationDeploymentJob.php` の実装 (2026-07-16 時点):
+
+```php
+$this->workdir = "{$this->basedir}".rtrim($baseDir, '/');   // basedir = clone先
+// ...
+"docker build -f {$this->workdir}{$this->dockerfile_location} -t {$image} {$this->workdir}"
+```
+
+つまり:
+
+- **build context = `workdir` = clone root + `base_directory`**。context を独立に指定するフィールドは **存在しない** (OpenAPI にも実装にもない)
+- **Dockerfile の実パス = `workdir` + `dockerfile_location`**。`dockerfile_location` が base_directory 相対なのはこの連結が理由
+- `base_directory: "/"` は `rtrim("/", "/")` → `""` になるので **workdir = リポジトリ root** (バリデーションもスキップされる)
+
+★ **モノレポで「context はリポジトリ root、Dockerfile は apps/web/Dockerfile」をやりたい場合の正解**:
+
+```json
+{"base_directory": "/", "dockerfile_location": "/apps/web/Dockerfile"}
+```
+
+→ `docker build -f <root>/apps/web/Dockerfile <root>` になる。
+pnpm workspace のように root の lockfile / 他パッケージが context に要る構成はこれで成立する。
+逆に `base_directory: "/apps/web"` にすると context が `apps/web` に閉じるので root の
+`pnpm-lock.yaml` が COPY できない。**context を広げたい = base_directory を上げる** が唯一の操作。
+
+deploy 時の clone は full clone (`--depth=1` はあり得る) で、`base_directory` による sparse-checkout は**しない**
+(sparse-checkout は docker-compose ファイル読み取り用のヘルパー経路のみ)。→ base_directory を絞っても
+リポジトリ全体は clone されているが、**context には入らない**。
+
+### healthcheck の癖 (scratch / distroless で詰む)
+
+Coolify は healthcheck を **コンテナ内で実行する compose healthcheck** として生成する:
+
+```php
+'test' => ['CMD-SHELL', "curl -s -X 'GET' -f 'http://localhost:<port>/<path>' > /dev/null || wget -q -O- '<url>' > /dev/null || exit 1"]
+```
+
+- ★ **`curl` か `wget` か、最低でも shell がコンテナ内に必要**。`scratch` / `distroless`(非 debug) は shell も両者も無いので **常に unhealthy → デプロイ失敗**
+  - Coolify 自身も rust テンプレで `// temporary: disable healthcheck for rust because the start phase does not have curl/wget` と書いて逃げている (ApplicationDeploymentJob.php)
+  - **alpine は busybox の `wget` を持つ** (`/usr/bin/wget`、`curl` は無い) ので `curl || wget` の後段が通る = そのまま動く (alpine 3.22.5 minirootfs で実測)
+- `health_check_port` 未指定なら `ports_exposes` の**先頭**が使われる
+- ★ **`health_check_type` / `health_check_command` は GET レスポンス (`Application` schema) にしか無く、POST 作成 body にも PATCH body にも無い** → **API から cmd 型 healthcheck は設定できない** (UI 専用機能と思われる)。API 運用なら選択肢は「HTTP healthcheck が通るイメージにする」か「healthcheck を切る」の二択
+- Dockerfile 側 `HEALTHCHECK` を使わせたい場合の条件が非直感的:
+  - `parseHealthcheckFromDockerfile()` が `custom_healthcheck_found = true` にするのは **`health_check_enabled = false` のとき** かつ HEALTHCHECK 行に `--interval` / `--timeout` / `--start-period` / `--retries` のいずれかがある場合のみ
+  - `health_check_enabled = true` のままだと Coolify の curl/wget healthcheck が compose に書かれ、**イメージ側 HEALTHCHECK を上書きする**
+  - つまり「Dockerfile の HEALTHCHECK に任せる」= **`health_check_enabled: false` + Dockerfile に flag 付き HEALTHCHECK** の組み合わせ
+
+### デプロイ完了の待ち方 (API)
+
+- `GET /deploy?uuid=<a>,<b>` は **uuid のカンマ区切りを受け付ける** (複数アプリを 1 回で deploy)。返りは `{"deployments":[{message, resource_uuid, deployment_uuid}]}`
+- `deployment_uuid` を `GET /deployments/{uuid}` に投げて `status` をポーリングする。取り得る値は `App\Enums\ApplicationDeploymentStatus` の 5 つ:
+  `queued` / `in_progress` / `finished` / `failed` / `cancelled-by-user`
+  (OpenAPI 上は `status: {type: string}` で enum 記述が無い ★ spec 側の情報不足)
 
 ### env 登録 API の癖
 

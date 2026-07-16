@@ -61,6 +61,26 @@ curl -sS -H "Authorization: Bearer $COOLIFY_API_TOKEN" \
   "https://coolify.aisaba.net/api/v1/deploy?uuid=$APP_UUID&force=false"
 ```
 
+### ★ この PATCH は必要だが十分ではない (2026-07-16 omatase で実証)
+
+**`is_force_https_enabled:false` を初回デプロイ前に PATCH しても、ループは起きる。**
+
+omatase で新規 app 2 つ (`omatase-api` / `omatase-web`) を `instant_deploy:false` で作成 → **一度もデプロイする前に** force_https を PATCH → 初回デプロイ、という「教科書通り」の順序を踏んだが、**両方とも 302 self-redirect ループになった**。再 PATCH (`redirect:"both"` 併記) + `force=true` redeploy でも直らず、**fqdn 削除 → redeploy → 復元 → redeploy** で初めて 200 になった (両 app とも)。
+
+★ **この事例は「stale label」では説明がつかない**: 新規作成した app は過去に別の fqdn/設定でデプロイされたことが無く、クリアされるべき古い label が**そもそも存在しない**。それでもループした。つまり `gotcha/coolify-traefik-stale-label-loop.md` の Why (「古い label set が残る」) は**この症状の一部しか説明していない**。根本原因は未特定。
+
+**実務上の結論**: Cloudflare 配下で新規 app を立てるときは、**fqdn 削除 → redeploy → 復元 → redeploy を「復旧手順」ではなく「新規作成フローの一部」として最初から見込む**。作成直後の PATCH だけで 200 が返ると期待しない。
+
+```bash
+# 新規 app の 200 が返らないとき、再 PATCH を繰り返さず即座にこれをやる (再 PATCH は効かなかった)
+curl -X PATCH ... -d '{"domains":""}'                                  # fqdn 削除
+curl "$COOLIFY_API_BASE/deploy?uuid=$APP_UUID&force=true"              # → 404 を確認 (Origin が犯人 = Cloudflare 無罪の切り分けも兼ねる)
+curl -X PATCH ... -d '{"domains":"https://<original>","is_force_https_enabled":false}'
+curl "$COOLIFY_API_BASE/deploy?uuid=$APP_UUID&force=true"              # → 200
+```
+
+デプロイ完了時に `GET /applications` の `status` が **`running:healthy` なのに外部が 302** なら、コンテナは無罪で Traefik 層の問題と即断してよい (omatase では両 app とも healthy のまま 302 だった)。
+
 ## 検出方法
 
 deploy 後の確認スクリプトに以下を入れる:

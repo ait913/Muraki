@@ -48,6 +48,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [出席率の分母から「一括休講日」を除外する標準パターン (Course × Date 中間テーブル)](pattern/course-suspension-denominator-reduction.md) — `global` — 出欠管理アプリで「学園祭振替で来週月曜は休講」のように**科目全体 × 特定日付**で休講を宣言する場面。個別 occurrence の `status=CANCELLED` で手動マークする方式だけだと:
 - [パニック時 UI の設計トークンと挙動原則 (緊急アプリ向け)](pattern/emergency-ui-design-tokens.md) — `global` — 「人が倒れた」「火災が起きた」など極度のパニック時にユーザーが操作する UI の設計。
 - [Postgres + Node でのアプリ層 envelope encryption パターン (Coolify セルフホスト)](pattern/envelope-encryption-postgres-node.md) — `global` — 個人ヘルスケア / メンタル系アプリで「ログ取らない・コード公開可・at-rest 暗号化・LLM 処理時のみ in-memory 復号」を実装したい。バックエンドは Coolify (Docker) + Postgres、ソロ運用。
+- [wildcard DNS 配下ではサブドメインをフラット 1 レベルに固定する](pattern/flat-subdomain-naming-under-wildcard-dns.md) — `global` — `*.appily.run` / `*.n-wasabi.org` のような **wildcard CNAME → Cloudflare Tunnel → Nginx → Coolify Traefik** 構成で、
 - [入力フォームモーダル (BottomSheet/Dialog) の視認性 BP (2026)](pattern/form-modal-readability-bp.md) — `global` — Modal / Bottom Sheet 内に入力フォームを置く場面で「文字が見えにくい」「階層が弱い」「フォーカスが分からない」と感じる根因は**たいてい設計トークンの欠陥に集約**される。Atender redesign で実装後に T
 - [Google Calendar 連携を Connection (user) × Sync (room × calendar) の 2 段 schema で組むパターン](pattern/google-calendar-incremental-sync-room-scoped.md) — `global` — ユーザーが個人 Google Calendar を「ルーム」「グループ」「プロジェクト」等の単位に紐づけて取り込みたい場面。ユースケース例:
 - [グリッド・テーブル罫線 BP (時間割/カレンダー/データ表示)](pattern/grid-table-borders-bp.md) — `global` — 時間割・カレンダー・テーブル系 UI で「セルがバラバラに見える」「表として認識されない」体感が出るのは、罫線設計が以下のどちらかに偏った時:

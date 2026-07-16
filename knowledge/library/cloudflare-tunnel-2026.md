@@ -37,8 +37,15 @@ zone ごとに wildcard CNAME + apex CNAME (flatten) で最少エントリ:
 | aisaba.net | `aisaba.net` CNAME, `*.aisaba.net` CNAME (両方 proxied) |
 | appily.run | `*.appily.run` CNAME (apex は使わない) |
 | ceez7.com | `ceez7.com` CNAME, `*.ceez7.com` CNAME |
+| **n-wasabi.org** | `*.n-wasabi.org` CNAME (apex は未使用) — **2026-07-16 追加** |
 
 全部 `<tunnel-uuid>.cfargotunnel.com` に向ける。SSL/TLS mode は Full (Strict)。MX/TXT/DKIM は別途残す。
+
+### zone の使い分け (2026-07-16 確定)
+
+- **n-wasabi.org** = 生わさび (n-wasabi) チームのアプリ。**今後 n-wasabi として作るものはここ**。第1号は omatase
+- **appily.run** = 既存アプリ (atender 等) と個人系。**移行しない**
+- ★ **DNS wildcard も Cloudflare Universal SSL も「第1レベルまで」**。`*.n-wasabi.org` は `omatase.n-wasabi.org` にマッチするが `api.omatase.n-wasabi.org` には**マッチしない**し、Universal SSL も届かない (full setup は apex + 第1レベルのみ。深い階層は Total TLS / ACM = 有料)。→ **命名はフラットにする** (`omatase-api.n-wasabi.org`)
 
 ### Access (SSH 用)
 
@@ -93,6 +100,25 @@ wildcard CNAME のおかげで DNS 操作不要:
 ### 既存サービス用に固有ホスト追加 (例: `aisaba.net` 配下の新サブドメイン)
 
 `*.aisaba.net` wildcard で吸収。Nginx に新 vhost (`listen 80; server_name foo.aisaba.net;` + `proxy_pass`) を追加するだけ。DNS は不要。
+
+★ **vhost の置き場所は `/etc/nginx/sites-enabled/` ではない** (2026-07-16 実機確認)。`nginx.conf` が include しているのは以下の 2 つだけで、**`sites-enabled` は include されていない** (`sites-enabled/default` は死に設定):
+
+```nginx
+include /var/aisaba_platform/gateway/*.conf;
+include /etc/nginx/conf.d/*.conf;
+```
+
+Coolify アプリを捌く vhost は `/var/aisaba_platform/gateway/` にある (例: `appiy.web.conf` = `*.appily.run` → `proxy_pass http://127.0.0.1:8880`、ファイル名の `appiy` は typo だが実害なし)。
+
+### 新しい zone を丸ごと足す (例: n-wasabi.org、2026-07-16 実施)
+
+1. **Cloudflare DNS**: `*.<zone>` CNAME → `<tunnel-uuid>.cfargotunnel.com` (proxied)、SSL/TLS = Full (Strict)
+2. **Nginx**: `/var/aisaba_platform/gateway/<name>.web.conf` を既存 `appiy.web.conf` のコピーで作り `server_name *.<zone>;` に。`cloudflare_only.conf` (loopback allow 済) と `security_headers.conf` を include
+3. **cloudflared: 変更不要**。ingress の catch-all `http://localhost:80` が新ホストも拾う
+4. `sudo nginx -t` → 通ったら `sudo systemctl reload nginx`。**全 zone 相乗りなので -t が通るまで reload しない**
+5. **切り分けプローブ**: Coolify がまだ知らないホストを叩いて **404** なら配線 OK (Traefik まで到達)。`403`=Nginx allowlist / `502,521`=tunnel↔Nginx / `526`=SSL mode
+
+以降そのアプリを Coolify で足すときは `domains` を PATCH するだけ (DNS も Nginx も不要)。
 
 ### 特殊ルート (TCP/RDP/その他 protocol) を Tunnel に追加
 

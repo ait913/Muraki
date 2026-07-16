@@ -71,6 +71,19 @@ omatase で新規 app 2 つ (`omatase-api` / `omatase-web`) を `instant_deploy:
 
 **実務上の結論**: Cloudflare 配下で新規 app を立てるときは、**fqdn 削除 → redeploy → 復元 → redeploy を「復旧手順」ではなく「新規作成フローの一部」として最初から見込む**。作成直後の PATCH だけで 200 が返ると期待しない。
 
+### ★ ただし「fqdn を変更したとき」には踏まなかった (2026-07-16, n=1)
+
+同じ omatase の 2 app に対し、後日 `domains` を PATCH して**別ドメインを追加** (`omatase.appily.run` → `omatase.n-wasabi.org,omatase.appily.run`) → `force=true` redeploy したときは、**両 app とも一発で 200**。ループは出なかった。
+
+つまり現時点の観測は:
+
+| 操作 | ループ |
+|---|---|
+| **app の新規作成** → 初回デプロイ | **踏んだ (2/2)** |
+| 既存 app の **fqdn 変更** → redeploy | **踏まなかった (2/2)** |
+
+**n=1 の事例なので「fqdn 変更なら安全」と一般化しないこと。** 言えるのは「新規作成時は高確率で踏む」だけ。fqdn を触ったら毎回プローブして確認する運用は変えない。
+
 ```bash
 # 新規 app の 200 が返らないとき、再 PATCH を繰り返さず即座にこれをやる (再 PATCH は効かなかった)
 curl -X PATCH ... -d '{"domains":""}'                                  # fqdn 削除

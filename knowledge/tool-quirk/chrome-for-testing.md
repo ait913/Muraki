@@ -28,14 +28,24 @@ chrome-devtools MCP で Web ページを閲覧/操作する場面。普段使い
 
 ## How to apply
 
-### user-scope MCP (Muraki 外 / 単一セッション用途)
-`~/.claude.json` の chrome-devtools 設定。`--headless --executablePath <Chrome for Testing path>` で `~/.cache/chrome-devtools-mcp/chrome-profile` を共有。Muraki 内でも project に `.mcp.json` がなければこれが効く。
+### ★ 現状の登録 (2026-07-17 に user スコープで再登録)
 
-### project-scope MCP (Muraki project 並列用途)
-Chrome を使う Muraki project に `.mcp.json` を置き、ラッパー経由で profile を分ける。
+**chrome-devtools MCP は user スコープに登録済** (`~/.claude.json` の top-level `mcpServers`)。どの project からでも効く。
+
+```
+claude mcp add --scope user chrome-devtools -- \
+  /Users/touri/Documents/Creatives/Developments/Muraki/scripts/chrome-devtools-mcp.sh default
+```
+
+- ラッパーが `default` プロファイル = `~/.cache/chrome-devtools-mcp/chrome-profile` を握る。
+- **一度この設定が消えた事故がある** (2026-07-17): `settings.json` に許可 (`mcp__chrome-devtools__*`) とラッパーは残っていたのに、サーバー登録だけがどの config にも無い状態になっていた。おそらく過去の project-scope `.mcp.json` 運用時のファイルが worktree 整理か iCloud 移動で失われたもの。**user スコープに置いたので project ごとの `.mcp.json` に依存しなくなった**。`claude mcp list` に `chrome-devtools` が出ない時はまずここを疑う。
+- **登録しても現セッションでは即使えない**。`mcp__chrome-devtools__*` ツールは Claude Code の再起動後に現れる。急ぎで現セッションのままスクショが要るなら、下の CDP 直叩き (`--screenshot` でなく `--remote-debugging-port`) で代替できる。
+
+### project-scope で profile を分けたい場合 (並列用途)
+Chrome を使う project に `.mcp.json` を置き、ラッパーの引数を `<slug>` にすれば `~/.cache/chrome-devtools-mcp/profiles/<slug>` に分離できる。user スコープと同名 (`chrome-devtools`) なら project-scope が優先される。
 
 ```jsonc
-// Muraki/projects/<slug>/.mcp.json
+// Muraki/projects/<slug>/.mcp.json (profile を分けたい時だけ)
 {
   "mcpServers": {
     "chrome-devtools": {
@@ -49,7 +59,7 @@ Chrome を使う Muraki project に `.mcp.json` を置き、ラッパー経由�
 
 - ラッパー `Muraki/scripts/chrome-devtools-mcp.sh` が `--userDataDir ~/.cache/chrome-devtools-mcp/profiles/<slug>` と最新 Chrome for Testing パスを補って `chrome-devtools-mcp@latest` を起動する。
 - worktree も同 project の `.mcp.json` を共有 = 同 profile。worktree 同士の並列はロック衝突する (その時は profile を更に分けるか `--isolated` 検討)。
-- `.mcp.json` 追加後、project root で起動した Claude Code 全てが project-scope を採用する。再起動必須。
+- `.mcp.json` 追加後、project root で起動した Claude Code 全てが project-scope を採用する。再起動必須。**この `.mcp.json` を作った後は git 管理に入れておくと消失事故を防げる** (2026-07-17 の消失はこれが無かったため)。
 
 ### Chrome for Testing 未インストール時
 ```

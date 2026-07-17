@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-07-16
+Generated: 2026-07-17
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 

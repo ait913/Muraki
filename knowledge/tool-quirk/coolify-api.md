@@ -175,6 +175,31 @@ curl -X PATCH ... "$COOLIFY_API_BASE/applications/<uuid>?force_domain_override=t
 - `is_public=true` + `public_port` を設定した時だけ `external_db_url` が外部接続可能になる (通常は不要・閉じておく)
 - app と DB が別 destination network の場合は app 側 `connect_to_docker_network` (PATCH 可、OpenAPI にあり) で predefined network 接続を有効化する。standalone (StandaloneDocker) 同士・同一 server なら通常そのまま届く
 
+### SOURCE_COMMIT はランタイムに自動注入される (ビルド時は設定が要る)
+
+デプロイ中の git commit SHA は `SOURCE_COMMIT` env として **コンテナのランタイムに default で入る**。アプリが「自分がどの commit か」を名乗るのに Dockerfile 改造も build arg も不要 (`process.env.SOURCE_COMMIT` を読むだけ)。
+
+`ApplicationDeploymentJob.php::generate_coolify_env_variables()` の実装 (**v4.1.2 タグで確認 = 本番稼働版と一致**, 2026-07-17):
+
+```php
+// Only add SOURCE_COMMIT for runtime OR when explicitly enabled for build-time
+// SOURCE_COMMIT changes with each commit and breaks Docker cache if included in build
+if (! $forBuildTime || $this->application->settings->include_source_commit_in_build) {
+    if ($this->application->environment_variables->where('key', 'SOURCE_COMMIT')->isEmpty()) {
+        $coolify_envs->put('SOURCE_COMMIT', $this->commit);   // 取れない時は 'unknown'
+    }
+}
+```
+
+| 文脈 | 入るか | 条件 |
+|---|---|---|
+| **ランタイム** (`$forBuildTime = false`) | **入る (default)** | ユーザーが同名 env を自分で定義していないこと |
+| **ビルド時** (build arg / `/run/secrets/SOURCE_COMMIT`) | 入らない | app setting `include_source_commit_in_build` を有効化して初めて入る |
+
+- PR preview 経路 (`pull_request_id !== 0`) も通常デプロイ経路も**同じ条件**
+- ビルド時が default off なのは実装コメントのとおり **commit ごとに値が変わって Docker layer cache を壊すから**。フロント SPA に版数を焼き込みたい等でどうしても要るなら設定を入れるが、毎回フルビルドになるコストを承知で
+- `GET /applications/{uuid}` の `git_commit_sha` は「デプロイ設定」であって実行中の SHA ではない (`HEAD` 等が入る)。**実際に動いている commit を知りたいならアプリ自身に `SOURCE_COMMIT` を喋らせる**のが確実
+
 ### 存在しない endpoint
 
 - proxy restart API はない (UI からのみ)

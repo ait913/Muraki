@@ -20,6 +20,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [GitHub OAuth App (classic) の callback URL は 1 本のみ — redirect_uri はサブディレクトリ一致で分岐可](library/github-oauth-app-callback-url-rules.md) — `global` — 1 つの GitHub OAuth App (classic) を「MCP 認証の federate 先」と「Web ダッシュボードのログイン」の両方で使いたい場面 (dandan-app stateful 転換)。
 - [公式 GitHub MCP server の認証設計と MCP write/inform 指針 (2026)](library/github-official-mcp-auth-2026.md) — `global` — dandan (リモート MCP, GitHub App 認証, Issues R/W) の「書き込みを持つ意味・App install 摩擦の妥当性」を判断するため、公式 GitHub MCP と他社リモート MCP の認証・write設
 - [GitHub org members / collaborators API と classic OAuth scope (repo vs read:org) 2026](library/github-org-members-collaborators-scopes.md) — `global` — dandan-app (OAuth App classic, scope=`repo`) で org メンバーを名簿候補に拾う設計の事前調査 (2026-07-07)。
+- [iOS の「一瞥」表示面 (Widget / Live Activity / Dynamic Island) の実在 API と最低バージョン](library/ios-glanceable-surfaces-availability.md) — `global` — 「移動中・片手・数秒」で情報を出す iOS の面 (ウィジェット / Live Activity / Dynamic Island) を設計に載せる前の実在確認。
 - [日本の救急 時間帯別分布データ (令和元年→令和5年比較)](library/jp-emergency-time-distribution.md) — `global` — 日本の救急業務の「平均値」ではなく「分布形状」が必要なとき (UX訴求コピーや緊急度判定設計の根拠)。消防庁公式統計から確定したロングテール構造データ。
 - [日本のOHCA場所別生存率と現着時間の真実 (JAMA 2019・東京令和5年・全国Utstein 2018)](library/jp-ohca-location-survival.md) — `global` — 救急関連プロダクトで「平均14分」「20分以上ロングテール」の上位の話を求めるとき。OHCAの生存率は **発生場所で18倍違う**。EMS現着時間自体の場所差は1分しかない。設計判断を誤らないために必読。
 - [日本のOHCA・救急医療マクロ統計 (2023年実績)](library/jp-ohca-stats.md) — `global` — 日本向け救命系アプリ・防災UX設計時の基礎データ。2026年5月時点で確認した最新公式値。
@@ -32,6 +33,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [リモートMCPサーバー + OAuth のホスト対応と認可spec (2026)](library/remote-mcp-oauth-hosts-2026.md) — `global` — クラウド上のリモートMCPサーバーを Claude Code / Codex CLI (agent型ホスト) から URL 追加 + OAuth 認可で使わせる設計の前提確認。
 - [Sign in with Google / Sign in with Apple ボタンのブランド規約 (2026-07 現行)](library/signin-button-branding-google-apple-2026.md) — `global` — ログイン画面に Google / Apple のソーシャルボタンを並べる時、各社のブランド規約が「塗り・フォント・ロゴ・文言」を縛る。自前デザイントークンで統一しようとすると規約と衝突する。2026-07-16 に一次ソースを全て実取得して
 - [Starlette 1.x + Jinja2 + htmx セルフホスト + hatchling データ同梱](library/starlette-jinja-htmx-hatchling.md) — `global` — Python の Starlette アプリに Jinja2 テンプレート + htmx(self-host)で SSR フロントを同居させ、hatchling ビルドで .html/.css/.js を wheel に含めたいとき。SPA
+- [SwiftUI Liquid Glass (iOS 26) — API 実在確認と availability](library/swiftui-liquid-glass-ios26.md) — `global` — Atender (SwiftUI/iOS) の UI を Apple ネイティブ部品 + Liquid Glass で刷新する設計の事前調査 (Xcode 26.6 / iOS SDK 26.5 実測)。
 - [vCard 日本語名刺生成 (vCard 3.0 + 振り仮名)](library/vcard-japanese.md) — `global` — 日本向け Web 名刺アプリで、iOS/Android 連絡先に取り込める .vcf を Node で生成する。
 
 ## pattern
@@ -149,6 +151,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Vitest で Expo/React Native モジュールを import する時の落とし穴](gotcha/vitest-expo-rn-import-pitfalls.md) — `global` — Tsunagu Mobile (Expo + React Native + TypeScript) で Reviewer が Vitest テストを生成した際、Zustand store のテストで実装をimportした瞬間に
 - [vi.mock("node:fs/promises") は specifier が違うと当たらない](gotcha/vitest-mock-fs-specifier-mismatch.md) — `global` — Reviewer が Next.js App Router の route handler (例: `src/app/u/[handle]/logo/route.ts`) のテストを書く際、ファイル読み込みを mock するために `vi.
 - [Vitest server テストで app の DB に対し setup で migration を流さないと "no such table" で全 fail する](gotcha/vitest-server-setup-must-migrate-app-db.md) — `global` — Hono + Drizzle + better-sqlite3 + better-auth スタックで、設計 doc に「起動時 migration を `src/server/index.ts` で実行する」と書くと、**テストでは `i
+- [xcodegen の info: は Info.plist を毎回再生成する — 版数を Info.plist に直接書くと消える](gotcha/xcodegen-info-plist-regenerated-every-run.md) — `global` — xcodegen で iOS プロジェクトを管理し、`project.yml` の `targets.<T>.info` に `path:` + `properties:` を書いている構成 (atender `apps/ios` が該当)
 - [AgentHub 既知の失敗テスト台帳](../projects/agent-hub/.knowledge/known-failures.md) — `agent-hub` — Muraki 規約: 各 PJ は既知の失敗テストを分類付き (テスト陳腐化 / 環境依存 / 未分類) で持つ。**未分類の失敗を残したままのマージは不可**。この台帳と照合して初めて「既存破損だから無視」が言える。
 - [dandan-app 既知の失敗テスト台帳](../projects/dandan-app/.knowledge/known-failures.md) — `dandan-app` — 分類: テスト陳腐化 / 環境依存 / 未分類。**未分類を残したままのマージ不可** (Muraki/CLAUDE.md)。
 - [omatase 既知の失敗テスト台帳](../projects/omatase/.knowledge/known-failures.md) — `omatase` — Muraki 規約: 各 PJ は既知の失敗テストを分類付き (テスト陳腐化 / 環境依存 / **未分類**) で持つ。**未分類の失敗を残したままのマージは不可**。この台帳と照合して初めて「既存破損だから無視」が言える。

@@ -38,4 +38,6 @@ iCloud がオフロードしたファイルの read がブロックするため�
 
 **恒久策(推奨)**: Muraki の repo・worktree・venv を **iCloud 同期対象外**に置く(`~/Documents` 外に移すか、当該フォルダを iCloud の対象から外す/`.nosync` 運用)。開発中の repo が iCloud 配下にあるのは import/build/git を不安定にするので、そもそも避ける。
 
-関連: [[tool-quirk/chrome-for-testing]](テスト環境の癖)、developer/reviewer は検証を必ずローカルディスク venv で行う(role ノートにも追記済)。
+**移動作業そのものが別の罠を生む**: iCloud 外へ Finder で移動する際、同名衝突したファイルが「 2」付きで複製され、`.git/refs/` に入ると git が `fatal: bad object` で軒並み落ちる。本書の stall とは別症状なので [[gotcha/icloud-duplicate-files-corrupt-git-refs]] を参照。移動完了直後にツリー全体を掃除すること。
+
+関連: [[gotcha/icloud-duplicate-files-corrupt-git-refs]](同じ根・複製による ref 破損)、[[tool-quirk/chrome-for-testing]](テスト環境の癖)、developer/reviewer は検証を必ずローカルディスク venv で行う(role ノートにも追記済)。

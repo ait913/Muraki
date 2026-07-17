@@ -69,6 +69,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Modal/Sheet を基底コンポーネント化して overlay/ESC/× の 3 経路 close を強制する](pattern/modal-sheet-base-component-3way-close.md) — `global` — OMATASE-demo 実機検証 (Touri, 2026-05-26) で「モーダルは空白部分タップで戻れるようにして欲しい。全体的に」という体感悪化 fb が出た。原因は **各モーダル/Sheet 個別実装** で close 経路
 - [moneylog (ceez7 家計簿) のデザイン言語 — すりガラス + ぼかしグラデ blob + grid-rows 伸縮](pattern/moneylog-design-language.md) — `global` — Touri 本人が作った家計簿 moneylog の UI を後継アプリ (金欠対策 / kinketsu-taisaku) で**そのまま踏襲**したい。Touri が「センスがある」と認める自作デザインの design token と 
 - [LLM Ready な気分ログのスキーマと UX (Daylio / How We Feel / Finch 系)](pattern/mood-log-schema-llm-ready.md) — `global` — 気分ログ / 感情記録 / journaling 系アプリの構造化スキーマを設計するとき、後段で LLM (Claude 等) が読みやすい形にする方法。Daylio / How We Feel / Finch / Reflectly の 
+- [端末に residual するネイティブ client の版数ゲート最小構成 (ヘッダ + サーバ定数 1 個)](pattern/native-client-version-gate-minimal.md) — `global` — Web + API + ネイティブアプリ (iOS/Android) を 1 リポジトリで持つ個人〜小規模プロダクトで
 - [SQLite で polymorphic Feature プラグイン基盤を組む (kind + JSON config)](pattern/polymorphic-feature-plugin-sqlite.md) — `global` — エンティティに「種類の違う付加機能」を 0..N 個アタッチしたいケース。例:
 - [ポータブル設計のリアルタイム救命系スタック (Hono + Prisma+PostGIS + 自前 ws + Expo Push)](pattern/portable-realtime-rescue-stack.md) — `global` — 「位置共有 + 即時通知 + 双方向 WS」を要求する救命/防災/オンコール系アプリ。
 - [月次定期ルールを未確定 record として materialize する家計簿パターン (RRULE不採用・lazy補充)](pattern/recurring-rule-materialize-unpaid-records.md) — `global` — サブスク/クレカ/給料のような「毎月固定日・固定額の収支」を扱う家計簿で、定期収支を未来へ展開して残高着地予測に効かせたい場面。カレンダー系 (会議/シフト) とは要件が違う:
@@ -95,6 +96,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Atender RoomCalendar に Google Calendar 相当 (RRULE + .ics import + タイトルマッピング) を載せる BP](../projects/atender/.knowledge/06-calendar-rrule-ics-import.md) — `atender` — Atender は時間割 (`Meeting` / `MeetingOccurrence`) と Room ベースの単発予定 (`RoomEvent`) を持つ。現状 `RoomEvent` は **単発のみ** で recurrence 
 - [Atender — Google Calendar OAuth 連携 (better-auth incremental scope + Calendar v3 sync) BP](../projects/atender/.knowledge/07-google-calendar-oauth-integration.md) — `atender` — Atender は better-auth 1.6.11 で Google Sign-In を既に持つ (apps/api/src/auth.ts の socialProviders.google)。現状の scope は openid e
 - [個人カレンダーは時間割をクライアント側で日付展開して実授業を出す (出席集計ではない)](../projects/atender/.knowledge/personal-calendar-data-source-meeting-expansion.md) — `atender` — 個人カレンダー (Home の「カレンダー」タブ) で「TimeTree のように中身 (実授業) を表示」したい。`useSemesterOverview` の `days[]` は **1 日 1 件の出席ステータス集計** (ALL_
+- [iOS UI 刷新 — 事前リサーチの確定事実と、やることリスト](../projects/atender/.knowledge/ui-revamp-findings.md) — `atender` — Touri の要望 (2026-07-17):
 
 ## gotcha
 - [API テストの日付 fixture は本番の正規化規約 (JST midnight instant) に合わせる](gotcha/api-test-date-fixtures-must-match-production-normalization.md) — `global` — Atender 学期再設計の Reviewer 検証。`POST /api/attendance/bulk` 等の新 bulk API への
@@ -117,6 +119,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [描画テストを起こすなら設計docにコンポーネントの prop 契約を明記させる](gotcha/design-must-specify-component-prop-contract-for-render-tests.md) — `global` — atender UI改善 項目1。設計docの「挙動仕様」が TimetableView の描画結果
 - [設計書の error code 表記が「明示」か「例示」か曖昧で実装/テストが食い違う](gotcha/design-spec-implicit-vs-explicit-error-codes.md) — `global` — 設計書 §4.x で API エラーレスポンスを以下のように列挙していた:
 - [docker build が package.json#prepare の lefthook/husky install で落ちる](gotcha/docker-build-git-hook-prepare-script.md) — `global` — `.dockerignore` で `.git` を除外した Docker build context で `pnpm install` (npm/yarn も同様) を
+- [DTO 型直書きの decode テストは repository の配線を検証しない (層は全部正しいのに画面が壊れる)](gotcha/dto-type-literal-decode-tests-bypass-repository-wiring.md) — `global` — atender iOS で「ルーム詳細画面が丸ごとエラー表示」になるバグ。原因は `RoomRepository.roomWeek()` が
 - [env モジュールの import 時パースが実行時 env 差し替えテストを無効化する](gotcha/env-module-import-time-parse-defeats-runtime-env-swap.md) — `global` — atender `apps/api` の `src/env.ts` は `EnvSchema.parse(process.env)` を **モジュール import 時に一度だけ**実行し、以後 `env` オブジェクトはその時点の値で固
 - [Expo の `process.env.EXPO_PUBLIC_*` は **直接参照** しないと bundle に inline されない](gotcha/expo-public-env-static-replacement.md) — `global` — Expo (SDK 50+) は `process.env.EXPO_PUBLIC_*` を build時に **literal 値で static 置換** する。これにより mobile bundle / web bundle に en
 - [忠実移植で handle の "@" 前置はView層限定 (データ/純粋ロジックは生handle)](gotcha/faithful-port-handle-at-prefix-is-view-only.md) — `global` — Atender iOS Phase D の RoomCalendarLogic.buildCalendarEvents / RoomTimetableLogic.buildEvents で、
@@ -125,6 +128,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Hono の app.request() はテスト経路で HTTP ヘッダ値を Latin-1 (ByteString) に制限する](gotcha/hono-app-request-header-latin1-constraint.md) — `global` — better-auth + Hono + Vitest で「匿名サインインに日本語名を `x-guest-name` ヘッダで渡す」テストを書こうとすると、
 - [Hono の errorMiddleware で AppError の status を読み損ねると全部 500 になる](gotcha/hono-error-middleware-apperror-status.md) — `global` — Hono で `class AppError extends Error { status, code, ... }` を定義し、route handler で `throw new AppError(409, "EMAIL_TAKEN",
 - [iCloud 同期下の venv/git が間欠 import・checkout stall する](gotcha/icloud-synced-venv-git-stall.md) — `global` — Muraki の repo は `/Users/touri/Documents/Creatives/Developments/Muraki/...` にある。macOS の `~/Documents` は **iCloud Drive 同期
+- [ICS 終日イベント (VALUE=DATE) は floating date — サーバの TZ で UTC 実体がズレる (dev=JST / 本番コンテナ=UTC)](gotcha/ics-all-day-floating-date-depends-on-server-tz.md) — `global` — atender の ICS インポートのレビューで、終日イベントの assert が
 - [iOS Info.plist に UILaunchScreen が無いとレターボックス(上下黒帯)描画になる](gotcha/ios-missing-uilaunchscreen-letterbox.md) — `global` — atender iOS を実機/シミュレータで起動すると、画面上下に黒帯が出て「小型デバイス(SE)相当に縮小描画」されているように見えた。時間割グリッドが途中で切れ、safe-area も狂ってタブバー下の余白が不揃いだった。
 - [jsdom の getBoundingClientRect は常に 0 を返す](gotcha/jsdom-getboundingclientrect-zero.md) — `global` — OMATASE デザインモック (Vitest + RTL + jsdom) のレビューで、設計 §10.9 にあった
 - [Vitest の jsdom 環境で localStorage が未提供 (setItem is not a function)](gotcha/jsdom-no-localstorage-in-vitest.md) — `global` — CF風 UI 再設計 (kinketsu-taisaku) の Reviewer 検証。`useTheme` は ThemeMode を
@@ -148,6 +152,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [TanStack Router factory export 時のテスト用 memory history 注入](gotcha/tanstack-router-factory-test-memory-history.md) — `global` — Atender web (Vite + React + TanStack Router) で Reviewer が RTL + jsdom 環境のテストを書く際、router を Provider 経由で立ち上げる helper を作ろうと
 - [pickFirstFunction の Object.values fallback で Prisma.sql タグ等を誤拾い](gotcha/test-pickfirstfunction-fallback-traps.md) — `global` — Reviewer がテスト生成時、対象モジュールの export 名が設計書に明示されていない場合、
 - [testcontainers + postgres で 「ready to accept connections」を 1 回だけ待つと早期接続失敗](gotcha/testcontainers-postgres-double-ready-log.md) — `global` — testcontainers で PostgreSQL を spawn し、global setup で `Wait.forLogMessage(/database system is ready to accept connections
+- [Vitest の CJS/ESM interop は Node より寛容 — interop バグは in-process テストでは原理的に検出できない](gotcha/vite-cjs-esm-interop-hides-node-esm-failures.md) — `global` — atender の ICS インポート (`POST /api/rooms/:id/ics-imports`) が本番・dev で**一度も動いたことがなかった**。
 - [Vitest で Expo/React Native モジュールを import する時の落とし穴](gotcha/vitest-expo-rn-import-pitfalls.md) — `global` — Tsunagu Mobile (Expo + React Native + TypeScript) で Reviewer が Vitest テストを生成した際、Zustand store のテストで実装をimportした瞬間に
 - [vi.mock("node:fs/promises") は specifier が違うと当たらない](gotcha/vitest-mock-fs-specifier-mismatch.md) — `global` — Reviewer が Next.js App Router の route handler (例: `src/app/u/[handle]/logo/route.ts`) のテストを書く際、ファイル読み込みを mock するために `vi.
 - [Vitest server テストで app の DB に対し setup で migration を流さないと "no such table" で全 fail する](gotcha/vitest-server-setup-must-migrate-app-db.md) — `global` — Hono + Drizzle + better-sqlite3 + better-auth スタックで、設計 doc に「起動時 migration を `src/server/index.ts` で実行する」と書くと、**テストでは `i

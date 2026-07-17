@@ -73,3 +73,21 @@ npx -y @puppeteer/browsers install chrome@stable --path ~/.cache/chrome-devtools
 - **MCP 設定変更** (`.mcp.json` 編集) 後は Claude Code の **再起動が必須**。現セッションは旧 MCP プロセスに繋がったまま。ログイン手順での Chrome プロセス kill とは別物。
 - Notion 等のログインは **profile ごとに 1 回ずつ必要**。project を増やすほどログイン手数が増える tradeoff。
 - AI エージェントがログイン作業を代行しない (パスワード等を扱わせない)。
+
+### ★ MCP が繋がっていないセッションでスクショが要るとき — CDP を使う。`--screenshot` CLI フラグは使うな (2026-07-17)
+
+chrome-devtools MCP が当該セッションに接続されていない場合 (別の MCP セット / headless cron 等) にバイナリを直叩きしたくなるが、**`--headless --screenshot=out.png <url>` / `--dump-dom` のワンショット CLI フラグは Chrome 148 でハングする** (`about:blank` すら固まる。プロセスは生きているが終了しない。`sample` すると main thread が `mach_msg` で待機)。ログも空のまま。**これを「Chrome が壊れた / タブの開きすぎ / ネットワーク不通」と誤診しやすい** — 実際は全部シロで、フラグの選択ミス。
+
+**正しい経路は CDP** (chrome-devtools MCP が内部で使っているのと同じ):
+
+```sh
+CHROME="$(ls -d ~/.cache/chrome-devtools-mcp/browsers/chrome/mac_arm-*/chrome-mac-arm64/"Google Chrome for Testing.app"/Contents/MacOS/"Google Chrome for Testing" | sort -V | tail -1)"
+"$CHROME" --headless=new --disable-gpu --no-sandbox \
+  --user-data-dir="$HOME/.cache/chrome-devtools-mcp/chrome-profile" \
+  --remote-debugging-port=9333 about:blank &
+curl -s http://127.0.0.1:9333/json/version   # 1 秒で応答する = 生きている
+```
+
+あとは CDP over WebSocket で `Page.navigate` → `Page.loadEventFired` 待ち → `Page.captureScreenshot`。`websockets` (Python 16.0) が入っている。実装例: このセッションの scratchpad `cdp_shot.py` (`Emulation.setDeviceMetricsOverride` でモバイル寸法を出せる)。
+
+**切り分けの鉄則**: headless が「壊れた」ように見えたら、まず `about:blank` を CDP (`--remote-debugging-port` + `/json/version`) で叩く。応答すれば Chrome は無罪で、ワンショット CLI フラグ側の問題。`--screenshot` の 2 分ハングを見て環境を疑う前に経路を疑う。

@@ -32,6 +32,17 @@ atender の iOS UI 刷新で、自前 `BottomTabBar` を native `TabView` に置
 影響範囲は tab bar だけではない。**nav bar の back chevron / toolbar も同じ asset を引く**ので、
 `TabView` にだけ `.tint` を当てると **タブは azure・back は orange** という中途半端な状態になる。
 
+**★ ただし back chevron の色は OS 版数で変わる (2026-07-17 Reviewer がピクセル実測)。「back が accent 色で出る」は iOS 26 では成り立たない**:
+
+| | 選択タブ | nav bar の system back chevron |
+|---|---|---|
+| **iOS 18.2** | asset の accent (実測 `(30,150,230)` = `#1E96E6` ちょうど) | **asset の accent** (同じく `(30,150,230)` = 完全一致) |
+| **iOS 26.5** | asset の accent (ガラス合成で `(19,139,220)` = 約 17 のズレ) | **モノクロ `(25,25,29)`** — accent を引かない (Liquid Glass の丸ガラス back は label 色で描かれる) |
+
+→ **検証条項を「26 で back が azure か」で書くと、asset が正しくても永久に満たされず偽 RED になる** (atender 設計 §10.1-2b が実際にこの形で書かれていた)。
+**back が accent を引くことの確認は iOS 18 系で取る。26 側で見るべきは「orange が 1px も無いこと」**。
+ガラス合成による accent のズレ (d≈17) は退行ではないので、`==` でなく**「azure と orange のどちらに近いか」で判定する**。
+
 ## Why
 
 **死に資産は「消費者が 0 だから」腐ったまま生き延びる。**

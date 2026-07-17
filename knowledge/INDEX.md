@@ -126,6 +126,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [env モジュールの import 時パースが実行時 env 差し替えテストを無効化する](gotcha/env-module-import-time-parse-defeats-runtime-env-swap.md) — `global` — atender `apps/api` の `src/env.ts` は `EnvSchema.parse(process.env)` を **モジュール import 時に一度だけ**実行し、以後 `env` オブジェクトはその時点の値で固
 - [Expo の `process.env.EXPO_PUBLIC_*` は **直接参照** しないと bundle に inline されない](gotcha/expo-public-env-static-replacement.md) — `global` — Expo (SDK 50+) は `process.env.EXPO_PUBLIC_*` を build時に **literal 値で static 置換** する。これにより mobile bundle / web bundle に en
 - [忠実移植で handle の "@" 前置はView層限定 (データ/純粋ロジックは生handle)](gotcha/faithful-port-handle-at-prefix-is-view-only.md) — `global` — Atender iOS Phase D の RoomCalendarLogic.buildCalendarEvents / RoomTimetableLogic.buildEvents で、
+- [負のコントロールの復元に git checkout -- を使うと、レビュー対象の未コミット作業を消す](gotcha/git-checkout-restore-destroys-uncommitted-work.md) — `global` — Reviewer が負のコントロール (mutation testing) を回すとき、対象ファイルを一時的に壊して
 - [Go nil slice が JSON null になり MCP 空状態契約 (空配列) を破る](gotcha/go-nil-slice-null-breaks-mcp-empty-state-contract.md) — `global` — MCP ツールの typed struct 出力 (go-sdk `AddTool[In, Out]`) で「空状態はエラーでなく空コレクションで返す」契約を設計docに書いた。実装は Out struct の slice フィールドを未初
 - [chrome-devtools MCP の headless スクショは backdrop-filter 多用ページで captureScreenshot がタイムアウト](gotcha/headless-screenshot-backdrop-filter-timeout.md) — `global` — frosted glass (glassmorphism) UI を chrome-devtools MCP の headless で `take_screenshot` すると `Page.captureScreenshot timed 
 - [Hono の app.request() はテスト経路で HTTP ヘッダ値を Latin-1 (ByteString) に制限する](gotcha/hono-app-request-header-latin1-constraint.md) — `global` — better-auth + Hono + Vitest で「匿名サインインに日本語名を `x-guest-name` ヘッダで渡す」テストを書こうとすると、
@@ -151,6 +152,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Prisma $queryRaw が PostGIS geography カラムをデシリアライズできない](gotcha/prisma-geography-deserialize-error.md) — `global` — Prisma schema で `geom geography` を `Unsupported("geography")` で宣言している場合、
 - [app の PrismaClient シングルトンが .env.test の DATABASE_URL を pin して、テスト毎の DB 切替が効かない](gotcha/prisma-singleton-pinned-to-env-test-database-url.md) — `global` — Atender Phase 4 (v3) の Reviewer 召集で、API テスト 110 件中 101 件が `PrismaClientInitializationError: Error querying the database:
 - [set -e + resp=$(curl --fail-with-body) はエラー body をログに出さずに死ぬ](gotcha/set-e-swallows-curl-fail-with-body.md) — `global` — CI の step で外部 API を叩き、失敗時に**レスポンス body をログに残したい**とき。
+- [バンドル資源を削除した後の xcodebuild は古い DerivedData で偽の RED を出す (実装は無罪)](gotcha/stale-deriveddata-false-red-after-resource-deletion.md) — `global` — atender の UI 刷新 P1 で、バンドル済フォント (`Inter-*.ttf` 5 本 + `NotoSansJP`) を**削除**し、`project.yml` の `UIAppFonts` を 7 件 → 1 件に減らした
 - [SwiftUI の final class + @MainActor な Store/ViewModel は XCTest でサブクラスモックできない](gotcha/swiftui-final-mainactor-store-not-mockable-in-xctest.md) — `global` — SwiftUI + Observation で `@Observable @MainActor final class AuthStore`/`ViewModel` を作り、設計doc に「テスト時は Keychain / APIClien
 - [SwiftUI で固定 minWidth のボタン群が幅超過すると親ごと画面幅を突破して全体が左シフトする](gotcha/swiftui-fixed-minwidth-row-overflows-parent.md) — `global` — atender ホームの出欠 CTA を展開すると、パネル内のステータスボタン(出/欠/公/遅/早/休 の6個)が並ぶ。展開した瞬間、**画面全体が左にずれて両端が見切れる**バグが出た(「自分」チップや学期名が画面外へ)。
 - [Font.custom の無言フォールバックが UIAppFonts 登録漏れを隠す (検証は UIFont(name:) で)](gotcha/swiftui-font-custom-silent-fallback-hides-missing-uiappfonts.md) — `global` — atender iOS は Inter 5 種 + NotoSansJP をバンドルし `Typography.swift` が `Font.custom("Inter-Medium", …)` を呼んでいた。
@@ -177,6 +179,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Codex CLI / Gemini CLI を並列レビューに使うときの癖](tool-quirk/codex-gemini-cli-parallel.md) — `global` — 複数 LLM で同じコードを独立レビューさせ、結果を JSON で集約したい。
 - [Coolify API の癖と未公開仕様](tool-quirk/coolify-api.md) — `global` — Coolify (オンプレ Ubuntu サーバ `coolify.aisaba.net`) を HTTP API 経由で操作する際、公式 OpenAPI と実装の食い違い・公式 docs に書いてない癖が多数ある。MeishiLink デ
 - [画像生成は Codex (Images2 / gpt-image-1) 優先、Gemini Nanobanana より高品質](tool-quirk/image-generation-models.md) — `global` — CLAUDE.md の役割分担では「Gemini = 画像などビジュアル面」と一般原則が書かれている。しかし画像生成タスクに限って言えば、ユーザーの実体験に基づく判断として **Codex (内部的に OpenAI Images-2 / g
+- [plutil -extract は -o - を省くと入力ファイルを抽出結果で上書きする](tool-quirk/plutil-extract-overwrites-input-file.md) — `global` — iOS の検証で Info.plist の値を確認したくなる場面は多い
 
 ## other (uncategorized)
 - [Atender Pre-design Research Summary](../projects/atender/.knowledge/00-research-summary.md) — `atender` — 調査日: 2026-05-13 / 調査者: researcher (Gemini + WebFetch + WebSearch + `npm view`)。

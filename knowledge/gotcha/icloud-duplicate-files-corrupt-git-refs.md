@@ -57,11 +57,16 @@ iCloud / Finder は同名衝突時にファイル名へ ` 2` を付けて複製�
 **検出**:
 
 ```sh
-find <repo>/.git \( -name "* 2" -o -name "* 3" -o -name "* 2.*" \) 2>/dev/null
-git -C <repo> fsck --no-progress 2>&1 | grep -E "badRefName|invalid"
-# ツリー全体を舐めるなら
-find <root> -path "*/.git/*" \( -name "* 2" -o -name "* 3" \) 2>/dev/null
+# 連番は 2 で止まらない (実際に "index 4" が居た)。数字を決め打ちせず正規表現で拾う
+find <root> -path "*/.git/*" -regex '.* [0-9]+\(\..*\)?$' 2>/dev/null | grep -v node_modules
+# BSD find (macOS) は -regex が既定で basic。上が効かなければ列挙で:
+find <root> -path "*/.git/*" \( -name "* 2" -o -name "* 3" -o -name "* 4" -o -name "* 2.*" \) 2>/dev/null | grep -v node_modules
+
+# 実害の有無は fsck が唯一の正典 (複製があっても refs/ 以外なら無害)
+git -C <repo> fsck --no-progress 2>&1 | grep "^error"
 ```
+
+**find の結果でなく `fsck` で実害を判定する。** 2026-07-17 の実測では複製 15 個中、**実害があったのは refs/ 配下の 2 個だけ** (atender と tomori) で、残り 13 個 (`index N` / `AUTO_MERGE 2` / `logs/HEAD 2`) は無害だった。
 
 `git fsck` の `dangling commit` は**正常な残骸**なので無視してよい。拾うのは `error:` 行だけ。
 

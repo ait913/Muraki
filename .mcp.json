@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "chrome-devtools": {
+      "type": "stdio",
+      "command": "/Users/touri/Documents/Creatives/Developments/Muraki/scripts/chrome-devtools-mcp.sh",
+      "args": ["default"]
+    }
+  }
+}

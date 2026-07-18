@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-07-17
+Generated: 2026-07-18
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -72,6 +72,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [端末に residual するネイティブ client の版数ゲート最小構成 (ヘッダ + サーバ定数 1 個)](pattern/native-client-version-gate-minimal.md) — `global` — Web + API + ネイティブアプリ (iOS/Android) を 1 リポジトリで持つ個人〜小規模プロダクトで
 - [OS 版数で分けるのは「質感」だけ。機能・レイアウト・IA を分けない](pattern/os-version-split-texture-not-function.md) — `global` — iOS 26 の Liquid Glass を採用したいが、deployment target を 26 に上げると
 - [SQLite で polymorphic Feature プラグイン基盤を組む (kind + JSON config)](pattern/polymorphic-feature-plugin-sqlite.md) — `global` — エンティティに「種類の違う付加機能」を 0..N 個アタッチしたいケース。例:
+- [別プラットフォームの視覚品質を移植する — 値でなく「性格」を写す](pattern/port-visual-character-not-tokens.md) — `global` — atender は Web 版が「丸めでポップで綺麗」なのに iOS ネイティブ版が「詰め詰めで10年前」になった。原因を「Web トークンを iOS に 1:1 移植していないから」と誤診しやすいが、実際は逆だった。iOS の DESIG
 - [ポータブル設計のリアルタイム救命系スタック (Hono + Prisma+PostGIS + 自前 ws + Expo Push)](pattern/portable-realtime-rescue-stack.md) — `global` — 「位置共有 + 即時通知 + 双方向 WS」を要求する救命/防災/オンコール系アプリ。
 - [月次定期ルールを未確定 record として materialize する家計簿パターン (RRULE不採用・lazy補充)](pattern/recurring-rule-materialize-unpaid-records.md) — `global` — サブスク/クレカ/給料のような「毎月固定日・固定額の収支」を扱う家計簿で、定期収支を未来へ展開して残高着地予測に効かせたい場面。カレンダー系 (会議/シフト) とは要件が違う:
 - [リモートMCPのマルチテナント設計 — per-project URL バインド + 自前AS + 事実/判断の線引き](pattern/remote-mcp-multitenant-self-as.md) — `global` — クラウド上のリモート MCP サーバー（Claude Code / Codex から URL 追加 + OAuth）を、複数チーム・複数リポでマルチテナント運用したい。かつ「推論はホスト agent に委譲、サーバーは事実だけ持つ」構成（d

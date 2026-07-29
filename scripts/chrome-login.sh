@@ -56,4 +56,8 @@ if pgrep -f "${USER_DATA_DIR}" >/dev/null 2>&1; then
 fi
 
 mkdir -p "${USER_DATA_DIR}"
-exec "${CHROME}" --user-data-dir="${USER_DATA_DIR}" ${URLS[@]+"${URLS[@]}"}
+# --use-mock-keychain: headless の chrome-devtools-mcp.sh と同じ固定鍵で cookie を暗号化し、
+# ここで手動ログインしたセッションを headless 側で復号・継承できるようにする (macOS 実 Keychain
+# を使うと headless が認証ダイアログを出せず復号失敗する)。
+# 詳細: knowledge/gotcha/chrome-for-testing-macos-keychain-cookie.md
+exec "${CHROME}" --user-data-dir="${USER_DATA_DIR}" --use-mock-keychain ${URLS[@]+"${URLS[@]}"}

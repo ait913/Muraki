@@ -54,6 +54,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [「N件を1値に潰した集計」の拡張は、内訳を additive に足して潰した値を legacy 据え置きにする](pattern/collapsed-summary-add-breakdown-keep-legacy-value.md) — `global` — サーバが「1 日 N 件の出欠」「1 リポジトリ N 件の CI 結果」のような **N 件 → 1 値** の畳み込みを
 - [Coolify アプリのデプロイ詰まり調査フロー](pattern/coolify-deploy-debug-flow.md) — `global` — Coolify でデプロイしてアプリが想定通りアクセス可能にならないとき、原因が「ビルド」「コンテナ起動」「環境変数」「Traefik routing」「Cloudflare proxy」のどこにあるか切り分けるパターン。MeishiLin
 - [出席率の分母から「一括休講日」を除外する標準パターン (Course × Date 中間テーブル)](pattern/course-suspension-denominator-reduction.md) — `global` — 出欠管理アプリで「学園祭振替で来週月曜は休講」のように**科目全体 × 特定日付**で休講を宣言する場面。個別 occurrence の `status=CANCELLED` で手動マークする方式だけだと:
+- [専用カレンダーへの一方向エクスポート — 識別子を成果物自身に埋めて差分を取る](pattern/dedicated-calendar-one-way-export-self-describing-key.md) — `global` — 自アプリのデータ (授業・シフト・予約など) を OS のカレンダー (EventKit / CalendarContract 等) に反映したいとき。
 - [パニック時 UI の設計トークンと挙動原則 (緊急アプリ向け)](pattern/emergency-ui-design-tokens.md) — `global` — 「人が倒れた」「火災が起きた」など極度のパニック時にユーザーが操作する UI の設計。
 - [Postgres + Node でのアプリ層 envelope encryption パターン (Coolify セルフホスト)](pattern/envelope-encryption-postgres-node.md) — `global` — 個人ヘルスケア / メンタル系アプリで「ログ取らない・コード公開可・at-rest 暗号化・LLM 処理時のみ in-memory 復号」を実装したい。バックエンドは Coolify (Docker) + Postgres、ソロ運用。
 - [wildcard DNS 配下ではサブドメインをフラット 1 レベルに固定する](pattern/flat-subdomain-naming-under-wildcard-dns.md) — `global` — `*.appily.run` / `*.n-wasabi.org` のような **wildcard CNAME → Cloudflare Tunnel → Nginx → Coolify Traefik** 構成で、

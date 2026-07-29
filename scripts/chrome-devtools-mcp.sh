@@ -38,8 +38,13 @@ fi
 
 mkdir -p "${USER_DATA_DIR}"
 
+# --use-mock-keychain: macOS の実 Keychain (Chromium Safe Storage) を使わず決定的な固定鍵で
+# cookie を暗号化する。headless 起動時の Keychain 認証ダイアログ (headless では応答不能→復号失敗
+# →ログイン cookie が使えない) を回避し、かつ chrome-login.sh の GUI 起動と同じ鍵にして
+# ログインセッションを継承可能にする。詳細: knowledge/gotcha/chrome-for-testing-macos-keychain-cookie.md
 exec npx -y chrome-devtools-mcp@latest \
   --headless \
   --userDataDir "${USER_DATA_DIR}" \
   --executablePath "${CHROME}" \
+  --chromeArg=--use-mock-keychain \
   ${@+"$@"}

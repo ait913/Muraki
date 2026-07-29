@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-07-18
+Generated: 2026-07-29
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -17,10 +17,14 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Claude Haiku 4.5 API 仕様 (2026年5月時点)](library/claude-haiku-4-5-api.md) — `global` — 秘書系・チャット・軽量エージェント用途で Claude を使う際の最新スペック。Haiku 4.5 をデフォルトに据える時の参照。
 - [Cloudflare Tunnel 1 本でオンプレ全公開 (HTTPS + SSH, 2026年5月構成)](library/cloudflare-tunnel-2026.md) — `global` — オンプレ Ubuntu サーバー (`192.168.3.17`、SoftBank光) で運用している全サブドメイン (aisaba.net / appily.run / ceez7.com / SSH) を Cloudflare Tunn
 - [Coolify の static build pack はビルドしない (リポジトリをそのまま nginx で配る)](library/coolify-static-buildpack.md) — `global` — `build_pack` enum に `static` があるが、公式 docs は「静的サイト用」としか言わない。
+- [EventKit (iOS 17+) — 権限分離・カレンダー/イベント識別子の安定性・双方向同期の要点](library/eventkit-ios17-access-and-sync-identifiers.md) — `global` — iOS ネイティブアプリから iPhone/iCloud のローカルカレンダー (EventKit) と双方向同期する設計をするとき。iOS 17 で権限モデルが full/write-only に分離された後の実在 API・availab
+- [EventKit の繰り返しモデル — RRULE 表現力・例外(detached)・span・occurrence 展開](library/eventkit-recurrence-model.md) — `global` — iOS アプリで「予定の繰り返し」を扱い、それを EventKit (iPhone 標準カレンダー) と同期する設計をするとき。
+- [Expo SDK 57 (RN 0.86/New Arch) の地図・背景位置・WSクライアント事情](library/expo-sdk57-maps-location-ws.md) — `global` — omatase (位置共有アプリ) の Pre-design Research で SDK 57 + RN 0.86 (newArchEnabled) の実装ライブラリを確定した時の一次確認。
 - [GitHub OAuth App (classic) の callback URL は 1 本のみ — redirect_uri はサブディレクトリ一致で分岐可](library/github-oauth-app-callback-url-rules.md) — `global` — 1 つの GitHub OAuth App (classic) を「MCP 認証の federate 先」と「Web ダッシュボードのログイン」の両方で使いたい場面 (dandan-app stateful 転換)。
 - [公式 GitHub MCP server の認証設計と MCP write/inform 指針 (2026)](library/github-official-mcp-auth-2026.md) — `global` — dandan (リモート MCP, GitHub App 認証, Issues R/W) の「書き込みを持つ意味・App install 摩擦の妥当性」を判断するため、公式 GitHub MCP と他社リモート MCP の認証・write設
 - [GitHub org members / collaborators API と classic OAuth scope (repo vs read:org) 2026](library/github-org-members-collaborators-scopes.md) — `global` — dandan-app (OAuth App classic, scope=`repo`) で org メンバーを名簿候補に拾う設計の事前調査 (2026-07-07)。
 - [iOS の「一瞥」表示面 (Widget / Live Activity / Dynamic Island) の実在 API と最低バージョン](library/ios-glanceable-surfaces-availability.md) — `global` — 「移動中・片手・数秒」で情報を出す iOS の面 (ウィジェット / Live Activity / Dynamic Island) を設計に載せる前の実在確認。
+- [iOS QR コード 生成 (CoreImage) / スキャン (VisionKit DataScanner)](library/ios-qr-generate-scan.md) — `global` — アプリ内 QR 招待 (友達追加/ルーム招待) を SwiftUI (iOS 17 target) で実装するときの標準 API。外部ライブラリ不要。すべて compile-verified (swiftc -typecheck, iOS1
 - [日本の救急 時間帯別分布データ (令和元年→令和5年比較)](library/jp-emergency-time-distribution.md) — `global` — 日本の救急業務の「平均値」ではなく「分布形状」が必要なとき (UX訴求コピーや緊急度判定設計の根拠)。消防庁公式統計から確定したロングテール構造データ。
 - [日本のOHCA場所別生存率と現着時間の真実 (JAMA 2019・東京令和5年・全国Utstein 2018)](library/jp-ohca-location-survival.md) — `global` — 救急関連プロダクトで「平均14分」「20分以上ロングテール」の上位の話を求めるとき。OHCAの生存率は **発生場所で18倍違う**。EMS現着時間自体の場所差は1分しかない。設計判断を誤らないために必読。
 - [日本のOHCA・救急医療マクロ統計 (2023年実績)](library/jp-ohca-stats.md) — `global` — 日本向け救命系アプリ・防災UX設計時の基礎データ。2026年5月時点で確認した最新公式値。
@@ -47,6 +51,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [週パターン (曜日+時限) → 絶対日付 occurrence 展開を Backend に寄せる pattern](pattern/calendar-week-pattern-meeting-expansion.md) — `global` — 時間割 / 繰り返し予定 / シフト等で「毎週月曜の 1 限」のような週パターンと、出欠記録のような「特定日の単位」を両立させる schema 設計。展開ロジックを Backend / Frontend のどちらに置くかの判断基準。
 - [CBT 系 AI コンパニオン対話の設計パターン (System prompt + 安全境界)](pattern/cbt-ai-companion-dialog.md) — `global` — メンタルウェルネス / 生活リズム改善 / AI 秘書系アプリで、LLM (Claude Haiku 4.5 等) を「相談相手」として配置する場面。Woebot / Wysa / Earkick / Replika / Pi / Rose
 - [Cloudflare dashboard の視覚デザイン言語 (token 抽出 + Tailwind v4 移植案)](pattern/cloudflare-dashboard-design-language.md) — `global` — 家計簿アプリ等で「Cloudflare dashboard 風」の高密度・実務的な UI を作りたい場面。CF dashboard は **デスクトップ高密度 + 左サイドバー** 型。本パターンは CF の視覚言語を **design t
+- [「N件を1値に潰した集計」の拡張は、内訳を additive に足して潰した値を legacy 据え置きにする](pattern/collapsed-summary-add-breakdown-keep-legacy-value.md) — `global` — サーバが「1 日 N 件の出欠」「1 リポジトリ N 件の CI 結果」のような **N 件 → 1 値** の畳み込みを
 - [Coolify アプリのデプロイ詰まり調査フロー](pattern/coolify-deploy-debug-flow.md) — `global` — Coolify でデプロイしてアプリが想定通りアクセス可能にならないとき、原因が「ビルド」「コンテナ起動」「環境変数」「Traefik routing」「Cloudflare proxy」のどこにあるか切り分けるパターン。MeishiLin
 - [出席率の分母から「一括休講日」を除外する標準パターン (Course × Date 中間テーブル)](pattern/course-suspension-denominator-reduction.md) — `global` — 出欠管理アプリで「学園祭振替で来週月曜は休講」のように**科目全体 × 特定日付**で休講を宣言する場面。個別 occurrence の `status=CANCELLED` で手動マークする方式だけだと:
 - [パニック時 UI の設計トークンと挙動原則 (緊急アプリ向け)](pattern/emergency-ui-design-tokens.md) — `global` — 「人が倒れた」「火災が起きた」など極度のパニック時にユーザーが操作する UI の設計。
@@ -74,6 +79,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [SQLite で polymorphic Feature プラグイン基盤を組む (kind + JSON config)](pattern/polymorphic-feature-plugin-sqlite.md) — `global` — エンティティに「種類の違う付加機能」を 0..N 個アタッチしたいケース。例:
 - [別プラットフォームの視覚品質を移植する — 値でなく「性格」を写す](pattern/port-visual-character-not-tokens.md) — `global` — atender は Web 版が「丸めでポップで綺麗」なのに iOS ネイティブ版が「詰め詰めで10年前」になった。原因を「Web トークンを iOS に 1:1 移植していないから」と誤診しやすいが、実際は逆だった。iOS の DESIG
 - [ポータブル設計のリアルタイム救命系スタック (Hono + Prisma+PostGIS + 自前 ws + Expo Push)](pattern/portable-realtime-rescue-stack.md) — `global` — 「位置共有 + 即時通知 + 双方向 WS」を要求する救命/防災/オンコール系アプリ。
+- [リアルタイム系で WS は配信専用・REST を唯一の認可関門にする](pattern/realtime-broadcast-only-ws-rest-sole-authz-gate.md) — `global` — 位置/presence/チャット/ステータスを WS 1 本に載せるアプリ (omatase) で、REST と WS の
 - [月次定期ルールを未確定 record として materialize する家計簿パターン (RRULE不採用・lazy補充)](pattern/recurring-rule-materialize-unpaid-records.md) — `global` — サブスク/クレカ/給料のような「毎月固定日・固定額の収支」を扱う家計簿で、定期収支を未来へ展開して残高着地予測に効かせたい場面。カレンダー系 (会議/シフト) とは要件が違う:
 - [リモートMCPのマルチテナント設計 — per-project URL バインド + 自前AS + 事実/判断の線引き](pattern/remote-mcp-multitenant-self-as.md) — `global` — クラウド上のリモート MCP サーバー（Claude Code / Codex から URL 追加 + OAuth）を、複数チーム・複数リポでマルチテナント運用したい。かつ「推論はホスト agent に委譲、サーバーは事実だけ持つ」構成（d
 - [RRULE 文字列保存 + オンザフライ展開 + 編集 3 択 (single/future/all) の標準パターン](pattern/rrule-string-onfly-expand-with-overrides.md) — `global` — カレンダー / 予約 / 共有予定アプリで「繰り返し予定」を持ちたい場面。Google Cal / Apple Cal / Outlook と互換性のある RRULE (RFC 5545) を取り扱う必要がある時。
@@ -84,6 +90,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [自前AS の発行JWTに upstream token を AEAD 埋め込みするステートレス federation](pattern/stateless-oauth-federation-encrypted-upstream-token.md) — `global` — リモート MCP サーバー（自前 Authorization Server が upstream IdP=GitHub OAuth に federate）で、
 - [静的サイトの「配信範囲」は PaaS の設定でなく Dockerfile の COPY で定義する](pattern/static-site-serve-scope-as-copy-not-config.md) — `global` — 静的サイト (素の HTML/CSS、ビルド済 SPA 等) を PaaS に載せるとき、
 - [SwiftUI シートをコンテンツ高にフィットさせる — header/content/footer を実測して .height detent](pattern/swiftui-bottomsheet-content-fit-detent.md) — `global` — atender の共通 `BottomSheet` は `detents: [.large]` や `[.medium, .large]` を使っていた。内容が短いシート(授業の詳細など)では**シート高 > コンテンツ高**になり、下部に
+- [SwiftUI 折りたたみドロワー/せり上がりパネルは native sheet でなくカスタム overlay + ジェスチャー空間分離で作る](pattern/swiftui-custom-overlay-drawer-spatial-gesture.md) — `global` — 既存グリッド (縦 ScrollView + 内部に水平 drag する月カレンダー) の上に、上端プルダウン・ドロワーや下端せり上がりパネルを載せたい。native `.sheet` / `presentationDetents` は (
 - [TanStack Query を SwiftUI へ移植する — prefix invalidation キャッシュ + 楽観更新を純粋関数に分離](pattern/swiftui-tanstack-query-port-invalidation-cache.md) — `global` — Web (React) が TanStack Query の (a) クエリキャッシュ (b) prefix invalidation マトリクス (c) 楽観更新+ロールバック を持ち、それを SwiftUI ネイティブへ**忠実移植**
 - [TanStack Query の invalidation を設計 doc にマトリクスで書く](pattern/tanstack-query-invalidation-matrix.md) — `global` — TanStack Query (旧 React Query) で SPA を組むとき、「mutation 後にキャッシュが古いままで、ブラウザリロードしないと反映されない」 (= invalidate 漏れ) は最頻ハマり所。
 - [TanStack Query Polling 設計 (refetchInterval 値の選び方と動的停止)](pattern/tanstack-query-polling-strategy.md) — `global` — リアルタイム性が必要だが SSE / WebSocket を導入するほどではない場面 (MVP・遅延数秒許容・stateless backend) で、TanStack Query の `refetchInterval` で polling
@@ -107,6 +114,8 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [better-auth bearer は raw DB session token を受け付けない (signed token / set-auth-token 経由が必須)](gotcha/better-auth-bearer-plugin-token-format-coupling.md) — `global` — Atender iOS 土台で web の Cookie session に加えネイティブ用に better-auth `bearer()` plugin を足し、`Authorization: Bearer <token>` で `/ap
 - [better-auth テスト helper の cookie は Hono signed cookie 形式を再現する必要がある](gotcha/better-auth-test-cookie-must-match-hono-signed-format.md) — `global` — better-auth 1.6.x + Hono 4.12.x の API を Vitest + `app.request()` でテストする際、テスト helper で「Session 行を直接 prisma で作って Cookie ヘッ
 - [chrome-devtools MCP の fill は React controlled input の onChange を発火させない](gotcha/chrome-devtools-mcp-fill-react-controlled-input.md) — `global` — `mcp__chrome-devtools__fill` (またはツール呼び出し名 `fill`) で React の controlled input (`<input value={state} onChange={...} />`) 
+- [Chrome for Testing の cookie が headless で復号できず「ログインしてるのに使えない」](gotcha/chrome-for-testing-macos-keychain-cookie.md) — `global` — chrome-devtools MCP でログインが要るサイト (Slack 等) を読むとき、`chrome-login.sh` で
+- [クライアントの平坦 error 読みが nested error 封筒を全部 unknown に潰す](gotcha/client-flat-error-read-collapses-nested-error-envelope.md) — `global` — omatase web ゲスト (Next.js) の `api/client.ts` を設計契約だけからテストした。REST 正典
 - [「今日」をサーバと別の暦で決めると、毎日 N 時間だけ壊れる](gotcha/client-today-must-use-server-timezone.md) — `global` — atender の API は `apps/api/src/lib/tz.ts` で `APP_TZ = "Asia/Tokyo"` を固定し、
 - [Cloudflare Tunnel 経由は loopback 接続 — Nginx の IP allowlist に 127.0.0.1 を入れ忘れると 403](gotcha/cloudflare-tunnel-nginx-allowlist-loopback.md) — `global` — aisaba_platform の Nginx vhost には Cloudflare edge IP からのみ受け付ける allowlist が `cloudflare_only.conf` として include されている (`all
 - [Coolify の healthcheck が localhost→::1 で落ちる (Node の HOSTNAME=0.0.0.0 は IPv4 のみ bind)](gotcha/coolify-healthcheck-localhost-ipv6-vs-node-bind.md) — `global` — Coolify に app を建てるとき `health_check_host: "localhost"` を設定すると、
@@ -127,6 +136,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [env モジュールの import 時パースが実行時 env 差し替えテストを無効化する](gotcha/env-module-import-time-parse-defeats-runtime-env-swap.md) — `global` — atender `apps/api` の `src/env.ts` は `EnvSchema.parse(process.env)` を **モジュール import 時に一度だけ**実行し、以後 `env` オブジェクトはその時点の値で固
 - [Expo の `process.env.EXPO_PUBLIC_*` は **直接参照** しないと bundle に inline されない](gotcha/expo-public-env-static-replacement.md) — `global` — Expo (SDK 50+) は `process.env.EXPO_PUBLIC_*` を build時に **literal 値で static 置換** する。これにより mobile bundle / web bundle に en
 - [忠実移植で handle の "@" 前置はView層限定 (データ/純粋ロジックは生handle)](gotcha/faithful-port-handle-at-prefix-is-view-only.md) — `global` — Atender iOS Phase D の RoomCalendarLogic.buildCalendarEvents / RoomTimetableLogic.buildEvents で、
+- [interface fake だけのハンドラテストは DB 制約との食い違いを検出しない](gotcha/fake-store-tests-miss-db-constraint-drift.md) — `global` — DB 依存を避けるため、REST ハンドラのテストを `Store` interface の fake 実装に対して回すのは定石で、速くて安定する。omatase もその方針で、`internal/http` のテスト全部が fake st
 - [負のコントロールの復元に git checkout -- を使うと、レビュー対象の未コミット作業を消す](gotcha/git-checkout-restore-destroys-uncommitted-work.md) — `global` — Reviewer が負のコントロール (mutation testing) を回すとき、対象ファイルを一時的に壊して
 - [Go nil slice が JSON null になり MCP 空状態契約 (空配列) を破る](gotcha/go-nil-slice-null-breaks-mcp-empty-state-contract.md) — `global` — MCP ツールの typed struct 出力 (go-sdk `AddTool[In, Out]`) で「空状態はエラーでなく空コレクションで返す」契約を設計docに書いた。実装は Out struct の slice フィールドを未初
 - [chrome-devtools MCP の headless スクショは backdrop-filter 多用ページで captureScreenshot がタイムアウト](gotcha/headless-screenshot-backdrop-filter-timeout.md) — `global` — frosted glass (glassmorphism) UI を chrome-devtools MCP の headless で `take_screenshot` すると `Page.captureScreenshot timed 
@@ -135,18 +145,22 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [iCloud/Finder の「 2」複製が .git に湧いて ref を壊す (git が理不尽に落ちる・worktree が勝手に detached)](gotcha/icloud-duplicate-files-corrupt-git-refs.md) — `global` — Muraki の repo は `/Users/touri/Documents/Creatives/Developments/Muraki/...` = macOS の `~/Documents` = **iCloud Drive 同期対象
 - [iCloud 同期下の venv/git が間欠 import・checkout stall する](gotcha/icloud-synced-venv-git-stall.md) — `global` — Muraki の repo は `/Users/touri/Documents/Creatives/Developments/Muraki/...` にある。macOS の `~/Documents` は **iCloud Drive 同期
 - [ICS 終日イベント (VALUE=DATE) は floating date — サーバの TZ で UTC 実体がズレる (dev=JST / 本番コンテナ=UTC)](gotcha/ics-all-day-floating-date-depends-on-server-tz.md) — `global` — atender の ICS インポートのレビューで、終日イベントの assert が
+- [招待 deeplink QR の host 検証は URL を開かない限り防御力ゼロ](gotcha/invite-deeplink-qr-host-check-is-noop.md) — `global` — QR / universal link で招待 (ルーム参加・友達追加) を実装するとき、スキャン結果検証を
 - [日本語 UI なのに「英語アプリ」として出荷される (system の Back が "Back" になる)](gotcha/ios-japanese-ui-shipped-as-english-bundle.md) — `global` — atender iOS は UI 文字列が**全部ベタ書きの日本語**で、`.lproj` を 1 つも持たない。
 - [iOS Info.plist に UILaunchScreen が無いとレターボックス(上下黒帯)描画になる](gotcha/ios-missing-uilaunchscreen-letterbox.md) — `global` — atender iOS を実機/シミュレータで起動すると、画面上下に黒帯が出て「小型デバイス(SE)相当に縮小描画」されているように見えた。時間割グリッドが途中で切れ、safe-area も狂ってタブバー下の余白が不揃いだった。
 - [jsdom の getBoundingClientRect は常に 0 を返す](gotcha/jsdom-getboundingclientrect-zero.md) — `global` — OMATASE デザインモック (Vitest + RTL + jsdom) のレビューで、設計 §10.9 にあった
 - [Vitest の jsdom 環境で localStorage が未提供 (setItem is not a function)](gotcha/jsdom-no-localstorage-in-vitest.md) — `global` — CF風 UI 再設計 (kinketsu-taisaku) の Reviewer 検証。`useTheme` は ThemeMode を
 - [lazy materialize の rolling 補充が「生成 record の手動編集」を壊す](gotcha/lazy-materialize-rolling-vs-edit-conflict.md) — `global` — 定期ルール (月次) から未確定 record を未来へ実体生成する materialize 方式。
 - [Leaflet マップを使う画面で modal/overlay は z-index 1000 超え必須](gotcha/leaflet-zindex-vs-modal.md) — `global` — React アプリで Leaflet (react-leaflet) の地図と同一スクリーン内に modal / overlay を出した時、Tailwind の `z-20` や `z-50` 程度だと **modal が地図の Zoom
+- [lefthook の pre-commit が「ツール未インストール」で commit を無言中断する](gotcha/lefthook-missing-tool-silent-commit-fail.md) — `global` — omatase は lefthook の pre-commit で `golangci-lint`(*.go) / `oxfmt`・`oxlint`(*.md,*.ts 等) /
 - [MCP Apps UI の headless ハーネステストの落とし穴 (report-back / hostLog race / ui-message 形)](gotcha/mcp-apps-ui-harness-testing.md) — `global` — MCP Apps (iframe UI) の bridge レベル挙動を CI 可能な形で検証する: 親ページがホスト役 (ui/initialize 応答 + tools/call を実 /mcp へ proxy) の自作ハーネス + h
 - [移行関数を「移行後 schema で立つ test DB」でテストすると no such column で必ず落ちる](gotcha/migration-fn-untestable-on-final-schema.md) — `global` — カラムを A テーブルから B テーブルへ移す migration (例: Course.room → Meeting.room) のデータ移行ロジックを、テスト可能にするため service 関数 `migrateCourseRoomTo
 - [負のコントロールは「変異が届いたか」を先に証明する (無反応 = テストが無力、ではない)](gotcha/mutation-must-be-proven-to-reach-all-sites.md) — `global` — atender の版数ゲート (426 傍受) のレビューで、設計 §6.5 が
 - [標準部品への回帰が asset catalog の「死に資産」を蘇らせる (リブランド取り残しの掘り起こし)](gotcha/native-controls-resurrect-dead-asset-catalog-accent.md) — `global` — atender の iOS UI 刷新で、自前 `BottomTabBar` を native `TabView` に置換した (Liquid Glass 対応)。
+- [NEXT_PUBLIC_* は runtime env では届かない (Dockerfile ARG + build-time 指定の両方が要る)](gotcha/next-public-env-needs-dockerfile-arg.md) — `global` — Next.js の `NEXT_PUBLIC_*` は **ビルド時に client bundle へ文字列として焼き込まれる**。PaaS (Coolify 等) の env 画面に登録しただけでは、それは *runtime* env な
 - [Next.js route の baseUrl は req URL ではなく env 変数 (PUBLIC_BASE_URL) 由来](gotcha/nextjs-route-baseurl-env-vs-req.md) — `global` — vcard route handler が `PHOTO;VALUE=URI:` に絶対 URL を埋め込む。Reviewer のテストで `new Request("https://example.com/yamada/vcard")` 
 - [共有DTOに非Optionalフィールドを足すと inline JSON を持つ既存テストが decode throw で落ちる](gotcha/non-optional-dto-field-breaks-inline-json-tests.md) — `global` — iOS Phase iOS-1 再同期で `MeResponse.User` に `requiredAttendanceRate: Int` を**非Optional**で追加した (設計 §3.4、zod `z.number().int(
+- [非 Optional な DTO フィールド追加は wire では additive でも呼出し側には source-breaking](gotcha/non-optional-dto-field-is-not-additive-for-callers.md) — `global` — atender「公開時間割検索」で、shared zod と iOS の `TemplateDto` に **非 Optional** な
 - [PostgreSQL enum と text の比較は明示 cast が必要 (raw SQL)](gotcha/postgres-enum-text-cast-in-raw-sql.md) — `global` — Prisma で `enum Tier { TIER1 TIER2 TIER3 }` を定義し、設計書通りの raw SQL で半径検索 + Tier フィルタを書いた:
 - [prefix invalidation の対象は「素の prefix」であって完全修飾 queryKey ではない](gotcha/prefix-invalidation-target-must-be-bare-prefix.md) — `global` — TanStack Query の prefix invalidation を自前キャッシュ (Swift `QueryKey{ parts:[String] }` +
 - [occurrence の delete→regen は onDelete:Cascade で子レコードを道連れにする](gotcha/prisma-cascade-deletes-records-on-occurrence-regen.md) — `global` — 時間割アプリで「授業実体 (MeetingOccurrence) を日付範囲から再生成する」操作が複数ある (時間割編集・学期日付変更)。occurrence には出席記録 (AttendanceRecord) が `occurrenceI

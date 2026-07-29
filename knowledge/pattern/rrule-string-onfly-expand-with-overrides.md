@@ -189,14 +189,49 @@ await prisma.event.update({
 4. **編集 3 択 (single/future/all) を最初から body の `editScope` で受ける**。後付けで「editScope=all 想定の既存 endpoint に future を足す」と互換が崩れる
 5. **future 分割時は新シリーズを fresh で作る** (override / EXDATE を引き継がない)。元シリーズの過去回は元 override 適用、新シリーズは新たに開始
 6. **クライアントは `(seriesId, occurrenceDate)` をキー**にして CRUD ペイロードを組む。`occurrenceDate` は API レスポンスに必ず含める
-7. **DTSTART は UTC 保存**、TZID 解釈はアプリ層 (dayjs / luxon) で。Floating time はユーザー TZ (例: Asia/Tokyo) として解釈
+7. **★ DTSTART は UTC 保存だが、展開は「固定オフセット TZ を UTC に見立てた擬似空間」で行う** (下記「§ 固定オフセット TZ の展開」)。素の UTC 展開は BYDAY / BYMONTHDAY を UTC 暦で数えるので、**現地 00:00〜(オフセット) に始まる予定 — 終日予定は必ずここに入る — の曜日が 1 つ前になる**
 8. **RRULE 上限と range 上限は service 層で enforce**。`rrule.between(from, to, inc)` は構造的に無限ループしないが、`to-from` を制限しないとメモリ爆発の可能性
 9. **rrule npm の WKST デフォルト `MO`** を仕様として受け入れる。Apple Cal の WKST 無視はクライアント表示の問題、サーバー側は固定で OK
 10. **テストは fixture 駆動**: weekly / monthly BYDAY / BYMONTHDAY=-1 / EXDATE / RECURRENCE-ID の 5 種は最低 snapshot test を持つ
+11. **★ RRULE 文字列を組み立てるのはサーバ 1 箇所にする。** クライアントには構造化 spec (`{freq, interval, byDay[], monthlyMode, end:{kind:"never"|"until"|"count"}}`) を送らせ、レスポンスには `recurrenceRule` (文字列) と `recurrenceSpec` (構造) の**両方**を返す (下記「§ 構造化 spec を wire に乗せる」)
+12. **★ 同じ系列を 2 経路で展開するなら (例: 個人カレンダー + それを共有先へ投影)、両経路が同じ展開器・同じ暦を使っていることを確認する。** 片方だけ直すと同一 RRULE が 2 画面で別の日に出る
+
+## § 固定オフセット TZ (DST 無し) の展開 — 擬似 UTC シフト
+
+日本 (UTC+9) のように **DST が無い** TZ なら、luxon や `tzid` オプションを持ち込まずに 3 行で厳密解になる。
+
+```ts
+const OFFSET = 9 * 3600_000;
+const shift   = (d: Date) => new Date(d.getTime() + OFFSET);
+const unshift = (d: Date) => new Date(d.getTime() - OFFSET);
+
+expandBetween({
+  rrule:   shiftRRuleUntil(parts.rrule, OFFSET),   // ★ RRULE 内の UNTIL= もずらす
+  dtstart: shift(parts.dtstart),
+  exDates: parts.exDates.map(shift),
+  rDates:  parts.rDates.map(shift),
+}, shift(from), shift(to)).map(unshift);
+```
+
+`COUNT` はシフトの影響を受けない。**`UNTIL` を忘れると打ち切りがオフセット分ずれる**ので、`UNTIL=YYYYMMDDTHHMMSSZ` を正規表現で拾ってシフトする純関数を必ず併設する。
+
+検出テストは**現地 00:00〜オフセット時刻の標本**で書く: 「JST 月曜 00:00 開始・`FREQ=WEEKLY;BYDAY=MO`」が月曜に展開されること。正午の標本では UTC 展開でも曜日が一致してしまい、**バグが検出できない**。
+
+## § 構造化 spec を wire に乗せる (クライアント複数のとき)
+
+繰り返しピッカーを iOS (Swift) と Web (TS) の両方に作ると、RRULE 組み立てが 2 実装に割れる。プリセット数個なら耐えるが、`INTERVAL` / 複数 `BYDAY` / `COUNT` / `UNTIL` / カスタムを足した瞬間に組合せが爆発し、食い違いをテストで追い続けることになる。
+
+**クライアントは RRULE 文字列を組み立てない・解析しない**設計にすると、変換の実装がサーバ (or 共有パッケージ) の 1 個に閉じる:
+
+- 入力: `recurrence: { spec: RecurrenceSpec } | { rrule: string }` (import 経路だけが後者を使う)
+- 出力: `recurrenceRule: string | null` と `recurrenceSpec: RecurrenceSpec | null` の**両方**。表現できない RRULE (BYSETPOS / BYWEEKNO / 複数 BYMONTHDAY 等) は spec を `null` にし、クライアントは「カスタム (編集不可)」として扱う
+- クライアントに残るのは「spec を組む UI」と「spec を自然言語にする表示関数」だけ。後者は表示文字列の期待値を設計 doc の表で固定し、両プラットフォームで同じ表をテストする
+
+`end` を `{kind:"never"} | {kind:"until", date} | {kind:"count", count}` の discriminated union にすると、**`COUNT` と `UNTIL` の同時指定が型として構築不能**になる。EventKit の `EKRecurrenceEnd` が排他なので、この形が iOS 側の制約とそのまま噛み合う。
 
 ## 反例 / 限界
 
 - **大量シリーズ (10000+)** はオンザフライで遅くなる。その規模なら事前展開 + 適切な index、または rrule-rs (Rust WASM) 検討
-- **TZID 跨ぎ summer time** で「毎週 9:00」を厳密に保証したい場合、UTC 計算では DST で 1 時間ズレる。`rrule` の TZID option (Date 配列) + luxon で TZ 内計算が必要
+- **TZID 跨ぎ summer time** で「毎週 9:00」を厳密に保証したい場合、上の擬似 UTC シフトは**使えない** (オフセットが年内で変わる)。`rrule` の TZID option (Date 配列) + luxon で TZ 内計算が必要。擬似シフトが厳密解になるのは**固定オフセット TZ (日本・韓国・インド等) に限る**
 - **AddPerson / RemovePerson** のような時間以外の semantics は RRULE では表現不可。別ドメインで扱う
 - **PARTSTAT (出欠ステータス)** は RRULE と独立。本 pattern では「予定の枠」のみ扱い、出欠は Meeting / AttendanceRecord 系で分離する (Atender 設計参照)

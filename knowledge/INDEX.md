@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-07-29
+Generated: 2026-07-30
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -37,6 +37,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [リモートMCPサーバー + OAuth のホスト対応と認可spec (2026)](library/remote-mcp-oauth-hosts-2026.md) — `global` — クラウド上のリモートMCPサーバーを Claude Code / Codex CLI (agent型ホスト) から URL 追加 + OAuth 認可で使わせる設計の前提確認。
 - [Sign in with Google / Sign in with Apple ボタンのブランド規約 (2026-07 現行)](library/signin-button-branding-google-apple-2026.md) — `global` — ログイン画面に Google / Apple のソーシャルボタンを並べる時、各社のブランド規約が「塗り・フォント・ロゴ・文言」を縛る。自前デザイントークンで統一しようとすると規約と衝突する。2026-07-16 に一次ソースを全て実取得して
 - [Starlette 1.x + Jinja2 + htmx セルフホスト + hatchling データ同梱](library/starlette-jinja-htmx-hatchling.md) — `global` — Python の Starlette アプリに Jinja2 テンプレート + htmx(self-host)で SSR フロントを同居させ、hatchling ビルドで .html/.css/.js を wheel に含めたいとき。SPA
+- [SwiftUI Button の当たり判定は clipShape/background では削れない (実測)](library/swiftui-button-hit-area-measurement.md) — `global` — atender の学期カレンダーで「押せるセルと押せないセルがある」という実機 FB を切り分けた。
 - [SwiftUI Liquid Glass (iOS 26) — API 実在確認と availability](library/swiftui-liquid-glass-ios26.md) — `global` — Atender (SwiftUI/iOS) の UI を Apple ネイティブ部品 + Liquid Glass で刷新する設計の事前調査 (Xcode 26.6 / iOS SDK 26.5 実測)。
 - [vCard 日本語名刺生成 (vCard 3.0 + 振り仮名)](library/vcard-japanese.md) — `global` — 日本向け Web 名刺アプリで、iOS/Android 連絡先に取り込める .vcf を Node で生成する。
 
@@ -76,8 +77,9 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [moneylog (ceez7 家計簿) のデザイン言語 — すりガラス + ぼかしグラデ blob + grid-rows 伸縮](pattern/moneylog-design-language.md) — `global` — Touri 本人が作った家計簿 moneylog の UI を後継アプリ (金欠対策 / kinketsu-taisaku) で**そのまま踏襲**したい。Touri が「センスがある」と認める自作デザインの design token と 
 - [LLM Ready な気分ログのスキーマと UX (Daylio / How We Feel / Finch 系)](pattern/mood-log-schema-llm-ready.md) — `global` — 気分ログ / 感情記録 / journaling 系アプリの構造化スキーマを設計するとき、後段で LLM (Claude 等) が読みやすい形にする方法。Daylio / How We Feel / Finch / Reflectly の 
 - [端末に residual するネイティブ client の版数ゲート最小構成 (ヘッダ + サーバ定数 1 個)](pattern/native-client-version-gate-minimal.md) — `global` — Web + API + ネイティブアプリ (iOS/Android) を 1 リポジトリで持つ個人〜小規模プロダクトで
+- [「描かれないこと」の検証はレンダ差分の**対**で書く (ImageRenderer + PNG 等値)](pattern/offscreen-render-diff-pair-for-negative-drawing.md) — `global` — UI 設計は「当月外の日はイベント chip / ステータスドットを**描かない**」のような
 - [OS 版数で分けるのは「質感」だけ。機能・レイアウト・IA を分けない](pattern/os-version-split-texture-not-function.md) — `global` — iOS 26 の Liquid Glass を採用したいが、deployment target を 26 に上げると
-- [SQLite で polymorphic Feature プラグイン基盤を組む (kind + JSON config)](pattern/polymorphic-feature-plugin-sqlite.md) — `global` — エンティティに「種類の違う付加機能」を 0..N 個アタッチしたいケース。例:
+- [polymorphic Feature プラグイン基盤の 3 案と選び方 (JSON config か kind ごとの実テーブルか)](pattern/polymorphic-feature-plugin-schema.md) — `global` — エンティティに「種類の違う付加機能」を 0..N 個アタッチしたいケース。例:
 - [別プラットフォームの視覚品質を移植する — 値でなく「性格」を写す](pattern/port-visual-character-not-tokens.md) — `global` — atender は Web 版が「丸めでポップで綺麗」なのに iOS ネイティブ版が「詰め詰めで10年前」になった。原因を「Web トークンを iOS に 1:1 移植していないから」と誤診しやすいが、実際は逆だった。iOS の DESIG
 - [ポータブル設計のリアルタイム救命系スタック (Hono + Prisma+PostGIS + 自前 ws + Expo Push)](pattern/portable-realtime-rescue-stack.md) — `global` — 「位置共有 + 即時通知 + 双方向 WS」を要求する救命/防災/オンコール系アプリ。
 - [リアルタイム系で WS は配信専用・REST を唯一の認可関門にする](pattern/realtime-broadcast-only-ws-rest-sole-authz-gate.md) — `global` — 位置/presence/チャット/ステータスを WS 1 本に載せるアプリ (omatase) で、REST と WS の
@@ -174,9 +176,11 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [スクショの byte 一致は「タップが効かなかった」と「ハーネスが辿り着かなかった」を区別しない](gotcha/screenshot-byte-identity-conflates-noop-tap-with-lost-harness.md) — `global` — XCUITest の tap は**当たらなくても失敗しない** (ソフトタップ)。`Executed N tests, 0 failures` は
 - [set -e + resp=$(curl --fail-with-body) はエラー body をログに出さずに死ぬ](gotcha/set-e-swallows-curl-fail-with-body.md) — `global` — CI の step で外部 API を叩き、失敗時に**レスポンス body をログに残したい**とき。
 - [バンドル資源を削除した後の xcodebuild は古い DerivedData で偽の RED を出す (実装は無罪)](gotcha/stale-deriveddata-false-red-after-resource-deletion.md) — `global` — atender の UI 刷新 P1 で、バンドル済フォント (`Inter-*.ttf` 5 本 + `NotoSansJP`) を**削除**し、`project.yml` の `UIAppFonts` を 7 件 → 1 件に減らした
+- [Swift の合成 Codable は nil をキーごと省略する — zod の bare .nullable() は必ず 400 になる](gotcha/swift-codable-omits-nil-vs-zod-nullable.md) — `global` — atender build 13 の実機で、カレンダー画面に
 - [SwiftUI の final class + @MainActor な Store/ViewModel は XCTest でサブクラスモックできない](gotcha/swiftui-final-mainactor-store-not-mockable-in-xctest.md) — `global` — SwiftUI + Observation で `@Observable @MainActor final class AuthStore`/`ViewModel` を作り、設計doc に「テスト時は Keychain / APIClien
 - [SwiftUI で固定 minWidth のボタン群が幅超過すると親ごと画面幅を突破して全体が左シフトする](gotcha/swiftui-fixed-minwidth-row-overflows-parent.md) — `global` — atender ホームの出欠 CTA を展開すると、パネル内のステータスボタン(出/欠/公/遅/早/休 の6個)が並ぶ。展開した瞬間、**画面全体が左にずれて両端が見切れる**バグが出た(「自分」チップや学期名が画面外へ)。
 - [Font.custom の無言フォールバックが UIAppFonts 登録漏れを隠す (検証は UIFont(name:) で)](gotcha/swiftui-font-custom-silent-fallback-hides-missing-uiappfonts.md) — `global` — atender iOS は Inter 5 種 + NotoSansJP をバンドルし `Typography.swift` が `Font.custom("Inter-Medium", …)` を呼んでいた。
+- [SwiftUI の等幅グリッドは `minWidth: 0` が要る — `.frame(maxWidth: .infinity)` だけでは列がガタつく](gotcha/swiftui-hstack-equal-columns-need-minwidth-zero.md) — `global` — atender の月カレンダー (7列×6行) が実機で「表の線がズレてる」と報告された。各セルが
 - [SwiftUI 1 View 内の複数シートは兄弟に並べず単一 .sheet に集約する](gotcha/swiftui-multiple-sibling-sheets-only-one-fires.md) — `global` — Atender iOS で 1 つの View から複数のボトムシート (DayDetailSheet / BulkEditSheet 等) を出し分けたい場面。共通コンポーネント `BottomSheet` は内部で native `.s
 - [TanStack Router factory export 時のテスト用 memory history 注入](gotcha/tanstack-router-factory-test-memory-history.md) — `global` — Atender web (Vite + React + TanStack Router) で Reviewer が RTL + jsdom 環境のテストを書く際、router を Provider 経由で立ち上げる helper を作ろうと
 - [pickFirstFunction の Object.values fallback で Prisma.sql タグ等を誤拾い](gotcha/test-pickfirstfunction-fallback-traps.md) — `global` — Reviewer がテスト生成時、対象モジュールの export 名が設計書に明示されていない場合、

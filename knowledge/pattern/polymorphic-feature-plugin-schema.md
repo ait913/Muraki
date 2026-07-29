@@ -1,9 +1,10 @@
 ---
-title: SQLite で polymorphic Feature プラグイン基盤を組む (kind + JSON config)
+title: polymorphic Feature プラグイン基盤の 3 案と選び方 (JSON config か kind ごとの実テーブルか)
 category: pattern
 project: global
-tags: [database, sqlite, drizzle, polymorphic, plugin-architecture, json, extensibility]
+tags: [database, sqlite, postgres, drizzle, sqlc, polymorphic, plugin-architecture, json, extensibility, type-safety]
 created: 2026-05-26
+updated: 2026-07-30
 sources:
   - https://www.dbpro.app/blog/sqlite-json-virtual-columns-indexing
   - https://sqlite.org/json1.html
@@ -30,7 +31,51 @@ sources:
 | **B: per-kind テーブル** | `meetup_feature(...)`, `checklist_feature(...)` | 強い型 + index 細かく貼れる | kind 追加毎に migration + N 種 JOIN |
 | **C: manifest + per-kind** | `feature(id, parent_id, kind, position)` + `meetup_feature_data(feature_id, ...)` | バランス | A の柔軟性 + B の手間 |
 
-### 推奨: A 案 (単一テーブル + JSON)
+### ★ どちらを選ぶかは「誰が kind を足すか」で決まる
+
+**この 3 案に一般的な正解は無い。** 分岐は 1 つだけ:
+
+| 前提                                                        | 選ぶ案                     |
+| ----------------------------------------------------------- | -------------------------- |
+| **外部開発者が plugin を足す** / migration を回せない       | **A 案** (単一 + JSON)     |
+| **kind を足すのは自分たちだけ** / 型生成 ORM を使っている   | **C 案** (manifest + 実体) |
+
+後者で A 案を採ると、**型が消える場所が DB とアプリの境界に来る**:
+
+- **sqlc (Go) は `jsonb` を `[]byte` にしか落とせない。** 呼び出し側ごとに手書きの
+  `json.Unmarshal` が並ぶ。Drizzle の `$type<T>()` や Prisma の `Json` も
+  **DB が検証しない型を TS が信じているだけ**で、実体は同じ
+- **per-user state のキーに FK が張れない。** JSON 内の `items[].id` を指す
+  `item_key text` は誰も検証しないので、**項目を消すと state が孤児として残る**
+- **数値の桁が保証できない。** `numeric(9,6)` (緯度経度など) を掛けられない
+
+C 案なら kind ごとの実体テーブルに `kind` 列を持たせ、**複合 FK で manifest の kind と
+一致を強制**できる (「todo の manifest に meetup の実体がぶら下がる」を DB が拒否する):
+
+```sql
+create type feature_kind as enum ('meetup', 'checklist');
+create table feature (
+  feature_id uuid primary key, parent_id uuid not null, kind feature_kind not null, position int not null default 0,
+  unique (feature_id, kind)          -- ★ PK と冗長だが複合 FK の相手として必要
+);
+create table meetup_feature (
+  feature_id uuid primary key,
+  kind feature_kind not null default 'meetup' check (kind = 'meetup'),
+  lat numeric(9,6) not null, lng numeric(9,6) not null,
+  foreign key (feature_id, kind) references feature (feature_id, kind) on delete cascade
+);
+```
+
+⚠ **enum に値を足す migration は 2 トランザクションに割る。** `alter type ... add value` した値は
+同一トランザクション内で使えない (`unsafe use of new value of enum type`)。
+「値を足す」と「実体テーブルを作る」を別ファイルにする。`create type` は同一 tx で使えるので、
+**初回作成だけは 1 本で済む**。
+
+実例: OMATASE は 2026-05 の検討で A 案を採ったが、2026-07-30 に **C 案へ差し替えた**
+(Postgres + sqlc、kind を足すのは自分たちだけ、という前提が確定したため)。
+→ `Muraki/projects/omatase/.designs/20260730-rebuild-foundation.md` §3.2 / §9
+
+### A 案 (単一テーブル + JSON) — 外部拡張が前提のとき
 
 ```ts
 import { sqliteTable, text, integer, index } from "drizzle-orm/sqlite-core";
@@ -107,7 +152,10 @@ CREATE INDEX feature_kind_status_idx ON feature(kind_status);
 
 ## Why
 
+以下は**すべて「外部開発者が plugin を足す」前提での理由**。その前提が無いなら上の分岐表を見る。
+
 - 「将来 plugin を公開して誰でも作れる」前提では、**DB schema を fix する B 案は破綻**。新 kind 追加のたびに migration を回す運用は外部開発者に押し付けられない
+- ★ **逆に、kind を足すのが自分たちだけなら migration 1 本は誤差**。そのとき UI も API も書くのだから、テーブル 1 つ足す手間は型安全の対価として安い
 - JSON は SQLite で **microsec 単位** で読み書きできる (`json_extract` は high performance、virtual column 化で更に index 可能)
 - discriminated union による zod 型安全で、JSON の型は実用上「ほぼ強型」になる
 - state を別テーブルにすることで:
@@ -117,6 +165,7 @@ CREATE INDEX feature_kind_status_idx ON feature(kind_status);
 
 ## How to apply
 
+0. **★ まず分岐表で案を決める** (上記)。A 案は外部拡張が前提のときだけ。以下 1.–5. は A 案の手順
 1. **kind を enum で固定しない**: Drizzle 側は `text("kind").notNull()` のみ、validation は zod schema で
 2. **新 kind 追加手順** (理想):
    - zod schema に 1 entry 追加
@@ -128,7 +177,8 @@ CREATE INDEX feature_kind_status_idx ON feature(kind_status);
 
 ## 落とし穴
 
-- ❌ kind を Drizzle の `text({ enum: [...] })` で固定すると、新 kind 追加で migration 発生 (本末転倒)
+- ❌ **外部拡張の前提が無いのに A 案を選ぶ** — 型安全を捨てた対価に「migration ゼロ」を買うが、その利点を誰も使わない。OMATASE で実際にこれをやって差し戻した
+- ❌ kind を Drizzle の `text({ enum: [...] })` で固定すると、新 kind 追加で migration 発生 (A 案では本末転倒。C 案なら**それが正しい**)
 - ❌ config を column flat に展開 (`config_lat`, `config_lng`, `config_items_0`, ...) → 即座にスキーマ崩壊
 - ❌ state も同じテーブルに混ぜる → admin 操作と user 操作で trigger 競合
 - ⚠ json_extract index は SQLite 3.31+ 必須 (better-sqlite3 12.x は 3.45+ 同梱なので問題なし)

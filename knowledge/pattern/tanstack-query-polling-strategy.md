@@ -105,4 +105,4 @@ Phase 2 で SSE/WS への置換が必要になっても、TanStack Query hook �
 
 - [[pattern/tanstack-query-invalidation-matrix]] — Mutation 後の cache invalidate
 - [[library/better-auth-hono-drizzle-sqlite]] — 同 stack 構成
-- [[pattern/polymorphic-feature-plugin-sqlite]] — Feature state polling の対象 schema
+- [[pattern/polymorphic-feature-plugin-schema]] — Feature state polling の対象 schema

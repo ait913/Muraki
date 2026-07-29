@@ -24,7 +24,7 @@ SwiftUI の HStack は子の intrinsic 最小幅を満たそうとするため�
 
 ## How to apply
 
-- 固定個数のトグル/チップを1行に敷き詰めるなら **`.frame(maxWidth: .infinity)` で等幅フレックス化**し、行に `.frame(maxWidth: .infinity)` を付けて親幅に収める(minWidth 固定をやめる)
+- 固定個数のトグル/チップを1行に敷き詰めるなら **`.frame(minWidth: 0, maxWidth: .infinity)` で等幅フレックス化**し、行に `.frame(maxWidth: .infinity)` を付けて親幅に収める(minWidth 固定をやめる)。★ **`minWidth: 0` を省くと等幅にならない** — `.frame(maxWidth: .infinity)` だけでは子の intrinsic 最小幅がそのまま下限として残り、中身の多い子だけ太る(実測: [[swiftui-hstack-equal-columns-need-minwidth-zero]])
 - 可変個数で溢れ得るなら **横 `ScrollView(.horizontal)`** でラップ(atender の DayDetailSheet チップ行はこの方式で溢れない)
 - 「モーダル/パネルを開くと画面全体がずれる/見切れる」を見たら、そのパネル内の**固定幅横並び**をまず疑う。原因は開いた要素側にあり、親レイアウトではない
 - 関連パターン: [[swiftui-bottomsheet-content-fit-detent]]

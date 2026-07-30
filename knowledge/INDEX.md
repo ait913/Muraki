@@ -20,6 +20,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [EventKit (iOS 17+) — 権限分離・カレンダー/イベント識別子の安定性・双方向同期の要点](library/eventkit-ios17-access-and-sync-identifiers.md) — `global` — iOS ネイティブアプリから iPhone/iCloud のローカルカレンダー (EventKit) と双方向同期する設計をするとき。iOS 17 で権限モデルが full/write-only に分離された後の実在 API・availab
 - [EventKit の繰り返しモデル — RRULE 表現力・例外(detached)・span・occurrence 展開](library/eventkit-recurrence-model.md) — `global` — iOS アプリで「予定の繰り返し」を扱い、それを EventKit (iPhone 標準カレンダー) と同期する設計をするとき。
 - [Expo SDK 57 (RN 0.86/New Arch) の地図・背景位置・WSクライアント事情](library/expo-sdk57-maps-location-ws.md) — `global` — omatase (位置共有アプリ) の Pre-design Research で SDK 57 + RN 0.86 (newArchEnabled) の実装ライブラリを確定した時の一次確認。
+- [Expo SDK 57 で QR を読む / 出す (expo-barcode-scanner は SDK 52 で削除済)](library/expo-sdk57-qr-scan-generate.md) — `global` — omatase (Expo SDK 57 / RN 0.86 / newArchEnabled) の招待 QR 設計前の一次確認 (2026-07-30)。
 - [GitHub OAuth App (classic) の callback URL は 1 本のみ — redirect_uri はサブディレクトリ一致で分岐可](library/github-oauth-app-callback-url-rules.md) — `global` — 1 つの GitHub OAuth App (classic) を「MCP 認証の federate 先」と「Web ダッシュボードのログイン」の両方で使いたい場面 (dandan-app stateful 転換)。
 - [公式 GitHub MCP server の認証設計と MCP write/inform 指針 (2026)](library/github-official-mcp-auth-2026.md) — `global` — dandan (リモート MCP, GitHub App 認証, Issues R/W) の「書き込みを持つ意味・App install 摩擦の妥当性」を判断するため、公式 GitHub MCP と他社リモート MCP の認証・write設
 - [GitHub org members / collaborators API と classic OAuth scope (repo vs read:org) 2026](library/github-org-members-collaborators-scopes.md) — `global` — dandan-app (OAuth App classic, scope=`repo`) で org メンバーを名簿候補に拾う設計の事前調査 (2026-07-07)。
@@ -39,6 +40,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Starlette 1.x + Jinja2 + htmx セルフホスト + hatchling データ同梱](library/starlette-jinja-htmx-hatchling.md) — `global` — Python の Starlette アプリに Jinja2 テンプレート + htmx(self-host)で SSR フロントを同居させ、hatchling ビルドで .html/.css/.js を wheel に含めたいとき。SPA
 - [Supabase の匿名アカウントを永続アカウントに昇格させる (user id は保たれる / is_anonymous は 2 段で落ちる)](library/supabase-anonymous-to-permanent-promotion.md) — `global` — 「ゲストは名前だけで参加、後からメール登録して永続アカウントにする」を作りたいとき。
 - [SwiftUI Button の当たり判定は clipShape/background では削れない (実測)](library/swiftui-button-hit-area-measurement.md) — `global` — atender の学期カレンダーで「押せるセルと押せないセルがある」という実機 FB を切り分けた。
+- [iOS 26 の toolbar item glass 除去 (sharedBackgroundVisibility) と ButtonRole.close / back の実態](library/swiftui-ios26-toolbar-glass-and-button-roles.md) — `global` — atender の toolbar に `ToolbarItem(placement: .topBarLeading) { Menu {...} label: { HStack { Text; chevron } } }`
 - [SwiftUI Liquid Glass (iOS 26) — API 実在確認と availability](library/swiftui-liquid-glass-ios26.md) — `global` — Atender (SwiftUI/iOS) の UI を Apple ネイティブ部品 + Liquid Glass で刷新する設計の事前調査 (Xcode 26.6 / iOS SDK 26.5 実測)。
 - [vCard 日本語名刺生成 (vCard 3.0 + 振り仮名)](library/vcard-japanese.md) — `global` — 日本向け Web 名刺アプリで、iOS/Android 連絡先に取り込める .vcf を Node で生成する。
 
@@ -152,8 +154,10 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [iCloud 同期下の venv/git が間欠 import・checkout stall する](gotcha/icloud-synced-venv-git-stall.md) — `global` — Muraki の repo は `/Users/touri/Documents/Creatives/Developments/Muraki/...` にある。macOS の `~/Documents` は **iCloud Drive 同期
 - [ICS 終日イベント (VALUE=DATE) は floating date — サーバの TZ で UTC 実体がズレる (dev=JST / 本番コンテナ=UTC)](gotcha/ics-all-day-floating-date-depends-on-server-tz.md) — `global` — atender の ICS インポートのレビューで、終日イベントの assert が
 - [招待 deeplink QR の host 検証は URL を開かない限り防御力ゼロ](gotcha/invite-deeplink-qr-host-check-is-noop.md) — `global` — QR / universal link で招待 (ルーム参加・友達追加) を実装するとき、スキャン結果検証を
+- [userInterfaceStyle "automatic" + ダークモード端末で iOS ネイティブコントロールが白文字になり消える](gotcha/ios-automatic-appearance-invisible-native-controls.md) — `global` — omatase (Expo SDK 57) で日時ピッカーが「白背景に白文字」で読めない、という実機症状。
 - [日本語 UI なのに「英語アプリ」として出荷される (system の Back が "Back" になる)](gotcha/ios-japanese-ui-shipped-as-english-bundle.md) — `global` — atender iOS は UI 文字列が**全部ベタ書きの日本語**で、`.lproj` を 1 つも持たない。
 - [iOS Info.plist に UILaunchScreen が無いとレターボックス(上下黒帯)描画になる](gotcha/ios-missing-uilaunchscreen-letterbox.md) — `global` — atender iOS を実機/シミュレータで起動すると、画面上下に黒帯が出て「小型デバイス(SE)相当に縮小描画」されているように見えた。時間割グリッドが途中で切れ、safe-area も狂ってタブバー下の余白が不揃いだった。
+- [iOS Simulator の Apple Maps は初回コールドスタートで数十秒タイルが出ない (react-native-maps のバグではない)](gotcha/ios-simulator-mapkit-cold-start-blank.md) — `global` — Simulator で「地図が出ない」を見たときに、New Architecture 非互換や Google Maps API キー未設定を
 - [jsdom の getBoundingClientRect は常に 0 を返す](gotcha/jsdom-getboundingclientrect-zero.md) — `global` — OMATASE デザインモック (Vitest + RTL + jsdom) のレビューで、設計 §10.9 にあった
 - [Vitest の jsdom 環境で localStorage が未提供 (setItem is not a function)](gotcha/jsdom-no-localstorage-in-vitest.md) — `global` — CF風 UI 再設計 (kinketsu-taisaku) の Reviewer 検証。`useTheme` は ThemeMode を
 - [lazy materialize の rolling 補充が「生成 record の手動編集」を壊す](gotcha/lazy-materialize-rolling-vs-edit-conflict.md) — `global` — 定期ルール (月次) から未確定 record を未来へ実体生成する materialize 方式。

@@ -19,7 +19,7 @@ omatase (位置共有アプリ) の Pre-design Research で SDK 57 + RN 0.86 (ne
 
 ## What
 
-- **expo-maps は SDK 57 時点でまだ alpha**。「not available in the Expo Go app – use development builds」+ Web 非対応 (Android=Google Maps / iOS=Apple Maps のみ)。破壊的変更が頻繁と公式明記
+- **expo-maps は SDK 57 時点でまだ alpha** (2026-07-30 に v57 ドキュメントで再確認。文言も「currently in alpha and will frequently experience breaking changes」のまま)。「not available in the Expo Go app – use development builds」+ Web 非対応 (Android=Google Maps / iOS=Apple Maps のみ)。破壊的変更が頻繁と公式明記
 - **react-native-maps が SDK 57 の公式 pin: 1.27.2** (bundledNativeModules.json。npm latest は 1.29.0 だが `npx expo install` は 1.27.2 を入れる)。Expo Go でそのまま動く (「No additional setup is required when testing your project using Expo Go」)。New Architecture は **1.26.1+ が RN >= 0.81.1** 対応
 - **react-native-maps に Web 実装は無い** (peerDeps に react-native-web optional があるだけ)。web shim の @teovilla/react-native-web-maps は 2024-04 で更新停止
 - **背景位置は dev build 必須** (iOS/Android とも Expo Go 不可)。expo-location `startLocationUpdatesAsync` + expo-task-manager `defineTask` (top-level scope)。iOS: UIBackgroundModes に location / Android: ACCESS_BACKGROUND_LOCATION + FOREGROUND_SERVICE(_LOCATION)。**前景 watchPositionAsync だけなら Expo Go で足りる**

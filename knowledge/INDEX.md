@@ -37,6 +37,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [リモートMCPサーバー + OAuth のホスト対応と認可spec (2026)](library/remote-mcp-oauth-hosts-2026.md) — `global` — クラウド上のリモートMCPサーバーを Claude Code / Codex CLI (agent型ホスト) から URL 追加 + OAuth 認可で使わせる設計の前提確認。
 - [Sign in with Google / Sign in with Apple ボタンのブランド規約 (2026-07 現行)](library/signin-button-branding-google-apple-2026.md) — `global` — ログイン画面に Google / Apple のソーシャルボタンを並べる時、各社のブランド規約が「塗り・フォント・ロゴ・文言」を縛る。自前デザイントークンで統一しようとすると規約と衝突する。2026-07-16 に一次ソースを全て実取得して
 - [Starlette 1.x + Jinja2 + htmx セルフホスト + hatchling データ同梱](library/starlette-jinja-htmx-hatchling.md) — `global` — Python の Starlette アプリに Jinja2 テンプレート + htmx(self-host)で SSR フロントを同居させ、hatchling ビルドで .html/.css/.js を wheel に含めたいとき。SPA
+- [Supabase の匿名アカウントを永続アカウントに昇格させる (user id は保たれる / is_anonymous は 2 段で落ちる)](library/supabase-anonymous-to-permanent-promotion.md) — `global` — 「ゲストは名前だけで参加、後からメール登録して永続アカウントにする」を作りたいとき。
 - [SwiftUI Button の当たり判定は clipShape/background では削れない (実測)](library/swiftui-button-hit-area-measurement.md) — `global` — atender の学期カレンダーで「押せるセルと押せないセルがある」という実機 FB を切り分けた。
 - [SwiftUI Liquid Glass (iOS 26) — API 実在確認と availability](library/swiftui-liquid-glass-ios26.md) — `global` — Atender (SwiftUI/iOS) の UI を Apple ネイティブ部品 + Liquid Glass で刷新する設計の事前調査 (Xcode 26.6 / iOS SDK 26.5 実測)。
 - [vCard 日本語名刺生成 (vCard 3.0 + 振り仮名)](library/vcard-japanese.md) — `global` — 日本向け Web 名刺アプリで、iOS/Android 連絡先に取り込める .vcf を Node で生成する。

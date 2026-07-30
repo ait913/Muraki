@@ -59,6 +59,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Coolify アプリのデプロイ詰まり調査フロー](pattern/coolify-deploy-debug-flow.md) — `global` — Coolify でデプロイしてアプリが想定通りアクセス可能にならないとき、原因が「ビルド」「コンテナ起動」「環境変数」「Traefik routing」「Cloudflare proxy」のどこにあるか切り分けるパターン。MeishiLin
 - [出席率の分母から「一括休講日」を除外する標準パターン (Course × Date 中間テーブル)](pattern/course-suspension-denominator-reduction.md) — `global` — 出欠管理アプリで「学園祭振替で来週月曜は休講」のように**科目全体 × 特定日付**で休講を宣言する場面。個別 occurrence の `status=CANCELLED` で手動マークする方式だけだと:
 - [専用カレンダーへの一方向エクスポート — 識別子を成果物自身に埋めて差分を取る](pattern/dedicated-calendar-one-way-export-self-describing-key.md) — `global` — 自アプリのデータ (授業・シフト・予約など) を OS のカレンダー (EventKit / CalendarContract 等) に反映したいとき。
+- [同じ規則が 2 実装あるとき「正典 + テストのオラクル」に役割を割る](pattern/dual-implementation-canon-plus-oracle.md) — `global` — 同じ計算規則が 2 箇所に書かれてしまう状況。omatase の自動アーカイブでは
 - [パニック時 UI の設計トークンと挙動原則 (緊急アプリ向け)](pattern/emergency-ui-design-tokens.md) — `global` — 「人が倒れた」「火災が起きた」など極度のパニック時にユーザーが操作する UI の設計。
 - [Postgres + Node でのアプリ層 envelope encryption パターン (Coolify セルフホスト)](pattern/envelope-encryption-postgres-node.md) — `global` — 個人ヘルスケア / メンタル系アプリで「ログ取らない・コード公開可・at-rest 暗号化・LLM 処理時のみ in-memory 復号」を実装したい。バックエンドは Coolify (Docker) + Postgres、ソロ運用。
 - [wildcard DNS 配下ではサブドメインをフラット 1 レベルに固定する](pattern/flat-subdomain-naming-under-wildcard-dns.md) — `global` — `*.appily.run` / `*.n-wasabi.org` のような **wildcard CNAME → Cloudflare Tunnel → Nginx → Coolify Traefik** 構成で、
@@ -81,6 +82,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [LLM Ready な気分ログのスキーマと UX (Daylio / How We Feel / Finch 系)](pattern/mood-log-schema-llm-ready.md) — `global` — 気分ログ / 感情記録 / journaling 系アプリの構造化スキーマを設計するとき、後段で LLM (Claude 等) が読みやすい形にする方法。Daylio / How We Feel / Finch / Reflectly の 
 - [端末に residual するネイティブ client の版数ゲート最小構成 (ヘッダ + サーバ定数 1 個)](pattern/native-client-version-gate-minimal.md) — `global` — Web + API + ネイティブアプリ (iOS/Android) を 1 リポジトリで持つ個人〜小規模プロダクトで
 - [「描かれないこと」の検証はレンダ差分の**対**で書く (ImageRenderer + PNG 等値)](pattern/offscreen-render-diff-pair-for-negative-drawing.md) — `global` — UI 設計は「当月外の日はイベント chip / ステータスドットを**描かない**」のような
+- [楽観更新と「再取得で全置換」を共存させる — pending キーを store 契約に載せる](pattern/optimistic-write-pending-key-vs-refetch.md) — `global` — 「薄い通知 → REST で snapshot を取り直して全置換」でライブ更新する設計 (上記 pattern) に、
 - [OS 版数で分けるのは「質感」だけ。機能・レイアウト・IA を分けない](pattern/os-version-split-texture-not-function.md) — `global` — iOS 26 の Liquid Glass を採用したいが、deployment target を 26 に上げると
 - [polymorphic Feature プラグイン基盤の 3 案と選び方 (JSON config か kind ごとの実テーブルか)](pattern/polymorphic-feature-plugin-schema.md) — `global` — エンティティに「種類の違う付加機能」を 0..N 個アタッチしたいケース。例:
 - [別プラットフォームの視覚品質を移植する — 値でなく「性格」を写す](pattern/port-visual-character-not-tokens.md) — `global` — atender は Web 版が「丸めでポップで綺麗」なのに iOS ネイティブ版が「詰め詰めで10年前」になった。原因を「Web トークンを iOS に 1:1 移植していないから」と誤診しやすいが、実際は逆だった。iOS の DESIG
@@ -164,9 +166,11 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [lazy materialize の rolling 補充が「生成 record の手動編集」を壊す](gotcha/lazy-materialize-rolling-vs-edit-conflict.md) — `global` — 定期ルール (月次) から未確定 record を未来へ実体生成する materialize 方式。
 - [Leaflet マップを使う画面で modal/overlay は z-index 1000 超え必須](gotcha/leaflet-zindex-vs-modal.md) — `global` — React アプリで Leaflet (react-leaflet) の地図と同一スクリーン内に modal / overlay を出した時、Tailwind の `z-20` や `z-50` 程度だと **modal が地図の Zoom
 - [lefthook の pre-commit が「ツール未インストール」で commit を無言中断する](gotcha/lefthook-missing-tool-silent-commit-fail.md) — `global` — omatase は lefthook の pre-commit で `golangci-lint`(*.go) / `oxfmt`・`oxlint`(*.md,*.ts 等) /
+- [materialize-on-read (読んだ瞬間に状態を書く) を入れると、遠い過去日付の fixture が「GET したら 409」になる](gotcha/materialize-on-read-turns-far-past-fixtures-into-409.md) — `global` — omatase の自動アーカイブは **cron を立てず「読み取り時に実体化する」** 方式 (`GET /events/{id}` /
 - [MCP Apps UI の headless ハーネステストの落とし穴 (report-back / hostLog race / ui-message 形)](gotcha/mcp-apps-ui-harness-testing.md) — `global` — MCP Apps (iframe UI) の bridge レベル挙動を CI 可能な形で検証する: 親ページがホスト役 (ui/initialize 応答 + tools/call を実 /mcp へ proxy) の自作ハーネス + h
 - [移行関数を「移行後 schema で立つ test DB」でテストすると no such column で必ず落ちる](gotcha/migration-fn-untestable-on-final-schema.md) — `global` — カラムを A テーブルから B テーブルへ移す migration (例: Course.room → Meeting.room) のデータ移行ロジックを、テスト可能にするため service 関数 `migrateCourseRoomTo
 - [負のコントロールは「変異が届いたか」を先に証明する (無反応 = テストが無力、ではない)](gotcha/mutation-must-be-proven-to-reach-all-sites.md) — `global` — atender の版数ゲート (426 傍受) のレビューで、設計 §6.5 が
+- [変異注入中に agent が落ちると、変異が実装に残ったまま次のフェーズへ流れる](gotcha/mutation-testing-agent-crash-leaves-mutation-in-tree.md) — `global` — Reviewer に「負のコントロール (変異注入)」をやらせる運用をしている。テストが本当に効いているかを確かめるため、実装を意図的に壊してテストが赤くなるかを見る手法で、これ自体は正しい。
 - [標準部品への回帰が asset catalog の「死に資産」を蘇らせる (リブランド取り残しの掘り起こし)](gotcha/native-controls-resurrect-dead-asset-catalog-accent.md) — `global` — atender の iOS UI 刷新で、自前 `BottomTabBar` を native `TabView` に置換した (Liquid Glass 対応)。
 - [NEXT_PUBLIC_* は runtime env では届かない (Dockerfile ARG + build-time 指定の両方が要る)](gotcha/next-public-env-needs-dockerfile-arg.md) — `global` — Next.js の `NEXT_PUBLIC_*` は **ビルド時に client bundle へ文字列として焼き込まれる**。PaaS (Coolify 等) の env 画面に登録しただけでは、それは *runtime* env な
 - [Next.js route の baseUrl は req URL ではなく env 変数 (PUBLIC_BASE_URL) 由来](gotcha/nextjs-route-baseurl-env-vs-req.md) — `global` — vcard route handler が `PHOTO;VALUE=URI:` に絶対 URL を埋め込む。Reviewer のテストで `new Request("https://example.com/yamada/vcard")` 
@@ -191,6 +195,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Font.custom の無言フォールバックが UIAppFonts 登録漏れを隠す (検証は UIFont(name:) で)](gotcha/swiftui-font-custom-silent-fallback-hides-missing-uiappfonts.md) — `global` — atender iOS は Inter 5 種 + NotoSansJP をバンドルし `Typography.swift` が `Font.custom("Inter-Medium", …)` を呼んでいた。
 - [SwiftUI の等幅グリッドは `minWidth: 0` が要る — `.frame(maxWidth: .infinity)` だけでは列がガタつく](gotcha/swiftui-hstack-equal-columns-need-minwidth-zero.md) — `global` — atender の月カレンダー (7列×6行) が実機で「表の線がズレてる」と報告された。各セルが
 - [SwiftUI 1 View 内の複数シートは兄弟に並べず単一 .sheet に集約する](gotcha/swiftui-multiple-sibling-sheets-only-one-fires.md) — `global` — Atender iOS で 1 つの View から複数のボトムシート (DayDetailSheet / BulkEditSheet 等) を出し分けたい場面。共通コンポーネント `BottomSheet` は内部で native `.s
+- [外側の accessibilityIdentifier が共通部品の検証フックを潰す (XCUITest から掴めなくなる)](gotcha/swiftui-outer-accessibility-identifier-shadows-inner-hook.md) — `global` — 共通部品 (`CalendarDaySheet`) の設計 doc が **検証フックとして identifier を規定する**のはよくある形:
 - [TanStack Router factory export 時のテスト用 memory history 注入](gotcha/tanstack-router-factory-test-memory-history.md) — `global` — Atender web (Vite + React + TanStack Router) で Reviewer が RTL + jsdom 環境のテストを書く際、router を Provider 経由で立ち上げる helper を作ろうと
 - [pickFirstFunction の Object.values fallback で Prisma.sql タグ等を誤拾い](gotcha/test-pickfirstfunction-fallback-traps.md) — `global` — Reviewer がテスト生成時、対象モジュールの export 名が設計書に明示されていない場合、
 - [testcontainers + postgres で 「ready to accept connections」を 1 回だけ待つと早期接続失敗](gotcha/testcontainers-postgres-double-ready-log.md) — `global` — testcontainers で PostgreSQL を spawn し、global setup で `Wait.forLogMessage(/database system is ready to accept connections
@@ -200,9 +205,11 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Vitest server テストで app の DB に対し setup で migration を流さないと "no such table" で全 fail する](gotcha/vitest-server-setup-must-migrate-app-db.md) — `global` — Hono + Drizzle + better-sqlite3 + better-auth スタックで、設計 doc に「起動時 migration を `src/server/index.ts` で実行する」と書くと、**テストでは `i
 - [同じ「WS のベース URL」で /ws を含む規約と含まない規約が混在すると黙って死ぬ](gotcha/ws-base-url-convention-split.md) — `global` — WS の接続先を env で渡す構成はどこにでもある。omatase では 3 箇所が同じ「WS のベース URL」を持っていたが、**パスを含む/含まないの規約が逆**だった:
 - [xcodegen の info: は Info.plist を毎回再生成する — 版数を Info.plist に直接書くと消える](gotcha/xcodegen-info-plist-regenerated-every-run.md) — `global` — xcodegen で iOS プロジェクトを管理し、`project.yml` の `targets.<T>.info` に `path:` + `properties:` を書いている構成 (atender `apps/ios` が該当)
+- [XCUITest は起動直後の最初の 1〜2 タップを失う (offset のせいだと誤診する)](gotcha/xcuitest-first-taps-after-launch-are-lost.md) — `global` — 「予定 chip の真上をタップしても chip がタップを食わず、日別シートが開く」(#H3) を
 - [zod .datetime() は +09:00 形式の ISO8601 を拒否する — クライアントは必ず toISOString() で送る](gotcha/zod-datetime-rejects-offset-iso-client-must-send-z.md) — `global` — atender の個人カレンダー再構築で「JST 日付 (YYYY-MM-DD) → instant」の変換を
 - [AgentHub 既知の失敗テスト台帳](../projects/agent-hub/.knowledge/known-failures.md) — `agent-hub` — Muraki 規約: 各 PJ は既知の失敗テストを分類付き (テスト陳腐化 / 環境依存 / 未分類) で持つ。**未分類の失敗を残したままのマージは不可**。この台帳と照合して初めて「既存破損だから無視」が言える。
 - [dandan-app 既知の失敗テスト台帳](../projects/dandan-app/.knowledge/known-failures.md) — `dandan-app` — 分類: テスト陳腐化 / 環境依存 / 未分類。**未分類を残したままのマージ不可** (Muraki/CLAUDE.md)。
+- [アーカイブの DB ガードは「保存」を止めるが WS の「中継」は止めない](../projects/omatase/.knowledge/archived-gate-stops-persistence-not-relay.md) — `omatase` — PRODUCT.md §8-7 は「アーカイブ後は読み取り専用。**位置共有は止める**」を要求する。
 - [omatase 既知の失敗テスト台帳](../projects/omatase/.knowledge/known-failures.md) — `omatase` — Muraki 規約: 各 PJ は既知の失敗テストを分類付き (テスト陳腐化 / 環境依存 / **未分類**) で持つ。**未分類の失敗を残したままのマージは不可**。この台帳と照合して初めて「既存破損だから無視」が言える。
 
 ## tool-quirk

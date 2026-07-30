@@ -102,3 +102,37 @@ Button の style や bar の background では触れない。
 - 「close/back を標準部品で」→ close は **toolbar item に** `Button(role: .close) {}`、
   back は **sheet 内 NavigationStack の push** に任せる (自前 chevron を描かない)
 - role の見た目を仕様に書く前に、置く文脈 (toolbar / 本文 / alert) を含めて 1 回撮る
+
+## 5. `.principal` に大きいタイトルを置くときの実寸 (iPhone 16 / 393pt 幅で実測 2026-07-30)
+
+`ToolbarItem(placement: .principal)` に `Text(...).font(.title2.weight(.bold))` (24pt bold) を置き、
+leading にシステム back (sheet 内 NavigationStack の push)、trailing に `Button(role: .close)` がある状態。
+
+### 使える幅
+| OS | 上限幅 (GeometryReader 実測) |
+|---|---|
+| iOS 26.5 | **247 pt** |
+| iOS 18.2 | **277 pt** |
+
+iOS 26 の方が 30pt 狭い (両端の円形 glass ボタンが幅を食う)。
+`カレンダーを取り込む` (10文字) = 206pt は**両 OS で等倍・切れずに収まる**。
+
+### modifier の効き (16文字 "ルームのカレンダーを取り込む設定" で比較)
+| modifier | 実測幅 | グリフ高 | 結果 |
+|---|---|---|---|
+| 無し | 244 | 19.3 (等倍) | 切れる |
+| `lineLimit(1)` + `minimumScaleFactor(0.75)` | 247 | 14.3 | **切れる** (0.75 が下限で足りない) |
+| **`lineLimit(1)` + `minimumScaleFactor(0.5)`** | 247 | 14.3 | **全文表示**。19文字でも 11.3pt に縮んで全文入る |
+| `layoutPriority(1)` | 245 | 14.3 | **無効** (付けないのと同じ) |
+| **`fixedSize()`** | **329** | 19.3 | ★**back/close の下に潜り込んで重なる。使用禁止** |
+
+→ 採用形は **`.lineLimit(1).minimumScaleFactor(0.5)`**。
+`minimumScaleFactor` は iOS 18/26 とも効く (グリフ実寸が縮む)。効かないのは `layoutPriority`。
+
+### その他
+- `.principal` に **glass カプセルは付かない** → `sharedBackgroundVisibility(.hidden)` は不要 (付けても pixel 同一)
+- **`.navigationTitle` を併記しても `.principal` が勝つ** (navigationTitle の文字列は一切描画されない)
+- iOS 26 の `ToolbarItem(placement: .title)` は `.principal` と**見た目・実測幅とも同一**
+- ★ **`topBarLeading` に同じ 24pt bold Text を置くと iOS 26 では幅 31pt しか貰えず「カ…」に潰れる**
+  (glass カプセルに閉じ込められる)。長いタイトルを leading に置く実装は iOS 26 で破綻する
+- iOS 18 の back button は前画面タイトルを文字で出す (`< root`) が、タイトルが長いと自動で chevron のみに縮む

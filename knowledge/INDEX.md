@@ -42,6 +42,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [SwiftUI Button の当たり判定は clipShape/background では削れない (実測)](library/swiftui-button-hit-area-measurement.md) — `global` — atender の学期カレンダーで「押せるセルと押せないセルがある」という実機 FB を切り分けた。
 - [iOS 26 の toolbar item glass 除去 (sharedBackgroundVisibility) と ButtonRole.close / back の実態](library/swiftui-ios26-toolbar-glass-and-button-roles.md) — `global` — atender の toolbar に `ToolbarItem(placement: .topBarLeading) { Menu {...} label: { HStack { Text; chevron } } }`
 - [SwiftUI Liquid Glass (iOS 26) — API 実在確認と availability](library/swiftui-liquid-glass-ios26.md) — `global` — Atender (SwiftUI/iOS) の UI を Apple ネイティブ部品 + Liquid Glass で刷新する設計の事前調査 (Xcode 26.6 / iOS SDK 26.5 実測)。
+- [SwiftUI 横ページングをタブ+NavigationStack+縦ScrollView の中に入れる (iOS 26 実測)](library/swiftui-nested-horizontal-paging-ios26.md) — `global` — atender の月カレンダーを「指でめくれる」ようにしたい。アプリの構造は
 - [vCard 日本語名刺生成 (vCard 3.0 + 振り仮名)](library/vcard-japanese.md) — `global` — 日本向け Web 名刺アプリで、iOS/Android 連絡先に取り込める .vcf を Node で生成する。
 
 ## pattern

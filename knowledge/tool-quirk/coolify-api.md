@@ -108,7 +108,7 @@ Coolify は healthcheck を **コンテナ内で実行する compose healthcheck
 `POST /applications/{uuid}/envs` の body は `{key, value, is_preview, is_literal, is_multiline, is_shown_once}` (OpenAPI `EnvironmentVariable` schema):
 
 - **production と preview の両方に同じ env が作られる** (preview を使わなくても 2 entry 出る、無害)
-- `is_build_time` (`is_buildtime`) field は **POST/PATCH body では送るとエラー** (`"This field is not allowed."`) だが、★ **GET レスポンスの `EnvironmentVariable` schema には `is_buildtime` が含まれる** (write 不可・read 可の非対称性)
+- ★ **`is_buildtime` は単発 `POST /applications/{uuid}/envs` の body で受け付けられる** (2026-07-30 実測 / omatase-web に `NEXT_PUBLIC_SUPABASE_URL` を `{"key","value","is_buildtime":true,"is_runtime":true}` で投入 → GET が `is_buildtime=true` を返した)。以前ここには「POST/PATCH body で送るとエラー (`This field is not allowed.`)」と書いてあったが**現行 Coolify では通る**。`is_build_time` (アンダースコア入り) の綴りは使わない
 - `NODE_ENV=production` を登録すると **builder stage の `npm ci` まで影響**して devDependencies がスキップされ、Next.js の TypeScript 自動 install が peer 競合で失敗する → Coolify env では NODE_ENV を**設定しない**。Dockerfile の runner stage で `ENV NODE_ENV=production` を書く
 
 ### env bulk endpoint (見落としがち)
@@ -122,7 +122,9 @@ curl -sS -X PATCH -H "Authorization: Bearer $COOLIFY_API_TOKEN" \
   -d '{"data":[{"key":"...","value":"...","is_preview":false}, ...]}'
 ```
 
-★ **`envs/bulk` は重複行を作ることがある**: 1 回の bulk 投入で各キーが 2 行できた (同 key が別 `uuid` で二重化)。原因未確定だが実害あり。投入後は必ず `GET /applications/{uuid}/envs` で重複を確認し、余分を `DELETE /applications/{uuid}/envs/{env_uuid}` で掃除する運用にする。
+★ **env の投入は経路に関係なく重複行を作ることがある**: `envs/bulk` の 1 回投入で各キーが 2 行できた事例に加え、**単発 `POST /applications/{uuid}/envs` でも 1 回の POST で 2 行できた** (2026-07-30 / omatase-web、2 キーとも二重化 = 2/2)。以前ここには bulk 固有の癖として書いてあったが**単発 POST でも起きる**。原因未確定 (production/preview の両建てとは別現象 — 両方 `is_preview=false` で重複した)。
+
+→ **投入直後に必ず `GET /applications/{uuid}/envs` で件数と key を数え、余分を `DELETE /applications/{uuid}/envs/{env_uuid}` で掃除する**。重複を残すとどちらの値がビルドに渡るか不定になる。
 
 ### resource 作成 (project / app / database) の癖
 

@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-07-30
+Generated: 2026-08-06
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -21,6 +21,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [EventKit の繰り返しモデル — RRULE 表現力・例外(detached)・span・occurrence 展開](library/eventkit-recurrence-model.md) — `global` — iOS アプリで「予定の繰り返し」を扱い、それを EventKit (iPhone 標準カレンダー) と同期する設計をするとき。
 - [Expo SDK 57 (RN 0.86/New Arch) の地図・背景位置・WSクライアント事情](library/expo-sdk57-maps-location-ws.md) — `global` — omatase (位置共有アプリ) の Pre-design Research で SDK 57 + RN 0.86 (newArchEnabled) の実装ライブラリを確定した時の一次確認。
 - [Expo SDK 57 で QR を読む / 出す (expo-barcode-scanner は SDK 52 で削除済)](library/expo-sdk57-qr-scan-generate.md) — `global` — omatase (Expo SDK 57 / RN 0.86 / newArchEnabled) の招待 QR 設計前の一次確認 (2026-07-30)。
+- [日本向け場所検索 autocomplete API の選定事情 (2026-08)](library/geocoding-autocomplete-apis-japan.md) — `global` — omatase の場所選択モーダルに「入力ごとに予測が出る検索 (autocomplete)」を足すための API 選定 (2026-08 実測)。要件: 日本語品質 / 結果が範囲 (bbox) か地点かを区別 / MapLibre + 
 - [GitHub OAuth App (classic) の callback URL は 1 本のみ — redirect_uri はサブディレクトリ一致で分岐可](library/github-oauth-app-callback-url-rules.md) — `global` — 1 つの GitHub OAuth App (classic) を「MCP 認証の federate 先」と「Web ダッシュボードのログイン」の両方で使いたい場面 (dandan-app stateful 転換)。
 - [公式 GitHub MCP server の認証設計と MCP write/inform 指針 (2026)](library/github-official-mcp-auth-2026.md) — `global` — dandan (リモート MCP, GitHub App 認証, Issues R/W) の「書き込みを持つ意味・App install 摩擦の妥当性」を判断するため、公式 GitHub MCP と他社リモート MCP の認証・write設
 - [GitHub org members / collaborators API と classic OAuth scope (repo vs read:org) 2026](library/github-org-members-collaborators-scopes.md) — `global` — dandan-app (OAuth App classic, scope=`repo`) で org メンバーを名簿候補に拾う設計の事前調査 (2026-07-07)。
@@ -63,7 +64,9 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [同じ規則が 2 実装あるとき「正典 + テストのオラクル」に役割を割る](pattern/dual-implementation-canon-plus-oracle.md) — `global` — 同じ計算規則が 2 箇所に書かれてしまう状況。omatase の自動アーカイブでは
 - [パニック時 UI の設計トークンと挙動原則 (緊急アプリ向け)](pattern/emergency-ui-design-tokens.md) — `global` — 「人が倒れた」「火災が起きた」など極度のパニック時にユーザーが操作する UI の設計。
 - [Postgres + Node でのアプリ層 envelope encryption パターン (Coolify セルフホスト)](pattern/envelope-encryption-postgres-node.md) — `global` — 個人ヘルスケア / メンタル系アプリで「ログ取らない・コード公開可・at-rest 暗号化・LLM 処理時のみ in-memory 復号」を実装したい。バックエンドは Coolify (Docker) + Postgres、ソロ運用。
+- [イベント系アプリの「常設ハブ + ライブカード」IA (時間帯で着地画面を変えない)](pattern/event-hub-permanent-home-live-card.md) — `global` — イベント/旅行/待ち合わせ系アプリで「前日は行程を組む画面が主役、当日は今のプランが主役」と
 - [wildcard DNS 配下ではサブドメインをフラット 1 レベルに固定する](pattern/flat-subdomain-naming-under-wildcard-dns.md) — `global` — `*.appily.run` / `*.n-wasabi.org` のような **wildcard CNAME → Cloudflare Tunnel → Nginx → Coolify Traefik** 構成で、
+- [同じ画面が 2 文脈でフォークしたら、統一するのは「中身」でなく「殻」](pattern/forked-screen-unify-the-shell-not-the-content.md) — `global` — 同じ機能を「自分用」と「グループ用」の 2 文脈で出す画面 (カレンダー / 時間割 / タスク一覧 / ダッシュボード)。
 - [入力フォームモーダル (BottomSheet/Dialog) の視認性 BP (2026)](pattern/form-modal-readability-bp.md) — `global` — Modal / Bottom Sheet 内に入力フォームを置く場面で「文字が見えにくい」「階層が弱い」「フォーカスが分からない」と感じる根因は**たいてい設計トークンの欠陥に集約**される。Atender redesign で実装後に T
 - [Google Calendar 連携を Connection (user) × Sync (room × calendar) の 2 段 schema で組むパターン](pattern/google-calendar-incremental-sync-room-scoped.md) — `global` — ユーザーが個人 Google Calendar を「ルーム」「グループ」「プロジェクト」等の単位に紐づけて取り込みたい場面。ユースケース例:
 - [グリッド・テーブル罫線 BP (時間割/カレンダー/データ表示)](pattern/grid-table-borders-bp.md) — `global` — 時間割・カレンダー・テーブル系 UI で「セルがバラバラに見える」「表として認識されない」体感が出るのは、罫線設計が以下のどちらかに偏った時:
@@ -194,6 +197,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [SwiftUI の final class + @MainActor な Store/ViewModel は XCTest でサブクラスモックできない](gotcha/swiftui-final-mainactor-store-not-mockable-in-xctest.md) — `global` — SwiftUI + Observation で `@Observable @MainActor final class AuthStore`/`ViewModel` を作り、設計doc に「テスト時は Keychain / APIClien
 - [SwiftUI で固定 minWidth のボタン群が幅超過すると親ごと画面幅を突破して全体が左シフトする](gotcha/swiftui-fixed-minwidth-row-overflows-parent.md) — `global` — atender ホームの出欠 CTA を展開すると、パネル内のステータスボタン(出/欠/公/遅/早/休 の6個)が並ぶ。展開した瞬間、**画面全体が左にずれて両端が見切れる**バグが出た(「自分」チップや学期名が画面外へ)。
 - [Font.custom の無言フォールバックが UIAppFonts 登録漏れを隠す (検証は UIFont(name:) で)](gotcha/swiftui-font-custom-silent-fallback-hides-missing-uiappfonts.md) — `global` — atender iOS は Inter 5 種 + NotoSansJP をバンドルし `Typography.swift` が `Font.custom("Inter-Medium", …)` を呼んでいた。
+- [SwiftUI 横ページャの非可視ページは a11y ツリーに残る (accessibilityHidden も効かない)](gotcha/swiftui-horizontal-pager-leaks-offscreen-pages-into-a11y-tree.md) — `global` — atender build 17 で月カレンダーを `ScrollView(.horizontal)` + `LazyHStack(spacing:0)` +
 - [SwiftUI の等幅グリッドは `minWidth: 0` が要る — `.frame(maxWidth: .infinity)` だけでは列がガタつく](gotcha/swiftui-hstack-equal-columns-need-minwidth-zero.md) — `global` — atender の月カレンダー (7列×6行) が実機で「表の線がズレてる」と報告された。各セルが
 - [SwiftUI 1 View 内の複数シートは兄弟に並べず単一 .sheet に集約する](gotcha/swiftui-multiple-sibling-sheets-only-one-fires.md) — `global` — Atender iOS で 1 つの View から複数のボトムシート (DayDetailSheet / BulkEditSheet 等) を出し分けたい場面。共通コンポーネント `BottomSheet` は内部で native `.s
 - [外側の accessibilityIdentifier が共通部品の検証フックを潰す (XCUITest から掴めなくなる)](gotcha/swiftui-outer-accessibility-identifier-shadows-inner-hook.md) — `global` — 共通部品 (`CalendarDaySheet`) の設計 doc が **検証フックとして identifier を規定する**のはよくある形:
@@ -217,10 +221,8 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [block-bash-amp.sh は heredoc/tee 内のコード文字列の論理積もブロックする](tool-quirk/bash-amp-hook-blocks-heredoc-content.md) — `global` — Muraki ルートに置かれた `block-bash-amp.sh` フックは、
 - [chrome-devtools MCP は Chrome for Testing を headless 運用、project 並列は userDataDir 分離](tool-quirk/chrome-for-testing.md) — `global` — chrome-devtools MCP で Web ページを閲覧/操作する場面。普段使い Chrome のプロファイルを汚染せず、Notion など要ログインのサイトではセッションを保持し、かつ複数 Claude Code セッションを *
 - [cloudflared tunnel login は 1 zone しか cert.pem に入れない — 複数 zone は API token を使う](tool-quirk/cloudflared-tunnel-login-multi-zone.md) — `global` — `cloudflared tunnel login` で発行される `~/.cloudflared/cert.pem` (Origin CA cert + Argo Tunnel API service token) は、`cloudfla
+- [Codex (codex exec) の挙動と対処 — 統合ノート](tool-quirk/codex-behavior.md) — `global` — Muraki で `codex exec` を Developer/Reviewer の実行エンジンに使っていた時期 (〜2026-07) に実踏した癖の統合。各項目は「症状 → 対処」。
 - [Codex CLI 内蔵 imagegen ツール (gpt-image-1) の使い方](tool-quirk/codex-cli-imagegen-tool.md) — `global` — Codex CLI 経由で OpenAI Images API (gpt-image-1) を叩きたい場面。`OPENAI_API_KEY` 未設定、ChatGPT サブスク認証 (`auth_mode: chatgpt`) のみという前提
-- [codex exec をバックグラウンド/パイプ起動するときは `< /dev/null` で stdin を閉じる](tool-quirk/codex-exec-background-needs-dev-null-stdin.md) — `global` — `codex exec <prompt>` を**バックグラウンド**や**パイプ** (`2>&1 | tail` 等) と組み合わせて起動すると、codex が `Reading additional input from stdin.
-- [codex exec はデフォルト read-only サンドボックス、scaffolding 系は --full-auto 必須](tool-quirk/codex-exec-sandbox-default.md) — `global` — Developer (Codex) に空 worktree から Vite/React プロジェクトを scaffold させたら、`apply_patch` が `writing is blocked by read-only sandb
-- [Codex CLI / Gemini CLI を並列レビューに使うときの癖](tool-quirk/codex-gemini-cli-parallel.md) — `global` — 複数 LLM で同じコードを独立レビューさせ、結果を JSON で集約したい。
 - [Coolify API の癖と未公開仕様](tool-quirk/coolify-api.md) — `global` — Coolify (オンプレ Ubuntu サーバ `coolify.aisaba.net`) を HTTP API 経由で操作する際、公式 OpenAPI と実装の食い違い・公式 docs に書いてない癖が多数ある。MeishiLink デ
 - [画像生成は Codex (Images2 / gpt-image-1) 優先、Gemini Nanobanana より高品質](tool-quirk/image-generation-models.md) — `global` — CLAUDE.md の役割分担では「Gemini = 画像などビジュアル面」と一般原則が書かれている。しかし画像生成タスクに限って言えば、ユーザーの実体験に基づく判断として **Codex (内部的に OpenAI Images-2 / g
 - [plutil -extract は -o - を省くと入力ファイルを抽出結果で上書きする](tool-quirk/plutil-extract-overwrites-input-file.md) — `global` — iOS の検証で Info.plist の値を確認したくなる場面は多い

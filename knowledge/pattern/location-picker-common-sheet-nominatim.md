@@ -8,6 +8,7 @@ sources:
   - https://nominatim.org/release-docs/develop/api/Search/
   - https://operations.osmfoundation.org/policies/nominatim/
   - https://react-leaflet.js.org/
+model-era: opus-4.8
 ---
 
 ## Context
@@ -30,17 +31,17 @@ interface LocationPickerSheetProps {
 ```
 
 内部 UI 構成 (上から):
-1. **検索 input** (debounce 500ms → Nominatim `/search?format=json&q=<encoded>&limit=8&accept-language=ja`)
+1. **検索 input** (検索ボタン/Enter 発火 → Nominatim `/search?format=json&q=<encoded>&limit=8&accept-language=ja`。キー入力発火は禁止 ↓運用規約)
 2. **「📍 現在地を使う」 chip** (`navigator.geolocation.getCurrentPosition`, timeout 8s)
 3. **検索結果リスト** (8 件まで、tap で地図中心 + label auto-fill)
 4. **地図** (`<MapSection>` + draggable Marker、高さ 260px)
 5. **場所のラベル input** (検索選択で auto-fill、手動編集可)
 6. **header に `[決定]` ボタン** (label 1 文字以上必須)
 
-Nominatim 運用規約:
+Nominatim 運用規約 (★2026-08-06 訂正: 公式 Usage Policy は autocomplete を明示禁止 — 「must not implement such a service on the client side using the API」。debounce を付けてもキー入力駆動の search-as-you-type は不可。本パターンで Nominatim を使うなら**検索ボタン/Enter 押下時のみ**発火にする。入力ごとの予測が要件なら Photon 等へ → library/geocoding-autocomplete-apis-japan.md):
 - `User-Agent: <AppName>/<version> (+<URL>)` 必須
-- 1 req/sec ハードリミット → **debounce 500ms + AbortController** で連続入力時の前 request キャンセル、実質「ユーザー 1 人 max 2 req/sec」に抑える
-- MVP デモ規模 (低トラフィック) なら client 直叩きで規約内に収まる
+- 1 req/sec ハードリミット (AbortController で前 request キャンセル)
+- MVP デモ規模 (低トラフィック・ボタン発火) なら client 直叩きで規約内に収まる
 - 本格運用化 (同時 100+ アクセス) は server proxy + cache を別 endpoint で挟む
 
 ## Why
@@ -67,7 +68,7 @@ Nominatim 運用規約:
 逆にやってはいけない:
 
 - 各画面で個別に map + 入力欄を作る (×) → 操作感のバラつきと検索ロジック重複の元
-- Nominatim を debounce なしで叩く (×) → 1 req/sec policy 違反で IP ban リスク
+- Nominatim をキー入力ごとに叩く (×) → debounce の有無に関わらず autocomplete 禁止ポリシー違反で IP ban リスク
 - reverse geocode (ピン drag で住所自動 fill) を MVP で入れる (×) → reverse は 1 req/sec が より厳しい、ピン drag 頻度と相性悪い
 - Map 高さを 160px 以下にする (×) → ピン位置の認識が困難
 

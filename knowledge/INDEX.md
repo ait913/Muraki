@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-08-06
+Generated: 2026-08-08
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -126,6 +126,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [状態遷移・権限チェックは先行 read でなく atomic UPDATE の WHERE に置く (asyncpg)](gotcha/asyncpg-check-then-act-must-be-atomic-update.md) — `global` — AgentHub (Python/asyncpg/Postgres の MCP) の実装で、**同じ family のバグを3回踏んだ**。stateless・複数レプリカ・複数 AI が同時接続する前提だと「先に read して Pyth
 - [best-effort DB write の `_ =` が SQL 型エラーを無音で握りつぶす](gotcha/best-effort-write-swallows-sqlstate-errors.md) — `global` — dandan-app Slice 1 の last_used_at / last_seen_at (60s throttle 更新)。「失敗してもリクエストは通す」性質の write を `_ = store.TouchMCPToken(.
 - [better-auth bearer は raw DB session token を受け付けない (signed token / set-auth-token 経由が必須)](gotcha/better-auth-bearer-plugin-token-format-coupling.md) — `global` — Atender iOS 土台で web の Cookie session に加えネイティブ用に better-auth `bearer()` plugin を足し、`Authorization: Bearer <token>` で `/ap
+- [better-auth CLI 生成スキーマは TS フィールド camelCase / DB 列 snake_case](gotcha/better-auth-cli-generates-snake-case-columns.md) — `global` — oni-keiri で Reviewer が生 SQL フィクスチャ (`INSERT INTO "user" (..., "emailVerified", ...)`) を書き、24 テストが `column "emailVerified
 - [better-auth テスト helper の cookie は Hono signed cookie 形式を再現する必要がある](gotcha/better-auth-test-cookie-must-match-hono-signed-format.md) — `global` — better-auth 1.6.x + Hono 4.12.x の API を Vitest + `app.request()` でテストする際、テスト helper で「Session 行を直接 prisma で作って Cookie ヘッ
 - [chrome-devtools MCP の fill は React controlled input の onChange を発火させない](gotcha/chrome-devtools-mcp-fill-react-controlled-input.md) — `global` — `mcp__chrome-devtools__fill` (またはツール呼び出し名 `fill`) で React の controlled input (`<input value={state} onChange={...} />`) 
 - [Chrome for Testing の cookie が headless で復号できず「ログインしてるのに使えない」](gotcha/chrome-for-testing-macos-keychain-cookie.md) — `global` — chrome-devtools MCP でログインが要るサイト (Slack 等) を読むとき、`chrome-login.sh` で
@@ -154,6 +155,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [interface fake だけのハンドラテストは DB 制約との食い違いを検出しない](gotcha/fake-store-tests-miss-db-constraint-drift.md) — `global` — DB 依存を避けるため、REST ハンドラのテストを `Store` interface の fake 実装に対して回すのは定石で、速くて安定する。omatase もその方針で、`internal/http` のテスト全部が fake st
 - [負のコントロールの復元に git checkout -- を使うと、レビュー対象の未コミット作業を消す](gotcha/git-checkout-restore-destroys-uncommitted-work.md) — `global` — Reviewer が負のコントロール (mutation testing) を回すとき、対象ファイルを一時的に壊して
 - [Go nil slice が JSON null になり MCP 空状態契約 (空配列) を破る](gotcha/go-nil-slice-null-breaks-mcp-empty-state-contract.md) — `global` — MCP ツールの typed struct 出力 (go-sdk `AddTool[In, Out]`) で「空状態はエラーでなく空コレクションで返す」契約を設計docに書いた。実装は Out struct の slice フィールドを未初
+- [意図的な縮退モードは復帰経路とセットでないと永久障害になる](gotcha/graceful-degradation-needs-recovery-path.md) — `global` — omatase backend は「DB が無くても /healthz は 200 を返し、/v1/* だけ 503 に縮退する」意図的な設計を持っていた。導入時は正しい判断 (当時のデプロイ環境に DATABASE_URL が無く、fat
 - [テストのハードコード「近未来日付」は数日で腐り、ベースライン失敗の山に化ける](gotcha/hardcoded-future-dates-decay-into-baseline-failures.md) — `global` — atender の `projectShare` は投影範囲を **`today().startOfDay` 〜 +3ヶ月**で取る (設計 `20260723-calendar-eventkit-sync-and-redesign.md:
 - [chrome-devtools MCP の headless スクショは backdrop-filter 多用ページで captureScreenshot がタイムアウト](gotcha/headless-screenshot-backdrop-filter-timeout.md) — `global` — frosted glass (glassmorphism) UI を chrome-devtools MCP の headless で `take_screenshot` すると `Page.captureScreenshot timed 
 - [Hono の app.request() はテスト経路で HTTP ヘッダ値を Latin-1 (ByteString) に制限する](gotcha/hono-app-request-header-latin1-constraint.md) — `global` — better-auth + Hono + Vitest で「匿名サインインに日本語名を `x-guest-name` ヘッダで渡す」テストを書こうとすると、
@@ -207,6 +209,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [testcontainers + postgres で 「ready to accept connections」を 1 回だけ待つと早期接続失敗](gotcha/testcontainers-postgres-double-ready-log.md) — `global` — testcontainers で PostgreSQL を spawn し、global setup で `Wait.forLogMessage(/database system is ready to accept connections
 - [Vitest の CJS/ESM interop は Node より寛容 — interop バグは in-process テストでは原理的に検出できない](gotcha/vite-cjs-esm-interop-hides-node-esm-failures.md) — `global` — atender の ICS インポート (`POST /api/rooms/:id/ics-imports`) が本番・dev で**一度も動いたことがなかった**。
 - [Vitest で Expo/React Native モジュールを import する時の落とし穴](gotcha/vitest-expo-rn-import-pitfalls.md) — `global` — Tsunagu Mobile (Expo + React Native + TypeScript) で Reviewer が Vitest テストを生成した際、Zustand store のテストで実装をimportした瞬間に
+- [vitest fileParallelism は projects 内では効かない (トップレベル限定)](gotcha/vitest-fileparallelism-only-top-level.md) — `global` — vitest v3 の `projects` 構成 (unit / api を分ける) で、api プロジェクトだけ共有 Postgres + beforeEach TRUNCATE 方式にした。ファイル並列だと他ファイルの TRUNCAT
 - [vi.mock("node:fs/promises") は specifier が違うと当たらない](gotcha/vitest-mock-fs-specifier-mismatch.md) — `global` — Reviewer が Next.js App Router の route handler (例: `src/app/u/[handle]/logo/route.ts`) のテストを書く際、ファイル読み込みを mock するために `vi.
 - [Vitest server テストで app の DB に対し setup で migration を流さないと "no such table" で全 fail する](gotcha/vitest-server-setup-must-migrate-app-db.md) — `global` — Hono + Drizzle + better-sqlite3 + better-auth スタックで、設計 doc に「起動時 migration を `src/server/index.ts` で実行する」と書くと、**テストでは `i
 - [同じ「WS のベース URL」で /ws を含む規約と含まない規約が混在すると黙って死ぬ](gotcha/ws-base-url-convention-split.md) — `global` — WS の接続先を env で渡す構成はどこにでもある。omatase では 3 箇所が同じ「WS のベース URL」を持っていたが、**パスを含む/含まないの規約が逆**だった:

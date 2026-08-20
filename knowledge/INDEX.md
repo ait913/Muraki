@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-08-08
+Generated: 2026-08-21
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -21,6 +21,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [EventKit の繰り返しモデル — RRULE 表現力・例外(detached)・span・occurrence 展開](library/eventkit-recurrence-model.md) — `global` — iOS アプリで「予定の繰り返し」を扱い、それを EventKit (iPhone 標準カレンダー) と同期する設計をするとき。
 - [Expo SDK 57 (RN 0.86/New Arch) の地図・背景位置・WSクライアント事情](library/expo-sdk57-maps-location-ws.md) — `global` — omatase (位置共有アプリ) の Pre-design Research で SDK 57 + RN 0.86 (newArchEnabled) の実装ライブラリを確定した時の一次確認。
 - [Expo SDK 57 で QR を読む / 出す (expo-barcode-scanner は SDK 52 で削除済)](library/expo-sdk57-qr-scan-generate.md) — `global` — omatase (Expo SDK 57 / RN 0.86 / newArchEnabled) の招待 QR 設計前の一次確認 (2026-07-30)。
+- [Flutter で iOS バックグラウンド位置 (visits / significant change / Always 許可 / 日次バッチ) を扱う時の現状 (2026-08)](library/flutter-ios-background-location.md) — `global` — Bloom. (位置ヒートマップ SNS、旧 slug itsumo) の Phase-0 事前調査で、Flutter × iOS の低電力バックグラウンド位置取得と日次バッチの成立性を一次資料 + pub.dev 実測で確認した (202
 - [日本向け場所検索 autocomplete API の選定事情 (2026-08)](library/geocoding-autocomplete-apis-japan.md) — `global` — omatase の場所選択モーダルに「入力ごとに予測が出る検索 (autocomplete)」を足すための API 選定 (2026-08 実測)。要件: 日本語品質 / 結果が範囲 (bbox) か地点かを区別 / MapLibre + 
 - [GitHub OAuth App (classic) の callback URL は 1 本のみ — redirect_uri はサブディレクトリ一致で分岐可](library/github-oauth-app-callback-url-rules.md) — `global` — 1 つの GitHub OAuth App (classic) を「MCP 認証の federate 先」と「Web ダッシュボードのログイン」の両方で使いたい場面 (dandan-app stateful 転換)。
 - [公式 GitHub MCP server の認証設計と MCP write/inform 指針 (2026)](library/github-official-mcp-auth-2026.md) — `global` — dandan (リモート MCP, GitHub App 認証, Issues R/W) の「書き込みを持つ意味・App install 摩擦の妥当性」を判断するため、公式 GitHub MCP と他社リモート MCP の認証・write設
@@ -46,6 +47,8 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [SwiftUI Liquid Glass (iOS 26) — API 実在確認と availability](library/swiftui-liquid-glass-ios26.md) — `global` — Atender (SwiftUI/iOS) の UI を Apple ネイティブ部品 + Liquid Glass で刷新する設計の事前調査 (Xcode 26.6 / iOS SDK 26.5 実測)。
 - [SwiftUI 横ページングをタブ+NavigationStack+縦ScrollView の中に入れる (iOS 26 実測)](library/swiftui-nested-horizontal-paging-ios26.md) — `global` — atender の月カレンダーを「指でめくれる」ようにしたい。アプリの構造は
 - [vCard 日本語名刺生成 (vCard 3.0 + 振り仮名)](library/vcard-japanese.md) — `global` — 日本向け Web 名刺アプリで、iOS/Android 連絡先に取り込める .vcf を Node で生成する。
+- [Bloom. Phase-1 事前リサーチ — Appily セルフホスト backend の前提確認 (3秒動画 / APNs / Sign in with Apple / H3 / WS / スタック / Coolify 構成)](../projects/bloom/.knowledge/research-backend-appily.md) — `bloom` — Bloom. Phase-1 (投稿・配信・push・RT・21時バッチ・認証・H3集計) の技術設計前の前提確認。クライアントは Flutter 3.47 iOS (確定、`research-flutter-location-map.md
+- [Bloom. (旧 slug itsumo) Phase-0 事前リサーチ — Flutter で位置ヒートマップ SNS が成立するか (iOS BG 位置取得 / 地図 / メッシュ / 端末 DB / バッチ / RT 共有)](../projects/bloom/.knowledge/research-flutter-location-map.md) — `bloom` — PRODUCT.md (2026-08) の中核 = 「平常時は significant location change / visit monitoring で端末に記録 → 21 時に一括反映 → メッシュ濃淡のヒートマップを地図に描く
 
 ## pattern
 - [AI が人間 identity を共有する MCP での「承認ゲート」設計 (構造ゲートで代理)](pattern/ai-collab-mcp-shared-identity-approval-gate.md) — `global` — AI グループ開発ツール (agent-hub 等) で「意思決定は人間が承認する (ブラックボックス化を防ぐ)」を
@@ -77,6 +80,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [LLM 対話アプリの安全境界スタック (regex 先行 + tool 強制 + AAD 暗号化)](pattern/llm-dialog-safety-stack.md) — `global` — メンタルウェルネス / 生活リズム / AI 秘書系で LLM (Claude Haiku 4.5 等) と長時間対話する。
 - [LLM 生成 Push 通知の現実的アーキテクチャ (iOS APNs + Claude Haiku)](pattern/llm-push-notification-architecture.md) — `global` — 「起床コーチ」「就寝リマインド」「夜の振り返り誘導」など、AI が文面を個別生成する push 通知を iOS に飛ばす場面。レイテンシ・コスト・UX の現実的トレードオフ。
 - [場所選択を共通 Sheet (検索 + 地図 + 現在地) として切り出す Nominatim MVP パターン](pattern/location-picker-common-sheet-nominatim.md) — `global` — イベント管理 / 待ち合わせ系アプリで「Schedule に場所を設定」「Feature (集合) に場所を設定」「event 作成時に集合場所を設定」など、**場所選択 UI が複数画面で必要**になる。
+- [地図主体 SNS のホーム — 投稿→閲覧サイクルを「地図の上に浮く投稿 + 常設ボトムシート = フィード」で 1 画面に畳む](pattern/map-first-sns-home-post-view-cycle.md) — `global` — Bloom. (位置情報 SNS) の Phase-0 IA。全画面地図を維持しつつ、主サイクル「通知 → 3 秒動画 → 投稿先を選んで投稿 → その場で他人の投稿も見る」をホームから 3 タップ以内で回す必要があった。地図 / フィード
 - [MCP Apps iframe のマルチテナント文脈解決 — 通知非依存の user スコープ解決 + project pin](pattern/mcp-apps-multitenant-ui-context-pin.md) — `global` — シングルテナント MCP サーバー (MCP Apps iframe UI 付き) をマルチユーザー化するとき、「グローバル最新」「グローバル名簿」型の文脈参照をどう変換するか。iframe は「どのテナント文脈を描画すべきか」を自力で知る
 - [MCP server_instructions は二相化 (決定的オンボーディング + 能力パレット作業)](pattern/mcp-server-instructions-two-phase-onboarding.md) — `global` — MCP の `server_instructions` (FastMCP `instructions=...`) は接続直後の AI に渡す自由文。
 - [最小限の SNS レイヤ (Friend + Room) を Prisma + 単一 endpoint で設計するパターン](pattern/minimal-social-layer-friend-room.md) — `global` — 「友達追加 + グループ (ルーム) + 共有カレンダー」程度の軽量 SNS 機能を、既存アプリに**追加機能として後付け**するときの最小構成。LINE / Penmark / TimeTree のような **個人 ID + 招待リンク 
@@ -89,6 +93,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [「描かれないこと」の検証はレンダ差分の**対**で書く (ImageRenderer + PNG 等値)](pattern/offscreen-render-diff-pair-for-negative-drawing.md) — `global` — UI 設計は「当月外の日はイベント chip / ステータスドットを**描かない**」のような
 - [楽観更新と「再取得で全置換」を共存させる — pending キーを store 契約に載せる](pattern/optimistic-write-pending-key-vs-refetch.md) — `global` — 「薄い通知 → REST で snapshot を取り直して全置換」でライブ更新する設計 (上記 pattern) に、
 - [OS 版数で分けるのは「質感」だけ。機能・レイアウト・IA を分けない](pattern/os-version-split-texture-not-function.md) — `global` — iOS 26 の Liquid Glass を採用したいが、deployment target を 26 に上げると
+- [必須許可の強制は「dismiss 可モーダル (瞬間) + 常設バナー (残響)」の 2 段構え](pattern/permission-gate-modal-plus-banner.md) — `global` — アプリの成立条件になっている OS 許可 (例: 位置情報「常に許可」) をユーザーに事実上必須として要求したいが、ハードブロック (許可するまで主画面に進めない) にはできない場面。
 - [polymorphic Feature プラグイン基盤の 3 案と選び方 (JSON config か kind ごとの実テーブルか)](pattern/polymorphic-feature-plugin-schema.md) — `global` — エンティティに「種類の違う付加機能」を 0..N 個アタッチしたいケース。例:
 - [別プラットフォームの視覚品質を移植する — 値でなく「性格」を写す](pattern/port-visual-character-not-tokens.md) — `global` — atender は Web 版が「丸めでポップで綺麗」なのに iOS ネイティブ版が「詰め詰めで10年前」になった。原因を「Web トークンを iOS に 1:1 移植していないから」と誤診しやすいが、実際は逆だった。iOS の DESIG
 - [ポータブル設計のリアルタイム救命系スタック (Hono + Prisma+PostGIS + 自前 ws + Expo Push)](pattern/portable-realtime-rescue-stack.md) — `global` — 「位置共有 + 即時通知 + 双方向 WS」を要求する救命/防災/オンコール系アプリ。
@@ -96,6 +101,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [月次定期ルールを未確定 record として materialize する家計簿パターン (RRULE不採用・lazy補充)](pattern/recurring-rule-materialize-unpaid-records.md) — `global` — サブスク/クレカ/給料のような「毎月固定日・固定額の収支」を扱う家計簿で、定期収支を未来へ展開して残高着地予測に効かせたい場面。カレンダー系 (会議/シフト) とは要件が違う:
 - [リモートMCPのマルチテナント設計 — per-project URL バインド + 自前AS + 事実/判断の線引き](pattern/remote-mcp-multitenant-self-as.md) — `global` — クラウド上のリモート MCP サーバー（Claude Code / Codex から URL 追加 + OAuth）を、複数チーム・複数リポでマルチテナント運用したい。かつ「推論はホスト agent に委譲、サーバーは事実だけ持つ」構成（d
 - [RRULE 文字列保存 + オンザフライ展開 + 編集 3 択 (single/future/all) の標準パターン](pattern/rrule-string-onfly-expand-with-overrides.md) — `global` — カレンダー / 予約 / 共有予定アプリで「繰り返し予定」を持ちたい場面。Google Cal / Apple Cal / Outlook と互換性のある RRULE (RFC 5545) を取り扱う必要がある時。
+- [定時公開は「read 時の時刻条件 + 冪等バッチ」で組む (公開をバッチに依存させない)](pattern/scheduled-publish-read-time-condition.md) — `global` — 「毎日 21:00 に全員へ一斉公開」のような定時公開機能。素直に「cron が 21:00 に published フラグを立てる」と組むと、(a) Coolify Scheduled Task には cron が止まる既知バグがある、(
 - [オンボーディング完了判定は単一の純粋関数に集約する (二重定義はデッドロックを生む)](pattern/setup-completion-guard-single-source-of-truth.md) — `global` — atender 本番で「新規ユーザーが Setup から抜け出せないデッドロック」が発生。
 - [1 画面圧縮タイムライン (時間割 / シフト表 / カレンダー日 view)](pattern/single-screen-compressed-timetable.md) — `global` — 「複数メンバーの時間割を 1 画面に縦スクロールなしで並べる」「シフト表を viewport 高さに圧縮表示する」「Google Calendar 日 view のように重なるイベントを横並びで表現する」要件を、CSS Grid + パーセ
 - [スケルトンは実UIの外殻クラスを複製し決定的パターンで埋める](pattern/skeleton-structural-parity.md) — `global` — atender のスケルトン (CalendarMonth/Timetable 等) が実 UI と padding/gap/セル形状 (aspect-square vs min-h-24) で乖離し、ロード完了時にレイアウトシフトと違和感
@@ -133,12 +139,14 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [クライアントの平坦 error 読みが nested error 封筒を全部 unknown に潰す](gotcha/client-flat-error-read-collapses-nested-error-envelope.md) — `global` — omatase web ゲスト (Next.js) の `api/client.ts` を設計契約だけからテストした。REST 正典
 - [「今日」をサーバと別の暦で決めると、毎日 N 時間だけ壊れる](gotcha/client-today-must-use-server-timezone.md) — `global` — atender の API は `apps/api/src/lib/tz.ts` で `APP_TZ = "Asia/Tokyo"` を固定し、
 - [Cloudflare Tunnel 経由は loopback 接続 — Nginx の IP allowlist に 127.0.0.1 を入れ忘れると 403](gotcha/cloudflare-tunnel-nginx-allowlist-loopback.md) — `global` — aisaba_platform の Nginx vhost には Cloudflare edge IP からのみ受け付ける allowlist が `cloudflare_only.conf` として include されている (`all
+- [coder/websocket は呼び手の ctx timeout でも接続そのものを閉じる](gotcha/coder-websocket-short-lived-read-context-closes-connection.md) — `global` — bloom P3c の WS (`coder/websocket` v1.8.15) を reviewer がブラックボックス probe するとき、
 - [Coolify の healthcheck が localhost→::1 で落ちる (Node の HOSTNAME=0.0.0.0 は IPv4 のみ bind)](gotcha/coolify-healthcheck-localhost-ipv6-vs-node-bind.md) — `global` — Coolify に app を建てるとき `health_check_host: "localhost"` を設定すると、
 - [Coolify on Cloudflare の 307/302 HTTPS リダイレクトループ](gotcha/coolify-https-redirect-loop.md) — `global` — Coolify (`coolify.aisaba.net`) で新規 application を立てると、HTTP/2 307 or 302 で **location が自分自身** という無限リダイレクトループを起こす。Cloudflar
 - [Coolify は private GitHub repo を default で clone できない (Public Repo 用フロー)](gotcha/coolify-private-repo-cannot-clone.md) — `global` — Coolify (`coolify.aisaba.net`) で **Public Repo** build pack (`POST /applications/public`) を使ってアプリを作成し、`git_repository: "
 - [Coolify で全パス self-redirect ループになる時の復旧手順](gotcha/coolify-traefik-stale-label-loop.md) — `global` — Coolify (Traefik) で Dockerfile アプリをデプロイ。`fqdn` 個別指定 (例 `https://meishilink.appily.run`) + server に `wildcard_domain=http
 - [CSS Grid で一部だけ明示配置すると自動配置アイテムがズレて流れる](gotcha/css-grid-mixed-explicit-auto-placement-collision.md) — `global` — CSS Grid で背景セル (罫線・ヘッダ・ラベル) を素直に並べ (自動配置)、その上に一部のアイテム (イベントブロック等) だけ `gridColumn`/`gridRow` を明示指定して重ねる構成。「明示したやつだけ位置が決まっ
 - [コンパイルできなくなったテストを削除すると、build tag 付きの CI job は「中身ゼロで緑」になる](gotcha/deleted-tests-make-tagged-test-job-vacuously-green.md) — `global` — 破壊的な再構成 (DB スキーマ + 認証 + API 契約を同時に差し替える) を実装した commit で、
+- [色/強度の数式仕様は「色空間・適用段・対数の底」まで書かないと検証も実装も割れる](gotcha/design-color-formula-needs-colorspace-and-log-base.md) — `global` — bloom R3 §7 のヒートマップ規則「彩度 = 1 − (混ざった人数 − 1)/(グループ人数 − 1) × 0.85、明度・不透明度 = 累積強度の対数」を Reviewer が設計docだけからテストした。
 - [設計docの導出数値 (個数合計) は生成規則と矛盾しうる — 規則を規範とする](gotcha/design-doc-derived-counts-vs-generative-rule.md) — `global` — Atender UI小修正のレビューで、設計docが skeleton のプレースホルダ配置を「`(dayIndex + rowIndex) % 3 === 0` のセルだけ Skeleton」という生成規則で定義しつつ、「days=5, 
 - [設計docの例示値がformula/正典と矛盾しうる — Reviewerは例を鵜呑みにしない](gotcha/design-doc-example-values-can-contradict-formula.md) — `global` — Atender iOS Phase B の Reviewer テスト生成中、`DayConvention.resolveDisplayDays` の
 - [型付き言語(Swift等)では設計docに「挙動」だけでなく型/シグネチャを書かないとReviewerが実装に寄る](gotcha/design-doc-must-specify-swift-type-signatures.md) — `global` — Web(TS/RTL)では「挙動仕様(○○のとき△△)」だけで Reviewer がテストを書け、実装を見ずに独立検証できた。だが Swift のような静的型 + コンパイル必須の言語で iOS テストを書かせたら、設計に**型・メソッドシ
@@ -147,6 +155,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [描画テストを起こすなら設計docにコンポーネントの prop 契約を明記させる](gotcha/design-must-specify-component-prop-contract-for-render-tests.md) — `global` — atender UI改善 項目1。設計docの「挙動仕様」が TimetableView の描画結果
 - [設計書の error code 表記が「明示」か「例示」か曖昧で実装/テストが食い違う](gotcha/design-spec-implicit-vs-explicit-error-codes.md) — `global` — 設計書 §4.x で API エラーレスポンスを以下のように列挙していた:
 - [dev の .env が Vitest に漏れて .env.test を上書きする — 「.env を直す」は誤った処方](gotcha/dev-dotenv-leaks-into-vitest-overriding-env-test.md) — `global` — atender の `apps/api` は app が import 時に dotenv で `.env` を読む構成のため、
+- [Dio の既定 validateStatus が独自エラー封筒への変換より先に例外を投げる](gotcha/dio-default-validatestatus-swallows-custom-error-envelope.md) — `global` — Bloom (Flutter + Dio) の `ApiClient` は、サーバーの共通エラー封筒
 - [docker build が package.json#prepare の lefthook/husky install で落ちる](gotcha/docker-build-git-hook-prepare-script.md) — `global` — `.dockerignore` で `.git` を除外した Docker build context で `pnpm install` (npm/yarn も同様) を
 - [DTO 型直書きの decode テストは repository の配線を検証しない (層は全部正しいのに画面が壊れる)](gotcha/dto-type-literal-decode-tests-bypass-repository-wiring.md) — `global` — atender iOS で「ルーム詳細画面が丸ごとエラー表示」になるバグ。原因は `RoomRepository.roomWeek()` が
 - [env モジュールの import 時パースが実行時 env 差し替えテストを無効化する](gotcha/env-module-import-time-parse-defeats-runtime-env-swap.md) — `global` — atender `apps/api` の `src/env.ts` は `EnvSchema.parse(process.env)` を **モジュール import 時に一度だけ**実行し、以後 `env` オブジェクトはその時点の値で固
@@ -154,6 +163,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [expo-router の replace は「新規エントリ置換 = 再 mount」であり params 更新ではない](gotcha/expo-router-replace-remounts-not-param-update.md) — `global` — omatase mobile (expo-router / 単一 Stack) で「query param を消すためだけの `router.replace(同一 pathname)`」を使ったところ、実機で ハブ⇄進行ページの無限往復と、
 - [忠実移植で handle の "@" 前置はView層限定 (データ/純粋ロジックは生handle)](gotcha/faithful-port-handle-at-prefix-is-view-only.md) — `global` — Atender iOS Phase D の RoomCalendarLogic.buildCalendarEvents / RoomTimetableLogic.buildEvents で、
 - [interface fake だけのハンドラテストは DB 制約との食い違いを検出しない](gotcha/fake-store-tests-miss-db-constraint-drift.md) — `global` — DB 依存を避けるため、REST ハンドラのテストを `Store` interface の fake 実装に対して回すのは定石で、速くて安定する。omatase もその方針で、`internal/http` のテスト全部が fake st
+- [flutter test で plugin 同梱 ffi は動かない — ホスト dylib を dlopen 注入する](gotcha/flutter-test-plugin-ffi-needs-host-dylib-injection.md) — `global` — bloom P2a のレビューで、集計パイプライン (h3_flutter の `latLngToCell`) を `flutter test` (ホスト VM) で回そうとした。
 - [負のコントロールの復元に git checkout -- を使うと、レビュー対象の未コミット作業を消す](gotcha/git-checkout-restore-destroys-uncommitted-work.md) — `global` — Reviewer が負のコントロール (mutation testing) を回すとき、対象ファイルを一時的に壊して
 - [Go nil slice が JSON null になり MCP 空状態契約 (空配列) を破る](gotcha/go-nil-slice-null-breaks-mcp-empty-state-contract.md) — `global` — MCP ツールの typed struct 出力 (go-sdk `AddTool[In, Out]`) で「空状態はエラーでなく空コレクションで返す」契約を設計docに書いた。実装は Out struct の slice フィールドを未初
 - [意図的な縮退モードは復帰経路とセットでないと永久障害になる](gotcha/graceful-degradation-needs-recovery-path.md) — `global` — omatase backend は「DB が無くても /healthz は 200 を返し、/v1/* だけ 503 に縮退する」意図的な設計を持っていた。導入時は正しい判断 (当時のデプロイ環境に DATABASE_URL が無く、fat
@@ -164,6 +174,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [iCloud/Finder の「 2」複製が .git に湧いて ref を壊す (git が理不尽に落ちる・worktree が勝手に detached)](gotcha/icloud-duplicate-files-corrupt-git-refs.md) — `global` — Muraki の repo は `/Users/touri/Documents/Creatives/Developments/Muraki/...` = macOS の `~/Documents` = **iCloud Drive 同期対象
 - [iCloud 同期下の venv/git が間欠 import・checkout stall する](gotcha/icloud-synced-venv-git-stall.md) — `global` — Muraki の repo は `/Users/touri/Documents/Creatives/Developments/Muraki/...` にある。macOS の `~/Documents` は **iCloud Drive 同期
 - [ICS 終日イベント (VALUE=DATE) は floating date — サーバの TZ で UTC 実体がズレる (dev=JST / 本番コンテナ=UTC)](gotcha/ics-all-day-floating-date-depends-on-server-tz.md) — `global` — atender の ICS インポートのレビューで、終日イベントの assert が
+- [clock 注入がトークン検証まで届かないと time-travel テストで認証が死ぬ](gotcha/injected-clock-must-cover-token-verification.md) — `global` — 時刻依存仕様 (日次上限・21:00 公開など) のテストは fakeClock を数時間〜数日シフトさせる。設計が「全 handler に clock を注入」と書いても、JWT ライブラリの exp/iat 検証は既定で実時間を使う。
 - [招待 deeplink QR の host 検証は URL を開かない限り防御力ゼロ](gotcha/invite-deeplink-qr-host-check-is-noop.md) — `global` — QR / universal link で招待 (ルーム参加・友達追加) を実装するとき、スキャン結果検証を
 - [userInterfaceStyle "automatic" + ダークモード端末で iOS ネイティブコントロールが白文字になり消える](gotcha/ios-automatic-appearance-invisible-native-controls.md) — `global` — omatase (Expo SDK 57) で日時ピッカーが「白背景に白文字」で読めない、という実機症状。
 - [日本語 UI なのに「英語アプリ」として出荷される (system の Back が "Back" になる)](gotcha/ios-japanese-ui-shipped-as-english-bundle.md) — `global` — atender iOS は UI 文字列が**全部ベタ書きの日本語**で、`.lproj` を 1 つも持たない。
@@ -185,6 +196,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Next.js route の baseUrl は req URL ではなく env 変数 (PUBLIC_BASE_URL) 由来](gotcha/nextjs-route-baseurl-env-vs-req.md) — `global` — vcard route handler が `PHOTO;VALUE=URI:` に絶対 URL を埋め込む。Reviewer のテストで `new Request("https://example.com/yamada/vcard")` 
 - [共有DTOに非Optionalフィールドを足すと inline JSON を持つ既存テストが decode throw で落ちる](gotcha/non-optional-dto-field-breaks-inline-json-tests.md) — `global` — iOS Phase iOS-1 再同期で `MeResponse.User` に `requiredAttendanceRate: Int` を**非Optional**で追加した (設計 §3.4、zod `z.number().int(
 - [非 Optional な DTO フィールド追加は wire では additive でも呼出し側には source-breaking](gotcha/non-optional-dto-field-is-not-additive-for-callers.md) — `global` — atender「公開時間割検索」で、shared zod と iOS の `TemplateDto` に **非 Optional** な
+- [DB 往復した timestamptz の JSON 化はローカル offset を漏らす (Z 固定契約はフィールド単位で検証)](gotcha/pg-timestamptz-json-marshal-leaks-local-offset.md) — `global` — bloom P1 レビュー。設計は「時刻は全て UTC の RFC3339 (`Z` 固定)」を wire 契約にしていた (§6-1)。Reviewer が全 timestamp フィールドに Z サフィックス assert を入れたとこ
 - [白背景の切り抜きは「外周に連結した白」だけを抜く — 閾値だけで抜くとキャラに穴が開く](gotcha/png-alpha-cutout-must-keep-enclosed-white.md) — `global` — 白背景で生成した 3D/イラスト系のキャラクター画像を透過 PNG に切り抜いて出荷する。ライトモードでは何年も問題なく見えていたのに、**ダークモードにした瞬間にキャラの白い部分に穴が開いて背景の黒が透ける**。
 - [pnpm 11 は .npmrc の pnpm 固有設定を読まない (設定が黙って死ぬ)](gotcha/pnpm11-ignores-npmrc-settings.md) — `global` — pnpm 11 は `node-linker` などの **pnpm 固有設定を `.npmrc` から `pnpm-workspace.yaml` へ移した**。`.npmrc` に書いた設定は**エラーも警告も出さずに無視される**。
 - [「承認された初期値」をテストにリテラルで焼くと、その定数を上げた瞬間に赤くなる](gotcha/policy-constant-literal-in-test-decays-on-bump.md) — `global` — atender の `MIN_IOS_BUILD` は「これ未満の iOS ビルドを 426 で弾く」ポリシー定数。
@@ -219,6 +231,9 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [XCUITest は起動直後の最初の 1〜2 タップを失う (offset のせいだと誤診する)](gotcha/xcuitest-first-taps-after-launch-are-lost.md) — `global` — 「予定 chip の真上をタップしても chip がタップを食わず、日別シートが開く」(#H3) を
 - [zod .datetime() は +09:00 形式の ISO8601 を拒否する — クライアントは必ず toISOString() で送る](gotcha/zod-datetime-rejects-offset-iso-client-must-send-z.md) — `global` — atender の個人カレンダー再構築で「JST 日付 (YYYY-MM-DD) → instant」の変換を
 - [AgentHub 既知の失敗テスト台帳](../projects/agent-hub/.knowledge/known-failures.md) — `agent-hub` — Muraki 規約: 各 PJ は既知の失敗テストを分類付き (テスト陳腐化 / 環境依存 / 未分類) で持つ。**未分類の失敗を残したままのマージは不可**。この台帳と照合して初めて「既存破損だから無視」が言える。
+- [bloom 既知失敗テスト台帳](../projects/bloom/.knowledge/known-failures.md) — `bloom` — 分類: テスト陳腐化 / 環境依存 / 未分類。未分類を残したままのマージ不可 (Muraki 規約)。
+- [Phase-1 実装バックログ (R2 反映漏れ分の追跡)](../projects/bloom/.knowledge/phase1-backlog.md) — `bloom` — - [ ] G12 招待リンク読み取り専用 API + S8/S10 の叩き先変更 → **P3b**
+- [P2a probe 結果台帳 (設計doc §14 probe #1〜#4)](../projects/bloom/.knowledge/probe-results.md) — `bloom` — P2a の実機依存 probe 4 件の結果を記録する台帳。成否の分岐 (Plan A/B、codec 変換要否、res8 前倒し) は設計doc §14 の表が正典。手順は `app/PROBE.md`。
 - [dandan-app 既知の失敗テスト台帳](../projects/dandan-app/.knowledge/known-failures.md) — `dandan-app` — 分類: テスト陳腐化 / 環境依存 / 未分類。**未分類を残したままのマージ不可** (Muraki/CLAUDE.md)。
 - [アーカイブの DB ガードは「保存」を止めるが WS の「中継」は止めない](../projects/omatase/.knowledge/archived-gate-stops-persistence-not-relay.md) — `omatase` — PRODUCT.md §8-7 は「アーカイブ後は読み取り専用。**位置共有は止める**」を要求する。
 - [omatase 既知の失敗テスト台帳](../projects/omatase/.knowledge/known-failures.md) — `omatase` — Muraki 規約: 各 PJ は既知の失敗テストを分類付き (テスト陳腐化 / 環境依存 / **未分類**) で持つ。**未分類の失敗を残したままのマージは不可**。この台帳と照合して初めて「既存破損だから無視」が言える。

@@ -6,6 +6,7 @@ created: 2026-05-13
 project: atender
 sources:
   - https://tanstack.com/router/latest/docs/framework/react/api/router/createMemoryHistoryFunction
+model-era: opus-4.8
 ---
 
 ## Context

@@ -5,6 +5,7 @@ project: omatase
 tags: [pnpm, monorepo, metro, expo, ci, build]
 created: 2026-07-29
 sources: [omatase 2026-07-29 EAS iOS ビルドが 3 回失敗して特定]
+model-era: opus-4.8
 ---
 
 ## Context

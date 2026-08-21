@@ -7,6 +7,7 @@ project: agent-hub
 sources:
   - Muraki/projects/agent-hub/.designs/20260712-server-instructions-rewrite.md
   - Muraki/projects/agent-hub/agenthub/instructions.py
+model-era: opus-4.8
 ---
 
 ## Context

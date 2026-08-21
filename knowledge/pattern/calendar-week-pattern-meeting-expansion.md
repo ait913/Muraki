@@ -8,6 +8,7 @@ sources:
   - Atender Phase 1 MVP schema (Meeting / MeetingOccurrence)
   - Atender v3 設計 (Rooms / Friends)
   - Atender v6 設計 (RoomCalendar / RoomTimetable)
+model-era: opus-4.8
 ---
 
 ## Context

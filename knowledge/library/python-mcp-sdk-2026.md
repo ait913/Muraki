@@ -11,6 +11,7 @@ sources:
   - https://github.com/modelcontextprotocol/python-sdk/blob/v1.x/docs/server.md
   - https://github.com/modelcontextprotocol/python-sdk/blob/v1.x/src/mcp/server/auth/middleware/auth_context.py
   - https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization
+model-era: opus-4.8
 ---
 
 ## Context

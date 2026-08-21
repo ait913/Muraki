@@ -7,6 +7,7 @@ created: 2026-07-01
 sources:
   - .designs/20260701-ios-port-phase-b-home.md §挙動仕様 T-1
   - apps/web/src/lib/dayConvention.ts
+model-era: opus-4.8
 ---
 
 ## Context

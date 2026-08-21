@@ -7,6 +7,7 @@ created: 2026-06-02
 sources:
   - Muraki/projects/atender 時間割グリッド崩れ修正 (2026-06-02)
   - apps/web/src/components/timetable/TimetableView.tsx
+model-era: opus-4.8
 ---
 
 ## Context

@@ -12,6 +12,7 @@ sources:
   - https://github.com/oraios/serena (CHANGELOG.md)
   - https://www.anthropic.com/engineering/writing-tools-for-agents
   - https://github.com/openai/codex/issues/8342
+model-era: opus-4.8
 ---
 
 ## Context

@@ -7,6 +7,7 @@ project: global
 sources:
   - atender iOS UI 刷新の設計 (2026-07-17) — Architect がシミュレータで実測 + 負の対照
   - projects/atender/.designs/20260717-ios-ui-revamp.md (F1/F2)
+model-era: opus-4.8
 ---
 
 ## Context

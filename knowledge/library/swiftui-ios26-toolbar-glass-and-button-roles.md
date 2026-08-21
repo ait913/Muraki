@@ -9,6 +9,7 @@ sources:
   - "実機ランタイム実測: iPhone 16 iOS 26.5 / iOS 18.2 Simulator (2026-07-30)"
   - https://developer.apple.com/tutorials/data/documentation/swiftui/toolbarcontent/sharedbackgroundvisibility(_:).json
   - https://developer.apple.com/tutorials/data/documentation/swiftui/buttonrole/close.json
+model-era: opus-4.8
 ---
 
 ## Context

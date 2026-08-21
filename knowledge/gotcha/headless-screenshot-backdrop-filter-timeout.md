@@ -6,6 +6,7 @@ tags: [chrome-devtools-mcp, screenshot, backdrop-filter, glassmorphism, headless
 created: 2026-06-11
 sources:
   - kinketsu-taisaku moneylog 忠実 UI の実機スクショで実踏 (2026-06-11)
+model-era: opus-4.8
 ---
 
 ## Context

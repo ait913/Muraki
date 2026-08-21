@@ -8,6 +8,7 @@ sources:
   [
     "omatase 画面編 工程3 (2026-07-30) — Reviewer A が API エラーで停止し packages/shared/src/plan.ts に変異が残留",
   ]
+model-era: opus-4.8
 ---
 
 ## Context

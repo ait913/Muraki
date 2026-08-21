@@ -9,6 +9,7 @@ sources:
   - https://howwefeel.org/
   - https://finchcare.com/
   - https://www.who.int/publications/i/item/PHQ-9
+model-era: opus-4.8
 ---
 
 ## Context

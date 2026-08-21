@@ -8,6 +8,7 @@ sources:
   - https://github.com/yonaskolb/XcodeGen/blob/master/Docs/ProjectSpec.md  # "Plists are created on disk on every generation of the project"
   - https://yonaskolb.github.io/XcodeGen/Docs/ProjectSpec.html
   - https://developer.apple.com/documentation/bundleresources/information-property-list/cfbundleversion
+model-era: opus-4.8
 ---
 
 ## Context

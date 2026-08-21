@@ -5,6 +5,7 @@ tags: [vitest, mock, esm, nextjs, reviewer]
 created: 2026-05-10
 project: global
 sources: ["meishilink-mvp Phase 4 reviewer 失敗 5 件"]
+model-era: opus-4.8
 ---
 
 ## Context

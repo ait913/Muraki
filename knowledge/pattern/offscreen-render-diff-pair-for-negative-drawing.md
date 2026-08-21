@@ -7,6 +7,7 @@ project: atender
 sources:
   - "atender .designs/20260730-calendar-ui-defects.md §1.4 / §9-B (当月外セルに chip/ドットを描かない)"
   - "実測: AtenderTests/CalendarMonthRenderTests.swift (iPhone 16 / iOS 18.2 Simulator, scale=3)"
+model-era: opus-4.8
 ---
 
 ## Context

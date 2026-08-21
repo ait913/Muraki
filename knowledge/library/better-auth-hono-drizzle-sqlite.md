@@ -13,6 +13,7 @@ sources:
   - https://github.com/better-auth/better-auth/blob/main/packages/better-auth/src/plugins/anonymous/types.ts
   - https://github.com/better-auth/better-auth/blob/main/packages/better-auth/src/db/internal-adapter.ts
   - https://github.com/LovelessCodes/hono-better-auth
+model-era: opus-4.8
 ---
 
 ## Context

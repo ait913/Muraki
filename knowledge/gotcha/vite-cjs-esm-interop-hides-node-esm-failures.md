@@ -7,6 +7,7 @@ project: atender
 sources:
   - atender fix/ics-esm-import (f4160c2) レビュー実測
   - apps/api/tests/ics-esm-interop.test.ts
+model-era: opus-4.8
 ---
 
 ## Context

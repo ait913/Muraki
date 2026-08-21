@@ -7,6 +7,7 @@ project: atender
 sources:
   - Muraki/projects/atender/.designs/20260526-v3-rooms-friends.md §9.1
   - Muraki/worktrees/atender-v3 Reviewer 第 1 回 (110 test 中 101 fail, root cause = "Error code 14: Unable to open the database file")
+model-era: opus-4.8
 ---
 
 ## Context

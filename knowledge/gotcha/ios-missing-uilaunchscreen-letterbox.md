@@ -6,6 +6,7 @@ tags: [ios, swiftui, xcodegen, info-plist, launch-screen]
 created: 2026-07-09
 sources:
   - atender apps/ios (2026-07-09 セッション)
+model-era: opus-4.8
 ---
 
 ## Context

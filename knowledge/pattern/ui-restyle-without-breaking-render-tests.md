@@ -7,6 +7,7 @@ project: kinketsu-taisaku
 sources:
   - Muraki/projects/kinketsu-taisaku/.designs/20260608-ui-cloudflare-redesign.md
   - Muraki/knowledge/pattern/cloudflare-dashboard-design-language.md
+model-era: opus-4.8
 ---
 
 ## Context

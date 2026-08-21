@@ -8,6 +8,7 @@ sources:
   - "atender feature/version-management レビュー (2026-07-17 実測)"
   - "atender .knowledge/known-failures.md 環境依存節"
   - "Muraki/knowledge/role/reviewer.md note 27"
+model-era: opus-4.8
 ---
 
 ## Context

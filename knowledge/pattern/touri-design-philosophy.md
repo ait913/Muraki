@@ -9,6 +9,7 @@ sources:
   - /Users/touri/Desktop/ceez7 bin/ceez7/app/index.py
   - /Users/touri/Desktop/ceez7 bin/ceez7/app/moneylog/index.py
   - /Users/touri/Desktop/ceez7 bin/ceez7/app/moneylog/common/app/v1_121/js/app.js
+model-era: opus-4.8
 ---
 
 ## Context

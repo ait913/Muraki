@@ -5,6 +5,7 @@ tags: [ios-port, faithful-port, subtitle, handle, member-name, atender]
 created: 2026-07-01
 project: atender
 sources: [".designs/20260701-ios-port-phase-d-rooms-friends.md", "apps/web/src/lib/meetingExpansion.ts", "apps/web/src/components/rooms/RoomTimetable.tsx"]
+model-era: opus-4.8
 ---
 
 ## Context

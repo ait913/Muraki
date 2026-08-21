@@ -11,6 +11,7 @@ sources:
   - https://github.com/react-native-maps/react-native-maps
   - https://raw.githubusercontent.com/expo/expo/sdk-57/packages/expo/bundledNativeModules.json
   - https://reactnative.dev/docs/network
+model-era: opus-4.8
 ---
 
 ## Context

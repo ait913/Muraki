@@ -7,6 +7,7 @@ created: 2026-07-07
 sources:
   - Muraki/projects/dandan-app/.designs/20260707-amano-ux-remote.md §5
   - dandan-mcp ui/bridge.js:261 (ChatGPT 通知不達の実測コメント)
+model-era: opus-4.8
 ---
 
 ## Context

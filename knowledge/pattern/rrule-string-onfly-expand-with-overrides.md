@@ -12,6 +12,7 @@ sources:
   - Cal.com schema.prisma (override テーブル参考) https://github.com/calcom/calcom
 related_knowledge:
   - knowledge/pattern/calendar-week-pattern-meeting-expansion.md  # 週パターン Meeting の事前展開と対比
+model-era: opus-4.8
 ---
 
 ## Context

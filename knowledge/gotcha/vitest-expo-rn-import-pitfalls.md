@@ -7,6 +7,7 @@ project: global
 sources:
   - Tsunagu MVP Reviewer 実走 (worktrees/tsunagu-mobile)
   - mobile/__tests__/unit/notificationStore.test.ts (失敗ログ)
+model-era: opus-4.8
 ---
 
 ## Context

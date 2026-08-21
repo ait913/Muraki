@@ -7,6 +7,7 @@ project: global
 sources:
   - https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/
   - 実機検証 (cloudflared 2026.5.0, 2026-05-20)
+model-era: opus-4.8
 ---
 
 ## Context

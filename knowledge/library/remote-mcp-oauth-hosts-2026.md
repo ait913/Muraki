@@ -10,6 +10,7 @@ sources:
   - https://developers.openai.com/codex/config-reference
   - https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization
   - https://github.com/openai/codex/pull/4317
+model-era: opus-4.8
 ---
 
 ## Context

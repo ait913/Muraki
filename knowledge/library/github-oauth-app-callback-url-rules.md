@@ -8,6 +8,7 @@ sources:
   - https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps
   - https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/about-the-user-authorization-callback-url
   - https://github.com/orgs/community/discussions/4238
+model-era: opus-4.8
 ---
 
 ## Context

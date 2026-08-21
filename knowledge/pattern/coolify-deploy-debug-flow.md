@@ -10,6 +10,7 @@ sources:
   - knowledge/gotcha/coolify-https-redirect-loop.md
   - knowledge/gotcha/coolify-traefik-stale-label-loop.md
   - https://raw.githubusercontent.com/coollabsio/coolify/main/openapi.yaml
+model-era: opus-4.8
 ---
 
 > 不明な API 挙動が出たら Coolify 公式 docs / OpenAPI を必ず参照: <https://coolify.io/docs/api-reference>, <https://raw.githubusercontent.com/coollabsio/coolify/main/openapi.yaml>

@@ -12,6 +12,7 @@ sources:
   - https://blog.modelcontextprotocol.io/posts/2026-07-28-release-candidate/
   - https://github.com/modelcontextprotocol/ext-apps/issues/671
   - https://github.com/anthropics/claude-ai-mcp/issues/165
+model-era: opus-4.8
 ---
 
 ## Context

@@ -13,6 +13,7 @@ sources:
 related_knowledge:
   - knowledge/library/better-auth-2026.md
   - projects/atender/.knowledge/07-google-calendar-oauth-integration.md
+model-era: opus-4.8
 ---
 
 ## Context

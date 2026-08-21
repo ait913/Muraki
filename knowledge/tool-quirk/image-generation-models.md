@@ -6,6 +6,7 @@ tags: [image-generation, codex, gemini, model-selection, logo]
 created: 2026-05-10
 sources:
   - ユーザー直接判断 (2026-05-10)
+model-era: opus-4.8
 ---
 
 ## Context

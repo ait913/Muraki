@@ -7,6 +7,7 @@ created: 2026-07-01
 sources:
   - Muraki/projects/atender/.designs/20260701-ios-faithful-port-architecture.md §1.4.4 / S-2
   - apps/ios/AtenderTests/QueryCacheTests.swift
+model-era: opus-4.8
 ---
 
 ## Context

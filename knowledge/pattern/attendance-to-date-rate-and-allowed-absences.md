@@ -11,6 +11,7 @@ sources:
   - Atender .designs/20260611-occurrence-based-denominator.md
   - Atender .designs/20260611-date-input-and-allowed-days.md
   - Atender apps/api/src/services/attendanceStats.ts
+model-era: opus-4.8
 ---
 
 ## Context

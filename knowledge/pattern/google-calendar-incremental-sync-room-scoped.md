@@ -13,6 +13,7 @@ related_knowledge:
   - knowledge/pattern/better-auth-incremental-scope-and-cron-token.md
   - projects/atender/.knowledge/07-google-calendar-oauth-integration.md
   - knowledge/pattern/ics-import-hash-dedup-preview-commit.md
+model-era: opus-4.8
 ---
 
 ## Context

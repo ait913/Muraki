@@ -8,6 +8,7 @@ sources:
   - "omatase .designs/20260730-rebuild-screens.md §7.4 (自動アーカイブの実体化)"
   - "omatase apps/backend/internal/http/rebuild_screens_integration_test.go (Reviewer 2026-07-30)"
   - "omatase apps/backend/internal/http/rebuild_api_integration_test.go TestAPICurrentPlanIsPerMember (2020/2021 の start_time)"
+model-era: opus-4.8
 ---
 
 ## Context

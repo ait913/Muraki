@@ -7,6 +7,7 @@ project: global
 sources:
   - Atender v9 設計 .designs/20260528-v9-timetree-rework.md
   - Atender 既存 attendanceStats.ts (RuleStrategy.REDUCE_DENOMINATOR)
+model-era: opus-4.8
 ---
 
 ## Context

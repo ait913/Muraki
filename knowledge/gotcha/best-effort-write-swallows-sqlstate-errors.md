@@ -5,6 +5,7 @@ tags: [go, postgres, pgx, error-handling, observability]
 created: 2026-07-05
 project: dandan-app
 sources: [".designs/20260705-stateful-multitenant.md §5.1/§5.4", "sessions 2026-07-05 Slice1 review"]
+model-era: opus-4.8
 ---
 
 ## Context

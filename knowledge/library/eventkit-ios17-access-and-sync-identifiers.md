@@ -13,6 +13,7 @@ sources:
   - "https://developer.apple.com/documentation/eventkit/ekcalendar/init(for:eventstore:)"
   - "https://developer.apple.com/library/archive/qa/qa1926/_index.html"
   - "https://oleb.net/blog/2012/05/creating-and-deleting-calendars-in-ios/"
+model-era: opus-4.8
 ---
 
 ## Context

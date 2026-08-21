@@ -7,6 +7,7 @@ created: 2026-05-10
 sources:
   - Muraki/scripts/chrome-login.sh
   - Muraki/scripts/chrome-devtools-mcp.sh
+model-era: opus-4.8
 ---
 
 ## Context

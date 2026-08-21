@@ -9,6 +9,7 @@ sources:
   - https://mindsera.com/
   - https://www.rosebud.app/
   - https://jamesclear.com/habit-stacking
+model-era: opus-4.8
 ---
 
 ## Context

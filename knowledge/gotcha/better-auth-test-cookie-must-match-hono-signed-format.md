@@ -7,6 +7,7 @@ project: global
 sources:
   - node_modules/better-auth/dist/cookies/index.mjs (1.6.x)
   - node_modules/hono/dist/utils/cookie.js (4.12.x)
+model-era: opus-4.8
 ---
 
 ## Context

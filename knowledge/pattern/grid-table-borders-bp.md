@@ -12,6 +12,7 @@ sources:
   - https://penmark.jp/guide/
   - https://www.w3.org/TR/WCAG22/#non-text-contrast
   - https://developer.mozilla.org/en-US/docs/Web/CSS/color-mix
+model-era: opus-4.8
 ---
 
 ## Context

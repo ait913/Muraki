@@ -7,6 +7,7 @@ project: atender
 sources:
   - "atender .designs/20260608-ios-foundation.md §8.1 / §8.4"
   - "apps/api/tests/ios-api.test.ts (Reviewer 生成)"
+model-era: opus-4.8
 ---
 
 ## Context

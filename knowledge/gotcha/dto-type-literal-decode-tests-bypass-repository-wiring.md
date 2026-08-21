@@ -8,6 +8,7 @@ sources:
   - apps/ios/AtenderTests/DTODecodingTests.swift:326 (旧: 型直書き)
   - apps/ios/AtenderTests/RoomWeekContractTests.swift (Reviewer 新規: 配線を通す)
   - fix/room-week-contract (eb96e8a)
+model-era: opus-4.8
 ---
 
 ## Context

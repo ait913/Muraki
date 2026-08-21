@@ -5,6 +5,7 @@ project: omatase
 tags: [nextjs, docker, coolify, env, build-time]
 created: 2026-07-29
 sources: [omatase 2026-07-29 本番実測 (deploy log + client chunk grep)]
+model-era: opus-4.8
 ---
 
 ## Context

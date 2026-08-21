@@ -7,6 +7,7 @@ created: 2026-07-01
 sources:
   - Muraki/projects/atender/.designs/20260701-ios-faithful-port-architecture.md (§1.4, A-5)
   - apps/web/src/api/queryKeys.ts / api/hooks/* (atender)
+model-era: opus-4.8
 ---
 
 ## Context

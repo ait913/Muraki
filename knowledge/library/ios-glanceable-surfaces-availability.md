@@ -17,6 +17,7 @@ sources:
   - https://developer.apple.com/tutorials/data/documentation/uikit/uiscreen/main.json
   - https://developer.apple.com/tutorials/data/design/human-interface-guidelines/live-activities.json
   - https://developer.apple.com/tutorials/data/design/human-interface-guidelines/widgets.json
+model-era: opus-4.8
 ---
 
 ## Context

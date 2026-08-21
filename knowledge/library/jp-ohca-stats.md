@@ -9,6 +9,7 @@ sources:
   - https://www.fdma.go.jp/pressrelease/houdou/items/kyuuki0124.pdf
   - https://pmc.ncbi.nlm.nih.gov/articles/PMC4818130/
   - https://www.kyoto-u.ac.jp/ja/research-news/2025-02-07
+model-era: opus-4.8
 ---
 
 ## Context

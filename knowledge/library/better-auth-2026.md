@@ -11,6 +11,7 @@ sources:
   - https://www.better-auth.com/docs/adapter/prisma
   - https://www.better-auth.com/docs/integrations/hono
   - npm view better-auth (2026-05-13)
+model-era: opus-4.8
 ---
 
 ## Context

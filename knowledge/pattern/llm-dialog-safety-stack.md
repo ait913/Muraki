@@ -8,6 +8,7 @@ sources:
   - Muraki/knowledge/pattern/cbt-ai-companion-dialog.md
   - Muraki/knowledge/pattern/envelope-encryption-postgres-node.md
   - Muraki/projects/tomori/.designs/20260511-phase1-core.md
+model-era: opus-4.8
 ---
 
 ## Context

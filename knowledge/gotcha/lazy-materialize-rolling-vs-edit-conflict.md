@@ -6,6 +6,7 @@ created: 2026-06-08
 project: kinketsu-taisaku
 sources:
   - Muraki/projects/kinketsu-taisaku/.designs/20260608-mvp-core.md (§5.1 §5.4 §5.6)
+model-era: opus-4.8
 ---
 
 ## Context

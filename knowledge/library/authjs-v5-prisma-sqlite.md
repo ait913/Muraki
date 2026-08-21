@@ -10,6 +10,7 @@ sources:
   - https://authjs.dev/guides/edge-compatibility
   - https://authjs.dev/reference/core#session
   - https://github.com/nextauthjs/next-auth/releases
+model-era: opus-4.8
 ---
 
 ## Context

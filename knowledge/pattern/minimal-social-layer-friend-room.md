@@ -9,6 +9,7 @@ sources:
   - https://www.vertabelo.com/blog/database-model-for-social-networking-site/
   - https://support.timetreeapp.com/hc/ja/articles/204273015
   - https://penmark.jp/news/2024/07/04/v3-0-0/
+model-era: opus-4.8
 ---
 
 ## Context

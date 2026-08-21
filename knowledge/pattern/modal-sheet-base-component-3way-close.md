@@ -8,6 +8,7 @@ sources:
   - https://m3.material.io/components/bottom-sheets/guidelines
   - https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
   - https://developer.apple.com/design/human-interface-guidelines/sheets
+model-era: opus-4.8
 ---
 
 ## Context

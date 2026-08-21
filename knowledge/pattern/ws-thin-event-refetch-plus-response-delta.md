@@ -8,6 +8,7 @@ sources:
   - Muraki/projects/omatase/.designs/20260730-rebuild-screens.md (§6.1)
   - Muraki/projects/omatase/.designs/20260726-ws-envelope-spec.md (§1 追加のみの互換規約 / §5 保存→配信)
   - Muraki/projects/omatase/.designs/20260730-rebuild-foundation.md (§4 「現在のプラン」の導出はメンバーごとに違う)
+model-era: opus-4.8
 ---
 
 ## Context

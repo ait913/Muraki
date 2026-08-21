@@ -8,6 +8,7 @@ sources:
   - Muraki/projects/tsunagu/.designs/_pre/01-screen-flows.md
   - Muraki/projects/tsunagu/.designs/20260510-mvp-foundation.md
   - WCAG 2.2 AAA / Hick's Law / Cognitive Tunneling
+model-era: opus-4.8
 ---
 
 ## Context

@@ -5,6 +5,7 @@ project: atender
 tags: [dto, additive, enum, zod, swift, api-evolution, calendar, aggregation]
 created: 2026-07-29
 sources: [".designs/20260729-semester-calendar-multi-status.md", "apps/api/src/services/semesterOverview.service.ts"]
+model-era: opus-4.8
 ---
 
 ## Context

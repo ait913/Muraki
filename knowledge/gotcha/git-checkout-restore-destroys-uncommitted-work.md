@@ -7,6 +7,7 @@ project: global
 sources:
   - atender feature/ui-revamp-p1 の Reviewer レビュー (2026-07-17) — 実際に project.yml の Developer 変更を消した
   - Muraki/knowledge/gotcha/mutation-must-be-proven-to-reach-all-sites.md (変異の作法)
+model-era: opus-4.8
 ---
 
 ## Context

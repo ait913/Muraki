@@ -9,6 +9,7 @@ sources:
   - https://developer.apple.com/documentation/swiftui/applying-liquid-glass-to-custom-views
   - https://developer.apple.com/documentation/bundleresources/information-property-list/uidesignrequirescompatibility
   - https://developer.apple.com/support/app-store/
+model-era: opus-4.8
 ---
 
 ## Context

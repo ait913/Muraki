@@ -5,6 +5,7 @@ tags: [swift, codable, jsonencoder, zod, hono, zod-validator, contract, ios, api
 created: 2026-07-30
 project: atender
 sources: ["apps/ios/Atender/Core/Models/DTOs.swift", "packages/shared/src/schemas/personalEvent.ts", "sessions/2026-07-30"]
+model-era: opus-4.8
 ---
 
 ## Context

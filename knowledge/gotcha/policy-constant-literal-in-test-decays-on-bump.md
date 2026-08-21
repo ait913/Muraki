@@ -8,6 +8,7 @@ sources:
   - "atender apps/api/tests/version.test.ts (#G2/#G3/#G4/#V6)"
   - "atender .designs/20260717-version-management.md §8"
   - "atender apps/api/src/lib/clientVersion.ts (MIN_IOS_BUILD 1 -> 12, build 12 リリース)"
+model-era: opus-4.8
 ---
 
 ## Context

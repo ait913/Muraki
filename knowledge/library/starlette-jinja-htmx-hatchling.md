@@ -9,6 +9,7 @@ sources:
   - https://htmx.org (v2.0.10)
   - npm view htmx.org version → 2.0.10
   - hatchling wheel 実測ビルド (scratchpad/httest)
+model-era: opus-4.8
 ---
 
 ## Context

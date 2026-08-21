@@ -7,6 +7,7 @@ created: 2026-07-29
 sources:
   - "atender apps/api/tests/personal-calendar-share.test.ts (commit 2d6fece, 2026-07-23)"
   - "atender apps/api/src/services/personalCalendarShare.service.ts:100-105"
+model-era: opus-4.8
 ---
 
 ## Context

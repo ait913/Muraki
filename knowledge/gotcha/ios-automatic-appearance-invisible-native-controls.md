@@ -10,6 +10,7 @@ sources:
   - "expo sdk-57: packages/@expo/prebuild-config/build/plugins/unversioned/expo-system-ui/withIosUserInterfaceStyle.js"
   - "expo sdk-57: apps/expo-go/ios/Exponent/Kernel/Views/EXAppViewController.mm"
   - "一次実測 2026-07-30: UIDatePicker(.wheels) を #FFFFFF コンテナに置き、system=Dark で A=inherit / B=overrideUserInterfaceStyle=.light を並べて撮影"
+model-era: opus-4.8
 ---
 
 ## Context

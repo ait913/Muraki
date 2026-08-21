@@ -8,6 +8,7 @@ sources:
   - https://www.better-auth.com/docs/plugins/bearer
   - Atender .designs/20260608-ios-foundation.md
   - apps/api/src/auth.ts / middleware/session.ts (atender)
+model-era: opus-4.8
 ---
 
 ## Context

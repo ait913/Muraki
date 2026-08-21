@@ -7,6 +7,7 @@ project: global
 sources:
   - Muraki/projects/atender/.designs/20260513-mvp.md §2,§4,§9
   - Muraki/worktrees/atender-mvp 第1回 Reviewer 召集 (76/81 fail, single cause)
+model-era: opus-4.8
 ---
 
 ## Context

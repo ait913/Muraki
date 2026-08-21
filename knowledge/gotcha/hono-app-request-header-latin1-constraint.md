@@ -8,6 +8,7 @@ sources:
   - node_modules/hono/dist/hono-base.js:350 (Hono.request → ByteString)
   - omatase-demo-mvp Reviewer run (2026-05-26)
   - 設計 §7.1.1 「`x-guest-name: たんり` → `user.name="たんり"`」
+model-era: opus-4.8
 ---
 
 ## Context

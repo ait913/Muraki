@@ -12,6 +12,7 @@ sources:
   - https://datatracker.ietf.org/doc/html/rfc5545
 related_knowledge:
   - knowledge/library/eventkit-ios17-access-and-sync-identifiers.md
+model-era: opus-4.8
 ---
 
 ## Context

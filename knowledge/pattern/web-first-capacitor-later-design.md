@@ -7,6 +7,7 @@ project: global
 sources:
   - Muraki/knowledge/library/capacitor-nextjs-ios-2026.md
   - Muraki/projects/tomori/.designs/20260511-phase1-core.md
+model-era: opus-4.8
 ---
 
 ## Context

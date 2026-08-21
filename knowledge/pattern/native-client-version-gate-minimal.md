@@ -9,6 +9,7 @@ sources:
   - Muraki/projects/atender/.knowledge/ui-revamp-findings.md  # ★11 バージョン管理は要望より小さくて済む
   - Muraki/knowledge/tool-quirk/coolify-api.md  # SOURCE_COMMIT のランタイム注入
   - https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.15  # 426 Upgrade Required (本来はプロトコル upgrade 用)
+model-era: opus-4.8
 ---
 
 ## Context

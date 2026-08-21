@@ -8,6 +8,7 @@ sources:
   - Muraki/projects/atender/.designs/20260528-v9.1-density-tighten.md
   - https://cloud.cloudflare.com/dashboard (visual reference)
   - https://timetreeapp.com (visual reference)
+model-era: opus-4.8
 ---
 
 ## Context

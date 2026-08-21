@@ -7,6 +7,7 @@ created: 2026-07-16
 sources:
   - projects/atender/.designs/20260716-ios-phase-e-settings-setup-gcal.md (E0-5)
   - atender feature/phase-e-p1 Reviewer 実測 (2026-07-16)
+model-era: opus-4.8
 ---
 
 ## Context

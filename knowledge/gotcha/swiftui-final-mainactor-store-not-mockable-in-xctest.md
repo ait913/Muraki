@@ -7,6 +7,7 @@ created: 2026-06-08
 sources:
   - Muraki/projects/atender/.designs/20260608-ios-foundation.md (§9.1)
   - atender iOS Phase iOS-1 reviewer 検証
+model-era: opus-4.8
 ---
 
 ## Context

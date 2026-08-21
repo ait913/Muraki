@@ -6,6 +6,7 @@ created: 2026-05-10
 project: global
 sources:
   - "Muraki/projects/omatase-design-mock/.designs/20260510-design-mock.md (§10.9 MobileFrame 幅検証)"
+model-era: opus-4.8
 ---
 
 ## Context

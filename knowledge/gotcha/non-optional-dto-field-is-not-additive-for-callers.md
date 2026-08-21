@@ -5,6 +5,7 @@ tags: [swift, typescript, zod, dto, additive, memberwise-init, xctest, codex-san
 created: 2026-07-21
 project: atender
 sources: [".designs/20260721-public-timetable-search.md", "sessions/2026-07-21"]
+model-era: opus-4.8
 ---
 
 ## Context

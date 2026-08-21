@@ -7,6 +7,7 @@ created: 2026-07-21
 sources:
   - Muraki/projects/atender/.designs/20260721-ios-qr-invite.md
   - "Reviewer probe 2026-07-21 (feature/qr-invite)"
+model-era: opus-4.8
 ---
 
 ## Context

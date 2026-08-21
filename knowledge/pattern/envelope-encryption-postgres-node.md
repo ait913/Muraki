@@ -7,6 +7,7 @@ project: global
 sources:
   - https://github.com/47ng/prisma-field-encryption
   - https://platform.claude.com/docs/en/build-with-claude/api-and-data-retention
+model-era: opus-4.8
 ---
 
 ## Context

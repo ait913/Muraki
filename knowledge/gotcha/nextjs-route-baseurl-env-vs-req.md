@@ -5,6 +5,7 @@ tags: [nextjs, route-handler, baseurl, reviewer, vcard]
 created: 2026-05-10
 project: meishilink-mvp
 sources: ["meishilink-mvp Phase 4 vcard-route-photo テスト失敗"]
+model-era: opus-4.8
 ---
 
 ## Context

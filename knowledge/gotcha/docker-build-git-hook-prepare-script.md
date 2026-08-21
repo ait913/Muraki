@@ -7,6 +7,7 @@ created: 2026-07-16
 sources:
   - 実測: omatase (pnpm 11.13.0 / lefthook 2.1.10) で .git 無し context の install を実走 (2026-07-16)
   - https://pnpm.io/cli/install
+model-era: opus-4.8
 ---
 
 ## Context

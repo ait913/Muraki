@@ -9,6 +9,7 @@ sources:
   - https://www.fdma.go.jp/singi_kento/kento/items/post-134/03/sankou4.pdf
   - https://www.fdma.go.jp/publication/rescue/items/kkkg_r02_01_kyukyu.pdf
   - https://www.fdma.go.jp/disaster/coronavirus/items/coronavirus_kekka.pdf
+model-era: opus-4.8
 ---
 
 ## Context

@@ -7,6 +7,7 @@ created: 2026-05-10
 sources:
   - https://leafletjs.com/reference.html#map-pane
   - https://github.com/Leaflet/Leaflet/blob/main/dist/leaflet.css
+model-era: opus-4.8
 ---
 
 ## Context

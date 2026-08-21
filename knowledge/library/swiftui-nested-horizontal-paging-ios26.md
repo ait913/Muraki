@@ -7,6 +7,7 @@ created: 2026-07-30
 sources:
   - "実測: iPhone 16 / iOS 26.5 Simulator, Xcode 26.6, XCUITest 12 バリアント × 複数回 (2026-07-30)"
   - https://developer.apple.com/documentation/swiftui/scrolltargetbehavior
+model-era: opus-4.8
 ---
 
 ## Context

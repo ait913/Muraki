@@ -7,6 +7,7 @@ project: kinketsu-taisaku
 sources:
   - Muraki/projects/kinketsu-taisaku/DESIGN.md (§3.1 / §6 Pass①)
   - Muraki/worktrees/kinketsu-taisaku-ds (design-system-pass レビュー)
+model-era: opus-4.8
 ---
 
 ## Context

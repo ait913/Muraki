@@ -7,6 +7,7 @@ created: 2026-07-14
 sources:
   - Atender .designs/20260714-ios-login-auth-revamp.md
   - https://www.better-auth.com/docs/authentication/apple
+model-era: opus-4.8
 ---
 
 ## Context

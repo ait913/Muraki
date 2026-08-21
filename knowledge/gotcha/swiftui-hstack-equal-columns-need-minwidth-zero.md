@@ -7,6 +7,7 @@ created: 2026-07-30
 sources:
   - atender apps/ios/Atender/Features/Calendar/PersonalCalendar.swift (build 13 実機FB)
   - ImageRenderer による実測 (macOS, scale=3)
+model-era: opus-4.8
 ---
 
 ## Context

@@ -7,6 +7,7 @@ project: global
 sources:
   - Muraki/projects/tsunagu/.designs/20260510-mvp-foundation.md
   - Muraki/CLAUDE.md (ポータブル設計の鉄則)
+model-era: opus-4.8
 ---
 
 ## Context

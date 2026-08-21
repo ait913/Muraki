@@ -6,6 +6,7 @@ created: 2026-06-11
 project: atender
 sources:
   - "atender .designs/20260611-semester-redesign.md §A bulk API / 挙動仕様 (d)(f)"
+model-era: opus-4.8
 ---
 
 ## Context

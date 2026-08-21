@@ -10,6 +10,7 @@ sources:
   - https://www.prisma.io/docs/v6/orm/overview/databases/sqlite
   - https://www.prisma.io/docs/orm/reference/connection-urls
   - https://github.com/WiseLibs/better-sqlite3
+model-era: opus-4.8
 ---
 
 > このスタックを Coolify (Traefik、1コンテナ standalone build) にデプロイする際の **完全な Dockerfile / 落とし穴 / 復旧手順** は [`gotcha/prisma-coolify-dockerfile.md`](../gotcha/prisma-coolify-dockerfile.md) を起点に読む。本書はスタック特性の概要のみ。

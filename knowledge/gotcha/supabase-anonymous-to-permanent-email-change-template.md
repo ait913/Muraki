@@ -9,6 +9,7 @@ sources:
   - https://raw.githubusercontent.com/supabase/auth/master/internal/api/verify.go
   - https://raw.githubusercontent.com/supabase/auth/master/internal/api/mail.go
   - Muraki/projects/omatase/CLAUDE.md (magic_link / confirmation の 2 テンプレートを code 化した記録)
+model-era: opus-4.8
 ---
 
 ## Context

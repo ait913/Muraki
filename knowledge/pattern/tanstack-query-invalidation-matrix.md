@@ -7,6 +7,7 @@ created: 2026-05-15
 sources:
   - https://tanstack.com/query/v5/docs/framework/react/guides/invalidations-from-mutations
   - Muraki/projects/atender/.designs/20260515-redesign.md §7
+model-era: opus-4.8
 ---
 
 ## Context

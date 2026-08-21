@@ -7,6 +7,7 @@ project: atender
 sources:
   - "実測: iPhone 16 / iOS 18.2 Simulator / Xcode 16 系 (2026-07-30)"
   - "https://developer.apple.com/tutorials/data/documentation/swiftui/view/clipshape(_:style:).json"
+model-era: opus-4.8
 ---
 
 ## Context

@@ -10,6 +10,7 @@ sources:
   - https://www.jstage.jst.go.jp/article/jsem/25/5/25_827/_article/-char/ja/
   - https://pubmed.ncbi.nlm.nih.gov/30654927/
   - https://pmc.ncbi.nlm.nih.gov/articles/PMC8591414/
+model-era: opus-4.8
 ---
 
 ## Context

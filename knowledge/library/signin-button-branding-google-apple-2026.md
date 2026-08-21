@@ -15,6 +15,7 @@ sources:
   - https://developer.apple.com/tutorials/data/ja-JP/design/human-interface-guidelines/sign-in-with-apple.json
   - https://fonts.google.com/download/list?family=Google%20Sans
   - https://fonts.google.com/metadata/fonts/Google+Sans
+model-era: opus-4.8
 ---
 
 ## Context

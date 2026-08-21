@@ -12,6 +12,7 @@ sources:
   - https://community.qlik.com/t5/Official-Support-Articles/Qlik-MCP-and-ChatGPT-error-Invalid-redirect-uri-or-redirect-uri/ta-p/2544958
   - https://community.openai.com/t/auth-dynamic-client-registration-dcr-problem/1379403
   - https://gofastmcp.com/integrations/chatgpt
+model-era: opus-4.8
 ---
 
 ## Context

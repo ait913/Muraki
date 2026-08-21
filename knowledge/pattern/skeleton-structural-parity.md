@@ -6,6 +6,7 @@ created: 2026-06-11
 project: atender
 sources:
   - projects/atender/.designs/20260611-ui-polish.md
+model-era: opus-4.8
 ---
 
 ## Context

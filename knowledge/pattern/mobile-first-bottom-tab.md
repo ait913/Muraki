@@ -14,6 +14,7 @@ sources:
   - https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport
   - https://developer.chrome.com/blog/viewport-resize-behavior/
   - https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html
+model-era: opus-4.8
 ---
 
 ## Context

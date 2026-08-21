@@ -7,6 +7,7 @@ project: global
 sources:
   - Tsunagu MVP backend reviewer 検証で判明
   - https://github.com/testcontainers/testcontainers-node/issues (公知の hint)
+model-era: opus-4.8
 ---
 
 ## Context

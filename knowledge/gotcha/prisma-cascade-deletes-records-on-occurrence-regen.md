@@ -9,6 +9,7 @@ sources:
   - Atender apps/api/src/services/occurrenceGen.ts (reconcileOccurrencesForSemesterDateChange)
   - Atender apps/api/src/services/meeting.service.ts (既存の delete→regen パターン)
   - Atender .designs/20260611-semester-edit-and-tweaks.md
+model-era: opus-4.8
 ---
 
 ## Context

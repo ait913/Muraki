@@ -7,6 +7,7 @@ created: 2026-07-30
 sources:
   - atender apps/ios Assets.xcassets/mascot-hello.imageset (2026-07-30 実測)
   - atender .designs/20260730-ios-ui-fixes-build16.md §3.6
+model-era: opus-4.8
 ---
 
 ## Context

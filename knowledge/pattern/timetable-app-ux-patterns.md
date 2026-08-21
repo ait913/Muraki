@@ -15,6 +15,7 @@ sources:
   - https://flexibits.com/fantastical
   - https://www.nngroup.com/articles/bottom-sheet/
   - https://www.nngroup.com/articles/mobile-ux-tap-swipe/
+model-era: opus-4.8
 ---
 
 ## Context

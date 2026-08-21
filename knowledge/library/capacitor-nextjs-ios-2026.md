@@ -10,6 +10,7 @@ sources:
   - https://nextjs.org/
   - https://nextnative.dev/
   - https://capawesome.io/
+model-era: opus-4.8
 ---
 
 ## Context

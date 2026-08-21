@@ -7,6 +7,7 @@ created: 2026-07-22
 sources:
   - atender .designs/20260722-home-collapsible-layout.md
   - knowledge/gotcha/swiftui-multiple-sibling-sheets-only-one-fires.md
+model-era: opus-4.8
 ---
 
 ## Context

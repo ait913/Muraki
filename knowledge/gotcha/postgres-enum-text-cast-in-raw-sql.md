@@ -7,6 +7,7 @@ project: global
 sources:
   - Tsunagu MVP backend reviewer 検証で判明
   - https://www.postgresql.org/docs/current/datatype-enum.html
+model-era: opus-4.8
 ---
 
 ## Context

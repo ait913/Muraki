@@ -9,6 +9,7 @@ sources:
   - "knowledge/library/eventkit-ios17-access-and-sync-identifiers.md"
   - "knowledge/library/eventkit-recurrence-model.md"
   - "https://developer.apple.com/library/archive/qa/qa1926/_index.html"
+model-era: opus-4.8
 ---
 
 ## Context

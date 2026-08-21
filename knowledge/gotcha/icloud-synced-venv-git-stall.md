@@ -6,6 +6,7 @@ tags: [icloud, venv, python, import, git, worktree, filesystem, macos]
 created: 2026-07-09
 sources:
   - "session 2026-07-09-8d4172ed (AgentHub web-dashboard-lp レビュー/マージで発症)"
+model-era: opus-4.8
 ---
 
 ## Context

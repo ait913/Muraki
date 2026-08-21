@@ -9,6 +9,7 @@ sources:
   - Muraki/projects/_pre/research-moneylog-successor-20260608.md B-2
   - Muraki/knowledge/pattern/rrule-string-onfly-expand-with-overrides.md (対比)
   - Muraki/knowledge/pattern/calendar-week-pattern-meeting-expansion.md (判断軸)
+model-era: opus-4.8
 ---
 
 ## Context

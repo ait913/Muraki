@@ -9,6 +9,7 @@ sources:
   - https://platform.claude.com/docs/en/docs/build-with-claude/tool-use/overview
   - https://www.npmjs.com/package/@anthropic-ai/sdk
   - https://devtk.ai/en/blog/claude-api-pricing-guide-2026/
+model-era: opus-4.8
 ---
 
 ## Context

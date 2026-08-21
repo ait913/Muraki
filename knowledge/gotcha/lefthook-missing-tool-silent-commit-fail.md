@@ -7,6 +7,7 @@ created: 2026-07-23
 sources:
   - omatase lefthook.yml
   - 実測 (2026-07-23 backend heart マージ時)
+model-era: opus-4.8
 ---
 
 ## Context

@@ -9,6 +9,7 @@ sources:
   - https://www.wysa.com/digital-therapeutics
   - https://www.apa.org/monitor/2023/07/ai-mental-health-apps
   - https://www.who.int/publications/i/item/9789240029200
+model-era: opus-4.8
 ---
 
 ## Context

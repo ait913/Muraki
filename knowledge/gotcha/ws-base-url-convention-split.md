@@ -5,6 +5,7 @@ project: omatase
 tags: [websocket, env, configuration, realtime]
 created: 2026-07-29
 sources: [omatase 2026-07-29 ブラウザ実機で発見]
+model-era: opus-4.8
 ---
 
 ## Context

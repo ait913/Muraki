@@ -13,6 +13,7 @@ sources:
   - https://github.com/atlassian/atlassian-mcp-server
   - https://linear.app/docs/mcp
   - https://mcp.sentry.dev/mcp
+model-era: opus-4.8
 ---
 
 ## Context

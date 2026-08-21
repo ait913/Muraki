@@ -11,6 +11,7 @@ sources:
   - https://www.prisma.io/docs/v6/orm/overview/databases/sqlite
   - https://github.com/WiseLibs/better-sqlite3
   - https://github.com/coollabsio/coolify
+model-era: opus-4.8
 ---
 
 > 不明な挙動が出たら Prisma / Next.js / better-sqlite3 の各公式 docs を一次情報として参照。

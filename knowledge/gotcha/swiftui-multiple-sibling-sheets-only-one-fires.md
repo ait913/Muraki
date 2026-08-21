@@ -5,6 +5,7 @@ tags: [swiftui, ios, sheet, bottomsheet, atender]
 created: 2026-07-01
 project: atender
 sources: [apps/ios/Atender/Features/Home/SelfTimetableView.swift, apps/ios/Atender/Features/SemesterOverview/SemesterOverviewView.swift]
+model-era: opus-4.8
 ---
 
 ## Context

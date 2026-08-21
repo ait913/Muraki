@@ -8,6 +8,7 @@ sources:
   - "一次実測 2026-07-30: 素の UIKit MKMapView (RN 非経由) を iPhone 16 / iOS 26.5 Simulator で計測"
   - https://github.com/react-native-maps/react-native-maps/issues/5888
   - https://github.com/react-native-maps/react-native-maps/issues/5540
+model-era: opus-4.8
 ---
 
 ## Context

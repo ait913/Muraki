@@ -7,6 +7,7 @@ created: 2026-06-26
 sources:
   - Muraki/projects/atender/.designs/20260626-ios-resync-phase1.md §3.4
   - apps/ios/AtenderTests/AuthStoreTests.swift testBootstrapTokenValidSignsIn
+model-era: opus-4.8
 ---
 
 ## Context

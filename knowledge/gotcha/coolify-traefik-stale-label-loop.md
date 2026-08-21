@@ -13,6 +13,7 @@ sources:
   - https://github.com/coollabsio/coolify/issues/6495  # Traefik 静的 config が勝手に reset
   - https://github.com/coollabsio/coolify/issues/6599  # Generate Domain → Save で label 消失
   - https://github.com/coollabsio/coolify/issues/6233  # loadbalancer port label 欠落
+model-era: opus-4.8
 ---
 
 ## Context

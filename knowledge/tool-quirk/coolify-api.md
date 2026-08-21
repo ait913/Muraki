@@ -3,13 +3,14 @@ title: Coolify API の癖と未公開仕様
 category: tool-quirk
 tags: [coolify, api, openapi, deploy]
 created: 2026-05-10
-updated: 2026-07-16
+updated: 2026-08-21
 project: global
 sources:
   - https://coolify.io/docs/api-reference
   - https://raw.githubusercontent.com/coollabsio/coolify/main/openapi.yaml  # spec の info.version は '0.1' 固定で semver なし。確認時の commit SHA を残すこと
   - https://github.com/coollabsio/coolify/releases/tag/v4.0.0  # 2026-04-27 release
   - https://github.com/coollabsio/coolify/blob/main/app/Jobs/ApplicationDeploymentJob.php  # 実装の真実。openapi で足りない時はここを読む (確認 SHA: 07f381b, 2026-07-16)
+model-era: opus-4.8
 ---
 
 > **不明点が出たら必ず公式を見る**: OpenAPI yaml と docs を一次情報として扱う。本ファイルは実踏知見の記録であり、最新仕様は公式と乖離している可能性がある。
@@ -102,6 +103,19 @@ Coolify は healthcheck を **コンテナ内で実行する compose healthcheck
 - `deployment_uuid` を `GET /deployments/{uuid}` に投げて `status` をポーリングする。取り得る値は `App\Enums\ApplicationDeploymentStatus` の 5 つ:
   `queued` / `in_progress` / `finished` / `failed` / `cancelled-by-user`
   (OpenAPI 上は `status: {type: string}` で enum 記述が無い ★ spec 側の情報不足)
+- ★ **v4.3.9 (2026-08-21 確認) では `GET /deploy` と `GET /databases/{uuid}/{start,stop,restart}` が `{"message":"This endpoint has changed to a POST request."}` を返して弾く**。本ファイルや SKILL の「GET で叩く」という記述はこのバージョンでは通らない — **同じ query string のまま `-X POST` に変えるだけで通る** (body 不要)。`applications/{uuid}/{start,stop,restart}` は元々 POST 済みで影響なし。エラーメッセージがそのまま解決策なので、見たら method を疑わず即 POST に変える
+
+### env が build-time ARG に混入して Dockerfile を壊す (改行を含む値は特に危険)
+
+★ **`POST`/`PATCH .../envs[/bulk]` で `is_buildtime` を省略すると default `true`** (2026-08-21 実測)。Coolify はビルド時に**登録した全 env を `ARG key=value` として Dockerfile 先頭に注入**する (`docker build --build-arg`)。改行を含む値 (PEM 秘密鍵など) を `is_buildtime:true` のまま渡すと、生成される `ARG SIWA_PRIVATE_KEY=-----BEGIN PRIVATE KEY-----\n<base64...>` の 2 行目以降が Dockerfile の**命令行として解釈**され `dockerfile parse error: unknown instruction: <base64の断片>` でビルド即死する。しかも**エラー出力に注入された ARG 一覧 (secret 含む) が平文で残る** (deployment log 経由で `GET /deployments/{uuid}` から取得可能)。
+
+対処: ランタイムだけで使う env (DB URL, JWT_SECRET, PEM 鍵等) は **必ず `is_buildtime:false, is_runtime:true` を明示**して登録する。複数行値は `is_multiline:true` も付ける。事故った場合は該当 env を作り直すだけでなく、**漏れた値 (JWT_SECRET 等) をローテーションする** — 平文が deployment log に残ってしまうため。
+
+```sh
+curl -sS -X PATCH -H "Authorization: Bearer $COOLIFY_API_TOKEN" -H "Content-Type: application/json" \
+  "$COOLIFY_API_BASE/applications/<uuid>/envs/bulk" \
+  -d '{"data":[{"key":"JWT_SECRET","value":"...","is_preview":false,"is_buildtime":false,"is_runtime":true}]}'
+```
 
 ### env 登録 API の癖
 
@@ -205,10 +219,42 @@ if (! $forBuildTime || $this->application->settings->include_source_commit_in_bu
 ### 存在しない endpoint
 
 - proxy restart API はない (UI からのみ)
-- container 内 docker exec API もない
+- 専用の「container 内で任意コマンドを叩く」API はない
 - Traefik 生成 label の確認 API もない
 
-→ これらが必要な場面では SSH に落ちる必要がある (Coolify 管理画面右上 → Servers → 該当 server → Proxy → Restart ボタンを叩いてもらう手も)
+→ これらが必要な場面では SSH に落ちる必要がある (Coolify 管理画面右上 → Servers → 該当 server → Proxy → Restart ボタンを叩いてもらう手も)。ただし SSH (`ssh aisaba`) は Cloudflare Access の one-time PIN を**ブラウザで**踏む必要があり、エージェント単体では完結しない。
+
+### ★ SSH なしでコンテナ内コマンドを実行する裏技 (scheduled-tasks execute)
+
+`POST /applications/{uuid}/scheduled-tasks` (`frequency` は cron 必須だが `enabled:false` で自動発火は止められる) で任意コマンドのタスクを作り、`POST /applications/{uuid}/scheduled-tasks/{task_uuid}/execute` で**即時 1 回実行**できる。結果は `GET .../executions` の `message` フィールドに stdout がそのまま入る (`status: success/failed`, `duration`)。
+
+- コマンドは `sh -c` 相当で実行される (alpine のように bash が無い distro でも busybox `sh` があれば通る)
+- **`&&` を含む複合コマンドは Bash の `&&` 禁止フックとは無関係**だが、JSON body に埋め込むときは `;` で連結する方が失敗系の分岐を書きやすい (`touch x; echo exit=$?` のように exit code を明示的に拾う)
+- 検証が終わったら `DELETE /applications/{uuid}/scheduled-tasks/{task_uuid}` で片付ける (残すと cron 式次第で意図せず定期実行される)
+- 用途: **volume mount 後のパーミッション確認**、環境変数が実際にコンテナに届いているかの確認 (`env` コマンド)、ファイルの存在確認など、従来 SSH + `docker exec` が要ると思っていた作業の大半をカバーできる
+
+```sh
+curl -sS -X POST -H "Authorization: Bearer $COOLIFY_API_TOKEN" -H "Content-Type: application/json" \
+  "$COOLIFY_API_BASE/applications/<uuid>/scheduled-tasks" \
+  -d '{"name":"perm-check","command":"id; ls -ld /data; touch /data/.t; echo exit=$?; rm -f /data/.t","frequency":"0 0 1 1 *","enabled":false}'
+# → uuid を取得して execute
+curl -sS -X POST -H "Authorization: Bearer $COOLIFY_API_TOKEN" \
+  "$COOLIFY_API_BASE/applications/<uuid>/scheduled-tasks/<task_uuid>/execute"
+sleep 5
+curl -sS -H "Authorization: Bearer $COOLIFY_API_TOKEN" \
+  "$COOLIFY_API_BASE/applications/<uuid>/scheduled-tasks/<task_uuid>/executions" | jq -r '.[0].message'
+# 検証後
+curl -sS -X DELETE -H "Authorization: Bearer $COOLIFY_API_TOKEN" \
+  "$COOLIFY_API_BASE/applications/<uuid>/scheduled-tasks/<task_uuid>"
+```
+
+### persistent storage (named volume) の初回マウント時、Dockerfile の chown は引き継がれる
+
+Dockerfile で `RUN mkdir -p /data && chown -R app:app /data` した後に `USER app` → `ENTRYPOINT` という構成のイメージに、Coolify の `POST /applications/{uuid}/storages` (`type:persistent, mount_path:/data`) で**空の named volume を新規マウント**すると、**Docker の「copy-up」機構がイメージ側 `/data` の内容・所有権をそのまま volume にコピーする**ため、non-root ユーザーでも追加の対応なしに書き込める (2026-08-21, bloom-api で `touch` 成功を scheduled-tasks execute で実測: `drwxr-xr-x app app /data`)。
+
+- ★ 「volume マウントで chown が上書きされて non-root が書けなくなる」という一般的な docker の罠は、**named volume が空 (=初回マウント) の場合は発生しない**。上書きが起きるのは host bind mount や、volume に既存データがあって copy-up がスキップされるケースなど別条件
+- 何もしなくても通る場合が多いが、**「たぶん大丈夫」で終わらせず、上記 scheduled-tasks execute で `id` + `touch` を必ず実測する** (SSH 不要)
+- もし実際に権限エラーが出たら、対処は (a) Dockerfile の `ENTRYPOINT` を `sh -c "chown -R app:app /data && exec /bin/api"` に変える (root で起動して chown 後に降格) か、(b) Coolify 側 custom_docker_run_options で `--user` を調整、のいずれか。今回は不要だった
 
 ## Why
 

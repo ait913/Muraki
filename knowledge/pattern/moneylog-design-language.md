@@ -8,6 +8,7 @@ sources:
   - https://app.ceez7.com/moneylog/ (ライブ実機、ai.t_913、2026-06-11 実測)
   - https://dl.ceez7.com/style/ceez72/scss/style.css (p-ml__* 実 CSS、93KB)
   - /Users/touri/Desktop/ceez7 bin/ceez7/app/moneylog/ (HTML/JS/SCSS ローカル)
+model-era: opus-4.8
 ---
 
 ## Context

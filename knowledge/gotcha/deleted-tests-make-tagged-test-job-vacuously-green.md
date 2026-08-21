@@ -7,6 +7,7 @@ project: omatase
 sources:
   - "omatase 再構成 基盤編 (2026-07-30) / .designs/20260730-rebuild-foundation.md"
   - "knowledge/gotcha/fake-store-tests-miss-db-constraint-drift.md"
+model-era: opus-4.8
 ---
 
 ## Context

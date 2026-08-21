@@ -6,6 +6,7 @@ created: 2026-05-10
 project: global
 sources:
   - Tsunagu MVP backend reviewer 検証で判明
+model-era: opus-4.8
 ---
 
 ## Context

@@ -6,6 +6,7 @@ tags: [apple, hig, webfetch, research]
 created: 2026-07-05
 sources:
   - https://developer.apple.com/tutorials/data/design/human-interface-guidelines/typography.json
+model-era: opus-4.8
 ---
 
 ## Context

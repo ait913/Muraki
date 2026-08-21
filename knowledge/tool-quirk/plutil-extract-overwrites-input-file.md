@@ -7,6 +7,7 @@ project: global
 sources:
   - atender feature/ui-revamp-p1 の Reviewer レビュー (2026-07-17) — Info.plist を実際に破壊した
   - man plutil (macOS 15)
+model-era: opus-4.8
 ---
 
 ## Context

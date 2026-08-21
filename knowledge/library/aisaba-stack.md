@@ -8,6 +8,7 @@ sources:
   - /Users/touri/Documents/Creatives/Developments/Projects/Appera
   - /Users/touri/Documents/Creatives/Developments/Projects/Nexom
   - /Users/touri/Documents/Creatives/Developments/aisaba_platform
+model-era: opus-4.8
 ---
 
 ## Context

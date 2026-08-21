@@ -10,6 +10,7 @@ sources:
   - https://aisaba.net/blogs
   - https://aisaba.net/works
   - https://apps.aisaba.net/portfolio_manager
+model-era: opus-4.8
 ---
 
 ## Context

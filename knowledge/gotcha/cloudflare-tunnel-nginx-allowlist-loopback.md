@@ -6,6 +6,7 @@ created: 2026-05-20
 project: global
 sources:
   - https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/
+model-era: opus-4.8
 ---
 
 ## Context

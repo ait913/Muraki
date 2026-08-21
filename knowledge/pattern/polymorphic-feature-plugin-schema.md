@@ -10,6 +10,7 @@ sources:
   - https://sqlite.org/json1.html
   - https://orm.drizzle.team/docs/column-types/sqlite
   - OMATASE-demo Schedule × Feature 設計 (Muraki/projects/omatase-demo/.knowledge/00-research-summary.md)
+model-era: opus-4.8
 ---
 
 ## Context

@@ -7,6 +7,7 @@ created: 2026-07-30
 sources:
   - Muraki/projects/omatase/.designs/20260730-rebuild-screens.md (§7.4 期限規則の正典 / §13 #H1-#H3b / §14)
   - Muraki/knowledge/gotcha/fake-store-tests-miss-db-constraint-drift.md
+model-era: opus-4.8
 ---
 
 ## Context

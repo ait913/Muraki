@@ -7,6 +7,7 @@ created: 2026-05-10
 sources:
   - https://docs.expo.dev/guides/environment-variables/
   - https://github.com/expo/expo/blob/main/packages/babel-preset-expo/transform-plugins.ts
+model-era: opus-4.8
 ---
 
 ## Context

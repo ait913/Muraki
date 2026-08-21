@@ -9,6 +9,7 @@ sources:
   - Atender v9 設計 .designs/20260528-v9-timetree-rework.md
   - knowledge/pattern/timetable-app-ux-patterns.md
   - knowledge/pattern/mobile-first-bottom-tab.md
+model-era: opus-4.8
 ---
 
 ## Context

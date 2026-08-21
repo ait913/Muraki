@@ -11,6 +11,7 @@ sources:
   - https://raw.githubusercontent.com/expo/expo/sdk-57/packages/expo-camera/src/CameraView.tsx
   - https://raw.githubusercontent.com/expo/expo/sdk-57/packages/expo/bundledNativeModules.json
   - https://raw.githubusercontent.com/expo/expo/sdk-57/apps/expo-go/package.json
+model-era: opus-4.8
 ---
 
 ## Context

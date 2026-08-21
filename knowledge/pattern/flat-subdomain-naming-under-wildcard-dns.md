@@ -7,6 +7,7 @@ project: global
 sources:
   - https://developers.cloudflare.com/ssl/edge-certificates/universal-ssl/
   - Muraki/projects/omatase/.designs/20260716-coolify-deploy.md
+model-era: opus-4.8
 ---
 
 ## Context

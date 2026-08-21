@@ -7,6 +7,7 @@ created: 2026-07-30
 sources:
   - Muraki/projects/omatase/.designs/20260730-rebuild-screens.md (§6.1(3) 再取得の coalesce / §6.2 store の契約 / #D10-#D15)
   - Muraki/knowledge/pattern/ws-thin-event-refetch-plus-response-delta.md
+model-era: opus-4.8
 ---
 
 ## Context

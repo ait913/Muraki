@@ -17,6 +17,7 @@ sources:
   - https://www.nngroup.com/articles/form-design-white-space/
   - https://tailwindcss.com/docs/hover-focus-and-other-states
   - https://rsms.me/inter/
+model-era: opus-4.8
 ---
 
 ## Context

@@ -8,6 +8,7 @@ sources:
   - https://github.com/Cap-go/capacitor-health
   - https://github.com/perfood/capacitor-healthkit
   - https://capgo.app/docs/plugins/health/
+model-era: opus-4.8
 ---
 
 ## Context

@@ -10,6 +10,7 @@ sources:
   - https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps
   - https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps
   - https://docs.github.com/en/organizations/managing-oauth-access-to-your-organizations-data/about-oauth-app-access-restrictions
+model-era: opus-4.8
 ---
 
 ## Context

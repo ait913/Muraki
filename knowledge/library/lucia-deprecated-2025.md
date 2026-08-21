@@ -9,6 +9,7 @@ sources:
   - https://x.com/pilcrowonpaper/status/1847975622087414177
   - https://lucia-auth.com/
   - https://dev.to/gaundergod/lucia-auth-is-getting-deprected-4g7
+model-era: opus-4.8
 ---
 
 ## Context

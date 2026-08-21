@@ -7,6 +7,7 @@ project: global
 sources:
   - "atender feature/version-management レビュー (2026-07-17)"
   - "Muraki/knowledge/role/reviewer.md note 35 / 48"
+model-era: opus-4.8
 ---
 
 ## Context

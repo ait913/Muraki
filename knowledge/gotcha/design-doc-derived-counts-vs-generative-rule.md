@@ -5,6 +5,7 @@ tags: [design-doc, reviewer, test-generation, arithmetic]
 created: 2026-06-11
 project: atender
 sources: [".designs/20260611-ui-polish.md A10"]
+model-era: opus-4.8
 ---
 
 ## Context

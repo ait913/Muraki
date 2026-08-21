@@ -8,6 +8,7 @@ sources:
   - scripts/chrome-devtools-mcp.sh
   - scripts/chrome-login.sh
   - 実測: n-wasabi Slack ログイン (2026-07-23)
+model-era: opus-4.8
 ---
 
 ## Context

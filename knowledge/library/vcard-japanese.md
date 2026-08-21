@@ -8,6 +8,7 @@ sources:
   - https://datatracker.ietf.org/doc/html/rfc6350
   - https://www.npmjs.com/package/vcard-creator
   - https://www.npmjs.com/package/vcard4
+model-era: opus-4.8
 ---
 
 ## Context

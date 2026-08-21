@@ -8,6 +8,7 @@ sources:
   - atender UI 刷新 P2 の Reviewer 検証 (2026-07-17) — 設計 §10.1-2c
   - projects/atender/.designs/20260717-ios-ui-revamp.md
   - Muraki/knowledge/gotcha/mutation-must-be-proven-to-reach-all-sites.md (同じ「変異が届いたか」の系)
+model-era: opus-4.8
 ---
 
 ## Context

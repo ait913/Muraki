@@ -9,6 +9,7 @@ sources:
   - https://www.sleepfoundation.org/insomnia/treatment/cognitive-behavioral-therapy-insomnia
   - https://www.risescience.com/
   - https://www.anthropic.com/pricing
+model-era: opus-4.8
 ---
 
 ## Context

@@ -7,6 +7,7 @@ project: atender
 sources:
   - "atender .designs/20260729-personal-calendar-rebuild.md §5.1 / §9 W4"
   - "apps/web/src/lib/personalEventDays.ts (jstDayStartIso / jstNextDayStartIso / fromDateTimeLocal)"
+model-era: opus-4.8
 ---
 
 ## Context

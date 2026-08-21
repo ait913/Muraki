@@ -7,6 +7,7 @@ created: 2026-07-16
 sources:
   - Muraki/projects/nwasabi-hp/.designs/20260716-hp-deploy.md  # 本パターンの初出 (build pack 選定)
   - knowledge/library/coolify-static-buildpack.md              # static は COPY . . を生成する (実測)
+model-era: opus-4.8
 ---
 
 ## Context

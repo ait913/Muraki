@@ -5,6 +5,7 @@ tags: [reviewer, testing, design-doc, react-testing-library, props]
 created: 2026-06-02
 project: atender
 sources: [".designs/20260602-ui-improvements.md 項目1 TimetableView", "kinketsu-taisaku .designs/20260608-ui-cloudflare-redesign.md §6.1/§10 MonthView empty-records"]
+model-era: opus-4.8
 ---
 
 ## Context

@@ -6,6 +6,7 @@ tags: [ios, swiftui, bottomsheet, presentationDetents, preferencekey]
 created: 2026-07-09
 sources:
   - atender apps/ios BottomSheet.swift (2026-07-09 セッション)
+model-era: opus-4.8
 ---
 
 ## Context

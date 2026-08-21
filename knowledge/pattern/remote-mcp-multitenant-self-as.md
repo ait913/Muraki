@@ -7,6 +7,7 @@ project: dandan-app
 sources:
   - Muraki/projects/dandan-app/.designs/20260704-foundation.md
   - knowledge/library/remote-mcp-oauth-hosts-2026.md
+model-era: opus-4.8
 ---
 
 ## Context

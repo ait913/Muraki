@@ -7,6 +7,7 @@ project: agent-hub
 sources:
   - Muraki/projects/agent-hub/.designs/20260709-mcp-server-mvp.md
   - Muraki/knowledge/pattern/remote-mcp-multitenant-self-as.md
+model-era: opus-4.8
 ---
 
 ## Context

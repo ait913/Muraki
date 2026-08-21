@@ -8,6 +8,7 @@ sources:
   - Muraki/projects/atender/DESIGN.md
   - Muraki/projects/atender/apps/web/src/styles.css
   - Muraki/projects/atender/apps/web/src/components/event-tile/EventTile.tsx
+model-era: opus-4.8
 ---
 
 ## Context

@@ -13,6 +13,7 @@ sources:
   - Calendly Security https://calendly.com/pages/security
 related_knowledge:
   - knowledge/pattern/rrule-string-onfly-expand-with-overrides.md  # 取り込んだ RRULE の保存・展開
+model-era: opus-4.8
 ---
 
 ## Context

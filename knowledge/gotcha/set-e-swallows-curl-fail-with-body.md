@@ -7,6 +7,7 @@ created: 2026-07-16
 sources:
   - omatase .designs/20260716-coolify-deploy.md (D2)
   - Reviewer 実測 (2026-07-16, 旧実装 775c08d と新実装 e9ae198 の突合)
+model-era: opus-4.8
 ---
 
 ## Context

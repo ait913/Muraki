@@ -6,6 +6,7 @@ created: 2026-05-10
 project: global
 sources:
   - ~/.claude/hooks/block-bash-amp.sh
+model-era: opus-4.8
 ---
 
 ## Context

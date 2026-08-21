@@ -5,6 +5,7 @@ project: omatase
 tags: [testing, database, migration, integration-test]
 created: 2026-07-29
 sources: [omatase 2026-07-29 統合作業で実際に発生]
+model-era: opus-4.8
 ---
 
 ## Context

@@ -11,6 +11,7 @@ sources:
   - https://github.com/cloudflare/color
   - https://blog.cloudflare.com/dark-mode/
   - https://medium.com/cloudflare-blog/thinking-about-color-bfa1696782ec
+model-era: opus-4.8
 ---
 
 ## Context

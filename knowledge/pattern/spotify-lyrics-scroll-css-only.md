@@ -9,6 +9,7 @@ sources:
   - https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
   - https://developer.mozilla.org/ja/docs/Web/CSS/CSS_scroll_snap
   - https://github.com/mebtte/react-lrc
+model-era: opus-4.8
 ---
 
 ## Context

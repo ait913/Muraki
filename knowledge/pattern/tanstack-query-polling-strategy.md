@@ -9,6 +9,7 @@ sources:
   - https://github.com/WiseLibs/better-sqlite3/blob/master/docs/performance.md
   - https://sqlite.org/wal.html
   - OMATASE-demo polling 設計 (Muraki/projects/omatase-demo/.knowledge/00-research-summary.md)
+model-era: opus-4.8
 ---
 
 ## Context

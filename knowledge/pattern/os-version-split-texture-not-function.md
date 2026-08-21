@@ -8,6 +8,7 @@ sources:
   - atender iOS UI 刷新の設計 (2026-07-17)
   - Muraki/knowledge/library/swiftui-liquid-glass-ios26.md
   - Muraki/knowledge/library/ios-glanceable-surfaces-availability.md
+model-era: opus-4.8
 ---
 
 ## Context

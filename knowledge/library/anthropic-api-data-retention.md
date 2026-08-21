@@ -8,6 +8,7 @@ sources:
   - https://platform.claude.com/docs/en/build-with-claude/api-and-data-retention
   - https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data
   - https://privacy.claude.com/en/articles/8956058-i-have-a-zero-data-retention-agreement-with-anthropic-what-products-does-it-apply-to
+model-era: opus-4.8
 ---
 
 ## Context

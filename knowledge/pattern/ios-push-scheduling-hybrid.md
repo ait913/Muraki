@@ -8,6 +8,7 @@ sources:
   - https://capacitorjs.com/docs/apis/local-notifications
   - https://capacitorjs.com/docs/apis/push-notifications
   - https://developer.apple.com/documentation/backgroundtasks
+model-era: opus-4.8
 ---
 
 ## Context

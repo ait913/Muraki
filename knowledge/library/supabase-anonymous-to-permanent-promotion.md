@@ -7,6 +7,7 @@ created: 2026-07-30
 sources:
   - https://supabase.com/docs/guides/auth/auth-anonymous
   - OMATASE 本番プロジェクト (hrdvkqunqbysbygbgcck) への実測 2026-07-30
+model-era: opus-4.8
 ---
 
 ## Context

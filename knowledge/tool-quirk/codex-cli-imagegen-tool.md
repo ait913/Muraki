@@ -8,6 +8,7 @@ sources:
   - /Users/touri/.codex/plugins/cache/openai-primary-runtime/presentations/26.506.11943/skills/presentations/scripts/openai_generate_image.py
   - /Users/touri/.codex/plugins/cache/openai-primary-runtime/presentations/26.506.11943/skills/presentations/SKILL.md
   - codex features list (image_generation flag)
+model-era: opus-4.8
 ---
 
 ## Context

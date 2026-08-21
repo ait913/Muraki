@@ -7,6 +7,7 @@ created: 2026-05-26
 sources:
   - omatase-demo-mvp Reviewer run (2026-05-26)
   - 設計 §9.2, §10.5 (omatase-demo-mvp)
+model-era: opus-4.8
 ---
 
 ## Context

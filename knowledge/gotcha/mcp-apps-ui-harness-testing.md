@@ -7,6 +7,7 @@ created: 2026-07-08
 sources:
   - dandan-app internal/app/uihost_review_test.go (Slice 3 review)
   - ui/mcpapp/bridge.js (天野 dandan-mcp 0acdbdb)
+model-era: opus-4.8
 ---
 
 ## Context

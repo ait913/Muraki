@@ -9,6 +9,7 @@ sources:
   - Muraki/projects/_pre/research-ux-ia-cognitive-load-20260705.md (NN/g / lawsofux / Wikipedia 抽出)
   - https://developer.apple.com/design/human-interface-guidelines/
   - https://www.nngroup.com/articles/
+model-era: opus-4.8
 ---
 
 ## Context

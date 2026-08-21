@@ -7,6 +7,7 @@ created: 2026-07-17
 sources:
   - "session 2026-07-17-24e295f6 (atender で発症。checkout が fatal: bad object で失敗し worktree が detached HEAD に取り残された)"
   - "関連: gotcha/icloud-synced-venv-git-stall.md (同じ根・別症状)"
+model-era: opus-4.8
 ---
 
 ## Context

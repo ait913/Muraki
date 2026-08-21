@@ -8,6 +8,7 @@ sources:
   - projects/atender/.designs/20260717-ios-ui-revamp.md (§4.1 / §9.3 / §8.7 #S11-#S12)
   - atender P2 実装で Developer が実測 → Leader が現物確認 → Architect が re-grep + actool 実走 (2026-07-17)
   - atender 7ac596f (2026-07-09「水色(azure)配色へ刷新」) / ad12e5a (足場コミット)
+model-era: opus-4.8
 ---
 
 ## Context

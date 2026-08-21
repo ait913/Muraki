@@ -11,6 +11,7 @@ sources:
   - https://coolify.io/docs/integrations/cloudflare/tunnels/full-tls  # 公式の別解 (Tunnel + Full Strict)
   - https://github.com/coollabsio/coolify/issues/7374  # v4.0.0-beta.448 で OFF にしても redirect される open bug
   - https://community.cloudflare.com/t/possible-bug-http-redirect-loop-when-dns-is-proxied/206612
+model-era: opus-4.8
 ---
 
 ## Context

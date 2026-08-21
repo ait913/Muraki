@@ -6,6 +6,7 @@ created: 2026-06-08
 project: kinketsu-taisaku
 sources:
   - "kinketsu-taisaku .designs/20260608-ui-cloudflare-redesign.md §4 useTheme / §10 テスト基盤"
+model-era: opus-4.8
 ---
 
 ## Context

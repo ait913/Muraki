@@ -5,6 +5,7 @@ tags: [api-client, error-mapping, rest-contract, omatase, web]
 created: 2026-07-23
 project: omatase
 sources: [".designs/20260723-mvp-rest-and-mobile-wiring.md (REST 正典 §共通規約 エラー body)", "apps/web/src/api/client.ts"]
+model-era: opus-4.8
 ---
 
 ## Context

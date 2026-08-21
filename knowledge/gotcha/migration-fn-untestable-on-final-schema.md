@@ -5,6 +5,7 @@ tags: [prisma, sqlite, migration, testing, vitest, schema-evolution]
 created: 2026-06-02
 project: atender
 sources: [".designs/20260602-phase1-course-meeting-refactor.md", "apps/api/tests/migration-room.test.ts"]
+model-era: opus-4.8
 ---
 
 ## Context

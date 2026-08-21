@@ -9,6 +9,7 @@ sources:
   - https://github.com/coollabsio/coolify/blob/main/bootstrap/helpers/shared.php  # defaultNginxConfiguration()
   - https://github.com/coollabsio/coolify/blob/main/bootstrap/helpers/api.php  # sharedDataApplications()
   - https://github.com/coollabsio/coolify/blob/main/app/Enums/StaticImageTypes.php
+model-era: opus-4.8
 ---
 
 ## Context

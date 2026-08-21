@@ -8,6 +8,7 @@ sources:
   - https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/
   - https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/configure-tunnels/origin-parameters/
   - https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/use-cases/ssh/ssh-cloudflared-authentication/
+model-era: opus-4.8
 ---
 
 ## Context

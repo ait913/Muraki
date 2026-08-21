@@ -6,6 +6,7 @@ tags: [ios, xcodebuild, deriveddata, xcodegen, fonts, uiappfonts, false-negative
 created: 2026-07-17
 sources:
   - "session 2026-07-17-24e295f6 (atender UI 刷新 P1。Leader が Reviewer の GREEN を独立検証したら 1 RED が出て、危うく Developer に差し戻すところだった)"
+model-era: opus-4.8
 ---
 
 ## Context

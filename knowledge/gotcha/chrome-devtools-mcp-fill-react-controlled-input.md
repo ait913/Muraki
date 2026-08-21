@@ -6,6 +6,7 @@ tags: [chrome-devtools-mcp, react, testing, e2e, controlled-input]
 created: 2026-05-26
 sources:
   - 実体験: omatase-demo 実機検証で CreateGroup form の表示名 input が反応しなかった
+model-era: opus-4.8
 ---
 
 ## Context

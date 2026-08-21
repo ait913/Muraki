@@ -8,6 +8,7 @@ sources:
   - https://developers.google.com/calendar (Google Calendar 日 view)
   - https://fullcalendar.io/docs/timegrid-view
   - Atender v6 設計 (Muraki/projects/atender/.designs/20260527-v6-room-calendar-timetable.md)
+model-era: opus-4.8
 ---
 
 ## Context

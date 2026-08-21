@@ -7,6 +7,7 @@ created: 2026-07-16
 sources:
   - 実測: omatase feature/coolify-deploy の Reviewer フェーズで Docker 実走 (2026-07-16)
   - Muraki/projects/omatase/.designs/20260716-coolify-deploy.md
+model-era: opus-4.8
 ---
 
 ## Context

@@ -10,6 +10,7 @@ sources:
   - https://github.com/vercel/next.js/issues/84257  # open: standalone 出力にワークスペース名が入る
   - https://github.com/vercel/next.js/issues/91654  # open: Turbopack standalone × serverExternalPackages
   - 実測: omatase (next 16.2.10 / pnpm 11.13.0 / Node 25) で next build を実走 (2026-07-16)
+model-era: opus-4.8
 ---
 
 ## Context

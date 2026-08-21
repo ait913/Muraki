@@ -7,6 +7,7 @@ created: 2026-07-21
 sources:
   - https://developer.apple.com/tutorials/data/documentation/visionkit/datascannerviewcontroller.json
   - https://developer.apple.com/documentation/coreimage/cifilter
+model-era: opus-4.8
 ---
 
 ## Context

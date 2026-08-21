@@ -5,6 +5,7 @@ tags: [websocket, rest, authz, realtime, design]
 created: 2026-07-23
 project: omatase
 sources: [".designs/20260722-ws-hub.md", ".designs/20260723-mvp-rest-and-mobile-wiring.md"]
+model-era: opus-4.8
 ---
 
 ## Context

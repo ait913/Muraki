@@ -7,6 +7,7 @@ created: 2026-07-05
 sources:
   - dandan-app Slice2 Reviewer round (sessions/2026-07-05)
   - .designs/20260705-stateful-multitenant.md §7.3 空状態契約
+model-era: opus-4.8
 ---
 
 ## Context

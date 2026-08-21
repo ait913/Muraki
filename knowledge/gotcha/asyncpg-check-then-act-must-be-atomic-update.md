@@ -5,6 +5,7 @@ project: agent-hub
 tags: [asyncpg, postgres, concurrency, toctou, transaction, optimistic-lock, security]
 created: 2026-07-09
 sources: [agent-hub Slice1/2 reviewer, agent-hub Codex 白箱レビュー 2026-07-09]
+model-era: opus-4.8
 ---
 
 ## Context

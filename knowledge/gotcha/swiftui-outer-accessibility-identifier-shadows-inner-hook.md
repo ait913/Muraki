@@ -7,6 +7,7 @@ created: 2026-07-30
 sources:
   - "atender build 16 P4 Reviewer 検証 (2026-07-30) — 設計 §5.2 / §7.3-c"
   - "実測: iPhone 16 / iOS 18.2 Simulator の app.debugDescription"
+model-era: opus-4.8
 ---
 
 ## Context

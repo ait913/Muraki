@@ -7,6 +7,7 @@ project: atender
 sources:
   - atender fix/ics-esm-import (f4160c2) レビュー実測
   - apps/api/Dockerfile (FROM node:20-alpine, TZ 未設定)
+model-era: opus-4.8
 ---
 
 ## Context

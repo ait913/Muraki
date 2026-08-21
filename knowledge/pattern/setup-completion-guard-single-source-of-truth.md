@@ -5,6 +5,7 @@ tags: [architecture, authorization, guard, onboarding, single-source-of-truth, h
 created: 2026-06-12
 project: atender
 sources: [".designs/20260612-setup-deadlock-fix.md", "apps/api/src/middleware/setupGuard.ts", "apps/web/src/router.tsx"]
+model-era: opus-4.8
 ---
 
 ## Context

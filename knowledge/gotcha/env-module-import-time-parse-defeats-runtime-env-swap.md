@@ -6,6 +6,7 @@ tags: [testing, env, vitest, better-auth, module-cache]
 created: 2026-07-14
 sources:
   - atender feature/login-auth-revamp Reviewer (2026-07-14)
+model-era: opus-4.8
 ---
 
 ## Context

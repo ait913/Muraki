@@ -7,6 +7,7 @@ created: 2026-06-02
 sources:
   - Muraki/projects/atender/.designs/20260602-ui-improvements.md (項目5)
   - apps/web/src/lib/useTheme.ts (atender)
+model-era: opus-4.8
 ---
 
 ## Context

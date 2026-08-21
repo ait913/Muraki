@@ -7,6 +7,7 @@ created: 2026-05-26
 sources:
   - https://coolify.io/docs/applications/github-app
   - 実体験: omatase-demo 初回 deploy 失敗 "fatal: could not read Username for 'https://github.com'"
+model-era: opus-4.8
 ---
 
 ## Context

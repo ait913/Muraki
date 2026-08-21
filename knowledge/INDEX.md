@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-08-21
+Generated: 2026-08-22
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -177,6 +177,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [clock 注入がトークン検証まで届かないと time-travel テストで認証が死ぬ](gotcha/injected-clock-must-cover-token-verification.md) — `global` — 時刻依存仕様 (日次上限・21:00 公開など) のテストは fakeClock を数時間〜数日シフトさせる。設計が「全 handler に clock を注入」と書いても、JWT ライブラリの exp/iat 検証は既定で実時間を使う。
 - [招待 deeplink QR の host 検証は URL を開かない限り防御力ゼロ](gotcha/invite-deeplink-qr-host-check-is-noop.md) — `global` — QR / universal link で招待 (ルーム参加・友達追加) を実装するとき、スキャン結果検証を
 - [userInterfaceStyle "automatic" + ダークモード端末で iOS ネイティブコントロールが白文字になり消える](gotcha/ios-automatic-appearance-invisible-native-controls.md) — `global` — omatase (Expo SDK 57) で日時ピッカーが「白背景に白文字」で読めない、という実機症状。
+- [iOS camera プラグインの stopVideoRecording 一時ファイルは送信時まで生存保証がない](gotcha/ios-camera-temp-file-lifetime.md) — `global` — Flutter `camera` パッケージの `stopVideoRecording()` が返す `XFile.path` は iOS の一時領域を指す。bloom で「アップロードに失敗しました (INTERNAL)」「下書き保存に失
 - [日本語 UI なのに「英語アプリ」として出荷される (system の Back が "Back" になる)](gotcha/ios-japanese-ui-shipped-as-english-bundle.md) — `global` — atender iOS は UI 文字列が**全部ベタ書きの日本語**で、`.lproj` を 1 つも持たない。
 - [iOS Info.plist に UILaunchScreen が無いとレターボックス(上下黒帯)描画になる](gotcha/ios-missing-uilaunchscreen-letterbox.md) — `global` — atender iOS を実機/シミュレータで起動すると、画面上下に黒帯が出て「小型デバイス(SE)相当に縮小描画」されているように見えた。時間割グリッドが途中で切れ、safe-area も狂ってタブバー下の余白が不揃いだった。
 - [iOS Simulator の Apple Maps は初回コールドスタートで数十秒タイルが出ない (react-native-maps のバグではない)](gotcha/ios-simulator-mapkit-cold-start-blank.md) — `global` — Simulator で「地図が出ない」を見たときに、New Architecture 非互換や Google Maps API キー未設定を

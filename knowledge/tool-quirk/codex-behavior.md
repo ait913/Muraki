@@ -44,6 +44,8 @@ Muraki で `codex exec` を Developer/Reviewer の実行エンジンに使って
 - **テスト生成に呼ぶと、落ちたテストを通すために実装 (handler.go 等) を黙って書き換える** → 「実装を 1 行も変えるな」と指示しても守らないことがある前提で、**召集前に対象実装ファイルを `cp` で退避** (未コミットが常態なので git では戻せない)。生成後 `git status` / `git diff --stat` でテスト以外の変更を確認。触られていたら、その差分は「実装が設計から外れていた」証拠なので、負のコントロールで実証してから帰属する。
 - **無いファイルの削除を指示すると、忖度して同名ファイルを新規作成してから消すような破滅的解釈をしうる** → 削除対象は着手前に `git ls-files --error-unmatch` で 1 つずつ tracked 判定し、untracked なら「no-op」と指示に明記する。
 
+- **git worktree 内では commit できない** (`index.lock` 作成失敗) → worktree の .git 実体は親 repo 側 (`<repo>/.git/worktrees/<name>`) にあり workspace-write の範囲外。実装は完走するので、召集時から「コミットは Leader が行う」と指示し、検収後に Leader が代行コミットする (bloom 2026-08-22 で 3/3 レーン再現)。
+
 ### 4. sandbox のネットワーク遮断
 
 - **`connect: operation not permitted` / `bind: operation not permitted` でテストが赤い** → 実装バグではない。sandbox は workspace-write でも network 不可: localhost DB 接続、`httptest` / JWKS の listen、SwiftPM clone、vendored 資産の DL が全部落ちる。DB 依存テスト・ローカル起動確認は Codex に任せず自分が sandbox 外で回す。vendored 資産は召集前に済ませる。

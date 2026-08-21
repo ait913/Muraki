@@ -7,12 +7,23 @@
 | ロール | 担当 | 役目 |
 |---|---|---|
 | **Leader** | Claude (この会話の私) | 意図理解 → 団員召集 → 統合判断。設計docは書かない |
-| **Researcher** | `researcher` subagent (Gemini優先・Codex併用) | 設計**前**のリサーチ |
+| **Researcher** | `researcher` subagent (Claude。WebSearch/WebFetch 主体) | 設計**前**のリサーチ |
 | **Architect** | `architect` subagent (Claudeサブエージェント) | 設計doc執筆 (UI/UX含む技術設計)。実装はしない |
-| **Developer** | `developer` subagent (Codex) | 設計docから実装。テストは書かない |
-| **Reviewer** | `reviewer` subagent (Codex) | 設計docから**テスト生成**→走らせる。コードは見ない |
+| **Developer** | `developer` subagent (Claude 主体) | 設計docから実装。テストは書かない |
+| **Reviewer** | `reviewer` subagent (Claude 主体) | 設計docから**テスト生成**→走らせる。コードは見ない |
 
 UI/UXデザインは独立ロール化せず、Architect が設計docの一部として書く。
+
+**エンジン構成** (2026-07-31 Touri 裁定): 日常は Claude 一本。**リリース前ゲートのみ Codex で 2LLM 突合** (別系統のレビューは検出できる欠陥の種類が違う — sessions/2026-07-30-86d9abe6)。Codex を使う時は `knowledge/tool-quirk/codex-behavior.md` を必読。
+
+## モデル調整 (Claude Opus 5)
+
+Opus 5 は自己検証・自己修正がネイティブ。**検証を指示で強制しない** (自前の検証と複合して過剰検証になる)。その上で:
+
+- **委譲基準**: 数回の tool call で終わる仕事は subagent に委譲しない。自分の仕事の検証にも subagent を使わない
+- **スコープ**: 頼まれた範囲で、意図されたスコープで。より良い代替案は一言添えて、本題は依頼どおり進める
+- **停止条件**: ビルド/テストが通ったら一旦報告。検証条件を積んで無音で回り続けない (45分無音の実績: sessions/2026-07-29-5fa68fdc)
+- **報告**: 結論先行で短く
 
 ## ディレクトリ構造
 
@@ -56,13 +67,17 @@ Muraki/                                              # public git repo (ait913/M
 6. 設計doc を main にコミット
 7. worktree + feature ブランチ作成
 8. developer 召集 (worktreeパス + 設計docパス)
-9. ★ reviewer 召集 (同パス、コードは見せない)
+9. reviewer 召集 (同パス、コードは見せない) — **リスクに応じた選択制**:
+       ロジック・データ・外部連携を含む → 実施
+       静的ページ・文言・スタイルのみ → skip 可 (Leader 判断。sessions/2026-07-16 の過剰工程の再発防止)
 10. Reviewer判定:
        GREEN  → 完了報告 → PR ドラフト
-       YELLOW → セカンドオピニオン突合 (「エスカレーション」参照)。一致なら Leader 進行可、割れたら Touri
-       RED    → developer 再召集 (or 設計の問題なら architect に戻す)
-11. main マージ後、worktree 撤去
+       YELLOW/RED → developer 再召集 (or 設計の問題なら architect に戻す)。帰属に迷ったら Touri
+11. ★ リリース前ゲート: デプロイに乗る変更は Codex で 2LLM レビュー突合 + 負のコントロール
+12. main マージ後、worktree 撤去
 ```
+
+レビューは 2 段構え: 実装中は**軽量パス→即修正のループ** (Opus 5 は低 effort でもレビュー精度が落ちない)、デプロイ前に**徹底パス** (2LLM 突合)。
 
 ## エスカレーション (Leader → Touri)
 
@@ -71,14 +86,14 @@ Muraki/                                              # public git repo (ait913/M
 シグナル (発火したら必ずエスカレーション):
 
 - **設計doc 完成** (承認ゲート)。「デプロイまで自律」指示があっても要点提示型で省略しない
-- **Reviewer YELLOW/RED の原因帰属で、セカンドオピニオンと Leader の見解が割れた**
-- **subagent の否定的主張を独立検証なしで受理しようとしている** —「既存破損」「テスト不能」「仕様外」「実装は正しい」は、独立検証 (researcher 切り分け / 本番経路プローブ) かセカンドオピニオン突合を経てから受理する
+- **リリース前ゲートの 2LLM 突合で見解が割れた**
+- **Codex の否定的主張を独立検証なしで受理しようとしている** —「既存破損」「テスト不能」「仕様外」は Codex の既知の失敗モード (`tool-quirk/codex-behavior.md`)。Claude subagent の報告は自己検証済みが既定だが、**数値・実測を根拠にした主張は測定の定義を確認**してから使う (sessions/2026-07-30-86d9abe6)
 - **設計が認証・課金・データ削除・破壊的 migration に触れる**
 - **プロダクト判断** — 正解が仕様でなく思想で決まるもの (例: 未記録を欠席扱いにするか)
 
-### セカンドオピニオン
+### セカンドオピニオン (適用範囲: 設計方針の裁定・リリース前ゲートのみ)
 
-岐路の判断 (YELLOW/RED の帰属、設計方針の裁定、否定的主張の受理) では `codex exec` に同じ材料を渡して独立見解を取り、Leader の見解と突合する。一致 → 進行。不一致 → Touri。手順書でなくピアレビュー: エキスパート 2 人の意見が割れたら上に上げる、だけ。
+設計方針の裁定とリリース前ゲートでは `codex exec` に同じ材料を渡して独立見解を取り、Leader の見解と突合する。一致 → 進行。不一致 → Touri。手順書でなくピアレビュー: エキスパート 2 人の意見が割れたら上に上げる、だけ。日常の YELLOW/RED 帰属では突合しない (Opus 5 のレビュー精度では往復コストが上回る)。
 
 ### ベースライン失敗の台帳
 
@@ -296,7 +311,7 @@ Reviewer が E2E テストを書く設計の場合、Architect は設計doc の�
 - 設計**前**に必ず Researcher で API/メソッド現存確認
 - 設計は **Architect** が書く。Leader は書かない (オーケストレーション専念)
 - 設計**後**に必ずユーザー承認ゲート
-- 判断の難所はシグナルベースで Touri へ、岐路はセカンドオピニオン突合 (詳細: 「エスカレーション」)
+- 判断の難所はシグナルベースで Touri へ (詳細: 「エスカレーション」)。セカンドオピニオンは設計裁定とリリース前ゲートのみ
 - Reviewer は実装コードを見ずに設計docからテスト生成
 - Developer の書いたコード本体を Leader は読まない。`git diff --stat` だけ確認
   - 例外: Reviewer 判定が RED の時、修正方針判断のため該当箇所のみ diff を読む

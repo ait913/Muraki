@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-08-22
+Generated: 2026-09-08
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -47,6 +47,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [SwiftUI Liquid Glass (iOS 26) — API 実在確認と availability](library/swiftui-liquid-glass-ios26.md) — `global` — Atender (SwiftUI/iOS) の UI を Apple ネイティブ部品 + Liquid Glass で刷新する設計の事前調査 (Xcode 26.6 / iOS SDK 26.5 実測)。
 - [SwiftUI 横ページングをタブ+NavigationStack+縦ScrollView の中に入れる (iOS 26 実測)](library/swiftui-nested-horizontal-paging-ios26.md) — `global` — atender の月カレンダーを「指でめくれる」ようにしたい。アプリの構造は
 - [vCard 日本語名刺生成 (vCard 3.0 + 振り仮名)](library/vcard-japanese.md) — `global` — 日本向け Web 名刺アプリで、iOS/Android 連絡先に取り込める .vcf を Node で生成する。
+- [build18 事前調査 — ルームタブ廃止 / 授業変更(振替) / EventKit公欠除外 / build17残課題](../projects/atender/.knowledge/08-build18-research.md) — `atender` — - `MainTab` enum に `.rooms` あり (`App/MainTabView.swift:6,14,24`)。TabView 内で `RoomsView()` を `NavigationStack(path: rooms
 - [Bloom. Phase-1 事前リサーチ — Appily セルフホスト backend の前提確認 (3秒動画 / APNs / Sign in with Apple / H3 / WS / スタック / Coolify 構成)](../projects/bloom/.knowledge/research-backend-appily.md) — `bloom` — Bloom. Phase-1 (投稿・配信・push・RT・21時バッチ・認証・H3集計) の技術設計前の前提確認。クライアントは Flutter 3.47 iOS (確定、`research-flutter-location-map.md
 - [Bloom. (旧 slug itsumo) Phase-0 事前リサーチ — Flutter で位置ヒートマップ SNS が成立するか (iOS BG 位置取得 / 地図 / メッシュ / 端末 DB / バッチ / RT 共有)](../projects/bloom/.knowledge/research-flutter-location-map.md) — `bloom` — PRODUCT.md (2026-08) の中核 = 「平常時は significant location change / visit monitoring で端末に記録 → 21 時に一括反映 → メッシュ濃淡のヒートマップを地図に描く
 
@@ -72,6 +73,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [wildcard DNS 配下ではサブドメインをフラット 1 レベルに固定する](pattern/flat-subdomain-naming-under-wildcard-dns.md) — `global` — `*.appily.run` / `*.n-wasabi.org` のような **wildcard CNAME → Cloudflare Tunnel → Nginx → Coolify Traefik** 構成で、
 - [同じ画面が 2 文脈でフォークしたら、統一するのは「中身」でなく「殻」](pattern/forked-screen-unify-the-shell-not-the-content.md) — `global` — 同じ機能を「自分用」と「グループ用」の 2 文脈で出す画面 (カレンダー / 時間割 / タスク一覧 / ダッシュボード)。
 - [入力フォームモーダル (BottomSheet/Dialog) の視認性 BP (2026)](pattern/form-modal-readability-bp.md) — `global` — Modal / Bottom Sheet 内に入力フォームを置く場面で「文字が見えにくい」「階層が弱い」「フォーカスが分からない」と感じる根因は**たいてい設計トークンの欠陥に集約**される。Atender redesign で実装後に T
+- [週パターンから生成した occurrence 表に「日付単位の例外 (振替・置き換え)」を足す標準形](pattern/generated-occurrence-exception-rows.md) — `global` — 時間割アプリのように「週パターン (Meeting: 曜日 × 時限) から学期分の occurrence 行を事前生成し、読み取りは occurrence を date でフィルタするだけ」という構成に、**パターンに無い日付だけの授業*
 - [Google Calendar 連携を Connection (user) × Sync (room × calendar) の 2 段 schema で組むパターン](pattern/google-calendar-incremental-sync-room-scoped.md) — `global` — ユーザーが個人 Google Calendar を「ルーム」「グループ」「プロジェクト」等の単位に紐づけて取り込みたい場面。ユースケース例:
 - [グリッド・テーブル罫線 BP (時間割/カレンダー/データ表示)](pattern/grid-table-borders-bp.md) — `global` — 時間割・カレンダー・テーブル系 UI で「セルがバラバラに見える」「表として認識されない」体感が出るのは、罫線設計が以下のどちらかに偏った時:
 - [ホーム画面に「自分 / グループ」を chip で集約する context switcher パターン (TimeTree 風)](pattern/home-aggregated-context-switcher.md) — `global` — カレンダー / 時間割 / 出欠など「個人ビュー」と「複数のグループビュー」の両方を持つアプリで、ホーム画面のナビ設計に悩む場面。代表例:
@@ -116,6 +118,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [テーマ auto を JS で解決し data-theme 常設 + matchMedia ライブ監視](pattern/theme-auto-resolve-data-theme-matchmedia.md) — `global` — ダーク/ライト + 「自動 (OS 追従)」の 3 モードを持つ Web アプリ。「自動」が OS 設定に追従しない/切り替わらないバグの定番。
 - [時間割アプリ UX パターン (Penmark 系 / 学生向け / 2024-2026)](pattern/timetable-app-ux-patterns.md) — `global` — 日本市場で学生向け時間割アプリを設計するとき、Penmark (日本最大級・大学生 100 万人超ユーザー) を主参考に、海外カレンダーアプリ (Notion Calendar / Fantastical) の連続イベント表現と組み合わせる
 - [時間割の連続コマは「描画前 coalesce + CSS Grid grid-row span」で結合](pattern/timetable-consecutive-cell-grid-row-span-coalesce.md) — `global` — 時間割グリッドで、同一授業が連続コマ (例 月1限+2限) にまたがるとき 1 つの縦長ブロックとして表示したい。データ上は隣接コマが別レコード (各 periodCount=1) に割れていることがある (後付け追加・テンプレ取込・週ビュ
+- [refresh トークンは単一所有者 + AuthExpired 単一イベントで設計する](pattern/token-refresh-single-owner-and-auth-expired-event.md) — `global` — rotate-on-use の refresh トークン (使用ごとに旧トークンを DELETE) を、前景 + 背景
 - [Touri 流の「シンプル + 並列拡張」設計パターン](pattern/touri-design-philosophy.md) — `global` — ユーザー (Touri Aida) が CGI 時代から積み上げてきたコードベース (ceez7 / マネログ) を読んで抽出した設計パターン。本人いわく「**目的に対してなるべくシンプルな実装と、汎用性・拡張性に長けた設計**」。AI コ
 - [既存 UI を視覚再設計する際に描画テストを壊さない設計規律](pattern/ui-restyle-without-breaking-render-tests.md) — `global` — 既に動いている React アプリの **見た目だけ** を別デザイン言語 (例: Cloudflare dashboard 風) に全面再設計する場面。データモデル/API/挙動は変えない「純 UI 再設計」。Reviewer が既存の描
 - [UI/UX 設計の汎用観点集 (Web + SwiftUI 共通、出典タグ付き)](pattern/ui-ux-design-perspectives.md) — `global` — Muraki の Architect が設計doc の UI/UX 節を書くとき・Leader/Reviewer が UI を評価するときに**通す観点の集合**。Touri の要望「Apple ガイドラインベースの要素感覚 + フォント/
@@ -232,6 +235,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [XCUITest は起動直後の最初の 1〜2 タップを失う (offset のせいだと誤診する)](gotcha/xcuitest-first-taps-after-launch-are-lost.md) — `global` — 「予定 chip の真上をタップしても chip がタップを食わず、日別シートが開く」(#H3) を
 - [zod .datetime() は +09:00 形式の ISO8601 を拒否する — クライアントは必ず toISOString() で送る](gotcha/zod-datetime-rejects-offset-iso-client-must-send-z.md) — `global` — atender の個人カレンダー再構築で「JST 日付 (YYYY-MM-DD) → instant」の変換を
 - [AgentHub 既知の失敗テスト台帳](../projects/agent-hub/.knowledge/known-failures.md) — `agent-hub` — Muraki 規約: 各 PJ は既知の失敗テストを分類付き (テスト陳腐化 / 環境依存 / 未分類) で持つ。**未分類の失敗を残したままのマージは不可**。この台帳と照合して初めて「既存破損だから無視」が言える。
+- [flutter_secure_storage 既定アクセシビリティは背景ロケーションwakeupと相性最悪](../projects/bloom/.knowledge/auth-refresh-background-isolate.md) — `bloom` — Bloom の refresh token ローテーション競合バグ調査 (build 17/18 後、home screen が
 - [bloom 既知失敗テスト台帳](../projects/bloom/.knowledge/known-failures.md) — `bloom` — 分類: テスト陳腐化 / 環境依存 / 未分類。未分類を残したままのマージ不可 (Muraki 規約)。
 - [Phase-1 実装バックログ (R2 反映漏れ分の追跡)](../projects/bloom/.knowledge/phase1-backlog.md) — `bloom` — - [ ] G12 招待リンク読み取り専用 API + S8/S10 の叩き先変更 → **P3b**
 - [P2a probe 結果台帳 (設計doc §14 probe #1〜#4)](../projects/bloom/.knowledge/probe-results.md) — `bloom` — P2a の実機依存 probe 4 件の結果を記録する台帳。成否の分岐 (Plan A/B、codec 変換要否、res8 前倒し) は設計doc §14 の表が正典。手順は `app/PROBE.md`。

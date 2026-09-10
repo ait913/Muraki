@@ -151,6 +151,8 @@ curl -sS -X PATCH -H "Authorization: Bearer $COOLIFY_API_TOKEN" \
 - **`POST /github-apps` は API 登録可**だが必須項目 `installation_id` は **GitHub 側で App を org に install 済みでないと存在しない**。App の作成/install は GitHub のブラウザ manifest フローが必須で REST 不可。→ 現実は **Coolify UI の Sources → GitHub App フロー**が「App 作成 + org install + Coolify 登録」を束ねて最短。app 作成に渡す `github_app_uuid` は登録後 `GET /github-apps` の `.uuid`。
 - **`GET /github-apps/{github_app_id}/repositories` (load-repositories) は path に数値 `id` を要求**。uuid を渡すと 500 (`SQLSTATE 22P02 invalid input syntax`)。`GET /github-apps` の `.id` (integer) を使う。同 endpoint は `.id` と `.uuid` の両方を返すので用途で使い分け (app 作成は uuid、repo/branch ロードは id)。
 - `docker_compose_raw` (`POST /services`) と `custom_labels` (PATCH app) は **base64 encoded** で送る。生 string は reject。
+- **既存 app の Source 種別 (deploy key ↔ GitHub App) と所属 project/environment は API で変えられない** (2026-09-08 実測)。PATCH `/applications/{uuid}` に `github_app_uuid` / `source_id` / `source_type` / `private_key_id` / `environment_uuid` / `project_uuid` を送ると `"This field is not allowed."`。`PATCH /databases/{uuid}` の `environment_uuid` は "Database updated." と返すが **実際は動かない**。UI は project/environment の移動はできるが Source 種別は変えられない (鍵の選択だけ)。リポジトリを別 org へ移して deploy key が使えなくなった時の最短は、**`coolify-db` の `applications` 行を UPDATE** して GitHub App ソースの app (例 omatase-api) と同じ形にする: `source_type='App\Models\GithubApp', source_id=<github_apps.id>, private_key_id=NULL, git_repository='<owner>/<repo>'`。コンテナ・ボリュームは触らず、直後の deploy が通る。旧値は記録してから
+- `GET /deploy?uuid=` は **POST に変更された** (2026-09 時点で GET は `{"message":"This endpoint has changed to a POST request."}`)。SKILL の curl 例は `-X POST` に読み替える
 
 ### ログ取得の癖
 

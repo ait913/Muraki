@@ -1,12 +1,13 @@
 # Knowledge Index
 
-Generated: 2026-09-11
+Generated: 2026-09-16
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
 ## library
 - [Aisaba 自作スタック (Appera + Nexom + aisaba_platform)](library/aisaba-stack.md) — `global` — ユーザーが運用している Web アプリ群 (apps.aisaba.net 配下: portfolio_manager / permissions / file_size_sense / カレンダー / MeishiLink ダッシュボード
 - [Anthropic Claude API のデータ保持・学習利用ポリシー (2026年5月時点)](library/anthropic-api-data-retention.md) — `global` — 個人ヘルスケア・メンタル系アプリで Claude API を使うとき、「ユーザーの会話を Anthropic 側にどれだけ残されるか」「学習に使われるか」を正確に知っておく必要がある。ZDR (Zero Data Retention) を契
+- [App Store Connect API v1 だけで新規アプリを審査提出する (2026-09時点、Web UI 必須の2箇所を含む)](library/app-store-connect-api-full-submission-2026.md) — `global` — iOS アプリ (バージョン 1.0, PREPARE_FOR_SUBMISSION, TestFlight ビルド有) を **Web UI を極力使わず JWT (Admin key) + App Store Connect API v
 - [Apple developer docs は SPA — JSON エンドポイント直叩きで全文取得](library/apple-developer-docs-json-endpoint.md) — `global` — HIG や developer.apple.com/documentation を一次ソースで精読したいとき。
 - [Auth.js v5 + PrismaAdapter + SQLite (Magic Link + Google) 最小構成](library/authjs-v5-prisma-sqlite.md) — `global` — Next.js 15 App Router + Prisma + better-sqlite3 で Auth.js v5 を使い、
 - [better-auth 1.6.x (2026-05) — Next.js + Prisma + Magic Link + OAuth 最小構成](library/better-auth-2026.md) — `global` — Next.js (App Router) + Prisma + SQLite で「Magic Link + Google OAuth + DB session」を最小コストで組みたい場面。Auth.js v5 が長らく beta のままなの
@@ -239,6 +240,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [bloom 既知失敗テスト台帳](../projects/bloom/.knowledge/known-failures.md) — `bloom` — 分類: テスト陳腐化 / 環境依存 / 未分類。未分類を残したままのマージ不可 (Muraki 規約)。
 - [Phase-1 実装バックログ (R2 反映漏れ分の追跡)](../projects/bloom/.knowledge/phase1-backlog.md) — `bloom` — - [ ] G12 招待リンク読み取り専用 API + S8/S10 の叩き先変更 → **P3b**
 - [P2a probe 結果台帳 (設計doc §14 probe #1〜#4)](../projects/bloom/.knowledge/probe-results.md) — `bloom` — P2a の実機依存 probe 4 件の結果を記録する台帳。成否の分岐 (Plan A/B、codec 変換要否、res8 前倒し) は設計doc §14 の表が正典。手順は `app/PROBE.md`。
+- [bloom API セキュリティ backlog (2026-09-16 監査の先送り分)](../projects/bloom/.knowledge/security-backlog.md) — `bloom` — App Store 提出前夜 (2026-09-16) に Codex で read-only 監査を行い 25 件を検出。提出 MVP として edge / privacy / media の 3 レーン (A01, A02, A03, 
 - [dandan-app 既知の失敗テスト台帳](../projects/dandan-app/.knowledge/known-failures.md) — `dandan-app` — 分類: テスト陳腐化 / 環境依存 / 未分類。**未分類を残したままのマージ不可** (Muraki/CLAUDE.md)。
 - [アーカイブの DB ガードは「保存」を止めるが WS の「中継」は止めない](../projects/omatase/.knowledge/archived-gate-stops-persistence-not-relay.md) — `omatase` — PRODUCT.md §8-7 は「アーカイブ後は読み取り専用。**位置共有は止める**」を要求する。
 - [omatase 既知の失敗テスト台帳](../projects/omatase/.knowledge/known-failures.md) — `omatase` — Muraki 規約: 各 PJ は既知の失敗テストを分類付き (テスト陳腐化 / 環境依存 / **未分類**) で持つ。**未分類の失敗を残したままのマージは不可**。この台帳と照合して初めて「既存破損だから無視」が言える。

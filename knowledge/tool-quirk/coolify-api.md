@@ -143,7 +143,7 @@ curl -sS -X PATCH -H "Authorization: Bearer $COOLIFY_API_TOKEN" \
 ### resource 作成 (project / app / database) の癖
 
 - **`POST /projects` の `description` は許可文字が限定**: letters / numbers / spaces と `- _ . , ! ? ( ) ' " + = * / @ &` のみ。**emダッシュ `—` や日本語の一部記号を含めると 422**。OpenAPI schema には pattern 記述がない (実装側のバリデーション)。ASCII 無難記号で書く。`name` は制約ゆるめ。
-- **app / database 作成は `environment_uuid` が必須**: `POST /applications/private-github-app` `/public` `/private-deploy-key` `/dockerfile` `/dockerimage` および `POST /databases/*` の required に `environment_name` と `environment_uuid` **両方**が載っている。description は "at least one" と書くが、実踏では `environment_name` だけでは作成できず uuid が要る。environment uuid は `GET /projects/{uuid}` の `.environments[].uuid` からしか取れない (project 一覧には出ない)。
+- **app / database 作成は `environment_uuid` が必須**: `POST /applications/private-github-app` `/public` `/private-deploy-key` `/dockerfile` `/dockerimage` および `POST /databases/*` の required に `environment_name` と `environment_uuid` **両方**が載っている。description は "at least one" と書くが、実踏では `environment_name` だけでは作成できず uuid が要る。environment uuid は `GET /projects/{uuid}` の `.environments[].uuid` からしか取れない (project 一覧には出ない)。 ★ OpenAPI 上は `server_uuid` も同じ required 配列に入っている (`private-github-app`/`public`/`private-deploy-key`/`dockerfile`/`dockerimage` 共通、2026-09-16 spec 確認)。destination の server uuid は `GET /applications/{既存app}` の `.destination.server.uuid` から拾える (project 一覧には出ない点は environment_uuid と同じ)。
 - **private repo の deploy key が org ポリシーで無効なことがある**: `POST /applications/private-deploy-key` が `Deploy keys are disabled` で 422 (例: `n-wasabi` org)。その場合は **GitHub App ソース経由** (`private-github-app`) に切り替える。
 
 ### GitHub App ソースの癖
@@ -179,10 +179,14 @@ curl -sS -X PATCH -H "Authorization: Bearer $COOLIFY_API_TOKEN" \
 
 `PATCH /applications/{uuid}` および `POST /applications/public` で `domains` を指定したとき、**他アプリと衝突すると 409 Conflict** が返る (response body に競合先 app 情報)。
 
-回避: query string `force_domain_override=true` を付けると競合を強制上書き。**他アプリの fqdn を奪う破壊操作**なのでユーザー承認必須。
+回避 (旧記載): query string `force_domain_override=true` を付けると競合を強制上書き。**他アプリの fqdn を奪う破壊操作**なのでユーザー承認必須。
+
+★ **2026-09-16 実測 (bloom-web へのドメイン移動)**: `PATCH .../applications/<uuid>?force_domain_override=true` は JSON でなく **Coolify UI の HTML** が返り、domains は変わらなかった (query string 形式はこの版で効かない。UI の同名オプションと API の対応は未確認)。実際に通った手順は **「旧 app から外す → 旧 app を再デプロイ → 新 app に付ける → 新 app を再デプロイ」** で、その間 (今回 約 4 分) はそのホストが Traefik の 404 になる。無停止が必要なら、旧 app に別ホスト名で先に到達性を確保してから移すか、Nginx 層で切り替える。
 
 ```sh
-curl -X PATCH ... "$COOLIFY_API_BASE/applications/<uuid>?force_domain_override=true" -d '{"domains":"https://..."}'
+# 実績のある順序 (bloom.n-wasabi.org を bloom-api → bloom-web へ移した時のもの)
+curl -X PATCH ... "$COOLIFY_API_BASE/applications/<old>" -d '{"domains":"https://old-only.example"}'; curl -X POST ... "$COOLIFY_API_BASE/deploy?uuid=<old>&force=false"
+curl -X PATCH ... "$COOLIFY_API_BASE/applications/<new>" -d '{"domains":"https://moved.example","is_force_https_enabled":false}'; curl -X POST ... "$COOLIFY_API_BASE/deploy?uuid=<new>&force=true"
 ```
 
 ### database の接続 URL は API で取れる (OpenAPI spec に無い)

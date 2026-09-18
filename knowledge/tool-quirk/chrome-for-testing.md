@@ -102,3 +102,11 @@ curl -s http://127.0.0.1:9333/json/version   # 1 秒で応答する = 生きて�
 あとは CDP over WebSocket で `Page.navigate` → `Page.loadEventFired` 待ち → `Page.captureScreenshot`。`websockets` (Python 16.0) が入っている。実装例: このセッションの scratchpad `cdp_shot.py` (`Emulation.setDeviceMetricsOverride` でモバイル寸法を出せる)。
 
 **切り分けの鉄則**: headless が「壊れた」ように見えたら、まず `about:blank` を CDP (`--remote-debugging-port` + `/json/version`) で叩く。応答すれば Chrome は無罪で、ワンショット CLI フラグ側の問題。`--screenshot` の 2 分ハングを見て環境を疑う前に経路を疑う。
+
+### 2026-09-18: `Page.captureScreenshot` が about:blank でも返らない日がある (headless / GUI どちらも)
+
+MCP の `take_screenshot` が 120s でタイムアウト → 別プロセスの Chrome for Testing 148 を `--headless=new --disable-gpu --use-angle=swiftshader` でも、GUI (非 headless) でも起動して CDP 直叩きしたが、**`Page.captureScreenshot` (fromSurface true/false とも) は about:blank ですら返らなかった**。同じ接続で `Browser.getVersion` / `Page.printToPDF` / `Page.getLayoutMetrics` / `Runtime.evaluate` は即応。MapLibre ページでは `map.loaded()` が false のまま `render` イベントも発火しない = compositor がフレームを出していない状態。Chrome 側の問題で、ページ側 (WebGL) の問題ではない (about:blank で再現するため)。
+
+- **この日は原因未特定** (深夜 00:30〜01:00 JST。本番ホストの再起動とは無関係。ディスプレイスリープ/ロック中だった可能性は排除できていない — GUI 起動でも失敗したのはこれで説明がつく)
+- **見切り方**: about:blank の captureScreenshot が 15s で返らなければスクショ経路は諦め、`Runtime.evaluate` による DOM/スタイル/GeoJSON の構造検証に切り替える (mocks/m2 では `window.__m2` フックで map の getStyle()/sources を読んで検証した)。時間を溶かさない
+- MapLibre のモックを file:// で開くと `Unsafe attempt to load URL file:` が出る。`python3 -m http.server` で配信して開く

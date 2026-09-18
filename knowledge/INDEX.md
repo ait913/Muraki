@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-09-16
+Generated: 2026-09-18
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -9,6 +9,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Anthropic Claude API のデータ保持・学習利用ポリシー (2026年5月時点)](library/anthropic-api-data-retention.md) — `global` — 個人ヘルスケア・メンタル系アプリで Claude API を使うとき、「ユーザーの会話を Anthropic 側にどれだけ残されるか」「学習に使われるか」を正確に知っておく必要がある。ZDR (Zero Data Retention) を契
 - [App Store Connect API v1 だけで新規アプリを審査提出する (2026-09時点、Web UI 必須の2箇所を含む)](library/app-store-connect-api-full-submission-2026.md) — `global` — iOS アプリ (バージョン 1.0, PREPARE_FOR_SUBMISSION, TestFlight ビルド有) を **Web UI を極力使わず JWT (Admin key) + App Store Connect API v
 - [Apple developer docs は SPA — JSON エンドポイント直叩きで全文取得](library/apple-developer-docs-json-endpoint.md) — `global` — HIG や developer.apple.com/documentation を一次ソースで精読したいとき。
+- [App Store Guideline 1.2 (UGC) の現行原文 — 「24 時間」「EULA」は旧版の孫引き](library/apple-ugc-guideline-1.2-current-text.md) — `global` — Bloom. の初回審査で Guideline 2.1 Information Needed が来て、録画に「UGC の通報・ブロック機構」を含めろと要求された。要件の原文を確認したときの記録。
 - [Auth.js v5 + PrismaAdapter + SQLite (Magic Link + Google) 最小構成](library/authjs-v5-prisma-sqlite.md) — `global` — Next.js 15 App Router + Prisma + better-sqlite3 で Auth.js v5 を使い、
 - [better-auth 1.6.x (2026-05) — Next.js + Prisma + Magic Link + OAuth 最小構成](library/better-auth-2026.md) — `global` — Next.js (App Router) + Prisma + SQLite で「Magic Link + Google OAuth + DB session」を最小コストで組みたい場面。Auth.js v5 が長らく beta のままなの
 - [better-auth 1.6.x + Hono + Drizzle + SQLite 構成 (Anonymous Plugin 含む 2026-05)](library/better-auth-hono-drizzle-sqlite.md) — `global` — Web アプリで「Hono + Drizzle + SQLite + better-auth」スタックを採用する場面、特に Anonymous Plugin で「名前のみのゲスト運用」をする場合。既存 [`library/better-au
@@ -34,6 +35,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [日本のOHCA場所別生存率と現着時間の真実 (JAMA 2019・東京令和5年・全国Utstein 2018)](library/jp-ohca-location-survival.md) — `global` — 救急関連プロダクトで「平均14分」「20分以上ロングテール」の上位の話を求めるとき。OHCAの生存率は **発生場所で18倍違う**。EMS現着時間自体の場所差は1分しかない。設計判断を誤らないために必読。
 - [日本のOHCA・救急医療マクロ統計 (2023年実績)](library/jp-ohca-stats.md) — `global` — 日本向け救命系アプリ・防災UX設計時の基礎データ。2026年5月時点で確認した最新公式値。
 - [Lucia v3 は 2026-03 で完全 deprecated — 新規 PJ で採用してはならない](library/lucia-deprecated-2025.md) — `global` — Web アプリで session-based 認証を組む際、Lucia v3 を選びたくなる場面。session DB + cookie の純度を取る設計で過去人気があったが、**作者 pilcrow が 2024-10 (= 2025年1
+- [maplibre_gl 0.26.2 (Flutter) の実装上の癖 — addImage の scale / featureTaps / GeoJSON 送信コスト](library/maplibre-gl-flutter-0.26-quirks.md) — `global` — Bloom M2 (地図 UI 刷新) で、Flutter canvas でラスタライズした画像を symbol layer に載せる / ピンのタップを拾う / 数千セルの GeoJSON を送る、の 3 つで設計前提が実ソースと食い違っ
 - [リモートMCPのエージェント誘導サーフェス (server instructions / tool search / prompts / entry tool) 2026](library/mcp-agent-ux-steering-2026.md) — `global` — 多ツール (20+) のリモート MCP サーバーで「エージェントにどのツールから始めるか・ワークフローをどう運ばせるか」を設計する場面。ホストは Claude Code / Codex CLI。
 - [MCP Apps (io.modelcontextprotocol/ui) の仕様現状とホスト描画マトリクス (2026-07)](library/mcp-apps-host-support-2026.md) — `global` — dandan-app 再設計で MCP Apps (iframe UI) をメイン機能に据える方針の前提確認。「どの実ホストで描画されるか」が土台。
 - [Next.js 15 + Prisma + better-sqlite3 + Coolify スタック概要](library/nextjs15-prisma-sqlite-coolify.md) — `global` — Next.js 15 + Prisma 6.x + better-sqlite3 + SQLite を 1コンテナで Coolify デプロイする構成。`output: "standalone"` で薄い image を作り、SQLite 
@@ -51,12 +53,14 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [build18 事前調査 — ルームタブ廃止 / 授業変更(振替) / EventKit公欠除外 / build17残課題](../projects/atender/.knowledge/08-build18-research.md) — `atender` — - `MainTab` enum に `.rooms` あり (`App/MainTabView.swift:6,14,24`)。TabView 内で `RoomsView()` を `NavigationStack(path: rooms
 - [Bloom. Phase-1 事前リサーチ — Appily セルフホスト backend の前提確認 (3秒動画 / APNs / Sign in with Apple / H3 / WS / スタック / Coolify 構成)](../projects/bloom/.knowledge/research-backend-appily.md) — `bloom` — Bloom. Phase-1 (投稿・配信・push・RT・21時バッチ・認証・H3集計) の技術設計前の前提確認。クライアントは Flutter 3.47 iOS (確定、`research-flutter-location-map.md
 - [Bloom. (旧 slug itsumo) Phase-0 事前リサーチ — Flutter で位置ヒートマップ SNS が成立するか (iOS BG 位置取得 / 地図 / メッシュ / 端末 DB / バッチ / RT 共有)](../projects/bloom/.knowledge/research-flutter-location-map.md) — `bloom` — PRODUCT.md (2026-08) の中核 = 「平常時は significant location change / visit monitoring で端末に記録 → 21 時に一括反映 → メッシュ濃淡のヒートマップを地図に描く
+- [m2 モック UI (ブロブヒートマップ/軌跡タイムライン/ビーコン枠) を Flutter 本体へ移植する前の現状確認](../projects/bloom/.knowledge/research-m2-map-redesign.md) — `bloom` — 1. **maplibre_gl 0.26.2 で全部揃う。**
 
 ## pattern
 - [AI が人間 identity を共有する MCP での「承認ゲート」設計 (構造ゲートで代理)](pattern/ai-collab-mcp-shared-identity-approval-gate.md) — `global` — AI グループ開発ツール (agent-hub 等) で「意思決定は人間が承認する (ブラックボックス化を防ぐ)」を
 - [AI 振り返り対話のセッション設計と階層型メモリ](pattern/ai-reflection-dialog-memory.md) — `global` — 夜の振り返り (evening reflection) を AI と対話で行う UX。Stoic / Rosebud / Mindsera の 2025-2026 設計と、長期運用での memory アーキテクチャ。
 - [aisaba.net 系の視覚デザイン言語](pattern/aisaba-design-language.md) — `global` — aisaba.net・apps.aisaba.net・portfolio_manager 等、ユーザー (Touri Aida) が運営する複数サイトで一貫した視覚言語が使われている。新規 UI を作る・既存サイトに追加コンポーネントを差し
 - [Apple Sign in の client secret を node:crypto で同期生成し auth 初期化の async 化を避ける](pattern/apple-client-secret-sync-nodecrypto.md) — `global` — better-auth (や NextAuth) の Apple provider は `clientSecret` を必須にするが、Apple の client secret は **ES256 で署名した JWT** で最長6ヶ月失効す
+- [claude.ai Artifact で MapLibre の実タイル地図を動かす — タイル/グリフを base64 JSON に包んで addProtocol で復号](pattern/artifact-maplibre-offline-bundle.md) — `global` — 地図 UI のモックを Artifact (claude.ai) で共有したい。Artifact の CSP は **外部 script は cdnjs / jsdelivr(npm) のみ、stylesheet は Google Font
 - [出席率の3指標分解 — 「今日まで実績 / 楽観射影 / あとN回休める」標準計算パターン](pattern/attendance-to-date-rate-and-allowed-absences.md) — `global` — 出欠管理アプリで「学期全体の予定回数」を分母にすると、学期序盤は未来分が分母に入って率が不当に低く出る。ユーザーが本当に知りたいのは (1) 今日までの実績率と (2) あと何回休めるか。
 - [better-auth Cookie session を壊さず bearer plugin でネイティブを併存させる + Google web OAuth の token 中継](pattern/better-auth-bearer-native-token-relay.md) — `global` — 既に web で **better-auth の Cookie session** (`credentials:"include"`, SameSite=Lax, DB session) を運用しているプロダクトに、後から **iOS ネイ
 - [better-auth incremental scope (linkSocial) + cron 文脈での access token 取得パターン](pattern/better-auth-incremental-scope-and-cron-token.md) — `global` — 既に better-auth で Google Sign-In を持つアプリで、後から「Google Calendar 読み取り」など追加 scope が必要になる場面。sign-in 時に sensitive scope を最初から要求す
@@ -121,6 +125,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [時間割の連続コマは「描画前 coalesce + CSS Grid grid-row span」で結合](pattern/timetable-consecutive-cell-grid-row-span-coalesce.md) — `global` — 時間割グリッドで、同一授業が連続コマ (例 月1限+2限) にまたがるとき 1 つの縦長ブロックとして表示したい。データ上は隣接コマが別レコード (各 periodCount=1) に割れていることがある (後付け追加・テンプレ取込・週ビュ
 - [refresh トークンは単一所有者 + AuthExpired 単一イベントで設計する](pattern/token-refresh-single-owner-and-auth-expired-event.md) — `global` — rotate-on-use の refresh トークン (使用ごとに旧トークンを DELETE) を、前景 + 背景
 - [Touri 流の「シンプル + 並列拡張」設計パターン](pattern/touri-design-philosophy.md) — `global` — ユーザー (Touri Aida) が CGI 時代から積み上げてきたコードベース (ceez7 / マネログ) を読んで抽出した設計パターン。本人いわく「**目的に対してなるべくシンプルな実装と、汎用性・拡張性に長けた設計**」。AI コ
+- [小規模グループ UGC アプリの通報・ブロック最小実装 (App Review 1.2 対応、追放なし)](pattern/ugc-report-block-minimal-for-app-review.md) — `global` — App Store 審査 (Guideline 1.2 User-Generated Content) は UGC を持つアプリに (1) 不適切コンテンツのフィルタ手段 (2) 通報と timely な対応 (3) 迷惑ユーザーのブロック
 - [既存 UI を視覚再設計する際に描画テストを壊さない設計規律](pattern/ui-restyle-without-breaking-render-tests.md) — `global` — 既に動いている React アプリの **見た目だけ** を別デザイン言語 (例: Cloudflare dashboard 風) に全面再設計する場面。データモデル/API/挙動は変えない「純 UI 再設計」。Reviewer が既存の描
 - [UI/UX 設計の汎用観点集 (Web + SwiftUI 共通、出典タグ付き)](pattern/ui-ux-design-perspectives.md) — `global` — Muraki の Architect が設計doc の UI/UX 節を書くとき・Leader/Reviewer が UI を評価するときに**通す観点の集合**。Touri の要望「Apple ガイドラインベースの要素感覚 + フォント/
 - [Web 先行 → Capacitor 後付けを見越した Next.js 設計 (output: 'export' 縛り)](pattern/web-first-capacitor-later-design.md) — `global` — 「最終的に iOS ハイブリッドアプリにしたいが、最初は Web 完結 MVP で検証したい」場面。tomori Phase 1 で採用した戦略。Phase 1 で Server Actions / middleware を 1 箇所でも使
@@ -237,6 +242,8 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [XCUITest は起動直後の最初の 1〜2 タップを失う (offset のせいだと誤診する)](gotcha/xcuitest-first-taps-after-launch-are-lost.md) — `global` — 「予定 chip の真上をタップしても chip がタップを食わず、日別シートが開く」(#H3) を
 - [zod .datetime() は +09:00 形式の ISO8601 を拒否する — クライアントは必ず toISOString() で送る](gotcha/zod-datetime-rejects-offset-iso-client-must-send-z.md) — `global` — atender の個人カレンダー再構築で「JST 日付 (YYYY-MM-DD) → instant」の変換を
 - [AgentHub 既知の失敗テスト台帳](../projects/agent-hub/.knowledge/known-failures.md) — `agent-hub` — Muraki 規約: 各 PJ は既知の失敗テストを分類付き (テスト陳腐化 / 環境依存 / 未分類) で持つ。**未分類の失敗を残したままのマージは不可**。この台帳と照合して初めて「既存破損だから無視」が言える。
+- [Touri アカウントの位置ログ退避 (2026-09-18、審査録画でアカウント削除する前)](../projects/bloom/.knowledge/account-data-backup-20260918.md) — `bloom` — App Review の録画で「新規登録 → 退会」を通すため、Touri 本人のアカウント (Apple ID touri_5913@icloud.com、2026-08 中旬から位置ログ蓄積) を一度削除する。削除前に退避した。
+- [App Review 2.1 Information Needed への回答文 (2026-09-17、Submission 57ad158e)](../projects/bloom/.knowledge/app-review-reply-20260917.md) — `bloom` — 初回提出 (version 0.1.0 / build 20) に対し Guideline 2.1 Information Needed (新規デベロッパー定型)。要求 6 項目 + 実機の画面録画。以下を Resolution Cente
 - [flutter_secure_storage 既定アクセシビリティは背景ロケーションwakeupと相性最悪](../projects/bloom/.knowledge/auth-refresh-background-isolate.md) — `bloom` — Bloom の refresh token ローテーション競合バグ調査 (build 17/18 後、home screen が
 - [bloom 既知失敗テスト台帳](../projects/bloom/.knowledge/known-failures.md) — `bloom` — 分類: テスト陳腐化 / 環境依存 / 未分類。未分類を残したままのマージ不可 (Muraki 規約)。
 - [Phase-1 実装バックログ (R2 反映漏れ分の追跡)](../projects/bloom/.knowledge/phase1-backlog.md) — `bloom` — - [ ] G12 招待リンク読み取り専用 API + S8/S10 の叩き先変更 → **P3b**

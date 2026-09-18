@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-09-18
+Generated: 2026-09-19
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -54,6 +54,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Bloom. Phase-1 事前リサーチ — Appily セルフホスト backend の前提確認 (3秒動画 / APNs / Sign in with Apple / H3 / WS / スタック / Coolify 構成)](../projects/bloom/.knowledge/research-backend-appily.md) — `bloom` — Bloom. Phase-1 (投稿・配信・push・RT・21時バッチ・認証・H3集計) の技術設計前の前提確認。クライアントは Flutter 3.47 iOS (確定、`research-flutter-location-map.md
 - [Bloom. (旧 slug itsumo) Phase-0 事前リサーチ — Flutter で位置ヒートマップ SNS が成立するか (iOS BG 位置取得 / 地図 / メッシュ / 端末 DB / バッチ / RT 共有)](../projects/bloom/.knowledge/research-flutter-location-map.md) — `bloom` — PRODUCT.md (2026-08) の中核 = 「平常時は significant location change / visit monitoring で端末に記録 → 21 時に一括反映 → メッシュ濃淡のヒートマップを地図に描く
 - [m2 モック UI (ブロブヒートマップ/軌跡タイムライン/ビーコン枠) を Flutter 本体へ移植する前の現状確認](../projects/bloom/.knowledge/research-m2-map-redesign.md) — `bloom` — 1. **maplibre_gl 0.26.2 で全部揃う。**
+- [M3 (現在地マーカーの滑らか移動 / 境界内即時塗り / ソフト追従カメラ) 設計前リサーチ](../projects/bloom/.knowledge/research-m3-live-movement.md) — `bloom` — 1. **前景で地図表示中でも、CLLocation の `didUpdateLocations` は `speed` は一部の fix にしか流れず、`course`/`courseAccuracy`/`speedAccuracy` はど
 
 ## pattern
 - [AI が人間 identity を共有する MCP での「承認ゲート」設計 (構造ゲートで代理)](pattern/ai-collab-mcp-shared-identity-approval-gate.md) — `global` — AI グループ開発ツール (agent-hub 等) で「意思決定は人間が承認する (ブラックボックス化を防ぐ)」を
@@ -88,6 +89,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [LLM 生成 Push 通知の現実的アーキテクチャ (iOS APNs + Claude Haiku)](pattern/llm-push-notification-architecture.md) — `global` — 「起床コーチ」「就寝リマインド」「夜の振り返り誘導」など、AI が文面を個別生成する push 通知を iOS に飛ばす場面。レイテンシ・コスト・UX の現実的トレードオフ。
 - [場所選択を共通 Sheet (検索 + 地図 + 現在地) として切り出す Nominatim MVP パターン](pattern/location-picker-common-sheet-nominatim.md) — `global` — イベント管理 / 待ち合わせ系アプリで「Schedule に場所を設定」「Feature (集合) に場所を設定」「event 作成時に集合場所を設定」など、**場所選択 UI が複数画面で必要**になる。
 - [地図主体 SNS のホーム — 投稿→閲覧サイクルを「地図の上に浮く投稿 + 常設ボトムシート = フィード」で 1 画面に畳む](pattern/map-first-sns-home-post-view-cycle.md) — `global` — Bloom. (位置情報 SNS) の Phase-0 IA。全画面地図を維持しつつ、主サイクル「通知 → 3 秒動画 → 投稿先を選んで投稿 → その場で他人の投稿も見る」をホームから 3 タップ以内で回す必要があった。地図 / フィード
+- [地図の現在地マーカーを滑らかに動かす — 1 Hz fix + Doppler 速度で先読み、20 Hz 送信、表示側ヒステリシス、自前フラグのソフト追従](pattern/map-live-marker-dead-reckoning.md) — `global` — 位置情報アプリの地図で「自分の位置がカクカク飛ぶ」「移動しても塗りが追いつかない」「カメラが自分を見失う」を同時に直す設計 (bloom M3、Flutter 3.47 + maplibre_gl 0.26.2 + iOS CoreLoca
 - [MCP Apps iframe のマルチテナント文脈解決 — 通知非依存の user スコープ解決 + project pin](pattern/mcp-apps-multitenant-ui-context-pin.md) — `global` — シングルテナント MCP サーバー (MCP Apps iframe UI 付き) をマルチユーザー化するとき、「グローバル最新」「グローバル名簿」型の文脈参照をどう変換するか。iframe は「どのテナント文脈を描画すべきか」を自力で知る
 - [MCP server_instructions は二相化 (決定的オンボーディング + 能力パレット作業)](pattern/mcp-server-instructions-two-phase-onboarding.md) — `global` — MCP の `server_instructions` (FastMCP `instructions=...`) は接続直後の AI に渡す自由文。
 - [最小限の SNS レイヤ (Friend + Room) を Prisma + 単一 endpoint で設計するパターン](pattern/minimal-social-layer-friend-room.md) — `global` — 「友達追加 + グループ (ルーム) + 共有カレンダー」程度の軽量 SNS 機能を、既存アプリに**追加機能として後付け**するときの最小構成。LINE / Penmark / TimeTree のような **個人 ID + 招待リンク 

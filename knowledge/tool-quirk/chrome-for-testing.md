@@ -107,6 +107,6 @@ curl -s http://127.0.0.1:9333/json/version   # 1 秒で応答する = 生きて�
 
 MCP の `take_screenshot` が 120s でタイムアウト → 別プロセスの Chrome for Testing 148 を `--headless=new --disable-gpu --use-angle=swiftshader` でも、GUI (非 headless) でも起動して CDP 直叩きしたが、**`Page.captureScreenshot` (fromSurface true/false とも) は about:blank ですら返らなかった**。同じ接続で `Browser.getVersion` / `Page.printToPDF` / `Page.getLayoutMetrics` / `Runtime.evaluate` は即応。MapLibre ページでは `map.loaded()` が false のまま `render` イベントも発火しない = compositor がフレームを出していない状態。Chrome 側の問題で、ページ側 (WebGL) の問題ではない (about:blank で再現するため)。
 
-- **この日は原因未特定** (深夜 00:30〜01:00 JST。本番ホストの再起動とは無関係。ディスプレイスリープ/ロック中だった可能性は排除できていない — GUI 起動でも失敗したのはこれで説明がつく)
-- **見切り方**: about:blank の captureScreenshot が 15s で返らなければスクショ経路は諦め、`Runtime.evaluate` による DOM/スタイル/GeoJSON の構造検証に切り替える (mocks/m2 では `window.__m2` フックで map の getStyle()/sources を読んで検証した)。時間を溶かさない
+- **同日 17:55 (Touri 在席・ディスプレイ点灯中) に再試行**: MCP の headless インスタンスは依然 `requestAnimationFrame` が 0 fps・capture 不応答のまま。一方 **GUI (非 headless) の Chrome for Testing を `--remote-debugging-port=9333` + 別 `--user-data-dir` で起動すると `Page.captureScreenshot` が即返り、WebGL 地図も rAF アニメも動く**。夜の GUI 失敗はディスプレイスリープ (occluded window は compositor が止まる) で説明がつく。headless 側の不応答は未解決
+- **見切り方**: about:blank の captureScreenshot が 15s で返らなければ、(1) ディスプレイが点いているなら GUI インスタンス + CDP (`scratchpad/gui_shot.py`: `Runtime.evaluate` で状態を作ってから capture) に切り替える、(2) 消えているなら `Runtime.evaluate` による DOM/スタイル/GeoJSON の構造検証に切り替える (mocks/m2 では `window.__m2` フックで map の getStyle()/sources を読んで検証した)。**アニメーション・WebGL の見た目は構造検証では判定できない** (m2 ④ で「ピンク一面」=データ密度、「動かない」=速度×ズームの問題を、構造検証では 2 回見逃した)。時間を溶かさない
 - MapLibre のモックを file:// で開くと `Unsafe attempt to load URL file:` が出る。`python3 -m http.server` で配信して開く

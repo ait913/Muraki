@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-09-19
+Generated: 2026-09-21
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -10,6 +10,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [App Store Connect API v1 だけで新規アプリを審査提出する (2026-09時点、Web UI 必須の2箇所を含む)](library/app-store-connect-api-full-submission-2026.md) — `global` — iOS アプリ (バージョン 1.0, PREPARE_FOR_SUBMISSION, TestFlight ビルド有) を **Web UI を極力使わず JWT (Admin key) + App Store Connect API v
 - [Apple developer docs は SPA — JSON エンドポイント直叩きで全文取得](library/apple-developer-docs-json-endpoint.md) — `global` — HIG や developer.apple.com/documentation を一次ソースで精読したいとき。
 - [App Store Guideline 1.2 (UGC) の現行原文 — 「24 時間」「EULA」は旧版の孫引き](library/apple-ugc-guideline-1.2-current-text.md) — `global` — Bloom. の初回審査で Guideline 2.1 Information Needed が来て、録画に「UGC の通報・ブロック機構」を含めろと要求された。要件の原文を確認したときの記録。
+- [App Store 却下後の返信・再提出 — API だけでは通らない箇所と Web の操作順](library/asc-resubmit-after-rejection-2026.md) — `global` — Bloom. の初回審査が 2.1 Information Needed で却下 (submission は `UNRESOLVED_ISSUES`、item は `REJECTED`)。新 build を紐付けて返信 + 再提出した時の実
 - [Auth.js v5 + PrismaAdapter + SQLite (Magic Link + Google) 最小構成](library/authjs-v5-prisma-sqlite.md) — `global` — Next.js 15 App Router + Prisma + better-sqlite3 で Auth.js v5 を使い、
 - [better-auth 1.6.x (2026-05) — Next.js + Prisma + Magic Link + OAuth 最小構成](library/better-auth-2026.md) — `global` — Next.js (App Router) + Prisma + SQLite で「Magic Link + Google OAuth + DB session」を最小コストで組みたい場面。Auth.js v5 が長らく beta のままなの
 - [better-auth 1.6.x + Hono + Drizzle + SQLite 構成 (Anonymous Plugin 含む 2026-05)](library/better-auth-hono-drizzle-sqlite.md) — `global` — Web アプリで「Hono + Drizzle + SQLite + better-auth」スタックを採用する場面、特に Anonymous Plugin で「名前のみのゲスト運用」をする場合。既存 [`library/better-au

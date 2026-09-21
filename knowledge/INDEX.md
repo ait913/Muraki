@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-09-21
+Generated: 2026-09-22
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -30,6 +30,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [公式 GitHub MCP server の認証設計と MCP write/inform 指針 (2026)](library/github-official-mcp-auth-2026.md) — `global` — dandan (リモート MCP, GitHub App 認証, Issues R/W) の「書き込みを持つ意味・App install 摩擦の妥当性」を判断するため、公式 GitHub MCP と他社リモート MCP の認証・write設
 - [GitHub org members / collaborators API と classic OAuth scope (repo vs read:org) 2026](library/github-org-members-collaborators-scopes.md) — `global` — dandan-app (OAuth App classic, scope=`repo`) で org メンバーを名簿候補に拾う設計の事前調査 (2026-07-07)。
 - [RN + web 二枚看板のフリーアイコンセット選定 (2026-08)](library/icon-sets-rn-web-2026.md) — `global` — omatase (Expo SDK 57 / RN 0.86 + Next.js 16, 部品カタログが RN/web 2 実装) にフリーアイコン 1 系統を導入する選定調査で確定した事実。
+- [iOS 「dev環境」構築の現状確認 (Firebase App Distribution / FlutterFire / Flutter flavor / Coolify branch deploy / ASC API ad-hoc自動化, 2026-09時点)](library/ios-dev-distribution-stack-2026.md) — `global` — Bloom (Flutter 3.47 iOS 専用、Coolify ホスト) に「dev 環境」(別 flavor / 別配布経路 / Firebase Crashlytics 等) を作る検討の事前リサーチ。設計前の事実確認のみ。
 - [iOS の「一瞥」表示面 (Widget / Live Activity / Dynamic Island) の実在 API と最低バージョン](library/ios-glanceable-surfaces-availability.md) — `global` — 「移動中・片手・数秒」で情報を出す iOS の面 (ウィジェット / Live Activity / Dynamic Island) を設計に載せる前の実在確認。
 - [iOS QR コード 生成 (CoreImage) / スキャン (VisionKit DataScanner)](library/ios-qr-generate-scan.md) — `global` — アプリ内 QR 招待 (友達追加/ルーム招待) を SwiftUI (iOS 17 target) で実装するときの標準 API。外部ライブラリ不要。すべて compile-verified (swiftc -typecheck, iOS1
 - [日本の救急 時間帯別分布データ (令和元年→令和5年比較)](library/jp-emergency-time-distribution.md) — `global` — 日本の救急業務の「平均値」ではなく「分布形状」が必要なとき (UX訴求コピーや緊急度判定設計の根拠)。消防庁公式統計から確定したロングテール構造データ。
@@ -56,6 +57,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Bloom. (旧 slug itsumo) Phase-0 事前リサーチ — Flutter で位置ヒートマップ SNS が成立するか (iOS BG 位置取得 / 地図 / メッシュ / 端末 DB / バッチ / RT 共有)](../projects/bloom/.knowledge/research-flutter-location-map.md) — `bloom` — PRODUCT.md (2026-08) の中核 = 「平常時は significant location change / visit monitoring で端末に記録 → 21 時に一括反映 → メッシュ濃淡のヒートマップを地図に描く
 - [m2 モック UI (ブロブヒートマップ/軌跡タイムライン/ビーコン枠) を Flutter 本体へ移植する前の現状確認](../projects/bloom/.knowledge/research-m2-map-redesign.md) — `bloom` — 1. **maplibre_gl 0.26.2 で全部揃う。**
 - [M3 (現在地マーカーの滑らか移動 / 境界内即時塗り / ソフト追従カメラ) 設計前リサーチ](../projects/bloom/.knowledge/research-m3-live-movement.md) — `bloom` — 1. **前景で地図表示中でも、CLLocation の `didUpdateLocations` は `speed` は一部の fix にしか流れず、`course`/`courseAccuracy`/`speedAccuracy` はど
+- [「今なにしてる？動画リクエスト」設計前リサーチ](../projects/bloom/.knowledge/research-video-request.md) — `bloom` — 新機能は現時点で**未着手** (`feature/video-request` ブランチは `master` から分岐しているだけで、
 
 ## pattern
 - [AI が人間 identity を共有する MCP での「承認ゲート」設計 (構造ゲートで代理)](pattern/ai-collab-mcp-shared-identity-approval-gate.md) — `global` — AI グループ開発ツール (agent-hub 等) で「意思決定は人間が承認する (ブラックボックス化を防ぐ)」を
@@ -78,6 +80,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Postgres + Node でのアプリ層 envelope encryption パターン (Coolify セルフホスト)](pattern/envelope-encryption-postgres-node.md) — `global` — 個人ヘルスケア / メンタル系アプリで「ログ取らない・コード公開可・at-rest 暗号化・LLM 処理時のみ in-memory 復号」を実装したい。バックエンドは Coolify (Docker) + Postgres、ソロ運用。
 - [イベント系アプリの「常設ハブ + ライブカード」IA (時間帯で着地画面を変えない)](pattern/event-hub-permanent-home-live-card.md) — `global` — イベント/旅行/待ち合わせ系アプリで「前日は行程を組む画面が主役、当日は今のプランが主役」と
 - [wildcard DNS 配下ではサブドメインをフラット 1 レベルに固定する](pattern/flat-subdomain-naming-under-wildcard-dns.md) — `global` — `*.appily.run` / `*.n-wasabi.org` のような **wildcard CNAME → Cloudflare Tunnel → Nginx → Coolify Traefik** 構成で、
+- [Flutter iOS の Universal Link は SceneDelegate override + MethodChannel で受け、FlutterDeepLinkingEnabled=false にする](pattern/flutter-ios-universal-link-native-bridge.md) — `global` — Flutter 3.47 (UIScene ライフサイクル、`FlutterSceneDelegate` 継承) のアプリで、招待 URL (`https://host/i/<token>`) の Universal Link を「rout
 - [同じ画面が 2 文脈でフォークしたら、統一するのは「中身」でなく「殻」](pattern/forked-screen-unify-the-shell-not-the-content.md) — `global` — 同じ機能を「自分用」と「グループ用」の 2 文脈で出す画面 (カレンダー / 時間割 / タスク一覧 / ダッシュボード)。
 - [入力フォームモーダル (BottomSheet/Dialog) の視認性 BP (2026)](pattern/form-modal-readability-bp.md) — `global` — Modal / Bottom Sheet 内に入力フォームを置く場面で「文字が見えにくい」「階層が弱い」「フォーカスが分からない」と感じる根因は**たいてい設計トークンの欠陥に集約**される。Atender redesign で実装後に T
 - [週パターンから生成した occurrence 表に「日付単位の例外 (振替・置き換え)」を足す標準形](pattern/generated-occurrence-exception-rows.md) — `global` — 時間割アプリのように「週パターン (Meeting: 曜日 × 時限) から学期分の occurrence 行を事前生成し、読み取りは occurrence を date でフィルタするだけ」という構成に、**パターンに無い日付だけの授業*
@@ -273,3 +276,4 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Atender Phase 4 Pre-design Research — Rooms / Friends / Today UX 全面刷新](../projects/atender/.knowledge/03-v3-rooms-friends-research.md) — `atender` — 調査日: 2026-05-26 / 調査者: researcher (Gemini + ローカル既存コード読解)。
 - [Atender v5 — Mobile-first 時間割 UI + デザイン理論 Pre-design Research](../projects/atender/.knowledge/04-v5-design-theory-research.md) — `atender` — 調査日: 2026-05-26 / 調査者: researcher (Gemini × 2 + 既存実装読解 + 既存ナレッジ照合)。
 - [known-failures](../projects/atender/.knowledge/known-failures.md) — `atender` — CLAUDE.md「ベースライン失敗の台帳」に基づく。分類: テスト陳腐化 / 環境依存 / 未分類。
+- [Bloom UI 修正12項目の現状調査（2026-09-22）](../projects/bloom/.knowledge/research-20260922-ui-fixes.md) — `bloom` — 指定範囲の静的調査。実装変更、Flutter / Go コマンド、テスト実行、実機操作、公開ホストへの通信は実施していない。行番号は現行ファイルを実際に読んだ位置。以下の「変更に必要そうな箇所」「壊れそうなもの」は調査結果に基づく影響候補で

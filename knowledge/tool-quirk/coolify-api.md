@@ -280,3 +280,5 @@ Coolify は Laravel + Livewire 製で、UI 機能が API より先行する傾�
 4. **`is_force_https_enabled` を最初から false に**。Cloudflare 経由なら Cloudflare 側で HTTPS 強制した方が安全
 5. SSH 経路を確保しておく (port 51000 が open かつ source IP allow されてること)。Coolify API では届かない領域で必須
 6. ナレッジに `gotcha/coolify-traefik-stale-label-loop.md` も合わせて参照
+7. **`POST /applications/{uuid}/envs` の既定は `is_buildtime=true` + `is_literal=true`** (2026-09-22 bloom-api-dev 実測)。複数行 PEM (SIWA/APNs の .p8) をこのまま入れると Dockerfile の `ARG` に注入されて `unknown instruction: MIGTAgEA…` の parse error でビルド失敗 + deployment log に鍵が平文で残る。鍵は `is_buildtime:false, is_literal:false, is_multiline:true` を明示して POST/PATCH する (本番 bloom-api がこの形)。値の JSON 化は `jq -n --rawfile v <file>` で。zsh の `echo "$row"` は `\n` を展開するので `printf '%s'` を使う
+8. **env は production 行と preview 行のペアで各キー 2 行になるのが正常** (`is_preview` で区別)。重複判定は `select(.is_preview==false)` に絞ってから。`GET /deployments/applications/{uuid}` は配列でなくページングオブジェクト (`.data`) で返ることがあるので `if type=="array" then . else .data end` で吸収する。`GET /deploy?uuid=` は廃止済で **`POST /deploy?uuid=`** (GET は `This endpoint has changed to a POST request.`)

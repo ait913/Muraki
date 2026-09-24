@@ -24,6 +24,7 @@ Muraki で `codex exec` を Developer/Reviewer の実行エンジンに使って
 - **書き込みが全部 `patch rejected: writing is blocked by read-only sandbox` で弾かれる** → `codex exec` の既定 sandbox は read-only。書き込みには `-s workspace-write` (= `--full-auto`) を付ける。`--dangerously-bypass-approvals-and-sandbox` は禁止 (CLAUDE.md)。
 - **`Reading additional input from stdin...` のまま数十分ハング (ログも git 差分も出ない)** → パイプ/リダイレクト/バックグラウンド起動では stdin が開いたままだと追加入力待ちに入る。必ず `codex exec "<prompt>" < /dev/null 2>&1 | tee <log>` の形で stdin を閉じる。
 - **プロンプトが `(eval):1: command not found:` 等で壊れる** → 二重引用符内の backtick がコマンド置換される。プロンプトは heredoc でファイルに書き `codex exec --skip-git-repo-check "$(cat f.txt)"`。信頼済みディレクトリ外は `--skip-git-repo-check` が無いと `Not inside a trusted directory` で即死。
+- **`codex exec -i a.png -i b.png "<prompt>"` が `Reading prompt from stdin... No prompt provided` で空振り** → `-i, --image <FILE>...` は可変長で後置の位置引数まで画像として食う。プロンプトを先に置く (`codex exec "<prompt>" -i a.png -i b.png`)。2026-09-24 実測 (v0.153.4)。
 - **`command not found: codex`** → 実体は `~/.local/bin/codex` (2026-07-16 実測。`/Applications/Codex.app/...` は存在しない — 旧記載は陳腐化。`/Applications/ChatGPT.app/Contents/Resources/codex` にも同梱)。
 - **同期実行のみ。バックグラウンド委譲して turn を「監視タスク設置」「待機中」で終えない** → subagent が終了すると Codex プロセスは孤児化し実装が途中で止まる (再発 6 回)。完了まで poll して報告まで出す。
 - **`nohup codex ... & echo started` を harness の background 実行に載せると "completed (exit 0)" は外側の `echo` のもの** → codex はまだ走っている。生存確認は `pgrep -f "<worktree パス> -s workspace-write"` と **worktree 名込み**で行い、log の `tokens used` 出現まで poll する。bare な `pgrep -fl codex` は並走レーンの codex を掴む。

@@ -18,5 +18,6 @@
 14. **共有環境を壊さない。** `xcrun simctl list devices booted` を先に見て booted 機に install/appearance 変更をしない。別 udid を自分で boot し、終わったら uninstall + shutdown まで 1 セット (2026-07-30)
 15. **エラーメッセージの「出方」自体が観測データ。** どのエラーなら enveloped でどのエラーなら素か、を分類するだけで候補が 1/3 に絞れることがある (2026-07-30, atender)
 16. **前任エージェントの scratchpad を `ls -lt` で見てから組み始める。** probe アプリや撮影済スクショが丸ごと残っていることがある — ただし前任の成果物も検品してから使う (2026-07-30)
+17. **`npm view <pkg> version` だけで安定版と決めない — `dist-tags` を見る。** `prisma` CLI は `latest` が 8.0.0-rc.19 で、`@prisma/client` の `latest` は 7.10.0 (CLI と client が別系統)。さらに「ライブラリが X を持つはず」は SDK の major 更新で消える (MCP TS SDK v2 は AS ヘルパを削除) — `npm i` して `dist/` と migration guide を grep してから「ある/ない」を言う (2026-10-02, wasawasa)
 
 **Codex を使う場合は `knowledge/tool-quirk/codex-behavior.md` を必読。**

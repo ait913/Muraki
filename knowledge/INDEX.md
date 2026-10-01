@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-09-24
+Generated: 2026-10-02
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -40,6 +40,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [maplibre_gl 0.26.2 (Flutter) の実装上の癖 — addImage の scale / featureTaps / GeoJSON 送信コスト](library/maplibre-gl-flutter-0.26-quirks.md) — `global` — Bloom M2 (地図 UI 刷新) で、Flutter canvas でラスタライズした画像を symbol layer に載せる / ピンのタップを拾う / 数千セルの GeoJSON を送る、の 3 つで設計前提が実ソースと食い違っ
 - [リモートMCPのエージェント誘導サーフェス (server instructions / tool search / prompts / entry tool) 2026](library/mcp-agent-ux-steering-2026.md) — `global` — 多ツール (20+) のリモート MCP サーバーで「エージェントにどのツールから始めるか・ワークフローをどう運ばせるか」を設計する場面。ホストは Claude Code / Codex CLI。
 - [MCP Apps (io.modelcontextprotocol/ui) の仕様現状とホスト描画マトリクス (2026-07)](library/mcp-apps-host-support-2026.md) — `global` — dandan-app 再設計で MCP Apps (iframe UI) をメイン機能に据える方針の前提確認。「どの実ホストで描画されるか」が土台。
+- [MCP TS SDK v2 は AS を捨てた — Next.js の自前 AS は better-auth の @better-auth/mcp で組む (2026-10 実測)](library/mcp-ts-sdk-v2-better-auth-as-2026.md) — `global` — Next.js (Route Handler) にリモート MCP + OAuth を同居させ、GitHub を upstream IdP にしたい。詳細・周辺 API は `projects/wasawasa/.knowledge/res
 - [Next.js 15 + Prisma + better-sqlite3 + Coolify スタック概要](library/nextjs15-prisma-sqlite-coolify.md) — `global` — Next.js 15 + Prisma 6.x + better-sqlite3 + SQLite を 1コンテナで Coolify デプロイする構成。`output: "standalone"` で薄い image を作り、SQLite 
 - [Next.js 16 standalone を pnpm workspace モノレポで Docker 化する](library/nextjs16-standalone-pnpm-monorepo.md) — `global` — pnpm workspace + Turborepo のモノレポ (`apps/web` が Next.js、`packages/*` を `workspace:*` 依存) を
 - [公式 Python MCP SDK (FastMCP) — hosted/stateful/認証の現行API (2026-07)](library/python-mcp-sdk-2026.md) — `global` — Python で hosted・stateful・マルチテナントなリモート MCP サーバー (per-member auth, join でセッション確立, claim/poll 系ツール) を組めるかの裏取り。既存 knowledge 
@@ -58,6 +59,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [m2 モック UI (ブロブヒートマップ/軌跡タイムライン/ビーコン枠) を Flutter 本体へ移植する前の現状確認](../projects/bloom/.knowledge/research-m2-map-redesign.md) — `bloom` — 1. **maplibre_gl 0.26.2 で全部揃う。**
 - [M3 (現在地マーカーの滑らか移動 / 境界内即時塗り / ソフト追従カメラ) 設計前リサーチ](../projects/bloom/.knowledge/research-m3-live-movement.md) — `bloom` — 1. **前景で地図表示中でも、CLLocation の `didUpdateLocations` は `speed` は一部の fix にしか流れず、`course`/`courseAccuracy`/`speedAccuracy` はど
 - [「今なにしてる？動画リクエスト」設計前リサーチ](../projects/bloom/.knowledge/research-video-request.md) — `bloom` — 新機能は現時点で**未着手** (`feature/video-request` ブランチは `master` から分岐しているだけで、
+- [wasawasa Phase 1 設計前リサーチ (Next.js MCP+OAuth / GitHub Org / Postgres ORM / Coolify / Firebase / Slack / UI)](../projects/wasawasa/.knowledge/research-20261002-phase1.md) — `wasawasa` — wasawasa (n-wasabi 内部開発プラットフォーム) の Phase 1 設計前リサーチ。PRODUCT.md §9-1 の宿題「Next.js + TS MCP SDK で GitHub upstream の OAuth (t
 
 ## pattern
 - [AI が人間 identity を共有する MCP での「承認ゲート」設計 (構造ゲートで代理)](pattern/ai-collab-mcp-shared-identity-approval-gate.md) — `global` — AI グループ開発ツール (agent-hub 等) で「意思決定は人間が承認する (ブラックボックス化を防ぐ)」を
@@ -102,6 +104,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [モバイル first PWA の bottom tab bar 実装ベストプラクティス (2025-2026)](pattern/mobile-first-bottom-tab.md) — `global` — モバイル first Web アプリ (PWA / Capacitor / SwiftUI 移行予定 SPA) で、下端 bottom tab bar を実装するときの 2025-2026 BP。Atender redesign 調査でまと
 - [Modal/Sheet を基底コンポーネント化して overlay/ESC/× の 3 経路 close を強制する](pattern/modal-sheet-base-component-3way-close.md) — `global` — OMATASE-demo 実機検証 (Touri, 2026-05-26) で「モーダルは空白部分タップで戻れるようにして欲しい。全体的に」という体感悪化 fb が出た。原因は **各モーダル/Sheet 個別実装** で close 経路
 - [moneylog (ceez7 家計簿) のデザイン言語 — すりガラス + ぼかしグラデ blob + grid-rows 伸縮](pattern/moneylog-design-language.md) — `global` — Touri 本人が作った家計簿 moneylog の UI を後継アプリ (金欠対策 / kinketsu-taisaku) で**そのまま踏襲**したい。Touri が「センスがある」と認める自作デザインの design token と 
+- [単調増加の番号払い出しは「カウンタ + 台帳 (予約/使用/破棄)」で持つ (build 番号・伝票番号)](pattern/monotonic-number-ledger-allocate.md) — `global` — iOS の CFBundleVersion のように「プロジェクト内で単調増加・再利用禁止・画面から手で直せる・配布スクリプトが先に番号だけ取り後で成果物を登録する」番号を払い出す場面 (wasawasa の client build 番号
 - [LLM Ready な気分ログのスキーマと UX (Daylio / How We Feel / Finch 系)](pattern/mood-log-schema-llm-ready.md) — `global` — 気分ログ / 感情記録 / journaling 系アプリの構造化スキーマを設計するとき、後段で LLM (Claude 等) が読みやすい形にする方法。Daylio / How We Feel / Finch / Reflectly の 
 - [端末に residual するネイティブ client の版数ゲート最小構成 (ヘッダ + サーバ定数 1 個)](pattern/native-client-version-gate-minimal.md) — `global` — Web + API + ネイティブアプリ (iOS/Android) を 1 リポジトリで持つ個人〜小規模プロダクトで
 - [「描かれないこと」の検証はレンダ差分の**対**で書く (ImageRenderer + PNG 等値)](pattern/offscreen-render-diff-pair-for-negative-drawing.md) — `global` — UI 設計は「当月外の日はイベント chip / ステータスドットを**描かない**」のような
@@ -166,6 +169,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [設計docの導出数値 (個数合計) は生成規則と矛盾しうる — 規則を規範とする](gotcha/design-doc-derived-counts-vs-generative-rule.md) — `global` — Atender UI小修正のレビューで、設計docが skeleton のプレースホルダ配置を「`(dayIndex + rowIndex) % 3 === 0` のセルだけ Skeleton」という生成規則で定義しつつ、「days=5, 
 - [設計docの例示値がformula/正典と矛盾しうる — Reviewerは例を鵜呑みにしない](gotcha/design-doc-example-values-can-contradict-formula.md) — `global` — Atender iOS Phase B の Reviewer テスト生成中、`DayConvention.resolveDisplayDays` の
 - [型付き言語(Swift等)では設計docに「挙動」だけでなく型/シグネチャを書かないとReviewerが実装に寄る](gotcha/design-doc-must-specify-swift-type-signatures.md) — `global` — Web(TS/RTL)では「挙動仕様(○○のとき△△)」だけで Reviewer がテストを書け、実装を見ずに独立検証できた。だが Swift のような静的型 + コンパイル必須の言語で iOS テストを書かせたら、設計に**型・メソッドシ
+- [設計 doc ベースのテストは「ライブラリが既定で開けている endpoint」を見ない — 認証ライブラリ採用時はリリースゲートで静的レビューを必ず挟む](gotcha/design-doc-tests-miss-library-default-endpoints.md) — `global` — wasawasa (Next.js 16 + better-auth) の Phase 1。Claude Reviewer は設計 doc §5〜§8 から 623 本 + E2E 69 本を生成して全緑 (GREEN)。リリース前ゲートで
 - [segmented/enum の value キー名 (英字 testid) を設計が一部しか例示しないと Reviewer が推測して fail](gotcha/design-enum-value-key-naming-must-be-explicit-for-testid.md) — `global` — DESIGN.md §3.1 で `<select>` を segmented ボタン群に全置換し、testid 規約を
 - [設計 doc にテスト用 app export path を明示しないと Developer と Reviewer が分離して詰む](gotcha/design-must-specify-app-export-path-for-tests.md) — `global` — Atender MVP の Reviewer 召集で、`apps/api` のテストを設計 doc 根拠で生成 → Vitest を実行 → 81 件中 76 件 fail。失敗の原因はすべて単一: テスト helper が import 
 - [描画テストを起こすなら設計docにコンポーネントの prop 契約を明記させる](gotcha/design-must-specify-component-prop-contract-for-render-tests.md) — `global` — atender UI改善 項目1。設計docの「挙動仕様」が TimetableView の描画結果
@@ -279,3 +283,4 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [known-failures](../projects/atender/.knowledge/known-failures.md) — `atender` — CLAUDE.md「ベースライン失敗の台帳」に基づく。分類: テスト陳腐化 / 環境依存 / 未分類。
 - [Bloom UI 修正12項目の現状調査（2026-09-22）](../projects/bloom/.knowledge/research-20260922-ui-fixes.md) — `bloom` — 指定範囲の静的調査。実装変更、Flutter / Go コマンド、テスト実行、実機操作、公開ホストへの通信は実施していない。行番号は現行ファイルを実際に読んだ位置。以下の「変更に必要そうな箇所」「壊れそうなもの」は調査結果に基づく影響候補で
 - [月次キャラ 16 タイプのビジュアル体系 — 設計前リサーチ](../projects/bloom/.knowledge/research-character-design-system.md) — `bloom` — - `PRODUCT.md` §5-2: 4 軸 (時間: 定時↔マイペース / 半径: 放浪↔定住 / 開拓: 探検家↔常連 / 集合: 発起人↔乗っかり)、3 条件 (烙印にしない・固定しない・根拠を見せる)
+- [known-failures](../projects/wasawasa/.knowledge/known-failures.md) — `wasawasa` — 測定: 2026-10-02 / branch feature/phase1-ui (ゲート指摘修正 9611b98 + tests/api/gate-fixes.test.ts 25 本) / `pnpm test` = **648 本中

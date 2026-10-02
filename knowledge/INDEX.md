@@ -60,6 +60,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [M3 (現在地マーカーの滑らか移動 / 境界内即時塗り / ソフト追従カメラ) 設計前リサーチ](../projects/bloom/.knowledge/research-m3-live-movement.md) — `bloom` — 1. **前景で地図表示中でも、CLLocation の `didUpdateLocations` は `speed` は一部の fix にしか流れず、`course`/`courseAccuracy`/`speedAccuracy` はど
 - [「今なにしてる？動画リクエスト」設計前リサーチ](../projects/bloom/.knowledge/research-video-request.md) — `bloom` — 新機能は現時点で**未着手** (`feature/video-request` ブランチは `master` から分岐しているだけで、
 - [wasawasa Phase 1 設計前リサーチ (Next.js MCP+OAuth / GitHub Org / Postgres ORM / Coolify / Firebase / Slack / UI)](../projects/wasawasa/.knowledge/research-20261002-phase1.md) — `wasawasa` — wasawasa (n-wasabi 内部開発プラットフォーム) の Phase 1 設計前リサーチ。PRODUCT.md §9-1 の宿題「Next.js + TS MCP SDK で GitHub upstream の OAuth (t
+- [wasawasa 次フェーズ設計前リサーチ (Coolify デプロイ制御 / MCP ツール実装 / レスポンシブ / bloom ブランチ運用)](../projects/wasawasa/.knowledge/research-20261003-deploy-mcp-responsive.md) — `wasawasa` — wasawasa 次フェーズ「wasawasa から Coolify デプロイを実行・制御 + MCP ツール + レスポンシブ」の設計前調査。前回 (`research-20261002-phase1.md` §4) と重複しない差分だけ
 
 ## pattern
 - [AI が人間 identity を共有する MCP での「承認ゲート」設計 (構造ゲートで代理)](pattern/ai-collab-mcp-shared-identity-approval-gate.md) — `global` — AI グループ開発ツール (agent-hub 等) で「意思決定は人間が承認する (ブラックボックス化を防ぐ)」を
@@ -82,6 +83,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [パニック時 UI の設計トークンと挙動原則 (緊急アプリ向け)](pattern/emergency-ui-design-tokens.md) — `global` — 「人が倒れた」「火災が起きた」など極度のパニック時にユーザーが操作する UI の設計。
 - [Postgres + Node でのアプリ層 envelope encryption パターン (Coolify セルフホスト)](pattern/envelope-encryption-postgres-node.md) — `global` — 個人ヘルスケア / メンタル系アプリで「ログ取らない・コード公開可・at-rest 暗号化・LLM 処理時のみ in-memory 復号」を実装したい。バックエンドは Coolify (Docker) + Postgres、ソロ運用。
 - [イベント系アプリの「常設ハブ + ライブカード」IA (時間帯で着地画面を変えない)](pattern/event-hub-permanent-home-live-card.md) — `global` — イベント/旅行/待ち合わせ系アプリで「前日は行程を組む画面が主役、当日は今のプランが主役」と
+- [外部 PaaS (Coolify 等) のデプロイを自前アプリから実行・追跡する — DB 永続の run 行 + lease + 終端前の後始末](pattern/external-deploy-db-lease-poller.md) — `global` — 管理画面 (wasawasa) の「デプロイ」ボタンで、Coolify アプリのブランチを PATCH → `POST /deploy` → 完了まで poll → 結果を台帳と Slack に流す。本番ホストは毎日再起動し、アプリ自身も 
 - [wildcard DNS 配下ではサブドメインをフラット 1 レベルに固定する](pattern/flat-subdomain-naming-under-wildcard-dns.md) — `global` — `*.appily.run` / `*.n-wasabi.org` のような **wildcard CNAME → Cloudflare Tunnel → Nginx → Coolify Traefik** 構成で、
 - [Flutter iOS の Universal Link は SceneDelegate override + MethodChannel で受け、FlutterDeepLinkingEnabled=false にする](pattern/flutter-ios-universal-link-native-bridge.md) — `global` — Flutter 3.47 (UIScene ライフサイクル、`FlutterSceneDelegate` 継承) のアプリで、招待 URL (`https://host/i/<token>`) の Universal Link を「rout
 - [同じ画面が 2 文脈でフォークしたら、統一するのは「中身」でなく「殻」](pattern/forked-screen-unify-the-shell-not-the-content.md) — `global` — 同じ機能を「自分用」と「グループ用」の 2 文脈で出す画面 (カレンダー / 時間割 / タスク一覧 / ダッシュボード)。

@@ -19,5 +19,6 @@
 15. **エラーメッセージの「出方」自体が観測データ。** どのエラーなら enveloped でどのエラーなら素か、を分類するだけで候補が 1/3 に絞れることがある (2026-07-30, atender)
 16. **前任エージェントの scratchpad を `ls -lt` で見てから組み始める。** probe アプリや撮影済スクショが丸ごと残っていることがある — ただし前任の成果物も検品してから使う (2026-07-30)
 17. **`npm view <pkg> version` だけで安定版と決めない — `dist-tags` を見る。** `prisma` CLI は `latest` が 8.0.0-rc.19 で、`@prisma/client` の `latest` は 7.10.0 (CLI と client が別系統)。さらに「ライブラリが X を持つはず」は SDK の major 更新で消える (MCP TS SDK v2 は AS ヘルパを削除) — `npm i` して `dist/` と migration guide を grep してから「ある/ない」を言う (2026-10-02, wasawasa)
+18. **Coolify 等「API が spec より狭い/広い」系は、稼働版 (`GET /version`) のコントローラ実体を読み、`api.ability` と token 権限を先に確認する。** 「logs が空」「settings が null」は権限差・一覧と個別の形の違いだった (2026-10-03, wasawasa)。また `POST` が「成功応答 + 未保存 ID」を返す経路 (skipped) がないか、ID を使う側の目線でソースを読む。**この役は Write/Edit ツールが無いことがある**: ファイルは Bash の heredoc で書く。シェルの AND 連結 (アンパサンド 2 連) はコマンド文字列のどこにあっても (grep のパターン・heredoc 本文含む) フックに弾かれて heredoc ごと失敗する。書く前にコマンド全体から消す (`chr(38)` を使う等)
 
 **Codex を使う場合は `knowledge/tool-quirk/codex-behavior.md` を必読。**

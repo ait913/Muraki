@@ -3,13 +3,15 @@ title: Coolify API の癖と未公開仕様
 category: tool-quirk
 tags: [coolify, api, openapi, deploy]
 created: 2026-05-10
-updated: 2026-08-21
+updated: 2026-10-02
 project: global
 sources:
   - https://coolify.io/docs/api-reference
   - https://raw.githubusercontent.com/coollabsio/coolify/main/openapi.yaml  # spec の info.version は '0.1' 固定で semver なし。確認時の commit SHA を残すこと
   - https://github.com/coollabsio/coolify/releases/tag/v4.0.0  # 2026-04-27 release
   - https://github.com/coollabsio/coolify/blob/main/app/Jobs/ApplicationDeploymentJob.php  # 実装の真実。openapi で足りない時はここを読む (確認 SHA: 07f381b, 2026-07-16)
+  - https://raw.githubusercontent.com/coollabsio/coolify/v4.3.23/app/Http/Controllers/Api/DeployController.php  # 幽霊 deployment_uuid / logs の read:sensitive 制限 (2026-10-02, v4.3.23 実機と同版)
+  - https://coolify.io/docs/api/permissions  # token abilities
 model-era: opus-4.8
 ---
 
@@ -105,6 +107,22 @@ Coolify は healthcheck を **コンテナ内で実行する compose healthcheck
   (OpenAPI 上は `status: {type: string}` で enum 記述が無い ★ spec 側の情報不足)
 - ★ **v4.3.9 (2026-08-21 確認) では `GET /deploy` と `GET /databases/{uuid}/{start,stop,restart}` が `{"message":"This endpoint has changed to a POST request."}` を返して弾く**。本ファイルや SKILL の「GET で叩く」という記述はこのバージョンでは通らない — **同じ query string のまま `-X POST` に変えるだけで通る** (body 不要)。`applications/{uuid}/{start,stop,restart}` は元々 POST 済みで影響なし。エラーメッセージがそのまま解決策なので、見たら method を疑わず即 POST に変える
 
+### POST /deploy の同一 commit 重複排除と「幽霊 deployment_uuid」 (v4.3.23 ソース読み、実走せず)
+
+- `queue_application_deployment` は **同一 app + 同一 `commit` + 同一 pull_request_id** の `queued` / `in_progress` が既にあると新規を作らず `status: skipped` を返す。ただし `force=true` (= force_rebuild) なら新規を積む
+- ★ **skipped の時も `POST /deploy` の応答 `deployments[].deployment_uuid` は「その場で採番しただけの未保存 uuid」** (`DeployController::deploy_resource` は `$result['deployment_uuid']` でなく自前の `new_public_id()` を返す。message は `Deployment already queued for this commit.`)。この uuid を `GET /deployments/{uuid}` に投げると 404 (`{"message":"Deployment not found."}`)。**応答 message を見るか、`GET /deployments/applications/{uuid}?take=1` で実在を確認してから追跡する**
+- 重複判定の `commit` は API 起点だと `HEAD`。clone が済んで SHA に書き換わった `in_progress` とは一致しないため、実行中に叩き直すと新しい `queued` が積まれ、先行が終わってから走る (同一 app の `in_progress` は 1 本まで。サーバー全体は `concurrent_builds` (aiserver は 2)、queue 上限 25 で超過は 429)
+- `POST /deploy` に commit 指定は無い。固定したい時は先に `PATCH git_commit_sha` (既定は `HEAD`)。固定したまま放置すると以後の UI / webhook デプロイも固定 SHA になる
+- PATCH `/applications/{uuid}` の `git_branch` は **作成系と違い `ValidGitBranch` 検証が無い** (呼び出し側で検証する)。PATCH は保存後に `instant_deploy: true` で同一呼び出し内デプロイも積めるが、その応答は `{uuid}` だけで deployment_uuid が取れない → PATCH → POST /deploy の 2 手に分ける
+- ブランチはデプロイ job 起動時に `application.git_branch` を読み (`git clone -b <branch>`)、queue 行には保存されない。PATCH → POST の順なら新ブランチでビルドされる。存在しないブランチは clone 失敗で `failed`
+- **auto deploy を切る**: `PATCH {"is_auto_deploy_enabled": false}` (アプリ設定 `settings.is_auto_deploy_enabled`)。GET では **トップレベルでなく `settings.is_auto_deploy_enabled`** に出る。さらに **`GET /applications` (一覧) は `settings` を含まない**ので一覧からは見えない (「null で返る」の正体)。個別 `GET /applications/{uuid}` で読む。push webhook は `isDeployable()` で弾かれ、API の `POST /deploy` には影響しない
+
+### API token の権限 (abilities)
+
+- 6 種: `read` / `read:sensitive` / `write` / `deploy` / `write:sensitive` / `root` (公式 https://coolify.io/docs/api/permissions)。ルートごとに `api.ability:<x>`: GET 系 = `read`、`PATCH /applications/{uuid}` = `write`、`POST /deploy` / `/deployments/{uuid}/cancel` / `/applications/{uuid}/{start,restart,stop,rollback}` = `deploy`
+- token は **team 単位**で app / project 単位に絞れない。`read` だけだと機密 (custom_labels / dockerfile / `manual_webhook_secret_*` / deployment logs / env の値) が伏せられる。`write` / `deploy` / `read:sensitive` を持つ token は所有者が team の admin/owner であり続けることが条件 (メンバー降格で 403)
+- 実測ヘッダ `x-ratelimit-limit: 200` (窓は未確認、Laravel 既定は 1 分)
+
 ### env が build-time ARG に混入して Dockerfile を壊す (改行を含む値は特に危険)
 
 ★ **`POST`/`PATCH .../envs[/bulk]` で `is_buildtime` を省略すると default `true`** (2026-08-21 実測)。Coolify はビルド時に**登録した全 env を `ARG key=value` として Dockerfile 先頭に注入**する (`docker build --build-arg`)。改行を含む値 (PEM 秘密鍵など) を `is_buildtime:true` のまま渡すと、生成される `ARG SIWA_PRIVATE_KEY=-----BEGIN PRIVATE KEY-----\n<base64...>` の 2 行目以降が Dockerfile の**命令行として解釈**され `dockerfile parse error: unknown instruction: <base64の断片>` でビルド即死する。しかも**エラー出力に注入された ARG 一覧 (secret 含む) が平文で残る** (deployment log 経由で `GET /deployments/{uuid}` から取得可能)。
@@ -171,9 +189,11 @@ curl -sS -X PATCH -H "Authorization: Bearer $COOLIFY_API_TOKEN" \
 
 ### deployment ログの癖
 
-- `GET /deployments/{uuid}` は **OpenAPI 上は `ApplicationDeploymentQueue` schema (logs フィールドを含む) を返す** はずだが、実踏では status のみで logs 空のことが多い (★ spec と impl の乖離。spec のほうが「正解」のはずで、空なのはバグか version 差)
-- 過去 deployment のフルログは `GET /deployments/applications/{uuid}` の各エントリの `logs` フィールド (二重 JSON encoded、parse 二段階)。spec 上は `Application` 配列が return type だが、実挙動は `ApplicationDeploymentQueue` 配列 (★ spec のバグ疑い)
-- どちらが入るか不安定なので、**両方叩いて logs が長い方を採用**する防御策が安全
+- ★ **deployment の `logs` は API token が `read:sensitive` (または `root`) を持つ時だけ返る** (v4.3.23 `DeployController`: `can_read_sensitive` が false だと `makeHidden(['logs'])`、`GET /deployments/applications/{uuid}` も同様)。`read` / `write` / `deploy` だけの token では「logs が空」に見える。以前ここに書いていた「logs が空のことがある / 両方叩いて長い方を採用」は token 権限の差だった (2026-10-02 wasawasa 調査で原因確定)
+- `GET /deployments/{uuid}` は `application` (環境・project・team・server・proxy 設定まで) を丸ごとネストして **約 58 KB** (うち logs 約 44 KB) 返す。ポーリングには重い。`GET /deployments/applications/{uuid}?skip=&take=` は `{"count": <総数>, "deployments": [...]}` (新しい順、`take` 既定 10、`.data` ではない) で `finished_at` / `commit` / `commit_message` / `is_webhook` / `is_api` を含む
+- `logs` の中身は **JSON 文字列 (二重 encode)**: `[{command, output, type: stdout|stderr, timestamp, hidden, batch, order}]`。`hidden: true` は内部コマンド (docker exec 等) で UI には出ない
+- `commit` は queue 時 `HEAD` で、clone 後に 40 桁 SHA に書き換わる (API 起点)。webhook 起点は push の `after` が最初から入る。**clone 前に落ちた failed は `HEAD` のまま・`commit_message` は null** (bloom の履歴 39 件で finished 36 件は全て 40 桁 SHA)
+- `finished` は **新コンテナの healthcheck 通過 + 旧コンテナ削除まで終わった時点** (ログに `New container is healthy.` → `Rolling update completed.`)。bloom で作成→finished 中央値 139 秒 (50〜218 秒)
 
 ### domain conflict (409)
 
@@ -281,4 +301,4 @@ Coolify は Laravel + Livewire 製で、UI 機能が API より先行する傾�
 5. SSH 経路を確保しておく (port 51000 が open かつ source IP allow されてること)。Coolify API では届かない領域で必須
 6. ナレッジに `gotcha/coolify-traefik-stale-label-loop.md` も合わせて参照
 7. **`POST /applications/{uuid}/envs` の既定は `is_buildtime=true` + `is_literal=true`** (2026-09-22 bloom-api-dev 実測)。複数行 PEM (SIWA/APNs の .p8) をこのまま入れると Dockerfile の `ARG` に注入されて `unknown instruction: MIGTAgEA…` の parse error でビルド失敗 + deployment log に鍵が平文で残る。鍵は `is_buildtime:false, is_literal:false, is_multiline:true` を明示して POST/PATCH する (本番 bloom-api がこの形)。値の JSON 化は `jq -n --rawfile v <file>` で。zsh の `echo "$row"` は `\n` を展開するので `printf '%s'` を使う
-8. **env は production 行と preview 行のペアで各キー 2 行になるのが正常** (`is_preview` で区別)。重複判定は `select(.is_preview==false)` に絞ってから。`GET /deployments/applications/{uuid}` は配列でなくページングオブジェクト (`.data`) で返ることがあるので `if type=="array" then . else .data end` で吸収する。`GET /deploy?uuid=` は廃止済で **`POST /deploy?uuid=`** (GET は `This endpoint has changed to a POST request.`)
+8. **env は production 行と preview 行のペアで各キー 2 行になるのが正常** (`is_preview` で区別)。重複判定は `select(.is_preview==false)` に絞ってから。`GET /deployments/applications/{uuid}` は v4.3.23 では `{count, deployments:[...]}` で返る。`GET /deploy?uuid=` は廃止済で **`POST /deploy?uuid=`** (GET は `This endpoint has changed to a POST request.`)

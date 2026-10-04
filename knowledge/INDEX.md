@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-10-02
+Generated: 2026-10-04
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -54,7 +54,10 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [SwiftUI 横ページングをタブ+NavigationStack+縦ScrollView の中に入れる (iOS 26 実測)](library/swiftui-nested-horizontal-paging-ios26.md) — `global` — atender の月カレンダーを「指でめくれる」ようにしたい。アプリの構造は
 - [vCard 日本語名刺生成 (vCard 3.0 + 振り仮名)](library/vcard-japanese.md) — `global` — 日本向け Web 名刺アプリで、iOS/Android 連絡先に取り込める .vcf を Node で生成する。
 - [build18 事前調査 — ルームタブ廃止 / 授業変更(振替) / EventKit公欠除外 / build17残課題](../projects/atender/.knowledge/08-build18-research.md) — `atender` — - `MainTab` enum に `.rooms` あり (`App/MainTabView.swift:6,14,24`)。TabView 内で `RoomsView()` を `NavigationStack(path: rooms
+- [クライアント暗号化 / 動画圧縮の手元 probe 結果 (2026-10-03)](../projects/bloom/.knowledge/probe-client-crypto-video.md) — `bloom` — 「動画をクライアントで圧縮+暗号化 / 位置ログをクライアントで暗号化」の方針を決める前に、Leader が macOS ホストで数値を取った。iOS 実機ではない (iPhone のハードエンコーダ・CryptoKit は別物) ので、桁
+- [dev ビルドの接続先環境ピッカー (dev1/dev2 複数環境) 設計前リサーチ (2026-10-04)](../projects/bloom/.knowledge/research-20261004-env-picker.md) — `bloom` — 要望: dev 環境を dev1 / dev2 の複数にし、dev ビルドのアプリ (bundle id `run.appily.bloom.dev` 1 本) で接続先を実行時に選べるようにする。本番は選べない。bloom (Flutte
 - [Bloom. Phase-1 事前リサーチ — Appily セルフホスト backend の前提確認 (3秒動画 / APNs / Sign in with Apple / H3 / WS / スタック / Coolify 構成)](../projects/bloom/.knowledge/research-backend-appily.md) — `bloom` — Bloom. Phase-1 (投稿・配信・push・RT・21時バッチ・認証・H3集計) の技術設計前の前提確認。クライアントは Flutter 3.47 iOS (確定、`research-flutter-location-map.md
+- [クライアント E2E 暗号化 (動画 + 位置) 設計前リサーチ](../projects/bloom/.knowledge/research-client-crypto-video.md) — `bloom` — 版数は 2026-10-03 に pub.dev API (`/api/packages/<name>`) で実測。「未確認」は一次ソースで裏取りできていないもの。
 - [Bloom. (旧 slug itsumo) Phase-0 事前リサーチ — Flutter で位置ヒートマップ SNS が成立するか (iOS BG 位置取得 / 地図 / メッシュ / 端末 DB / バッチ / RT 共有)](../projects/bloom/.knowledge/research-flutter-location-map.md) — `bloom` — PRODUCT.md (2026-08) の中核 = 「平常時は significant location change / visit monitoring で端末に記録 → 21 時に一括反映 → メッシュ濃淡のヒートマップを地図に描く
 - [m2 モック UI (ブロブヒートマップ/軌跡タイムライン/ビーコン枠) を Flutter 本体へ移植する前の現状確認](../projects/bloom/.knowledge/research-m2-map-redesign.md) — `bloom` — 1. **maplibre_gl 0.26.2 で全部揃う。**
 - [M3 (現在地マーカーの滑らか移動 / 境界内即時塗り / ソフト追従カメラ) 設計前リサーチ](../projects/bloom/.knowledge/research-m3-live-movement.md) — `bloom` — 1. **前景で地図表示中でも、CLLocation の `didUpdateLocations` は `speed` は一部の fix にしか流れず、`course`/`courseAccuracy`/`speedAccuracy` はど
@@ -74,6 +77,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [better-auth incremental scope (linkSocial) + cron 文脈での access token 取得パターン](pattern/better-auth-incremental-scope-and-cron-token.md) — `global` — 既に better-auth で Google Sign-In を持つアプリで、後から「Google Calendar 読み取り」など追加 scope が必要になる場面。sign-in 時に sensitive scope を最初から要求す
 - [週パターン (曜日+時限) → 絶対日付 occurrence 展開を Backend に寄せる pattern](pattern/calendar-week-pattern-meeting-expansion.md) — `global` — 時間割 / 繰り返し予定 / シフト等で「毎週月曜の 1 限」のような週パターンと、出欠記録のような「特定日の単位」を両立させる schema 設計。展開ロジックを Backend / Frontend のどちらに置くかの判断基準。
 - [CBT 系 AI コンパニオン対話の設計パターン (System prompt + 安全境界)](pattern/cbt-ai-companion-dialog.md) — `global` — メンタルウェルネス / 生活リズム改善 / AI 秘書系アプリで、LLM (Claude Haiku 4.5 等) を「相談相手」として配置する場面。Woebot / Wysa / Earkick / Replika / Pi / Rose
+- [端末暗号化バッチ同期 — 決定的 blob_id と per-key Keychain item の keyring](pattern/client-encrypted-batch-sync-deterministic-id-keyring.md) — `global` — bloom で本人の位置ログを端末暗号化してサーバーに不透明 blob として置く設計 (E2E Phase A)。要件は「drift の schema を変えない」「鍵は iCloud Keychain 同期のみ・ローテーション無し」「失
 - [Cloudflare dashboard の視覚デザイン言語 (token 抽出 + Tailwind v4 移植案)](pattern/cloudflare-dashboard-design-language.md) — `global` — 家計簿アプリ等で「Cloudflare dashboard 風」の高密度・実務的な UI を作りたい場面。CF dashboard は **デスクトップ高密度 + 左サイドバー** 型。本パターンは CF の視覚言語を **design t
 - [「N件を1値に潰した集計」の拡張は、内訳を additive に足して潰した値を legacy 据え置きにする](pattern/collapsed-summary-add-breakdown-keep-legacy-value.md) — `global` — サーバが「1 日 N 件の出欠」「1 リポジトリ N 件の CI 結果」のような **N 件 → 1 値** の畳み込みを
 - [Coolify アプリのデプロイ詰まり調査フロー](pattern/coolify-deploy-debug-flow.md) — `global` — Coolify でデプロイしてアプリが想定通りアクセス可能にならないとき、原因が「ビルド」「コンテナ起動」「環境変数」「Traefik routing」「Cloudflare proxy」のどこにあるか切り分けるパターン。MeishiLin
@@ -120,6 +124,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [月次定期ルールを未確定 record として materialize する家計簿パターン (RRULE不採用・lazy補充)](pattern/recurring-rule-materialize-unpaid-records.md) — `global` — サブスク/クレカ/給料のような「毎月固定日・固定額の収支」を扱う家計簿で、定期収支を未来へ展開して残高着地予測に効かせたい場面。カレンダー系 (会議/シフト) とは要件が違う:
 - [リモートMCPのマルチテナント設計 — per-project URL バインド + 自前AS + 事実/判断の線引き](pattern/remote-mcp-multitenant-self-as.md) — `global` — クラウド上のリモート MCP サーバー（Claude Code / Codex から URL 追加 + OAuth）を、複数チーム・複数リポでマルチテナント運用したい。かつ「推論はホスト agent に委譲、サーバーは事実だけ持つ」構成（d
 - [RRULE 文字列保存 + オンザフライ展開 + 編集 3 択 (single/future/all) の標準パターン](pattern/rrule-string-onfly-expand-with-overrides.md) — `global` — カレンダー / 予約 / 共有予定アプリで「繰り返し予定」を持ちたい場面。Google Cal / Apple Cal / Outlook と互換性のある RRULE (RFC 5545) を取り扱う必要がある時。
+- [dev アプリの接続先を実行時に切り替える — container 作り直し + 既定環境だけ既存名の保存先分離](pattern/runtime-env-switch-scoped-local-storage.md) — `global` — 同じ dev ビルド (bundle id 1 つ) で dev1 / dev2 / … のサーバーを選び直したい。接続先は const (`--dart-define`) で、ローカル状態 (Keychain の refresh toke
 - [定時公開は「read 時の時刻条件 + 冪等バッチ」で組む (公開をバッチに依存させない)](pattern/scheduled-publish-read-time-condition.md) — `global` — 「毎日 21:00 に全員へ一斉公開」のような定時公開機能。素直に「cron が 21:00 に published フラグを立てる」と組むと、(a) Coolify Scheduled Task には cron が止まる既知バグがある、(
 - [オンボーディング完了判定は単一の純粋関数に集約する (二重定義はデッドロックを生む)](pattern/setup-completion-guard-single-source-of-truth.md) — `global` — atender 本番で「新規ユーザーが Setup から抜け出せないデッドロック」が発生。
 - [1 画面圧縮タイムライン (時間割 / シフト表 / カレンダー日 view)](pattern/single-screen-compressed-timetable.md) — `global` — 「複数メンバーの時間割を 1 画面に縦スクロールなしで並べる」「シフト表を viewport 高さに圧縮表示する」「Google Calendar 日 view のように重なるイベントを横並びで表現する」要件を、CSS Grid + パーセ

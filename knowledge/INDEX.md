@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-10-04
+Generated: 2026-10-05
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -53,6 +53,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [SwiftUI Liquid Glass (iOS 26) — API 実在確認と availability](library/swiftui-liquid-glass-ios26.md) — `global` — Atender (SwiftUI/iOS) の UI を Apple ネイティブ部品 + Liquid Glass で刷新する設計の事前調査 (Xcode 26.6 / iOS SDK 26.5 実測)。
 - [SwiftUI 横ページングをタブ+NavigationStack+縦ScrollView の中に入れる (iOS 26 実測)](library/swiftui-nested-horizontal-paging-ios26.md) — `global` — atender の月カレンダーを「指でめくれる」ようにしたい。アプリの構造は
 - [vCard 日本語名刺生成 (vCard 3.0 + 振り仮名)](library/vcard-japanese.md) — `global` — 日本向け Web 名刺アプリで、iOS/Android 連絡先に取り込める .vcf を Node で生成する。
+- [Xcode Cloud を ASC API / Webhook / ci_scripts から外部制御する (2026-10 時点の仕様と癖)](library/xcode-cloud-asc-api-2026.md) — `global` — wasawasa から Xcode Cloud を起動して Flutter iOS (bloom dev) をビルド・配布する構成の事前調査 (2026-10-05)。詳細と PJ 固有の含意は `projects/wasawasa/.kn
 - [build18 事前調査 — ルームタブ廃止 / 授業変更(振替) / EventKit公欠除外 / build17残課題](../projects/atender/.knowledge/08-build18-research.md) — `atender` — - `MainTab` enum に `.rooms` あり (`App/MainTabView.swift:6,14,24`)。TabView 内で `RoomsView()` を `NavigationStack(path: rooms
 - [クライアント暗号化 / 動画圧縮の手元 probe 結果 (2026-10-03)](../projects/bloom/.knowledge/probe-client-crypto-video.md) — `bloom` — 「動画をクライアントで圧縮+暗号化 / 位置ログをクライアントで暗号化」の方針を決める前に、Leader が macOS ホストで数値を取った。iOS 実機ではない (iPhone のハードエンコーダ・CryptoKit は別物) ので、桁
 - [dev ビルドの接続先環境ピッカー (dev1/dev2 複数環境) 設計前リサーチ (2026-10-04)](../projects/bloom/.knowledge/research-20261004-env-picker.md) — `bloom` — 要望: dev 環境を dev1 / dev2 の複数にし、dev ビルドのアプリ (bundle id `run.appily.bloom.dev` 1 本) で接続先を実行時に選べるようにする。本番は選べない。bloom (Flutte
@@ -279,6 +280,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Codex (codex exec) の挙動と対処 — 統合ノート](tool-quirk/codex-behavior.md) — `global` — Muraki で `codex exec` を Developer/Reviewer の実行エンジンに使っていた時期 (〜2026-07) に実踏した癖の統合。各項目は「症状 → 対処」。
 - [Codex CLI 内蔵 imagegen ツール (gpt-image-1) の使い方](tool-quirk/codex-cli-imagegen-tool.md) — `global` — Codex CLI 経由で OpenAI Images API (gpt-image-1) を叩きたい場面。`OPENAI_API_KEY` 未設定、ChatGPT サブスク認証 (`auth_mode: chatgpt`) のみという前提
 - [Coolify API の癖と未公開仕様](tool-quirk/coolify-api.md) — `global` — Coolify (オンプレ Ubuntu サーバ `coolify.aisaba.net`) を HTTP API 経由で操作する際、公式 OpenAPI と実装の食い違い・公式 docs に書いてない癖が多数ある。MeishiLink デ
+- [Firebase App Distribution の配布 URL を後から取る (CLI の refresh token で REST)](tool-quirk/firebase-app-distribution-release-url.md) — `global` — bloom の `make dist-dev` (`app/scripts/dist-dev.sh`) は `firebase appdistribution:distribute` の出力を保存しない上に、起動時に `build/dist
 - [画像生成は Codex (Images2 / gpt-image-1) 優先、Gemini Nanobanana より高品質](tool-quirk/image-generation-models.md) — `global` — CLAUDE.md の役割分担では「Gemini = 画像などビジュアル面」と一般原則が書かれている。しかし画像生成タスクに限って言えば、ユーザーの実体験に基づく判断として **Codex (内部的に OpenAI Images-2 / g
 - [plutil -extract は -o - を省くと入力ファイルを抽出結果で上書きする](tool-quirk/plutil-extract-overwrites-input-file.md) — `global` — iOS の検証で Info.plist の値を確認したくなる場面は多い
 
@@ -291,4 +293,5 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [known-failures](../projects/atender/.knowledge/known-failures.md) — `atender` — CLAUDE.md「ベースライン失敗の台帳」に基づく。分類: テスト陳腐化 / 環境依存 / 未分類。
 - [Bloom UI 修正12項目の現状調査（2026-09-22）](../projects/bloom/.knowledge/research-20260922-ui-fixes.md) — `bloom` — 指定範囲の静的調査。実装変更、Flutter / Go コマンド、テスト実行、実機操作、公開ホストへの通信は実施していない。行番号は現行ファイルを実際に読んだ位置。以下の「変更に必要そうな箇所」「壊れそうなもの」は調査結果に基づく影響候補で
 - [月次キャラ 16 タイプのビジュアル体系 — 設計前リサーチ](../projects/bloom/.knowledge/research-character-design-system.md) — `bloom` — - `PRODUCT.md` §5-2: 4 軸 (時間: 定時↔マイペース / 半径: 放浪↔定住 / 開拓: 探検家↔常連 / 集合: 発起人↔乗っかり)、3 条件 (烙印にしない・固定しない・根拠を見せる)
-- [known-failures](../projects/wasawasa/.knowledge/known-failures.md) — `wasawasa` — 測定: 2026-10-02 / branch feature/phase2-ui (ゲート 2 回目の残存 4 件修正 + Reviewer 追加 tests/api/p2-gate-fixes-2.test.ts 13 本・tests/
+- [known-failures](../projects/wasawasa/.knowledge/known-failures.md) — `wasawasa` — 測定: 2026-10-04 (ゲート修正の再判定) / branch feature/phase2d-envs (22faaaf + main merge + Reviewer 更新) / `WASAWASA_TEST_SKIP_BUIL
+- [wasawasa から Xcode Cloud を起動して bloom dev をビルド・配布できるか (2026-10-05 調査)](../projects/wasawasa/.knowledge/research-xcode-cloud-trigger.md) — `wasawasa` — **成立する。ただし「wasawasa が番号を払い出して渡す」型は成立せず、「Xcode Cloud の番号を wasawasa が読み戻す」型になる。**

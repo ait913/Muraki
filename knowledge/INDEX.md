@@ -117,7 +117,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [単調増加の番号払い出しは「カウンタ + 台帳 (予約/使用/破棄)」で持つ (build 番号・伝票番号)](pattern/monotonic-number-ledger-allocate.md) — `global` — iOS の CFBundleVersion のように「プロジェクト内で単調増加・再利用禁止・画面から手で直せる・配布スクリプトが先に番号だけ取り後で成果物を登録する」番号を払い出す場面 (wasawasa の client build 番号
 - [LLM Ready な気分ログのスキーマと UX (Daylio / How We Feel / Finch 系)](pattern/mood-log-schema-llm-ready.md) — `global` — 気分ログ / 感情記録 / journaling 系アプリの構造化スキーマを設計するとき、後段で LLM (Claude 等) が読みやすい形にする方法。Daylio / How We Feel / Finch / Reflectly の 
 - [端末に residual するネイティブ client の版数ゲート最小構成 (ヘッダ + サーバ定数 1 個)](pattern/native-client-version-gate-minimal.md) — `global` — Web + API + ネイティブアプリ (iOS/Android) を 1 リポジトリで持つ個人〜小規模プロダクトで
-- [Notion 風ページツリー UI の操作面の原則 (ボタンを畳む / select を捨てる)](pattern/notion-like-page-tree-ui.md) — `global` — 階層ページ (ツリー + エディタ) を持つ業務ツールで「ボタンだらけ」「親ページを `<select>` で選ばせる」状態から Notion 風に直すとき。wasawasa (Next 16 + shadcn + Tailwind v4)
+- [Notion 風ページツリー UI の操作面の原則 (ボタンを畳む / select を捨てる / 本文中のページリンク)](pattern/notion-like-page-tree-ui.md) — `global` — 階層ページ (ツリー + エディタ) を持つ業務ツールで「ボタンだらけ」「親ページを `<select>` で選ばせる」状態から Notion 風に直すとき。wasawasa (Next 16 + shadcn + Tailwind v4 
 - [「描かれないこと」の検証はレンダ差分の**対**で書く (ImageRenderer + PNG 等値)](pattern/offscreen-render-diff-pair-for-negative-drawing.md) — `global` — UI 設計は「当月外の日はイベント chip / ステータスドットを**描かない**」のような
 - [楽観更新と「再取得で全置換」を共存させる — pending キーを store 契約に載せる](pattern/optimistic-write-pending-key-vs-refetch.md) — `global` — 「薄い通知 → REST で snapshot を取り直して全置換」でライブ更新する設計 (上記 pattern) に、
 - [OS 版数で分けるのは「質感」だけ。機能・レイアウト・IA を分けない](pattern/os-version-split-texture-not-function.md) — `global` — iOS 26 の Liquid Glass を採用したいが、deployment target を 26 に上げると

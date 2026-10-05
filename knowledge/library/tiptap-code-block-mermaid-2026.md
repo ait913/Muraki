@@ -19,6 +19,10 @@ Tiptap 3.31.4 + `@tiptap/markdown` のエディタでコードブロックを No
 - info string は `language` 属性にそのまま入って往復する (別名の正規化なし、`ts title="x"` も保持)。`ts` / `mermaid` / 言語なし / 未知言語は 3 回の往復で不動点
 - Mermaid は現行 12.1.0 (MIT、DOMPurify 同梱)。`import()` を effect 内でだけ呼べば Next の build は通り SSR に乗らない。`securityLevel: 'strict'` + `suppressErrorRendering: true`、`render` は直列化、構文エラーは reject の message を文字で出す。実測 +652 KB gz を可視になった時だけ取得 (IntersectionObserver)
 - Tiptap の `CodeBlock` は `enableTabIndentation` が既定 false。Shift+Enter / Mod+Enter はコードブロックを抜ける
+- ★ キー操作は拡張配列の後ろが優先。`StarterKit.configure({ codeBlock: false })` で外した codeBlock を StarterKit の直後に置くと、チェックリスト項目の中のコードで Tab が TaskItem に取られてリストが字下げされる。配列の**最後**に置くと箇条書き・番号付き・チェックリストの全てでコードに空白が入る (jsdom で `view.someProp("handleKeyDown")` に keydown を渡して実測)。正規形は位置で変わらない
+- mermaid の `securityLevel` の既定は `strict`。`'loose'` にすると `click A href "javascript:…"` が `<a href="javascript:…">` として SVG に残る (12.1.0、Chromium で実測)。`<img onerror>` のラベルは loose でも発火しなかった
+- `lowlight` 3.3.0 は `highlight.js ~11.11.0` に依存。`code-block-lowlight` の peer `highlight.js` を 11.12 にすると 2 個入る。11.11.x に揃える。lowlight の `highlight('ts', …).data.language` は別名のまま (`ts`) で正式名に解決しない
+- highlight.js の github 配色は背景 #f3f4f2 だと keyword #d73a49 (4.15)・built_in #e36209 (3.16)・comment #6a737d (4.36)・name #22863a (4.19) が WCAG 4.5:1 未満。白背景でも built_in は 3.49
 
 ## Why
 着色・プレビューは表示専用なので md の正典には影響しない。

@@ -117,6 +117,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [単調増加の番号払い出しは「カウンタ + 台帳 (予約/使用/破棄)」で持つ (build 番号・伝票番号)](pattern/monotonic-number-ledger-allocate.md) — `global` — iOS の CFBundleVersion のように「プロジェクト内で単調増加・再利用禁止・画面から手で直せる・配布スクリプトが先に番号だけ取り後で成果物を登録する」番号を払い出す場面 (wasawasa の client build 番号
 - [LLM Ready な気分ログのスキーマと UX (Daylio / How We Feel / Finch 系)](pattern/mood-log-schema-llm-ready.md) — `global` — 気分ログ / 感情記録 / journaling 系アプリの構造化スキーマを設計するとき、後段で LLM (Claude 等) が読みやすい形にする方法。Daylio / How We Feel / Finch / Reflectly の 
 - [端末に residual するネイティブ client の版数ゲート最小構成 (ヘッダ + サーバ定数 1 個)](pattern/native-client-version-gate-minimal.md) — `global` — Web + API + ネイティブアプリ (iOS/Android) を 1 リポジトリで持つ個人〜小規模プロダクトで
+- [Notion 風ページツリー UI の操作面の原則 (ボタンを畳む / select を捨てる)](pattern/notion-like-page-tree-ui.md) — `global` — 階層ページ (ツリー + エディタ) を持つ業務ツールで「ボタンだらけ」「親ページを `<select>` で選ばせる」状態から Notion 風に直すとき。wasawasa (Next 16 + shadcn + Tailwind v4)
 - [「描かれないこと」の検証はレンダ差分の**対**で書く (ImageRenderer + PNG 等値)](pattern/offscreen-render-diff-pair-for-negative-drawing.md) — `global` — UI 設計は「当月外の日はイベント chip / ステータスドットを**描かない**」のような
 - [楽観更新と「再取得で全置換」を共存させる — pending キーを store 契約に載せる](pattern/optimistic-write-pending-key-vs-refetch.md) — `global` — 「薄い通知 → REST で snapshot を取り直して全置換」でライブ更新する設計 (上記 pattern) に、
 - [OS 版数で分けるのは「質感」だけ。機能・レイアウト・IA を分けない](pattern/os-version-split-texture-not-function.md) — `global` — iOS 26 の Liquid Glass を採用したいが、deployment target を 26 に上げると
@@ -296,6 +297,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [known-failures](../projects/atender/.knowledge/known-failures.md) — `atender` — CLAUDE.md「ベースライン失敗の台帳」に基づく。分類: テスト陳腐化 / 環境依存 / 未分類。
 - [Bloom UI 修正12項目の現状調査（2026-09-22）](../projects/bloom/.knowledge/research-20260922-ui-fixes.md) — `bloom` — 指定範囲の静的調査。実装変更、Flutter / Go コマンド、テスト実行、実機操作、公開ホストへの通信は実施していない。行番号は現行ファイルを実際に読んだ位置。以下の「変更に必要そうな箇所」「壊れそうなもの」は調査結果に基づく影響候補で
 - [月次キャラ 16 タイプのビジュアル体系 — 設計前リサーチ](../projects/bloom/.knowledge/research-character-design-system.md) — `bloom` — - `PRODUCT.md` §5-2: 4 軸 (時間: 定時↔マイペース / 半径: 放浪↔定住 / 開拓: 探検家↔常連 / 集合: 発起人↔乗っかり)、3 条件 (烙印にしない・固定しない・根拠を見せる)
-- [known-failures](../projects/wasawasa/.knowledge/known-failures.md) — `wasawasa` — 測定: 2026-10-05 / branch feature/build-update (+ Reviewer の BU テスト) / `WASAWASA_TEST_SKIP_BUILD=1 pnpm test` = **1303 本中 
+- [known-failures](../projects/wasawasa/.knowledge/known-failures.md) — `wasawasa` — 測定: 2026-10-05 / branch feature/pages (Developer 4 コミット + Reviewer のテスト) / `WASAWASA_TEST_SKIP_BUILD=1 pnpm test` = **14
 - [ドキュメントエディタ + Markdown クラウドの事前調査 (2026-10-05)](../projects/wasawasa/.knowledge/research-doc-editor.md) — `wasawasa` — wasawasa に Notion 同等のページエディタ + Markdown 正典のページ保存 (ツリー、リリースからのリンク、サイドバー「ページ」) を足す設計の事前調査。ローカル spike: `/private/tmp/claude
+- [Notion のページツリー / エディタ UI の実挙動と wasawasa への写し方 (2026-10-05)](../projects/wasawasa/.knowledge/research-notion-pages-ui.md) — `wasawasa` — wasawasa のページ機能 UI を Notion に寄せて作り直すための調査。Touri の不満は (1) ボタンが並びすぎ (2) 親/移動先が `<select>` (3) 一覧が見づらい (4) 右クリック・`/page` で子
 - [wasawasa から Xcode Cloud を起動して bloom dev をビルド・配布できるか (2026-10-05 調査)](../projects/wasawasa/.knowledge/research-xcode-cloud-trigger.md) — `wasawasa` — **成立する。ただし「wasawasa が番号を払い出して渡す」型は成立せず、「Xcode Cloud の番号を wasawasa が読み戻す」型になる。**

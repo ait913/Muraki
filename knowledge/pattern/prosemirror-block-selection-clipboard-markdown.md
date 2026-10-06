@@ -19,7 +19,7 @@ wasawasa (Markdown 正典の Tiptap 3.31.4 エディタ) を Notion のブロッ
 - **StarterKit 3 の `TrailingNode` が末尾までの NodeRange を伸ばす**: 最後のブロックが段落でないと次の transaction で空の段落が足され、末尾の位置で張った選択がその写像で空の段落まで伸びる。B を張る transaction では先に自分で空の段落を足す
 - **クリップボードは独自 MIME 不要**: ProseMirror 既定の `text/html` (`data-pm-slice`) が構造を運び貼り付けで戻る。`clipboardTextSerializer` で `text/plain` を Markdown にする — ただし 1 つの段落の中の文字選択は既定 (文字だけ) に残す (Slack 等に `**` が入るため)
 - **右クリックは「位置を記録するだけ、`preventDefault` しない」**。Radix の `ContextMenuTrigger` は `composeEventHandlers` で包むので、先に誰かが `preventDefault` するとメニューを開く処理が丸ごと飛ぶ。記録は React の `onContextMenuCapture` (+ 長押し用の touch の `onPointerDownCapture`) に 1 か所でまとめると NodeView の部品の上でも取れる。選択の寄せ (クリックしたブロックが選択に入っていなければそこを B) は `onOpenChange(true)` で行う
-- **ドラッグハンドルを Radix の Trigger にしない**: Trigger は `pointerdown` で開いて `preventDefault` するのでドラッグと干渉する。ハンドルは素の `<button onClick>`、メニューは `open` を state で持ち、別の 0×0 のアンカー要素を Trigger にして位置だけ合わせる。開いている間は `lockDragHandle()`
+- **ドラッグハンドルを Radix の Trigger にしない**: Trigger は `pointerdown` で開いて `preventDefault` するのでドラッグと干渉する。ハンドルは素の `<button onClick>`、メニューは `open` を state で持ち、別の 0×0 のアンカー要素を Trigger にして位置だけ合わせる。アンカーは `position: fixed` + viewport 座標。開いている間は `tr.setMeta("lockDragHandle", true)` で固定 (コマンドではなくメタ)。React の `<DragHandle>` の props は安定参照にする (変わるとプラグインが登録し直され、Suggestion (slash) が壊れた実測あり)。表の幅なし列の初回ドラッグの基準幅は、appendTransaction 時ではなくドラッグ開始時の DOM 実測を使う
 - **ハンドルの縦位置は「1 行目の矩形」を参照にして `placement: 'left'`**: 既定の `left-start` は上端揃えで、行の高さとアイコンの大きさの差だけずれる (見出しは更にずれる)。補正値 (`offset`) では見出しと段落で値が違って揃わない。1 行目 = 基準要素の中の最初の空白でない文字ノードの `Range.getClientRects()[0]` の縦中央、文字が無ければ箱の規則。ハンドルの子は `flex` (inline だと親の行の高さが乗る)
 - メニュー項目は入口 (右クリック / ハンドル / キー) をまたいで 1 配列から描き、E2E は配列を import して順を比べる (順序を Touri が直しても赤くならない)
 

@@ -21,4 +21,6 @@
 17. **`npm view <pkg> version` だけで安定版と決めない — `dist-tags` を見る。** `prisma` CLI は `latest` が 8.0.0-rc.19 で、`@prisma/client` の `latest` は 7.10.0 (CLI と client が別系統)。さらに「ライブラリが X を持つはず」は SDK の major 更新で消える (MCP TS SDK v2 は AS ヘルパを削除) — `npm i` して `dist/` と migration guide を grep してから「ある/ない」を言う (2026-10-02, wasawasa)
 18. **Coolify 等「API が spec より狭い/広い」系は、稼働版 (`GET /version`) のコントローラ実体を読み、`api.ability` と token 権限を先に確認する。** 「logs が空」「settings が null」は権限差・一覧と個別の形の違いだった (2026-10-03, wasawasa)。また `POST` が「成功応答 + 未保存 ID」を返す経路 (skipped) がないか、ID を使う側の目線でソースを読む。**この役は Write/Edit ツールが無いことがある**: ファイルは Bash の heredoc で書く。シェルの AND 連結 (アンパサンド 2 連) はコマンド文字列のどこにあっても (grep のパターン・heredoc 本文含む) フックに弾かれて heredoc ごと失敗する。書く前にコマンド全体から消す (`chr(38)` を使う等)
 
+19. **Tiptap/PM の UI 挙動は「素の拡張を esbuild で束ねた 1 ページ + playwright-core + Chrome headless shell」が最短** (Next 不要、数十秒で往復)。scratchpad の `pw/` は playwright-core の package.json が欠けて壊れていることがある → spike 内で `pnpm add -D playwright-core`、`executablePath` は `~/Library/Caches/ms-playwright/chromium_headless_shell-*/…/chrome-headless-shell`。macOS の `sed -i` は `-i ''`。JS 内の AND 演算子もフックに弾かれるので三項・入れ子 if で書く (2026-10-07, wasawasa)
+
 **Codex を使う場合は `knowledge/tool-quirk/codex-behavior.md` を必読。**

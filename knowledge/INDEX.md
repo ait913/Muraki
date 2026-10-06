@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-10-05
+Generated: 2026-10-07
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -52,6 +52,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [iOS 26 の toolbar item glass 除去 (sharedBackgroundVisibility) と ButtonRole.close / back の実態](library/swiftui-ios26-toolbar-glass-and-button-roles.md) — `global` — atender の toolbar に `ToolbarItem(placement: .topBarLeading) { Menu {...} label: { HStack { Text; chevron } } }`
 - [SwiftUI Liquid Glass (iOS 26) — API 実在確認と availability](library/swiftui-liquid-glass-ios26.md) — `global` — Atender (SwiftUI/iOS) の UI を Apple ネイティブ部品 + Liquid Glass で刷新する設計の事前調査 (Xcode 26.6 / iOS SDK 26.5 実測)。
 - [SwiftUI 横ページングをタブ+NavigationStack+縦ScrollView の中に入れる (iOS 26 実測)](library/swiftui-nested-horizontal-paging-ios26.md) — `global` — atender の月カレンダーを「指でめくれる」ようにしたい。アプリの構造は
+- [Tiptap 3 のブロック選択 (NodeRange)・右クリック・表・ドラッグハンドル位置の実測 (2026-10)](library/tiptap-block-selection-table-2026.md) — `global` — Markdown 正典の Tiptap 3.31.4 エディタを Notion のブロック仕様に寄せる設計前調査 (wasawasa)。素の Tiptap を esbuild で束ねた headless Chromium で実測。詳細は `
 - [Tiptap 3 コードブロックの lowlight 色付けと Mermaid プレビュー、往復の罠 (2026-10)](library/tiptap-code-block-mermaid-2026.md) — `global` — Tiptap 3.31.4 + `@tiptap/markdown` のエディタでコードブロックを Notion 相当 (言語色付け・Mermaid プレビュー) にする検討 (wasawasa)。実機検証済み。詳細は `projects/
 - [Tiptap 3 / BlockNote / Milkdown の Markdown 往復と Next 16 での注意 (2026-10)](library/tiptap-markdown-roundtrip-2026.md) — `global` — Markdown を正典にするドキュメントエディタを Next 16 / React 19 に載せる検討 (wasawasa)。実機 spike で比較した。詳細表は `projects/wasawasa/.knowledge/resear
 - [vCard 日本語名刺生成 (vCard 3.0 + 振り仮名)](library/vcard-japanese.md) — `global` — 日本向け Web 名刺アプリで、iOS/Android 連絡先に取り込める .vcf を Node で生成する。
@@ -198,6 +199,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [expo-router の replace は「新規エントリ置換 = 再 mount」であり params 更新ではない](gotcha/expo-router-replace-remounts-not-param-update.md) — `global` — omatase mobile (expo-router / 単一 Stack) で「query param を消すためだけの `router.replace(同一 pathname)`」を使ったところ、実機で ハブ⇄進行ページの無限往復と、
 - [忠実移植で handle の "@" 前置はView層限定 (データ/純粋ロジックは生handle)](gotcha/faithful-port-handle-at-prefix-is-view-only.md) — `global` — Atender iOS Phase D の RoomCalendarLogic.buildCalendarEvents / RoomTimetableLogic.buildEvents で、
 - [interface fake だけのハンドラテストは DB 制約との食い違いを検出しない](gotcha/fake-store-tests-miss-db-constraint-drift.md) — `global` — DB 依存を避けるため、REST ハンドラのテストを `Store` interface の fake 実装に対して回すのは定石で、速くて安定する。omatase もその方針で、`internal/http` のテスト全部が fake st
+- [Flutter のシートを root Navigator に移すと「開いた側の context で pop」が別の route を閉じる](gotcha/flutter-sheet-root-navigator-opener-context-pop.md) — `global` — bloom の UI 修正第 2 バッチの設計。共通の `showBloomSheet` (showModalBottomSheet) に `useRootNavigator: true` が無く、タブ内の画面 (StatefulShell
 - [flutter test で plugin 同梱 ffi は動かない — ホスト dylib を dlopen 注入する](gotcha/flutter-test-plugin-ffi-needs-host-dylib-injection.md) — `global` — bloom P2a のレビューで、集計パイプライン (h3_flutter の `latLngToCell`) を `flutter test` (ホスト VM) で回そうとした。
 - [負のコントロールの復元に git checkout -- を使うと、レビュー対象の未コミット作業を消す](gotcha/git-checkout-restore-destroys-uncommitted-work.md) — `global` — Reviewer が負のコントロール (mutation testing) を回すとき、対象ファイルを一時的に壊して
 - [Go nil slice が JSON null になり MCP 空状態契約 (空配列) を破る](gotcha/go-nil-slice-null-breaks-mcp-empty-state-contract.md) — `global` — MCP ツールの typed struct 出力 (go-sdk `AddTool[In, Out]`) で「空状態はエラーでなく空コレクションで返す」契約を設計docに書いた。実装は Out struct の slice フィールドを未初
@@ -299,8 +301,9 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [known-failures](../projects/atender/.knowledge/known-failures.md) — `atender` — CLAUDE.md「ベースライン失敗の台帳」に基づく。分類: テスト陳腐化 / 環境依存 / 未分類。
 - [Bloom UI 修正12項目の現状調査（2026-09-22）](../projects/bloom/.knowledge/research-20260922-ui-fixes.md) — `bloom` — 指定範囲の静的調査。実装変更、Flutter / Go コマンド、テスト実行、実機操作、公開ホストへの通信は実施していない。行番号は現行ファイルを実際に読んだ位置。以下の「変更に必要そうな箇所」「壊れそうなもの」は調査結果に基づく影響候補で
 - [月次キャラ 16 タイプのビジュアル体系 — 設計前リサーチ](../projects/bloom/.knowledge/research-character-design-system.md) — `bloom` — - `PRODUCT.md` §5-2: 4 軸 (時間: 定時↔マイペース / 半径: 放浪↔定住 / 開拓: 探検家↔常連 / 集合: 発起人↔乗っかり)、3 条件 (烙印にしない・固定しない・根拠を見せる)
-- [known-failures](../projects/wasawasa/.knowledge/known-failures.md) — `wasawasa` — 測定: 2026-10-05 / branch feature/pages (Developer 4 コミット + Reviewer のテスト) / `WASAWASA_TEST_SKIP_BUILD=1 pnpm test` = **14
+- [known-failures](../projects/wasawasa/.knowledge/known-failures.md) — `wasawasa` — 測定: 2026-10-06 / branch feature/app-upload (Developer 4 コミット + Reviewer のテストコミット) / `WASAWASA_TEST_SKIP_BUILD=1 pnpm tes
 - [コードブロックを Notion 同等に強化 (言語色付け + Mermaid) の調査と実機検証](../projects/wasawasa/.knowledge/research-code-block-mermaid.md) — `wasawasa` — wasawasa の Tiptap エディタ (Next 16 / React 19 / Tiptap 3.31.4 + `@tiptap/markdown`) のコードブロックは表示のみ。Touri 要望は言語ごとの色付けと Mermai
 - [ドキュメントエディタ + Markdown クラウドの事前調査 (2026-10-05)](../projects/wasawasa/.knowledge/research-doc-editor.md) — `wasawasa` — wasawasa に Notion 同等のページエディタ + Markdown 正典のページ保存 (ツリー、リリースからのリンク、サイドバー「ページ」) を足す設計の事前調査。ローカル spike: `/private/tmp/claude
+- [Notion のブロック選択 / 右クリック / 表 / DB の実挙動と Tiptap での実現 (2026-10-07)](../projects/wasawasa/.knowledge/research-notion-blocks-tables-db.md) — `wasawasa` — Touri 要望 (2026-10-07): (1) ブロック単位の選択・コピーを Notion 並みに、(2) エディタ本文の右クリックを Notion 風ブロックメニューに、(3) 表が簡易すぎる (行列の追加・削除・幅調整)、(4) 
 - [Notion のページツリー / エディタ UI の実挙動と wasawasa への写し方 (2026-10-05)](../projects/wasawasa/.knowledge/research-notion-pages-ui.md) — `wasawasa` — wasawasa のページ機能 UI を Notion に寄せて作り直すための調査。Touri の不満は (1) ボタンが並びすぎ (2) 親/移動先が `<select>` (3) 一覧が見づらい (4) 右クリック・`/page` で子
 - [wasawasa から Xcode Cloud を起動して bloom dev をビルド・配布できるか (2026-10-05 調査)](../projects/wasawasa/.knowledge/research-xcode-cloud-trigger.md) — `wasawasa` — **成立する。ただし「wasawasa が番号を払い出して渡す」型は成立せず、「Xcode Cloud の番号を wasawasa が読み戻す」型になる。**

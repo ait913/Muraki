@@ -34,3 +34,5 @@ private var activeSheetBinding: Binding<Bool> {
 ```
 
 参照実装: `SelfTimetableView.activeSheetView(...)` (Phase B で確立)。新しいマルチシート画面を作るときは最初からこの集約形にする (兄弟 `.sheet` を書かない)。
+
+**1 枚目を閉じずに 2 枚目を重ねたい場合 (切替でなく積む)** は、2 枚目の `.sheet` (= `BottomSheet`) を **1 枚目の content の内側** (`.background { ... }`) に置く。`ZStack { BottomSheet(1 枚目) ; BottomSheet(2 枚目) }` は兄弟なので同じ defect になる — atender の `MeetingEditModal` が「＋ 科目を追加」で `CourseEditModal` を兄弟に置いていて、1 枚目提示中は何も起きなかった (build 19 で修正、`.designs/20261007-build19-semester-rollover.md` §5)。参照実装: `DayDetailSheet` の `.background { sheetHost }`。自己提示型の部品 (`Color.clear.sheet(...)`) は「どの階層に置かれたか」で提示元が決まるので、呼び出し側が ZStack の兄弟に並べると壊れる。

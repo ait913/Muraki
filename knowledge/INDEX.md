@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-10-07
+Generated: 2026-10-08
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -95,6 +95,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [外部ビルドサービス (Xcode Cloud 等) を自前アプリが司令塔として起動・追跡する — 署名なし Webhook は起床合図、相手の採番は別系列で受ける](pattern/external-build-orchestrator-unsigned-webhook-foreign-numbering.md) — `global` — 管理画面 (wasawasa) のボタンで Xcode Cloud にビルドさせ、成果物を Firebase App Distribution に上げて台帳に登録する。外部ビルドサービスは (a) 起動時に任意の入力を受けない、(b) 完了
 - [外部 PaaS (Coolify 等) のデプロイを自前アプリから実行・追跡する — DB 永続の run 行 + lease + 終端前の後始末](pattern/external-deploy-db-lease-poller.md) — `global` — 管理画面 (wasawasa) の「デプロイ」ボタンで、Coolify アプリのブランチを PATCH → `POST /deploy` → 完了まで poll → 結果を台帳と Slack に流す。本番ホストは毎日再起動し、アプリ自身も 
 - [wildcard DNS 配下ではサブドメインをフラット 1 レベルに固定する](pattern/flat-subdomain-naming-under-wildcard-dns.md) — `global` — `*.appily.run` / `*.n-wasabi.org` のような **wildcard CNAME → Cloudflare Tunnel → Nginx → Coolify Traefik** 構成で、
+- [Flutter で iOS の detent シート (fit / medium / large) — smooth_sheets 1.2.1 + 毎レイアウトで段数を決める SnapGrid](pattern/flutter-ios-detent-sheet-smooth-sheets.md) — `global` — bloom で「中身が少なければ中身の高さ、多ければ半分 (medium) で開いて上スワイプで全高 (large)、中身のスクロールは large になってから、背面は縮まない、暗転 + 外タップで閉じる」(SwiftUI の `.pre
 - [Flutter iOS の Universal Link は SceneDelegate override + MethodChannel で受け、FlutterDeepLinkingEnabled=false にする](pattern/flutter-ios-universal-link-native-bridge.md) — `global` — Flutter 3.47 (UIScene ライフサイクル、`FlutterSceneDelegate` 継承) のアプリで、招待 URL (`https://host/i/<token>`) の Universal Link を「rout
 - [同じ画面が 2 文脈でフォークしたら、統一するのは「中身」でなく「殻」](pattern/forked-screen-unify-the-shell-not-the-content.md) — `global` — 同じ機能を「自分用」と「グループ用」の 2 文脈で出す画面 (カレンダー / 時間割 / タスク一覧 / ダッシュボード)。
 - [入力フォームモーダル (BottomSheet/Dialog) の視認性 BP (2026)](pattern/form-modal-readability-bp.md) — `global` — Modal / Bottom Sheet 内に入力フォームを置く場面で「文字が見えにくい」「階層が弱い」「フォーカスが分からない」と感じる根因は**たいてい設計トークンの欠陥に集約**される。Atender redesign で実装後に T

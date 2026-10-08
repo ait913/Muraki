@@ -30,3 +30,5 @@ Bloom. の初回審査が 2.1 Information Needed で却下 (submission は `UNRE
 
 - 却下 → 修正 build をアップロード → 紐付け (API) → 「審査内容を更新」(Web) → 返信 + 添付 (Web) → `submitted:true` (API)。返信と「審査内容を更新」の順は不問
 - 録画添付は 13 MB 程度に圧縮しておくとアップロード待ちが短い (`ffmpeg -vf scale=-2:1280 -crf 23`)
+
+- **開発者側からの取り下げ** (2026-10-08 実測): `PATCH /v1/reviewSubmissions/{id}` に `{"attributes":{"canceled":true}}` → state `CANCELING` → 1 分弱で `COMPLETE`、appStoreVersion は `DEVELOPER_REJECTED`。Web UI 不要。再提出は新 build を `relationships/build` で紐付けて新しい reviewSubmission を作る

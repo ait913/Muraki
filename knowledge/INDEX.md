@@ -1,10 +1,11 @@
 # Knowledge Index
 
-Generated: 2026-10-08
+Generated: 2026-10-09
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
 ## library
+- [アカウント削除 (Guideline 5.1.1(v)) — Sign in with Apple の revoke と better-auth 1.6 deleteUser の実仕様](library/account-deletion-siwa-betterauth-2026.md) — `global` — Atender (iOS, better-auth + Prisma/SQLite, Apple/Google/Magic Link) の初回審査前に、アカウント削除の要件と実装部品を一次ソースで確認した記録 (2026-10-09)。
 - [Aisaba 自作スタック (Appera + Nexom + aisaba_platform)](library/aisaba-stack.md) — `global` — ユーザーが運用している Web アプリ群 (apps.aisaba.net 配下: portfolio_manager / permissions / file_size_sense / カレンダー / MeishiLink ダッシュボード
 - [Anthropic Claude API のデータ保持・学習利用ポリシー (2026年5月時点)](library/anthropic-api-data-retention.md) — `global` — 個人ヘルスケア・メンタル系アプリで Claude API を使うとき、「ユーザーの会話を Anthropic 側にどれだけ残されるか」「学習に使われるか」を正確に知っておく必要がある。ZDR (Zero Data Retention) を契
 - [App Store Connect API v1 だけで新規アプリを審査提出する (2026-09時点、Web UI 必須の2箇所を含む)](library/app-store-connect-api-full-submission-2026.md) — `global` — iOS アプリ (バージョン 1.0, PREPARE_FOR_SUBMISSION, TestFlight ビルド有) を **Web UI を極力使わず JWT (Admin key) + App Store Connect API v
@@ -60,6 +61,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [vCard 日本語名刺生成 (vCard 3.0 + 振り仮名)](library/vcard-japanese.md) — `global` — 日本向け Web 名刺アプリで、iOS/Android 連絡先に取り込める .vcf を Node で生成する。
 - [Xcode Cloud を ASC API / Webhook / ci_scripts から外部制御する (2026-10 時点の仕様と癖)](library/xcode-cloud-asc-api-2026.md) — `global` — wasawasa から Xcode Cloud を起動して Flutter iOS (bloom dev) をビルド・配布する構成の事前調査 (2026-10-05)。詳細と PJ 固有の含意は `projects/wasawasa/.kn
 - [build18 事前調査 — ルームタブ廃止 / 授業変更(振替) / EventKit公欠除外 / build17残課題](../projects/atender/.knowledge/08-build18-research.md) — `atender` — - `MainTab` enum に `.rooms` あり (`App/MainTabView.swift:6,14,24`)。TabView 内で `RoomsView()` を `NavigationStack(path: rooms
+- [build 20 (App Store 初回提出) 設計前リサーチ — アカウント削除 / SIWA revoke / 法務ページ / 収集データ棚卸し](../projects/atender/.knowledge/09-build20-app-review-research.md) — `atender` — 2026-10-09、Atender を App Store 審査に初めて出すための Researcher (Sonnet) 調査。Leader が結論部を整理して保存。実測 (node_modules の実コード / dev.db コピー
 - [クライアント暗号化 / 動画圧縮の手元 probe 結果 (2026-10-03)](../projects/bloom/.knowledge/probe-client-crypto-video.md) — `bloom` — 「動画をクライアントで圧縮+暗号化 / 位置ログをクライアントで暗号化」の方針を決める前に、Leader が macOS ホストで数値を取った。iOS 実機ではない (iPhone のハードエンコーダ・CryptoKit は別物) ので、桁
 - [dev ビルドの接続先環境ピッカー (dev1/dev2 複数環境) 設計前リサーチ (2026-10-04)](../projects/bloom/.knowledge/research-20261004-env-picker.md) — `bloom` — 要望: dev 環境を dev1 / dev2 の複数にし、dev ビルドのアプリ (bundle id `run.appily.bloom.dev` 1 本) で接続先を実行時に選べるようにする。本番は選べない。bloom (Flutte
 - [Bloom UI 修正 第 2 バッチ 8 項目の現状調査 (2026-10-06)](../projects/bloom/.knowledge/research-20261006-ui-fixes-2.md) — `bloom` — 行番号は version/0.2.0 (HEAD 4606abb) の実読。「実測」= 使い捨て widget test を回した結果 (後始末済)。未実機・未確認は明記。パスは app/ または server/ 起点。
@@ -75,6 +77,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [wasawasa 次フェーズ設計前リサーチ (Coolify デプロイ制御 / MCP ツール実装 / レスポンシブ / bloom ブランチ運用)](../projects/wasawasa/.knowledge/research-20261003-deploy-mcp-responsive.md) — `wasawasa` — wasawasa 次フェーズ「wasawasa から Coolify デプロイを実行・制御 + MCP ツール + レスポンシブ」の設計前調査。前回 (`research-20261002-phase1.md` §4) と重複しない差分だけ
 
 ## pattern
+- [アカウント削除で「他人も使う資源」を壊さない — 移譲 / SetNull + 番兵 DTO / 写しは明示削除](pattern/account-deletion-shared-resources.md) — `global` — Atender build 20 (App Store 初回提出) で `DELETE /api/me` を設計した。User から張られた `onDelete: Cascade` を全列挙すると、自分のデータだけでなく他人が使う資源 (自
 - [AI が人間 identity を共有する MCP での「承認ゲート」設計 (構造ゲートで代理)](pattern/ai-collab-mcp-shared-identity-approval-gate.md) — `global` — AI グループ開発ツール (agent-hub 等) で「意思決定は人間が承認する (ブラックボックス化を防ぐ)」を
 - [AI 振り返り対話のセッション設計と階層型メモリ](pattern/ai-reflection-dialog-memory.md) — `global` — 夜の振り返り (evening reflection) を AI と対話で行う UX。Stoic / Rosebud / Mindsera の 2025-2026 設計と、長期運用での memory アーキテクチャ。
 - [aisaba.net 系の視覚デザイン言語](pattern/aisaba-design-language.md) — `global` — aisaba.net・apps.aisaba.net・portfolio_manager 等、ユーザー (Touri Aida) が運営する複数サイトで一貫した視覚言語が使われている。新規 UI を作る・既存サイトに追加コンポーネントを差し
@@ -138,6 +141,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [リアルタイム系で WS は配信専用・REST を唯一の認可関門にする](pattern/realtime-broadcast-only-ws-rest-sole-authz-gate.md) — `global` — 位置/presence/チャット/ステータスを WS 1 本に載せるアプリ (omatase) で、REST と WS の
 - [月次定期ルールを未確定 record として materialize する家計簿パターン (RRULE不採用・lazy補充)](pattern/recurring-rule-materialize-unpaid-records.md) — `global` — サブスク/クレカ/給料のような「毎月固定日・固定額の収支」を扱う家計簿で、定期収支を未来へ展開して残高着地予測に効かせたい場面。カレンダー系 (会議/シフト) とは要件が違う:
 - [リモートMCPのマルチテナント設計 — per-project URL バインド + 自前AS + 事実/判断の線引き](pattern/remote-mcp-multitenant-self-as.md) — `global` — クラウド上のリモート MCP サーバー（Claude Code / Codex から URL 追加 + OAuth）を、複数チーム・複数リポでマルチテナント運用したい。かつ「推論はホスト agent に委譲、サーバーは事実だけ持つ」構成（d
+- [「DB の行 = ページ」を足すときの正本・生死・衝突の分担 (FK は pages 側、生死はページに一元化、タイトルは行が正本)](pattern/row-as-page-one-source-soft-delete.md) — `global` — ページ (Markdown 本文、楽観ロック `revision`、ゴミ箱 `deleted_at`) と、表の行 (jsonb の `cells`、楽観ロック `updated_at`、hard delete) が別々に先にあり、後から「
 - [RRULE 文字列保存 + オンザフライ展開 + 編集 3 択 (single/future/all) の標準パターン](pattern/rrule-string-onfly-expand-with-overrides.md) — `global` — カレンダー / 予約 / 共有予定アプリで「繰り返し予定」を持ちたい場面。Google Cal / Apple Cal / Outlook と互換性のある RRULE (RFC 5545) を取り扱う必要がある時。
 - [dev アプリの接続先を実行時に切り替える — container 作り直し + 既定環境だけ既存名の保存先分離](pattern/runtime-env-switch-scoped-local-storage.md) — `global` — 同じ dev ビルド (bundle id 1 つ) で dev1 / dev2 / … のサーバーを選び直したい。接続先は const (`--dart-define`) で、ローカル状態 (Keychain の refresh toke
 - [定時公開は「read 時の時刻条件 + 冪等バッチ」で組む (公開をバッチに依存させない)](pattern/scheduled-publish-read-time-condition.md) — `global` — 「毎日 21:00 に全員へ一斉公開」のような定時公開機能。素直に「cron が 21:00 に published フラグを立てる」と組むと、(a) Coolify Scheduled Task には cron が止まる既知バグがある、(
@@ -146,6 +150,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [1 画面圧縮タイムライン (時間割 / シフト表 / カレンダー日 view)](pattern/single-screen-compressed-timetable.md) — `global` — 「複数メンバーの時間割を 1 画面に縦スクロールなしで並べる」「シフト表を viewport 高さに圧縮表示する」「Google Calendar 日 view のように重なるイベントを横並びで表現する」要件を、CSS Grid + パーセ
 - [スケルトンは実UIの外殻クラスを複製し決定的パターンで埋める](pattern/skeleton-structural-parity.md) — `global` — atender のスケルトン (CalendarMonth/Timetable 等) が実 UI と padding/gap/セル形状 (aspect-square vs min-h-24) で乖離し、ロード完了時にレイアウトシフトと違和感
 - [Spotify 歌詞風縦スクロール UI を framer-motion なしで実装するパターン](pattern/spotify-lyrics-scroll-css-only.md) — `global` — Spotify / Apple Music 歌詞のような「今のラインが画面中央に固定、過去は薄く流れ、未来は下に並ぶ」UI を React + Tailwind で実装したいケース。Atender の Today 画面 (現在進行中の授業を
+- [「後片付け」の提案は event 時に記録せず現在の状態から毎回導出する](pattern/state-derived-suggestion.md) — `global` — wasawasa で「prod にデプロイした後、リリースの `git_branch` を master に切り替えて」と促したい。素直な案は完了 event (`deploy.finished`) の時にモーダル / toast で聞く・
 - [自前AS の発行JWTに upstream token を AEAD 埋め込みするステートレス federation](pattern/stateless-oauth-federation-encrypted-upstream-token.md) — `global` — リモート MCP サーバー（自前 Authorization Server が upstream IdP=GitHub OAuth に federate）で、
 - [静的サイトの「配信範囲」は PaaS の設定でなく Dockerfile の COPY で定義する](pattern/static-site-serve-scope-as-copy-not-config.md) — `global` — 静的サイト (素の HTML/CSS、ビルド済 SPA 等) を PaaS に載せるとき、
 - [SwiftUI シートをコンテンツ高にフィットさせる — header/content/footer を実測して .height detent](pattern/swiftui-bottomsheet-content-fit-detent.md) — `global` — atender の共通 `BottomSheet` は `detents: [.large]` や `[.medium, .large]` を使っていた。内容が短いシート(授業の詳細など)では**シート高 > コンテンツ高**になり、下部に
@@ -313,6 +318,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Bloom UI 修正12項目の現状調査（2026-09-22）](../projects/bloom/.knowledge/research-20260922-ui-fixes.md) — `bloom` — 指定範囲の静的調査。実装変更、Flutter / Go コマンド、テスト実行、実機操作、公開ホストへの通信は実施していない。行番号は現行ファイルを実際に読んだ位置。以下の「変更に必要そうな箇所」「壊れそうなもの」は調査結果に基づく影響候補で
 - [月次キャラ 16 タイプのビジュアル体系 — 設計前リサーチ](../projects/bloom/.knowledge/research-character-design-system.md) — `bloom` — - `PRODUCT.md` §5-2: 4 軸 (時間: 定時↔マイペース / 半径: 放浪↔定住 / 開拓: 探検家↔常連 / 集合: 発起人↔乗っかり)、3 条件 (烙印にしない・固定しない・根拠を見せる)
 - [known-failures](../projects/wasawasa/.knowledge/known-failures.md) — `wasawasa` — 測定: 2026-10-08 / branch fix/membership-unverifiable、Codex ゲート F1〜F4 修正後 (Developer 3bb2cc1 + Reviewer のテストコミット 1e66519 /
+- [Notion の DB 行 = ページ / 行ページのサイドバー / DB 外ページのプロパティ (公式確認、2026-10-09)](../projects/wasawasa/.knowledge/research-20261009-row-pages-notion-facts.md) — `wasawasa` — wasawasa の「DB の行をページにする + 全ページにタグ」の設計前調査 (Touri 2026-10-09)。Notion の実挙動を公式ヘルプ / API リファレンスで確認した。
 - [コードブロックを Notion 同等に強化 (言語色付け + Mermaid) の調査と実機検証](../projects/wasawasa/.knowledge/research-code-block-mermaid.md) — `wasawasa` — wasawasa の Tiptap エディタ (Next 16 / React 19 / Tiptap 3.31.4 + `@tiptap/markdown`) のコードブロックは表示のみ。Touri 要望は言語ごとの色付けと Mermai
 - [ドキュメントエディタ + Markdown クラウドの事前調査 (2026-10-05)](../projects/wasawasa/.knowledge/research-doc-editor.md) — `wasawasa` — wasawasa に Notion 同等のページエディタ + Markdown 正典のページ保存 (ツリー、リリースからのリンク、サイドバー「ページ」) を足す設計の事前調査。ローカル spike: `/private/tmp/claude
 - [Notion のブロック選択 / 右クリック / 表 / DB の実挙動と Tiptap での実現 (2026-10-07)](../projects/wasawasa/.knowledge/research-notion-blocks-tables-db.md) — `wasawasa` — Touri 要望 (2026-10-07): (1) ブロック単位の選択・コピーを Notion 並みに、(2) エディタ本文の右クリックを Notion 風ブロックメニューに、(3) 表が簡易すぎる (行列の追加・削除・幅調整)、(4) 

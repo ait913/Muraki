@@ -81,6 +81,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
 ## pattern
 - [アカウント削除で「他人も使う資源」を壊さない — 移譲 / SetNull + 番兵 DTO / 写しは明示削除](pattern/account-deletion-shared-resources.md) — `global` — Atender build 20 (App Store 初回提出) で `DELETE /api/me` を設計した。User から張られた `onDelete: Cascade` を全列挙すると、自分のデータだけでなく他人が使う資源 (自
+- [活動フィード (通知タブ) は「宛先ごとの行 + 反応だけ partial unique で集約 upsert + 未読は端末ローカル + 再取得は既存の薄い event」で組む](pattern/activity-feed-aggregated-rows-local-unread.md) — `global` — BeReal 型の「アクティビティ」画面 (左アバター / 太字の名前 + 文 + 相対時刻 / 右サムネ / 期間見出し / 同じ投稿への複数人の反応を 1 行にまとめる) を、既存の push 基盤 (APNs + 薄い WS even
 - [AI が人間 identity を共有する MCP での「承認ゲート」設計 (構造ゲートで代理)](pattern/ai-collab-mcp-shared-identity-approval-gate.md) — `global` — AI グループ開発ツール (agent-hub 等) で「意思決定は人間が承認する (ブラックボックス化を防ぐ)」を
 - [AI 振り返り対話のセッション設計と階層型メモリ](pattern/ai-reflection-dialog-memory.md) — `global` — 夜の振り返り (evening reflection) を AI と対話で行う UX。Stoic / Rosebud / Mindsera の 2025-2026 設計と、長期運用での memory アーキテクチャ。
 - [aisaba.net 系の視覚デザイン言語](pattern/aisaba-design-language.md) — `global` — aisaba.net・apps.aisaba.net・portfolio_manager 等、ユーザー (Touri Aida) が運営する複数サイトで一貫した視覚言語が使われている。新規 UI を作る・既存サイトに追加コンポーネントを差し
@@ -220,6 +221,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [interface fake だけのハンドラテストは DB 制約との食い違いを検出しない](gotcha/fake-store-tests-miss-db-constraint-drift.md) — `global` — DB 依存を避けるため、REST ハンドラのテストを `Store` interface の fake 実装に対して回すのは定石で、速くて安定する。omatase もその方針で、`internal/http` のテスト全部が fake st
 - [Flutter 3.47 の showCupertinoSheet は showDragHandle を捨て、route の掴み手はダークで見えない](gotcha/flutter-cupertino-sheet-drag-handle-dropped-and-invisible-dark.md) — `global` — bloom で S6/S8 を「iOS 純正風の半分シート・背面縮小なし・暗転あり」にする設計中、ブリーフの `showCupertinoSheet(topGap: 0.5, showDragHandle: true)` を SDK で確か
 - [Flutter のシートを root Navigator に移すと「開いた側の context で pop」が別の route を閉じる](gotcha/flutter-sheet-root-navigator-opener-context-pop.md) — `global` — bloom の UI 修正第 2 バッチの設計。共通の `showBloomSheet` (showModalBottomSheet) に `useRootNavigator: true` が無く、タブ内の画面 (StatefulShell
+- [flutter build ios --simulator --no-codesign は Keychain 書き込みが -34018 で死ぬ (shot driver の live が LaunchScreen で止まる) / Riverpod 3 は build 中に他 provider を変更すると AsyncError](gotcha/flutter-sim-no-codesign-keychain-34018.md) — `global` — bloom の shot driver (`shot.json` で画面を再現して `simctl io screenshot`) で `mode: "live"` (dev1 に login-as) だけがネイティブの LaunchScr
 - [flutter test で plugin 同梱 ffi は動かない — ホスト dylib を dlopen 注入する](gotcha/flutter-test-plugin-ffi-needs-host-dylib-injection.md) — `global` — bloom P2a のレビューで、集計パイプライン (h3_flutter の `latLngToCell`) を `flutter test` (ホスト VM) で回そうとした。
 - [負のコントロールの復元に git checkout -- を使うと、レビュー対象の未コミット作業を消す](gotcha/git-checkout-restore-destroys-uncommitted-work.md) — `global` — Reviewer が負のコントロール (mutation testing) を回すとき、対象ファイルを一時的に壊して
 - [Go nil slice が JSON null になり MCP 空状態契約 (空配列) を破る](gotcha/go-nil-slice-null-breaks-mcp-empty-state-contract.md) — `global` — MCP ツールの typed struct 出力 (go-sdk `AddTool[In, Out]`) で「空状態はエラーでなく空コレクションで返す」契約を設計docに書いた。実装は Out struct の slice フィールドを未初

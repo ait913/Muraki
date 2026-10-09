@@ -22,6 +22,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Claude Haiku 4.5 API 仕様 (2026年5月時点)](library/claude-haiku-4-5-api.md) — `global` — 秘書系・チャット・軽量エージェント用途で Claude を使う際の最新スペック。Haiku 4.5 をデフォルトに据える時の参照。
 - [Cloudflare Tunnel 1 本でオンプレ全公開 (HTTPS + SSH, 2026年5月構成)](library/cloudflare-tunnel-2026.md) — `global` — オンプレ Ubuntu サーバー (`192.168.3.17`、SoftBank光) で運用している全サブドメイン (aisaba.net / appily.run / ceez7.com / SSH) を Cloudflare Tunn
 - [Coolify の static build pack はビルドしない (リポジトリをそのまま nginx で配る)](library/coolify-static-buildpack.md) — `global` — `build_pack` enum に `static` があるが、公式 docs は「静的サイト用」としか言わない。
+- [drift を iOS の 2 つの FlutterEngine (main + headless bg) から同一 DB で使う](library/drift-multi-flutter-engine-ios-wal.md) — `global` — iOS アプリが main engine (UI) と headless の第 2 FlutterEngine (位置/background_downloader で
 - [EventKit (iOS 17+) — 権限分離・カレンダー/イベント識別子の安定性・双方向同期の要点](library/eventkit-ios17-access-and-sync-identifiers.md) — `global` — iOS ネイティブアプリから iPhone/iCloud のローカルカレンダー (EventKit) と双方向同期する設計をするとき。iOS 17 で権限モデルが full/write-only に分離された後の実在 API・availab
 - [EventKit の繰り返しモデル — RRULE 表現力・例外(detached)・span・occurrence 展開](library/eventkit-recurrence-model.md) — `global` — iOS アプリで「予定の繰り返し」を扱い、それを EventKit (iPhone 標準カレンダー) と同期する設計をするとき。
 - [Expo SDK 57 (RN 0.86/New Arch) の地図・背景位置・WSクライアント事情](library/expo-sdk57-maps-location-ws.md) — `global` — omatase (位置共有アプリ) の Pre-design Research で SDK 57 + RN 0.86 (newArchEnabled) の実装ライブラリを確定した時の一次確認。

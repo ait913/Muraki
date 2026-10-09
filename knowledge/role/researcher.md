@@ -23,4 +23,9 @@
 
 19. **Tiptap/PM の UI 挙動は「素の拡張を esbuild で束ねた 1 ページ + playwright-core + Chrome headless shell」が最短** (Next 不要、数十秒で往復)。scratchpad の `pw/` は playwright-core の package.json が欠けて壊れていることがある → spike 内で `pnpm add -D playwright-core`、`executablePath` は `~/Library/Caches/ms-playwright/chromium_headless_shell-*/…/chrome-headless-shell`。macOS の `sed -i` は `-i ''`。JS 内の AND 演算子もフックに弾かれるので三項・入れ子 if で書く (2026-10-07, wasawasa)
 
+20. **外部 API の「資格情報が通るか」は bogus 入力で応答コードの種類を比べる。** Apple `/auth/token` は壊れた code に `invalid_grant` (client 認証は通過) / 鍵・ID 不正は `invalid_client` を返す。ASC 側の「受理サイズ」も表を信じず、セット作成→実アップロード→`assetDeliveryState`→セット削除、で 1 分で決着する (ベースライン 0 件に戻すところまで確認) (2026-10-09, atender)
+
+
+21. **シミュレータの OS 許可プロンプト (位置等) は `simctl terminate` / `privacy reset` / アプリ再起動では消えない。** 連続 run で同じスクショが出たら前の run のアラートを撮っている。run ごとに `shutdown`→`boot` し、別文言のプロンプトが出る条件 (notDetermined 起動の 3 択) を負のコントロールにして「新鮮なアラート」を証明する。WhenInUse の事前付与は `simctl privacy grant location <bundle>` (`location-always` は本物の Always になり Provisional は再現不能)。iOS 18 系の端末が無い時は `simctl create probe18 "iPhone 16" com.apple.CoreSimulator.SimRuntime.iOS-18-4` で作って `delete` まで 1 セット (2026-10-09, bloom)
+
 **Codex を使う場合は `knowledge/tool-quirk/codex-behavior.md` を必読。**

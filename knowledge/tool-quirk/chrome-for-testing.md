@@ -84,6 +84,7 @@ npx -y @puppeteer/browsers install chrome@stable --path ~/.cache/chrome-devtools
 - **MCP 設定変更** (`.mcp.json` 編集) 後は Claude Code の **再起動が必須**。現セッションは旧 MCP プロセスに繋がったまま。ログイン手順での Chrome プロセス kill とは別物。
 - Notion 等のログインは **profile ごとに 1 回ずつ必要**。project を増やすほどログイン手数が増える tradeoff。
 - AI エージェントがログイン作業を代行しない (パスワード等を扱わせない)。
+- ★ **ログイン手順の `pkill` で chrome-devtools MCP サーバー自体が落ち、そのセッションでは再接続されない** (2026-09-22 / 2026-10-09 で再現。`ToolSearch` が "failed to connect" を返す)。ログイン後の headless 操作は `Muraki/scripts/ascweb.js` (puppeteer-core、同 userDataDir、`--use-mock-keychain`) で代替する。puppeteer-core は Muraki に無いので scratchpad に `npm install puppeteer-core@24` して `NODE_PATH=<scratchpad>/pup/node_modules node Muraki/scripts/ascweb.js steps.json`。1 回の node 実行 = 1 ブラウザセッション (状態は持ち越せない)。MCP を戻したいなら Claude Code を再起動
 
 ### ★ MCP が繋がっていないセッションでスクショが要るとき — CDP を使う。`--screenshot` CLI フラグは使うな (2026-07-17)
 

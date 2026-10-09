@@ -44,5 +44,7 @@ API で完結する項目 (endpoint 確認済、body 形は Apple 公式 docs JS
 
 ## How to apply
 - 設計docに「App Privacy と Trader Status(初回のみ) は Web UI 必須」と明記し、自動化フローの外に出す
+- **App Privacy を headless で入力する手順 (2026-10-09 atender で実走、`scripts/ascweb.js` + puppeteer-core)**: URL `https://appstoreconnect.apple.com/apps/<appId>/distribution/privacy`。「はじめに」でデータ収集「はい」→「次へ」→ カテゴリの checkbox (`SELECT_CATEGORIES_checkbox_{NAME,EMAIL_ADDRESS,USER_ID,OTHER_USER_CONTENT,...}`) → 保存 → 各データ型の「〜を設定」ごとにウィザード: 目的 (`SELECT_PURPOSES_checkbox_APP_FUNCTIONALITY`) → 本人紐付け (`CONFIRM_LINKING_*_radioButton_true`) → トラッキング説明 2 画面 → トラッキング (`CONFIRM_TRACKING_*_radioButton_false`) → 保存。**ウィザードを最後まで通さないとそのデータ型の設定は消える**。全データ型を終えるまで「公開」は disabled、押すと確認ダイアログ内にもう一度「公開」。保存直後は反映に 5〜7 秒。`ascweb.js` の `click` (innerText 完全一致) は radio / 「次へ」に当たらないことがあるので `eval` で ID 指定 `.click()` が確実。ダイアログ表示中は `Page.captureScreenshot` が hang する (確認は `text` / `eval` で)
+- 審査メモの定型 (SIWA/Google のみでデモアカウントが作れないアプリ): `demoAccountRequired=false` + notes に「Sign in with Apple で即アカウント作成可、削除導線、権限の用途、privacy/support URL」を書く。スクショは `APP_IPHONE_67` に 1320×2868 (iPhone 17 Pro Max 実寸) をそのまま上げられる (縮小不要、COMPLETE まで数分かかる個体あり)
 - 年齢レーティングの `socialMedia` 系は機能仕様 (フィード・拡散性の有無) を先に確定してから値を決める。決め方をArchitectに投げず、プロダクト判断としてLeaderがTouriに一言確認する価値あり (エスカレーション「プロダクト判断」に該当しうる)
 - スクリーンショット・価格point・カテゴリidは、本番実行前に GET 1回で値を実測確認してから PATCH/POST を打つ (二次情報だけで確定しない)

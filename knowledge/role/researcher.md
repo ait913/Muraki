@@ -29,3 +29,5 @@
 21. **シミュレータの OS 許可プロンプト (位置等) は `simctl terminate` / `privacy reset` / アプリ再起動では消えない。** 連続 run で同じスクショが出たら前の run のアラートを撮っている。run ごとに `shutdown`→`boot` し、別文言のプロンプトが出る条件 (notDetermined 起動の 3 択) を負のコントロールにして「新鮮なアラート」を証明する。WhenInUse の事前付与は `simctl privacy grant location <bundle>` (`location-always` は本物の Always になり Provisional は再現不能)。iOS 18 系の端末が無い時は `simctl create probe18 "iPhone 16" com.apple.CoreSimulator.SimRuntime.iOS-18-4` で作って `delete` まで 1 セット (2026-10-09, bloom)
 
 **Codex を使う場合は `knowledge/tool-quirk/codex-behavior.md` を必読。**
+
+22. **Coolify の `GET /applications/{uuid}` は `destination.server.settings` に暗号化済み `sentinel_token` 等を丸ごとネストして返す。** 全文を print せず、Python で必要キーだけ抜く (2026-10-10, bloom admin 調査)。新機能の有無はドキュメントより `gh api repos/coollabsio/coolify/contents/...` で実コードを読む方が速い (traffic analytics は docs に Traefik 側の詳細が無く、`bootstrap/helpers/proxy.php` で確定した)。docs に載っている CLI プラグイン/bouncer は「この経路 (CF Tunnel + Nginx 前段) で IP が取れるか」を parser の実ソースで確かめてから推奨する

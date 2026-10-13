@@ -31,3 +31,5 @@
 **Codex を使う場合は `knowledge/tool-quirk/codex-behavior.md` を必読。**
 
 22. **Coolify の `GET /applications/{uuid}` は `destination.server.settings` に暗号化済み `sentinel_token` 等を丸ごとネストして返す。** 全文を print せず、Python で必要キーだけ抜く (2026-10-10, bloom admin 調査)。新機能の有無はドキュメントより `gh api repos/coollabsio/coolify/contents/...` で実コードを読む方が速い (traffic analytics は docs に Traefik 側の詳細が無く、`bootstrap/helpers/proxy.php` で確定した)。docs に載っている CLI プラグイン/bouncer は「この経路 (CF Tunnel + Nginx 前段) で IP が取れるか」を parser の実ソースで確かめてから推奨する
+
+23. **Apple DocC の「参照先ページ」の slug は推測せず、手元の JSON の `references` マップから `url` を引く。** REST API docs の `id_token` 参照先は `signinwithapplejs/authorizationi/id_token` で、`signinwithapplerestapi/id_token` 系は全部 404 だった。help.apple の `developer.apple.com/help/account/...` は通常 HTML なので `curl` + tag strip で本文が取れる (nav が長いので見出し語で `find` してから切り出す) (2026-10-13, bloom)

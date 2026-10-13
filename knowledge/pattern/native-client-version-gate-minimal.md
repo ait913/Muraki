@@ -121,3 +121,8 @@ request builder 各所にばら撒かない。iOS なら `URLSessionConfiguratio
 4. フェイルオープンを全経路に適用し、定数の初期値は「誰も弾かれない値」にする
 5. 定数の上げ方の規則と、「これは drift 検出ではない」ことを doc に明記する
 6. 本番でゲートの生死を確認できるプローブを用意する (例: 実在しない `ios/0` を送ると 426、送らないと 401 → **成功・失敗・未デプロイで返り値が全て異なる**)
+
+### 7. 初回限定の情報を受ける endpoint は gate の対象外にする (2026-10-13 bloom の事故)
+
+Sign in with Apple は**姓名を初回の認可でしか返さない**。サインイン endpoint まで 426 で止めると、その人の名前は二度と届かず「名無し」のアカウントができる (bloom 2026-10-13、`projects/bloom/.designs/20261013-identity-email-name-and-logs.md`)。
+同じ性質の入力 (OAuth の初回 consent で一度だけ渡る属性、招待 token の消費 など) を受ける endpoint は版ゲートの除外リストに最初から入れる。旧版はサインイン後の最初の API で 426 になるので、強制更新の効果は変わらない。refresh はゲートしてよい (client は refresh の 426 を transient 扱いにしてトークンを消さないこと)。

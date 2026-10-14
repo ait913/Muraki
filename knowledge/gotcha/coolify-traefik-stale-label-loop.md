@@ -3,7 +3,7 @@ title: Coolify で全パス self-redirect ループになる時の復旧手順
 category: gotcha
 tags: [coolify, traefik, deploy, redirect-loop]
 created: 2026-05-10
-updated: 2026-05-12
+updated: 2026-10-15
 project: global
 sources:
   - https://github.com/coollabsio/coolify/blob/main/bootstrap/helpers/docker.php
@@ -42,7 +42,9 @@ Coolify が生成する Traefik label をソースで追っても (`bootstrap/he
 
 Coolify の Traefik dynamic config は `/data/coolify/proxy/dynamic/` 配下で file provider 経由で配布。アプリ設定変更時に **古い label set がクリアされず stale state で残ることがある** (公式 issue 多数)。fqdn 削除→戻しで強制再生成。
 
-★ **ただしこの「stale」説は症状の一部しか説明していない** (2026-07-16 omatase で判明): 新規作成した app 2 つが、**一度もデプロイされる前に** `is_force_https_enabled:false` を PATCH した上で初回デプロイしたにもかかわらず、両方ループした。過去のデプロイが無い = **クリアされるべき古い label が存在しない**ので、stale では説明がつかない。fqdn 削除→戻しで直る点は同じ。根本原因は未特定であり、**「古い設定を変えたときに起きる」と限定して理解しないこと** — 新規 app でも起きる。
+★ **ただしこの「stale」説は症状の一部しか説明していない** (2026-07-16 omatase で判明): 新規作成した app 2 つが、**一度もデプロイされる前に** `is_force_https_enabled:false` を PATCH した上で初回デプロイしたにもかかわらず、両方ループした。過去のデプロイが無い = **クリアされるべき古い label が存在しない**ので、stale では説明がつかない。fqdn 削除→戻しで直る点は同じ。
+
+★ **新規 app の根本原因 (2026-10-15 bloom-api-dev3 で確定)**: Coolify は **app 作成時点の設定で Traefik label を生成して `custom_labels` に保存**する。作成時の `is_force_https_enabled` は default true なので、HTTP router に `middlewares=redirect-to-https` が焼かれる。後から PATCH で false にしても **`custom_labels` は再生成されない**。Cloudflare Tunnel → Nginx → Traefik は HTTP entrypoint で入るので、全パスが自分自身への 302 になる。確認: `GET /applications/{uuid}` の `custom_labels` を base64 -d して `http-0-<uuid>.middlewares` を見る。直し方: 正常な兄弟 app の `custom_labels` の uuid / host を置換して PATCH (base64) → redeploy (fqdn 削除→戻しも同じ再生成を起こすので効く)。
 
 `is_force_https_enabled=true` の場合、Coolify は HTTP routers にだけ `redirect-to-https` middleware を付ける設計だが、stale state や middleware の重複適用で HTTPS 経路も巻き込むケースがある。
 

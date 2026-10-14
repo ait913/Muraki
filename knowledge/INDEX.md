@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-10-14
+Generated: 2026-10-15
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -8,6 +8,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [アカウント削除 (Guideline 5.1.1(v)) — Sign in with Apple の revoke と better-auth 1.6 deleteUser の実仕様](library/account-deletion-siwa-betterauth-2026.md) — `global` — Atender (iOS, better-auth + Prisma/SQLite, Apple/Google/Magic Link) の初回審査前に、アカウント削除の要件と実装部品を一次ソースで確認した記録 (2026-10-09)。
 - [Aisaba 自作スタック (Appera + Nexom + aisaba_platform)](library/aisaba-stack.md) — `global` — ユーザーが運用している Web アプリ群 (apps.aisaba.net 配下: portfolio_manager / permissions / file_size_sense / カレンダー / MeishiLink ダッシュボード
 - [Anthropic Claude API のデータ保持・学習利用ポリシー (2026年5月時点)](library/anthropic-api-data-retention.md) — `global` — 個人ヘルスケア・メンタル系アプリで Claude API を使うとき、「ユーザーの会話を Anthropic 側にどれだけ残されるか」「学習に使われるか」を正確に知っておく必要がある。ZDR (Zero Data Retention) を契
+- [審査ビルドを別 backend に繋ぐ・承認後に切り替える件の App Review 規約上の扱いと、手動リリース (Pending Developer Release) の期限](library/app-review-separate-backend-and-manual-release-2026.md) — `global` — bloom で「互換を崩す版を本番に出さずに審査を通す」ため、審査中の版のリクエストだけ審査用 backend に振り分け、承認後に外して手動リリースする案の規約確認 (2026-10-15、curl で本文取得)。
 - [App Store Connect API v1 だけで新規アプリを審査提出する (2026-09時点、Web UI 必須の2箇所を含む)](library/app-store-connect-api-full-submission-2026.md) — `global` — iOS アプリ (バージョン 1.0, PREPARE_FOR_SUBMISSION, TestFlight ビルド有) を **Web UI を極力使わず JWT (Admin key) + App Store Connect API v
 - [appily の通信経路と、監視・検出・遮断の現実解 (Coolify 4.4 access log / CF Access Rules / Traefik は deny 不可)](library/appily-edge-monitoring-and-blocking-2026.md) — `global` — bloom (Go API) に「アドミンサービス」(通信監視 + 不審 IP の自動遮断) を別 Coolify app として足す設計の事前調査 (2026-10-10)。Coolify 実機 (v4.4.3、GET のみ) と実コード
 - [Apple developer docs は SPA — JSON エンドポイント直叩きで全文取得](library/apple-developer-docs-json-endpoint.md) — `global` — HIG や developer.apple.com/documentation を一次ソースで精読したいとき。
@@ -26,6 +27,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Cloudflare Tunnel 1 本でオンプレ全公開 (HTTPS + SSH, 2026年5月構成)](library/cloudflare-tunnel-2026.md) — `global` — オンプレ Ubuntu サーバー (`192.168.3.17`、SoftBank光) で運用している全サブドメイン (aisaba.net / appily.run / ceez7.com / SSH) を Cloudflare Tunn
 - [Coolify v4.4.6 のビルド隔離 — custom_docker_run_options の許可リストと BuildKit RUN の cgroup 位置](library/coolify-build-memory-cgroup-v2-2026.md) — `global` — オンプレ 1 台 (2 コア 3.7GB) の Coolify で Next.js ビルドがホストを固める件の cgroup v2 階層化調査 (sessions/2026-10-14-b837d104)。
 - [Coolify の static build pack はビルドしない (リポジトリをそのまま nginx で配る)](library/coolify-static-buildpack.md) — `global` — `build_pack` enum に `static` があるが、公式 docs は「静的サイト用」としか言わない。
+- [Coolify v4.4.6 + Traefik v3.6 で同一ドメインをリクエストヘッダで別 app に振り分ける (custom_labels / file provider)](library/coolify-traefik-header-routing-same-domain-2026.md) — `global` — bloom の App Store 審査用環境 (審査中の版だけ `X-Client-Version` で別 backend へ送る) の事前調査 (2026-10-15)。Appily (オンプレ Coolify 4.4.6、Traefi
 - [drift を iOS の 2 つの FlutterEngine (main + headless bg) から同一 DB で使う](library/drift-multi-flutter-engine-ios-wal.md) — `global` — iOS アプリが main engine (UI) と headless の第 2 FlutterEngine (位置/background_downloader で
 - [EventKit (iOS 17+) — 権限分離・カレンダー/イベント識別子の安定性・双方向同期の要点](library/eventkit-ios17-access-and-sync-identifiers.md) — `global` — iOS ネイティブアプリから iPhone/iCloud のローカルカレンダー (EventKit) と双方向同期する設計をするとき。iOS 17 で権限モデルが full/write-only に分離された後の実在 API・availab
 - [EventKit の繰り返しモデル — RRULE 表現力・例外(detached)・span・occurrence 展開](library/eventkit-recurrence-model.md) — `global` — iOS アプリで「予定の繰り返し」を扱い、それを EventKit (iPhone 標準カレンダー) と同期する設計をするとき。
@@ -58,6 +60,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Next.js 15 + Prisma + better-sqlite3 + Coolify スタック概要](library/nextjs15-prisma-sqlite-coolify.md) — `global` — Next.js 15 + Prisma 6.x + better-sqlite3 + SQLite を 1コンテナで Coolify デプロイする構成。`output: "standalone"` で薄い image を作り、SQLite 
 - [Next.js 16 standalone を pnpm workspace モノレポで Docker 化する](library/nextjs16-standalone-pnpm-monorepo.md) — `global` — pnpm workspace + Turborepo のモノレポ (`apps/web` が Next.js、`packages/*` を `workspace:*` 依存) を
 - [公式 Python MCP SDK (FastMCP) — hosted/stateful/認証の現行API (2026-07)](library/python-mcp-sdk-2026.md) — `global` — Python で hosted・stateful・マルチテナントなリモート MCP サーバー (per-member auth, join でセッション確立, claim/poll 系ツール) を組めるかの裏取り。既存 knowledge 
+- [鉄道への map matching / 国土数値情報 N02 / 場所を明かさない接近判定 / video_player の差し込み口 (2026-10 時点の実測)](library/rail-map-matching-n02-and-private-proximity-2026-10.md) — `global` — Bloom の軌跡補正 / 移動手段判別 / 接近判定の設計前調査 (2026-10-15)。他 PJ でも使う事実だけ残す。
 - [リモートMCPサーバー + OAuth のホスト対応と認可spec (2026)](library/remote-mcp-oauth-hosts-2026.md) — `global` — クラウド上のリモートMCPサーバーを Claude Code / Codex CLI (agent型ホスト) から URL 追加 + OAuth 認可で使わせる設計の前提確認。
 - [Sign in with Google / Sign in with Apple ボタンのブランド規約 (2026-07 現行)](library/signin-button-branding-google-apple-2026.md) — `global` — ログイン画面に Google / Apple のソーシャルボタンを並べる時、各社のブランド規約が「塗り・フォント・ロゴ・文言」を縛る。自前デザイントークンで統一しようとすると規約と衝突する。2026-07-16 に一次ソースを全て実取得して
 - [Sign in with Apple: identity token のクレーム実仕様 (email は毎回 / 名前は初回のみ / email_verified は string|bool) と App ID グループ化の副作用](library/siwa-identity-token-claims-and-grouping-2026.md) — `global` — bloom で「初回サインインが 426 で止まり氏名が失われて名無しユーザーができた」事故の後、`users.email` 追加と名前の堅牢化を設計する前に Apple 一次ソースで確認した (2026-10-13)。
@@ -113,6 +116,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [出席率の分母から「一括休講日」を除外する標準パターン (Course × Date 中間テーブル)](pattern/course-suspension-denominator-reduction.md) — `global` — 出欠管理アプリで「学園祭振替で来週月曜は休講」のように**科目全体 × 特定日付**で休講を宣言する場面。個別 occurrence の `status=CANCELLED` で手動マークする方式だけだと:
 - [専用カレンダーへの一方向エクスポート — 識別子を成果物自身に埋めて差分を取る](pattern/dedicated-calendar-one-way-export-self-describing-key.md) — `global` — 自アプリのデータ (授業・シフト・予約など) を OS のカレンダー (EventKit / CalendarContract 等) に反映したいとき。
 - [同じ規則が 2 実装あるとき「正典 + テストのオラクル」に役割を割る](pattern/dual-implementation-canon-plus-oracle.md) — `global` — 同じ計算規則が 2 箇所に書かれてしまう状況。omatase の自動アーカイブでは
+- [小グループ E2E — epoch 付きグループ鍵 (sealed box 配布) と、鍵付き HMAC セルトークンでの「位置は知らず近さだけ」照合](pattern/e2e-group-epoch-keys-and-proximity-tokens.md) — `global` — bloom (3〜8 人の固定グループの位置 SNS) で、足跡・RT 位置・投稿をサーバーが読めないようにしつつ、接近通知と集合の提案はサーバー側で出し続けたい (2026-10-15)。MLS は過剰。
 - [パニック時 UI の設計トークンと挙動原則 (緊急アプリ向け)](pattern/emergency-ui-design-tokens.md) — `global` — 「人が倒れた」「火災が起きた」など極度のパニック時にユーザーが操作する UI の設計。
 - [Postgres + Node でのアプリ層 envelope encryption パターン (Coolify セルフホスト)](pattern/envelope-encryption-postgres-node.md) — `global` — 個人ヘルスケア / メンタル系アプリで「ログ取らない・コード公開可・at-rest 暗号化・LLM 処理時のみ in-memory 復号」を実装したい。バックエンドは Coolify (Docker) + Postgres、ソロ運用。
 - [イベント系アプリの「常設ハブ + ライブカード」IA (時間帯で着地画面を変えない)](pattern/event-hub-permanent-home-live-card.md) — `global` — イベント/旅行/待ち合わせ系アプリで「前日は行程を組む画面が主役、当日は今のプランが主役」と
@@ -127,6 +131,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [入力フォームモーダル (BottomSheet/Dialog) の視認性 BP (2026)](pattern/form-modal-readability-bp.md) — `global` — Modal / Bottom Sheet 内に入力フォームを置く場面で「文字が見えにくい」「階層が弱い」「フォーカスが分からない」と感じる根因は**たいてい設計トークンの欠陥に集約**される。Atender redesign で実装後に T
 - [週パターンから生成した occurrence 表に「日付単位の例外 (振替・置き換え)」を足す標準形](pattern/generated-occurrence-exception-rows.md) — `global` — 時間割アプリのように「週パターン (Meeting: 曜日 × 時限) から学期分の occurrence 行を事前生成し、読み取りは occurrence を date でフィルタするだけ」という構成に、**パターンに無い日付だけの授業*
 - [Google Calendar 連携を Connection (user) × Sync (room × calendar) の 2 段 schema で組むパターン](pattern/google-calendar-incremental-sync-room-scoped.md) — `global` — ユーザーが個人 Google Calendar を「ルーム」「グループ」「プロジェクト」等の単位に紐づけて取り込みたい場面。ユースケース例:
+- [端末内で GPS 軌跡を 1 本線にする (外れ値・往復除去 → 線路吸着 → DP → Catmull-Rom) と、速度 + 線路 + 停車位置での移動手段判定](pattern/gps-track-cleanup-rail-snap-transport-mode.md) — `global` — bloom 0.2.3 で「自分の行動線がギザギザ・往復・飛びだらけ」を直し、電車区間を線路に沿わせ、徒歩 / 電車 / 車を吹き出しで出す設計。軌跡はサーバーへ平文で送らない (端末内で完結) 制約つき。
 - [グリッド・テーブル罫線 BP (時間割/カレンダー/データ表示)](pattern/grid-table-borders-bp.md) — `global` — 時間割・カレンダー・テーブル系 UI で「セルがバラバラに見える」「表として認識されない」体感が出るのは、罫線設計が以下のどちらかに偏った時:
 - [ホーム画面に「自分 / グループ」を chip で集約する context switcher パターン (TimeTree 風)](pattern/home-aggregated-context-switcher.md) — `global` — カレンダー / 時間割 / 出欠など「個人ビュー」と「複数のグループビュー」の両方を持つアプリで、ホーム画面のナビ設計に悩む場面。代表例:
 - [.ics import を contentHash dedup + preview/commit 2-phase で実装する標準パターン](pattern/ics-import-hash-dedup-preview-commit.md) — `global` — ユーザーが iPhone / Android / Google / iCloud の `.ics` をアップロードして、自アプリのカレンダー / 予約 / 共有予定に取り込ませる場面。プライバシー対策 (例: 「デート」「就活」「合コン」を
@@ -213,6 +218,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Chrome for Testing の cookie が headless で復号できず「ログインしてるのに使えない」](gotcha/chrome-for-testing-macos-keychain-cookie.md) — `global` — chrome-devtools MCP でログインが要るサイト (Slack 等) を読むとき、`chrome-login.sh` で
 - [クライアントの平坦 error 読みが nested error 封筒を全部 unknown に潰す](gotcha/client-flat-error-read-collapses-nested-error-envelope.md) — `global` — omatase web ゲスト (Next.js) の `api/client.ts` を設計契約だけからテストした。REST 正典
 - [「今日」をサーバと別の暦で決めると、毎日 N 時間だけ壊れる](gotcha/client-today-must-use-server-timezone.md) — `global` — atender の API は `apps/api/src/lib/tz.ts` で `APP_TZ = "Asia/Tokyo"` を固定し、
+- [Cloudflare 配下 (Coolify API / *.appily.run) は Python-urllib の既定 UA を Error 1010 で弾く](gotcha/cloudflare-1010-blocks-python-urllib-ua.md) — `global` — Python 標準の `urllib.request` で `https://coolify.aisaba.net/api/v1/...` や `https://*.appily.run/` を叩くスクリプト。curl では通るのに Pyt
 - [Cloudflare Tunnel 経由は loopback 接続 — Nginx の IP allowlist に 127.0.0.1 を入れ忘れると 403](gotcha/cloudflare-tunnel-nginx-allowlist-loopback.md) — `global` — aisaba_platform の Nginx vhost には Cloudflare edge IP からのみ受け付ける allowlist が `cloudflare_only.conf` として include されている (`all
 - [coder/websocket は呼び手の ctx timeout でも接続そのものを閉じる](gotcha/coder-websocket-short-lived-read-context-closes-connection.md) — `global` — bloom P3c の WS (`coder/websocket` v1.8.15) を reviewer がブラックボックス probe するとき、
 - [Coolify の healthcheck が localhost→::1 で落ちる (Node の HOSTNAME=0.0.0.0 は IPv4 のみ bind)](gotcha/coolify-healthcheck-localhost-ipv6-vs-node-bind.md) — `global` — Coolify に app を建てるとき `health_check_host: "localhost"` を設定すると、

@@ -210,6 +210,12 @@ curl -sS -X PATCH -H "Authorization: Bearer $COOLIFY_API_TOKEN" \
 - レスポンスは JSON だが logs フィールド内に control character を含むと jq でパースできない → Python で `bytes(s,'utf-8').decode('unicode_escape')` 経由で抽出
 - ANSI カラーコードは `sed -r 's/\x1b\[[0-9;]*[mK]//g'` でストリップ
 
+### 再デプロイはブランチ最新 commit を取り、同じ commit ならビルドを飛ばす (2026-10-15 実測)
+
+- `POST /deploy?uuid=` (`force=false`) はアプリの `git_branch` の**最新 commit** をビルド対象にする (commit を固定しない)。イメージタグは `<app uuid>:<commit SHA>`
+- そのタグのイメージがあれば `No build configuration changed & image found (...) with the same Git Commit SHA. Build step skipped.`、無ければ `Image not found (...). Building new image.`
+- → ラベルや env だけ変えて再デプロイしても、ブランチに新しい push があればそのコードが入る。commit を固定したい時は wasawasa (companion の commit pin) を通すか、ブランチを動かさない
+
 ### deployment ログの癖
 
 - ★ **deployment の `logs` は API token が `read:sensitive` (または `root`) を持つ時だけ返る** (v4.3.23 `DeployController`: `can_read_sensitive` が false だと `makeHidden(['logs'])`、`GET /deployments/applications/{uuid}` も同様)。`read` / `write` / `deploy` だけの token では「logs が空」に見える。以前ここに書いていた「logs が空のことがある / 両方叩いて長い方を採用」は token 権限の差だった (2026-10-02 wasawasa 調査で原因確定)

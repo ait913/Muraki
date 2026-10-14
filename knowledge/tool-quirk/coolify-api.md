@@ -3,7 +3,7 @@ title: Coolify API の癖と未公開仕様
 category: tool-quirk
 tags: [coolify, api, openapi, deploy]
 created: 2026-05-10
-updated: 2026-10-02
+updated: 2026-10-14
 project: global
 sources:
   - https://coolify.io/docs/api-reference
@@ -12,6 +12,8 @@ sources:
   - https://github.com/coollabsio/coolify/blob/main/app/Jobs/ApplicationDeploymentJob.php  # 実装の真実。openapi で足りない時はここを読む (確認 SHA: 07f381b, 2026-07-16)
   - https://raw.githubusercontent.com/coollabsio/coolify/v4.3.23/app/Http/Controllers/Api/DeployController.php  # 幽霊 deployment_uuid / logs の read:sensitive 制限 (2026-10-02, v4.3.23 実機と同版)
   - https://coolify.io/docs/api/permissions  # token abilities
+  - https://github.com/coollabsio/coolify/blob/v4.4.6/app/Models/Application.php  # watch_paths の照合 (matchPaths / globToRegex、2026-10-14、4.4.6 実機と同版)
+  - https://github.com/coollabsio/coolify/blob/v4.4.6/app/Http/Controllers/Api/ServerDockerRegistriesController.php  # registries API
 model-era: opus-4.8
 ---
 
@@ -162,6 +164,7 @@ curl -sS -X PATCH -H "Authorization: Bearer $COOLIFY_API_TOKEN" \
 
 - **`POST /projects` の `description` は許可文字が限定**: letters / numbers / spaces と `- _ . , ! ? ( ) ' " + = * / @ &` のみ。**emダッシュ `—` や日本語の一部記号を含めると 422**。OpenAPI schema には pattern 記述がない (実装側のバリデーション)。ASCII 無難記号で書く。`name` は制約ゆるめ。
 - **app / database 作成は `environment_uuid` が必須**: `POST /applications/private-github-app` `/public` `/private-deploy-key` `/dockerfile` `/dockerimage` および `POST /databases/*` の required に `environment_name` と `environment_uuid` **両方**が載っている。description は "at least one" と書くが、実踏では `environment_name` だけでは作成できず uuid が要る。environment uuid は `GET /projects/{uuid}` の `.environments[].uuid` からしか取れない (project 一覧には出ない)。 ★ OpenAPI 上は `server_uuid` も同じ required 配列に入っている (`private-github-app`/`public`/`private-deploy-key`/`dockerfile`/`dockerimage` 共通、2026-09-16 spec 確認)。destination の server uuid は `GET /applications/{既存app}` の `.destination.server.uuid` から拾える (project 一覧には出ない点は environment_uuid と同じ)。
+- ★ **環境名の規約 (aiserver のメモリ段と連動、2026-10-14)**: 本番は Coolify 既定の **`production`** のまま使う (`prod` 等に改名しない)、開発系は **`development`** に置く (`POST /projects/{uuid}/environments` で追加)。ホストの `mem-tiers` ウォッチャーがコンテナラベル `coolify.environmentName=production` だけを本番として MemoryLow で守るため、名前を外すと本番が無保護になる ([[gotcha/onprem-coolify-build-ooms-whole-server]])。新規アプリは従来どおり `limits_memory=512m` / `limits_memory_swap=1024m` も入れる。環境名は `PATCH /projects/{uuid}/environments/{name_or_uuid}` `{name}` で改名でき (許可フィールドは name / description のみ)、uuid は不変、既存コンテナのラベルは次回デプロイで追従
 - **private repo の deploy key が org ポリシーで無効なことがある**: `POST /applications/private-deploy-key` が `Deploy keys are disabled` で 422 (例: `n-wasabi` org)。その場合は **GitHub App ソース経由** (`private-github-app`) に切り替える。
 
 ### GitHub App ソースの癖
@@ -171,6 +174,26 @@ curl -sS -X PATCH -H "Authorization: Bearer $COOLIFY_API_TOKEN" \
 - `docker_compose_raw` (`POST /services`) と `custom_labels` (PATCH app) は **base64 encoded** で送る。生 string は reject。
 - **既存 app の Source 種別 (deploy key ↔ GitHub App) と所属 project/environment は API で変えられない** (2026-09-08 実測)。PATCH `/applications/{uuid}` に `github_app_uuid` / `source_id` / `source_type` / `private_key_id` / `environment_uuid` / `project_uuid` を送ると `"This field is not allowed."`。`PATCH /databases/{uuid}` の `environment_uuid` は "Database updated." と返すが **実際は動かない**。UI は project/environment の移動はできるが Source 種別は変えられない (鍵の選択だけ)。リポジトリを別 org へ移して deploy key が使えなくなった時の最短は、**`coolify-db` の `applications` 行を UPDATE** して GitHub App ソースの app (例 omatase-api) と同じ形にする: `source_type='App\Models\GithubApp', source_id=<github_apps.id>, private_key_id=NULL, git_repository='<owner>/<repo>'`。コンテナ・ボリュームは触らず、直後の deploy が通る。旧値は記録してから
 - `GET /deploy?uuid=` は **POST に変更された** (2026-09 時点で GET は `{"message":"This endpoint has changed to a POST request."}`)。SKILL の curl 例は `-X POST` に読み替える
+
+### watch_paths (push webhook を変更ファイルで絞る) — v4.4.6 ソース読み
+
+- キー名は `watch_paths` (PATCH/POST とも `string|nullable`)。**改行区切り**の 1 本の文字列。保存時に各行を trim し、先頭 `/` を除去 (`!/docs/**` → `!docs/**`)、空行を捨てる。空文字は null 扱い
+- **照合 (`Application::matchPaths`)**: gitignore ではなく自前の glob→正規表現 (`^...$` 全体一致)。`*` = `[^/]*`、`**` = `.*` (直後の `/` は吸う。`**/*.md` はルート直下の `README.md` にも当たる)、`?`、`[abc]`。`{a,b}` は**非対応**。パスは**リポジトリ root 相対** (base_directory 相対ではない)
+- **`!` 否定は効く。順序依存で「最後に当たった行が勝つ」**。どの行にも当たらないファイルは、**包含パターンが 1 つでもあれば除外、否定だけなら包含**。→ 否定だけ並べれば「これ以外は全部デプロイ」の deny-list になる
+- 判定 = push の `commits[].added/removed/modified` の和集合のうち 1 つでも通れば deploy。**空 / NULL の watch_paths は常に deploy** (絞らない)。payload に commits が無い (null) 場合も deploy。GitHub の push payload は commits 20 件までなので、それ以上の push は先頭 20 件分だけで判定される (超過時の挙動は未確認)
+- **GitHub App 経由 (`/events`) も manual webhook も同じ `webhookPushMatchesWatchPaths()`** を通る (Github.php 2 箇所)。不一致の応答は `status: failed, "Changed files do not match watch paths. Ignoring deployment."` で `details.changed_files` / `watch_paths` が付く (ログが残る)。API の `POST /deploy` は watch_paths を見ない
+- 併用できる別の逃げ: コミットメッセージに `[skip cd]` / `[skip ci]` (大小無視)。**push 内の全コミットが含む時だけ**skip
+- 実機: 全 26 アプリ中 watch_paths 設定済みは 0 (2026-10-14)
+
+### build pack の変更 (dockerfile → dockerimage は API / UI とも不可) と Docker image アプリ — v4.4.6
+
+- `BuildPackTypes` enum は `nixpacks/static/dockerfile/dockercompose/railpack` のみ。**PATCH `build_pack: dockerimage` は enum 検証で 422**。UI の "Build strategy" 選択肢にも dockerimage は無い (dockerimage アプリでは選択欄ごと非表示)。→ 既存 Git アプリを image 配信に切り替える正規手段は無く、`POST /applications/dockerimage` で新規作成 (必須: `project_uuid / server_uuid / environment_name / environment_uuid / docker_registry_image_name`、任意 `docker_registry_image_tag` ほか、`ports_exposes` / `domains` / health_check 系は PATCH と共通)。`coolify-db` の `applications.build_pack` 直書き換えは理屈上は動くが**未検証**
+- ★ **dockerfile アプリに `docker_registry_image_name` を入れると「ビルド後に registry へ push する」動作**になる (`dockerimage` では push しない)。pull 専用にしたい時に既存アプリへ入れてはいけない
+- dockerimage のデプロイは毎回 `docker compose pull` + `up --pull always` (タグ `latest` でも再 pull する)。`docker_registry_image_tag` 既定は `latest`。`sha256-<hash>` 形式のタグは digest 参照になる
+- **registry ログイン API (4.4.6 で追加)**: `POST /servers/{server_uuid}/registries` `{registry:"ghcr.io", username, password}` (ability `write`、サーバーで `docker login` を実行 = 手動 SSH 不要)、`GET /servers/{uuid}/registries` (`read:sensitive`、ログイン状況と使用アプリ)、`POST .../registries/{registry}/check`、`DELETE .../registries/{registry}`。デプロイ時の helper コンテナは `~/.docker/config.json` を ro マウントする
+- **ビルドのメモリ制限は Coolify に無い**: `limits_memory` / `limits_cpus` / `limits_memory_swap` は生成する compose の**ランタイムコンテナ**にだけ入る (`ApplicationDeploymentJob.php` generate_compose_file)。`docker build` には `--memory` が付かない。ビルド由来の逼迫は 別ホストの build server (`is_build_server_enabled` + `docker_registry_image_name`、Server の `is_build_server`)、または CI でビルドして image を pull、でしか外せない。サーバーの `concurrent_builds` (aiserver は 2) は同時ビルド数の上限
+- Coolify API (`https://coolify.aisaba.net/api/v1`) は **Cloudflare 経由で公開到達可** (認証なし GET が 401 JSON を返す = Access に弾かれていない、2026-10-14 実測)。GitHub Actions から `POST /deploy?uuid=...` + `Authorization: Bearer` で叩ける。token は team 単位 (app 単位に絞れない) なので deploy ability のみの専用 token を使う
+- GHCR: private image の pull には **classic PAT (`read:packages`) のみ** (fine-grained は非対応、GitHub docs)。Actions の push は `GITHUB_TOKEN` (`packages: write`) で足りる。初回 publish の package は private。Free plan: Actions 2,000 分/月 (private、org 共有)、Packages 500MB / 転送 1GB は Container registry には**適用されず現在無料**
 
 ### ログ取得の癖
 
@@ -273,6 +296,13 @@ curl -sS -H "Authorization: Bearer $COOLIFY_API_TOKEN" \
 curl -sS -X DELETE -H "Authorization: Bearer $COOLIFY_API_TOKEN" \
   "$COOLIFY_API_BASE/applications/<uuid>/scheduled-tasks/<task_uuid>"
 ```
+
+### ホストのパスをマウントする (v4.4.3、2026-10-11 実測)
+
+- `POST /applications/{uuid}/storages` の `type:persistent` に `host_path` は **受け付けない** (`This field is not allowed.`)。persistent は named volume 専用
+- ホストのディレクトリは `{"type":"file","is_directory":true,"fs_path":"/data/x","mount_path":"/out"}`、ホストの単一ファイルは `{"type":"file","is_host_file":true,"fs_path":"/data/x.log","mount_path":"/in/x.log"}` で bind mount になる (`docker inspect` で Source = ホストパスを確認)。**読み取り専用の指定は API に無い** (rw=true で付く)
+- `custom_docker_run_options` の `-v host:ctr:ro` は**保存されるが無視される** (デプロイ後のコンテナに Mounts が 1 つも付かない)。マウント目的に使わない
+- マウントの変更はデプロイし直すまで反映されない
 
 ### persistent storage (named volume) の初回マウント時、Dockerfile の chown は引き継がれる
 

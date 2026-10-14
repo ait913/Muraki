@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-10-13
+Generated: 2026-10-14
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -12,6 +12,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [appily の通信経路と、監視・検出・遮断の現実解 (Coolify 4.4 access log / CF Access Rules / Traefik は deny 不可)](library/appily-edge-monitoring-and-blocking-2026.md) — `global` — bloom (Go API) に「アドミンサービス」(通信監視 + 不審 IP の自動遮断) を別 Coolify app として足す設計の事前調査 (2026-10-10)。Coolify 実機 (v4.4.3、GET のみ) と実コード
 - [Apple developer docs は SPA — JSON エンドポイント直叩きで全文取得](library/apple-developer-docs-json-endpoint.md) — `global` — HIG や developer.apple.com/documentation を一次ソースで精読したいとき。
 - [App Store Guideline 1.2 (UGC) の現行原文 — 「24 時間」「EULA」は旧版の孫引き](library/apple-ugc-guideline-1.2-current-text.md) — `global` — Bloom. の初回審査で Guideline 2.1 Information Needed が来て、録画に「UGC の通報・ブロック機構」を含めろと要求された。要件の原文を確認したときの記録。
+- [ASC API キーのスコープ / Xcode Cloud webhook の単位 / Firebase 別プロジェクト SA (2026-10 時点)](library/asc-api-key-scope-and-xcc-webhook-2026.md) — `global` — 複数アカウント (Apple Developer チーム / GCP プロジェクト) の鍵を 1 つのツールに登録して使い分ける設計の前提 (wasawasa, 2026-10-14)。
 - [ASC 輸出コンプライアンス (暗号化申告) を API で扱う — 2026-10 実仕様 (標準アルゴリズム OSS 利用アプリ)](library/asc-encryption-export-compliance-api-2026.md) — `global` — Flutter 等で libsodium (XChaCha20-Poly1305) など標準アルゴリズムの OSS 実装を同梱したアプリを TestFlight / 審査に出すとき、Web UI を使わず ASC API v1 で輸出コンプ
 - [App Store 却下後の返信・再提出 — API だけでは通らない箇所と Web の操作順](library/asc-resubmit-after-rejection-2026.md) — `global` — Bloom. の初回審査が 2.1 Information Needed で却下 (submission は `UNRESOLVED_ISSUES`、item は `REJECTED`)。新 build を紐付けて返信 + 再提出した時の実
 - [Auth.js v5 + PrismaAdapter + SQLite (Magic Link + Google) 最小構成](library/authjs-v5-prisma-sqlite.md) — `global` — Next.js 15 App Router + Prisma + better-sqlite3 で Auth.js v5 を使い、
@@ -23,6 +24,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [ChatGPT developer mode カスタム MCP コネクタの仕様と OAuth 実態 (2026-07)](library/chatgpt-mcp-connector-oauth-2026.md) — `global` — dandan-app 再設計で ChatGPT developer mode を MCP Apps iframe UI の一級ホストに昇格させる。自前 AS (DCR + PKCE) と噛み合うかの事実確認。
 - [Claude Haiku 4.5 API 仕様 (2026年5月時点)](library/claude-haiku-4-5-api.md) — `global` — 秘書系・チャット・軽量エージェント用途で Claude を使う際の最新スペック。Haiku 4.5 をデフォルトに据える時の参照。
 - [Cloudflare Tunnel 1 本でオンプレ全公開 (HTTPS + SSH, 2026年5月構成)](library/cloudflare-tunnel-2026.md) — `global` — オンプレ Ubuntu サーバー (`192.168.3.17`、SoftBank光) で運用している全サブドメイン (aisaba.net / appily.run / ceez7.com / SSH) を Cloudflare Tunn
+- [Coolify v4.4.6 のビルド隔離 — custom_docker_run_options の許可リストと BuildKit RUN の cgroup 位置](library/coolify-build-memory-cgroup-v2-2026.md) — `global` — オンプレ 1 台 (2 コア 3.7GB) の Coolify で Next.js ビルドがホストを固める件の cgroup v2 階層化調査 (sessions/2026-10-14-b837d104)。
 - [Coolify の static build pack はビルドしない (リポジトリをそのまま nginx で配る)](library/coolify-static-buildpack.md) — `global` — `build_pack` enum に `static` があるが、公式 docs は「静的サイト用」としか言わない。
 - [drift を iOS の 2 つの FlutterEngine (main + headless bg) から同一 DB で使う](library/drift-multi-flutter-engine-ios-wal.md) — `global` — iOS アプリが main engine (UI) と headless の第 2 FlutterEngine (位置/background_downloader で
 - [EventKit (iOS 17+) — 権限分離・カレンダー/イベント識別子の安定性・双方向同期の要点](library/eventkit-ios17-access-and-sync-identifiers.md) — `global` — iOS ネイティブアプリから iPhone/iCloud のローカルカレンダー (EventKit) と双方向同期する設計をするとき。iOS 17 で権限モデルが full/write-only に分離された後の実在 API・availab
@@ -33,6 +35,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Flutter camera (iOS) で純正カメラ風の 0.5x/1x/3x シームレス切替 — 仮想デバイスと videoZoomFactor](library/flutter-camera-ios-virtual-device-lens-zoom.md) — `global` — camera 0.12.0+2 / camera_avfoundation 0.10.2 のまま「.5 / 1x / 2x / 3x」ボタンと連続ピンチでレンズ切替をしたい時の実現手段。
 - [Flutter で iOS バックグラウンド位置 (visits / significant change / Always 許可 / 日次バッチ) を扱う時の現状 (2026-08)](library/flutter-ios-background-location.md) — `global` — Bloom. (位置ヒートマップ SNS、旧 slug itsumo) の Phase-0 事前調査で、Flutter × iOS の低電力バックグラウンド位置取得と日次バッチの成立性を一次資料 + pub.dev 実測で確認した (202
 - [日本向け場所検索 autocomplete API の選定事情 (2026-08)](library/geocoding-autocomplete-apis-japan.md) — `global` — omatase の場所選択モーダルに「入力ごとに予測が出る検索 (autocomplete)」を足すための API 選定 (2026-08 実測)。要件: 日本語品質 / 結果が範囲 (bbox) か地点かを区別 / MapLibre + 
+- [GitHub Actions を外から起動・追跡する API と GitHub App の仕様 (2026-10)](library/github-actions-orchestration-api-2026.md) — `global` — wasawasa が GitHub Actions を司令塔として呼ぶ前提の確認 (2026-10-14)。
 - [GitHub OAuth App (classic) の callback URL は 1 本のみ — redirect_uri はサブディレクトリ一致で分岐可](library/github-oauth-app-callback-url-rules.md) — `global` — 1 つの GitHub OAuth App (classic) を「MCP 認証の federate 先」と「Web ダッシュボードのログイン」の両方で使いたい場面 (dandan-app stateful 転換)。
 - [公式 GitHub MCP server の認証設計と MCP write/inform 指針 (2026)](library/github-official-mcp-auth-2026.md) — `global` — dandan (リモート MCP, GitHub App 認証, Issues R/W) の「書き込みを持つ意味・App install 摩擦の妥当性」を判断するため、公式 GitHub MCP と他社リモート MCP の認証・write設
 - [GitHub org members / collaborators API と classic OAuth scope (repo vs read:org) 2026](library/github-org-members-collaborators-scopes.md) — `global` — dandan-app (OAuth App classic, scope=`repo`) で org メンバーを名簿候補に拾う設計の事前調査 (2026-07-07)。
@@ -68,6 +71,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Tiptap 3 のブロック選択 (NodeRange)・右クリック・表・ドラッグハンドル位置の実測 (2026-10)](library/tiptap-block-selection-table-2026.md) — `global` — Markdown 正典の Tiptap 3.31.4 エディタを Notion のブロック仕様に寄せる設計前調査 (wasawasa)。素の Tiptap を esbuild で束ねた headless Chromium で実測。詳細は `
 - [Tiptap 3 コードブロックの lowlight 色付けと Mermaid プレビュー、往復の罠 (2026-10)](library/tiptap-code-block-mermaid-2026.md) — `global` — Tiptap 3.31.4 + `@tiptap/markdown` のエディタでコードブロックを Notion 相当 (言語色付け・Mermaid プレビュー) にする検討 (wasawasa)。実機検証済み。詳細は `projects/
 - [Tiptap 3 / BlockNote / Milkdown の Markdown 往復と Next 16 での注意 (2026-10)](library/tiptap-markdown-roundtrip-2026.md) — `global` — Markdown を正典にするドキュメントエディタを Next 16 / React 19 に載せる検討 (wasawasa)。実機 spike で比較した。詳細表は `projects/wasawasa/.knowledge/resear
+- [Unity CI ビルド (Linux/GameCI) の 2026-10 時点の事実](library/unity-ci-linux-2026.md) — `global` — wasawasa に Unity ビルドを載せる前調査 (2026-10-14)。
 - [vCard 日本語名刺生成 (vCard 3.0 + 振り仮名)](library/vcard-japanese.md) — `global` — 日本向け Web 名刺アプリで、iOS/Android 連絡先に取り込める .vcf を Node で生成する。
 - [Xcode Cloud を ASC API / Webhook / ci_scripts から外部制御する (2026-10 時点の仕様と癖)](library/xcode-cloud-asc-api-2026.md) — `global` — wasawasa から Xcode Cloud を起動して Flutter iOS (bloom dev) をビルド・配布する構成の事前調査 (2026-10-05)。詳細と PJ 固有の含意は `projects/wasawasa/.kn
 - [build18 事前調査 — ルームタブ廃止 / 授業変更(振替) / EventKit公欠除外 / build17残課題](../projects/atender/.knowledge/08-build18-research.md) — `atender` — - `MainTab` enum に `.rooms` あり (`App/MainTabView.swift:6,14,24`)。TabView 内で `RoomsView()` を `NavigationStack(path: rooms
@@ -158,6 +162,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [リアルタイム系で WS は配信専用・REST を唯一の認可関門にする](pattern/realtime-broadcast-only-ws-rest-sole-authz-gate.md) — `global` — 位置/presence/チャット/ステータスを WS 1 本に載せるアプリ (omatase) で、REST と WS の
 - [月次定期ルールを未確定 record として materialize する家計簿パターン (RRULE不採用・lazy補充)](pattern/recurring-rule-materialize-unpaid-records.md) — `global` — サブスク/クレカ/給料のような「毎月固定日・固定額の収支」を扱う家計簿で、定期収支を未来へ展開して残高着地予測に効かせたい場面。カレンダー系 (会議/シフト) とは要件が違う:
 - [リモートMCPのマルチテナント設計 — per-project URL バインド + 自前AS + 事実/判断の線引き](pattern/remote-mcp-multitenant-self-as.md) — `global` — クラウド上のリモート MCP サーバー（Claude Code / Codex から URL 追加 + OAuth）を、複数チーム・複数リポでマルチテナント運用したい。かつ「推論はホスト agent に委譲、サーバーは事実だけ持つ」構成（d
+- [リポジトリ側の手順定義ファイルを読む commit の規則 (ブランチで版管理 × 本番の保護)](pattern/repo-defined-pipeline-trust-boundary.md) — `global` — wasawasa のパイプライン設計 (2026-10-14)。環境ごとの手順を `.wasawasa.yml` (リポジトリ) で定義し、司令塔 (wasawasa) が持つ鍵 (Firebase / Apple) で配布する。GitHu
 - [「DB の行 = ページ」を足すときの正本・生死・衝突の分担 (FK は pages 側、生死はページに一元化、タイトルは行が正本)](pattern/row-as-page-one-source-soft-delete.md) — `global` — ページ (Markdown 本文、楽観ロック `revision`、ゴミ箱 `deleted_at`) と、表の行 (jsonb の `cells`、楽観ロック `updated_at`、hard delete) が別々に先にあり、後から「
 - [RRULE 文字列保存 + オンザフライ展開 + 編集 3 択 (single/future/all) の標準パターン](pattern/rrule-string-onfly-expand-with-overrides.md) — `global` — カレンダー / 予約 / 共有予定アプリで「繰り返し予定」を持ちたい場面。Google Cal / Apple Cal / Outlook と互換性のある RRULE (RFC 5545) を取り扱う必要がある時。
 - [dev アプリの接続先を実行時に切り替える — container 作り直し + 既定環境だけ既存名の保存先分離](pattern/runtime-env-switch-scoped-local-storage.md) — `global` — 同じ dev ビルド (bundle id 1 つ) で dev1 / dev2 / … のサーバーを選び直したい。接続先は const (`--dart-define`) で、ローカル状態 (Keychain の refresh toke
@@ -166,6 +171,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Markdown 正典のページに「第二の正典」(構造化データ) を埋める — 本文は id だけのブロック、参照は本文から導出、削除は参照 0 を条件に人が行う](pattern/second-canon-database-block-in-markdown-page.md) — `global` — wasawasa (Markdown を正典にした Notion 風ページ、Tiptap 3 + `@tiptap/markdown`) に Notion のデータベース (型付きプロパティ・タグ・ビューごとのフィルタ・別ページからのリンク
 - [オンボーディング完了判定は単一の純粋関数に集約する (二重定義はデッドロックを生む)](pattern/setup-completion-guard-single-source-of-truth.md) — `global` — atender 本番で「新規ユーザーが Setup から抜け出せないデッドロック」が発生。
 - [1 画面圧縮タイムライン (時間割 / シフト表 / カレンダー日 view)](pattern/single-screen-compressed-timetable.md) — `global` — 「複数メンバーの時間割を 1 画面に縦スクロールなしで並べる」「シフト表を viewport 高さに圧縮表示する」「Google Calendar 日 view のように重なるイベントを横並びで表現する」要件を、CSS Grid + パーセ
+- [singleton の封緘秘密を「名前付きアカウントの表」へ移す migration (URL 不変・rolling 安全)](pattern/singleton-secret-to-named-accounts-migration.md) — `global` — wasawasa で `integration_settings` のキー単位 singleton (ASC キー / Firebase SA / Webhook トークン) を、名前付きで複数登録して環境ごとに選ぶ形に変えた設計。既存の 
 - [スケルトンは実UIの外殻クラスを複製し決定的パターンで埋める](pattern/skeleton-structural-parity.md) — `global` — atender のスケルトン (CalendarMonth/Timetable 等) が実 UI と padding/gap/セル形状 (aspect-square vs min-h-24) で乖離し、ロード完了時にレイアウトシフトと違和感
 - [Spotify 歌詞風縦スクロール UI を framer-motion なしで実装するパターン](pattern/spotify-lyrics-scroll-css-only.md) — `global` — Spotify / Apple Music 歌詞のような「今のラインが画面中央に固定、過去は薄く流れ、未来は下に並ぶ」UI を React + Tailwind で実装したいケース。Atender の Today 画面 (現在進行中の授業を
 - [「後片付け」の提案は event 時に記録せず現在の状態から毎回導出する](pattern/state-derived-suggestion.md) — `global` — wasawasa で「prod にデプロイした後、リリースの `git_branch` を master に切り替えて」と促したい。素直な案は完了 event (`deploy.finished`) の時にモーダル / toast で聞く・
@@ -193,6 +199,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Atender — Google Calendar OAuth 連携 (better-auth incremental scope + Calendar v3 sync) BP](../projects/atender/.knowledge/07-google-calendar-oauth-integration.md) — `atender` — Atender は better-auth 1.6.11 で Google Sign-In を既に持つ (apps/api/src/auth.ts の socialProviders.google)。現状の scope は openid e
 - [個人カレンダーは時間割をクライアント側で日付展開して実授業を出す (出席集計ではない)](../projects/atender/.knowledge/personal-calendar-data-source-meeting-expansion.md) — `atender` — 個人カレンダー (Home の「カレンダー」タブ) で「TimeTree のように中身 (実授業) を表示」したい。`useSemesterOverview` の `days[]` は **1 日 1 件の出席ステータス集計** (ALL_
 - [iOS UI 刷新 — 事前リサーチの確定事実と、やることリスト](../projects/atender/.knowledge/ui-revamp-findings.md) — `atender` — Touri の要望 (2026-07-17):
+- [(保留中) wasawasa のビルドを GitHub Actions へ移す計画](../projects/wasawasa/.knowledge/pending-actions-build-plan.md) — `wasawasa` — 2026-10-14、wasawasa のビルド (Next.js 16、Tiptap / mermaid など依存大) がオンプレ Coolify サーバー (2 コア / 3.7GB) で空きメモリを 0.9〜1.9GB 食い、サーバー
 
 ## gotcha
 - [API テストの日付 fixture は本番の正規化規約 (JST midnight instant) に合わせる](gotcha/api-test-date-fixtures-must-match-production-normalization.md) — `global` — Atender 学期再設計の Reviewer 検証。`POST /api/attendance/bulk` 等の新 bulk API への
@@ -220,6 +227,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [型付き言語(Swift等)では設計docに「挙動」だけでなく型/シグネチャを書かないとReviewerが実装に寄る](gotcha/design-doc-must-specify-swift-type-signatures.md) — `global` — Web(TS/RTL)では「挙動仕様(○○のとき△△)」だけで Reviewer がテストを書け、実装を見ずに独立検証できた。だが Swift のような静的型 + コンパイル必須の言語で iOS テストを書かせたら、設計に**型・メソッドシ
 - [設計 doc ベースのテストは「ライブラリが既定で開けている endpoint」を見ない — 認証ライブラリ採用時はリリースゲートで静的レビューを必ず挟む](gotcha/design-doc-tests-miss-library-default-endpoints.md) — `global` — wasawasa (Next.js 16 + better-auth) の Phase 1。Claude Reviewer は設計 doc §5〜§8 から 623 本 + E2E 69 本を生成して全緑 (GREEN)。リリース前ゲートで
 - [segmented/enum の value キー名 (英字 testid) を設計が一部しか例示しないと Reviewer が推測して fail](gotcha/design-enum-value-key-naming-must-be-explicit-for-testid.md) — `global` — DESIGN.md §3.1 で `<select>` を segmented ボタン群に全置換し、testid 規約を
+- [設計の「1 回の PATCH で両方替える」例が、既存の進行中ロックと両立しない (wasawasa 連携アカウント)](gotcha/design-example-patch-contradicts-existing-in-progress-lock.md) — `global` — 連携アカウント設計 (2026-10-14) の挙動仕様 IE5 / IE9 / 開発フロー I4 が、親設計 (3a §9-2) の既存制約と食い違った。Reviewer のテストが 2 本赤になったが、実装は 3a のとおりで設計文面の
 - [設計 doc にテスト用 app export path を明示しないと Developer と Reviewer が分離して詰む](gotcha/design-must-specify-app-export-path-for-tests.md) — `global` — Atender MVP の Reviewer 召集で、`apps/api` のテストを設計 doc 根拠で生成 → Vitest を実行 → 81 件中 76 件 fail。失敗の原因はすべて単一: テスト helper が import 
 - [描画テストを起こすなら設計docにコンポーネントの prop 契約を明記させる](gotcha/design-must-specify-component-prop-contract-for-render-tests.md) — `global` — atender UI改善 項目1。設計docの「挙動仕様」が TimetableView の描画結果
 - [設計書の error code 表記が「明示」か「例示」か曖昧で実装/テストが食い違う](gotcha/design-spec-implicit-vs-explicit-error-codes.md) — `global` — 設計書 §4.x で API エラーレスポンスを以下のように列挙していた:
@@ -277,6 +285,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Next.js route の baseUrl は req URL ではなく env 変数 (PUBLIC_BASE_URL) 由来](gotcha/nextjs-route-baseurl-env-vs-req.md) — `global` — vcard route handler が `PHOTO;VALUE=URI:` に絶対 URL を埋め込む。Reviewer のテストで `new Request("https://example.com/yamada/vcard")` 
 - [共有DTOに非Optionalフィールドを足すと inline JSON を持つ既存テストが decode throw で落ちる](gotcha/non-optional-dto-field-breaks-inline-json-tests.md) — `global` — iOS Phase iOS-1 再同期で `MeResponse.User` に `requiredAttendanceRate: Int` を**非Optional**で追加した (設計 §3.4、zod `z.number().int(
 - [非 Optional な DTO フィールド追加は wire では additive でも呼出し側には source-breaking](gotcha/non-optional-dto-field-is-not-additive-for-callers.md) — `global` — atender「公開時間割検索」で、shared zod と iOS の `TemplateDto` に **非 Optional** な
+- [オンプレ Coolify でのアプリビルドがサーバー全体を固める (main push = フルビルド)](gotcha/onprem-coolify-build-ooms-whole-server.md) — `global` — appily / n-wasabi.org のアプリは全てオンプレ 1 台 (Celeron G1840 2 コア、RAM 3.7GiB、swap 3.8GiB、コンテナ約 40) の Coolify で動く。Dockerfile buil
 - [楽観ロックで「変更なし」の早期 return が版検査より前にあると、no-op PATCH が他者の版を持ち帰る](gotcha/optimistic-lock-noop-early-return-before-version-check.md) — `global` — wasawasa の DB 行 `updateRow` は `expected_updated_at` (ms 単調) で 409 `row_conflict` を返す楽観ロック。実装は「patch を当てて変更が無ければ現在行を 200 
 - [DB 往復した timestamptz の JSON 化はローカル offset を漏らす (Z 固定契約はフィールド単位で検証)](gotcha/pg-timestamptz-json-marshal-leaks-local-offset.md) — `global` — bloom P1 レビュー。設計は「時刻は全て UTC の RFC3339 (`Z` 固定)」を wire 契約にしていた (§6-1)。Reviewer が全 timestamp フィールドに Z サフィックス assert を入れたとこ
 - [白背景の切り抜きは「外周に連結した白」だけを抜く — 閾値だけで抜くとキャラに穴が開く](gotcha/png-alpha-cutout-must-keep-enclosed-white.md) — `global` — 白背景で生成した 3D/イラスト系のキャラクター画像を透過 PNG に切り抜いて出荷する。ライトモードでは何年も問題なく見えていたのに、**ダークモードにした瞬間にキャラの白い部分に穴が開いて背景の黒が透ける**。
@@ -348,7 +357,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Bloom UI 修正12項目の現状調査（2026-09-22）](../projects/bloom/.knowledge/research-20260922-ui-fixes.md) — `bloom` — 指定範囲の静的調査。実装変更、Flutter / Go コマンド、テスト実行、実機操作、公開ホストへの通信は実施していない。行番号は現行ファイルを実際に読んだ位置。以下の「変更に必要そうな箇所」「壊れそうなもの」は調査結果に基づく影響候補で
 - [Pre-design research: users.email / 表示名の堅牢化 / ユーザー自身の改名 / アクセスログ拡充 (2026-10-13)](../projects/bloom/.knowledge/research-20261013-identity-and-name.md) — `bloom` — 2026-10-13 に旧アプリからの初回 SIWA が 426 で止まり、Apple が初回しか渡さない氏名が失われて「名無し」ユーザー (ee534ac0) ができた。ゲートは PR #15 で修正済。Touri 裁定で (1) `us
 - [月次キャラ 16 タイプのビジュアル体系 — 設計前リサーチ](../projects/bloom/.knowledge/research-character-design-system.md) — `bloom` — - `PRODUCT.md` §5-2: 4 軸 (時間: 定時↔マイペース / 半径: 放浪↔定住 / 開拓: 探検家↔常連 / 集合: 発起人↔乗っかり)、3 条件 (烙印にしない・固定しない・根拠を見せる)
-- [known-failures](../projects/wasawasa/.knowledge/known-failures.md) — `wasawasa` — 測定: 2026-10-10 / branch feature/admin-oidc (Developer 585045d + Reviewer のテストコミット 42004d3〜85a2a1b 時点) / **既存スイートのみ (新規テス
+- [known-failures](../projects/wasawasa/.knowledge/known-failures.md) — `wasawasa` — 測定: 2026-10-14 (最終) / branch feature/integration-accounts (Developer e59b587 (IX5 の補完変更。i-* + p3a-* の API 12 files / 181
 - [Notion の DB 行 = ページ / 行ページのサイドバー / DB 外ページのプロパティ (公式確認、2026-10-09)](../projects/wasawasa/.knowledge/research-20261009-row-pages-notion-facts.md) — `wasawasa` — wasawasa の「DB の行をページにする + 全ページにタグ」の設計前調査 (Touri 2026-10-09)。Notion の実挙動を公式ヘルプ / API リファレンスで確認した。
 - [コードブロックを Notion 同等に強化 (言語色付け + Mermaid) の調査と実機検証](../projects/wasawasa/.knowledge/research-code-block-mermaid.md) — `wasawasa` — wasawasa の Tiptap エディタ (Next 16 / React 19 / Tiptap 3.31.4 + `@tiptap/markdown`) のコードブロックは表示のみ。Touri 要望は言語ごとの色付けと Mermai
 - [ドキュメントエディタ + Markdown クラウドの事前調査 (2026-10-05)](../projects/wasawasa/.knowledge/research-doc-editor.md) — `wasawasa` — wasawasa に Notion 同等のページエディタ + Markdown 正典のページ保存 (ツリー、リリースからのリンク、サイドバー「ページ」) を足す設計の事前調査。ローカル spike: `/private/tmp/claude

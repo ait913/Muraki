@@ -9,6 +9,7 @@ sources:
   - "~/.pub-cache/hosted/pub.dev/maplibre_gl-0.26.2/ios/maplibre_gl/Sources/maplibre_gl/MapLibreMapController.swift:892, :1423"
   - "~/.pub-cache/hosted/pub.dev/maplibre_gl-0.26.2/lib/src/maplibre_map.dart:31, controller.dart:620, layer_properties.dart:1134"
   - "~/.pub-cache/hosted/pub.dev/maplibre_gl_platform_interface-0.26.2/lib/src/method_channel_maplibre_gl.dart:757"
+  - "~/.pub-cache/hosted/pub.dev/maplibre_gl-0.26.2/ios/maplibre_gl/Sources/maplibre_gl/{MapLibreMapController.swift:424-470,885-898, LayerPropertyConverter.swift, SourcePropertyConverter.swift:198} (2026-10-11 bloom 0.2.2 設計)"
 ---
 
 ## Context
@@ -22,6 +23,10 @@ Bloom M2 (地図 UI 刷新) で、Flutter canvas でラスタライズした画�
 3. **circle の `circleStrokeWidth` は `circleRadius` の外側に付く** (`layer_properties.dart:1134`)。白縁込みの外径 14pt なら radius 5 + stroke 2。
 4. **`setGeoJsonSource` / `addGeoJsonSource` は呼び出し側 (UI isolate) で同期 `jsonEncode` する** (`method_channel_maplibre_gl.dart:757`)。platform_interface 0.27.0 には大容量 payload の `compute` 退避と source 毎の直列化があるが、**lock が 0.26.2 のままなら効かない**。10Hz で数千点を再送する設計は、描画用点列の間引き (Bloom は ≤ 1,500 点) と「送信中は最新フレームだけ保持」の集約が必要。
 5. `FillLayerProperties` に `fillSortKey` が無い → メンバー毎の重ね順は layer を分けて固定する。
+6. **iOS の `style#addImage` は PNG を decode できないと `result` を呼ばずに return する** (`MapLibreMapController.swift:885-898` の `guard let image = UIImage(data:...) else { return }`)。Dart の `addImage` の Future が永遠に終わらず、await している層の構築が止まる。実行時生成の画像は `.timeout()` を付けて await する。`camera#move` / `camera#animate` も引数不正時に同じく `result` を呼ばない (2026-10-11)
+7. **`removeImage` が無い** (0.26 の Dart API)。iOS の登録は `style.setImage(_:forName:)` なので**同名の再登録は置換**。画像を差し替える用途は名前を固定して上書きし、名前を増やさない (style の寿命の間たまり続ける) (2026-10-11)
+8. `fillPattern` / `lineGradient` / `fill-extrusion` / `heatmap` / `lineBlur` は Dart のプロパティにあり iOS の変換も実装済み (`LayerPropertyConverter.swift:230, 280`)。`lineGradient` に要る `lineMetrics` は `addGeoJsonSource` では渡せず、`addSource(id, GeojsonSourceProperties(data: ..., lineMetrics: true))` で作る (iOS は `SourcePropertyConverter.swift:198` で `lineDistanceMetrics` に)。以後の `setGeoJsonSource` は option を保つ (2026-10-11)
+9. 追従カメラは `easeCamera(update, duration:, interpolation: CameraAnimationInterpolation.linear)` (iOS は `setCamera(_:withDuration:animationTimingFunction:)`)。`animateCamera` は `fly(to:)` で引いて寄る (2026-10-11)
 
 ## Why
 

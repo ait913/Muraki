@@ -30,3 +30,5 @@ wasawasa で「prod にデプロイした後、リリースの `git_branch` を 
 - 条件の各辺が偽の時に出ないこと・承諾後に消えること・NULL (意図的な「無し」) を対象外にすること、を挙動仕様の最小セットにする
 - 複数の対象 (環境) が当たるなら対象ごとに 1 要素にして、片方の承諾でもう片方が残る/消えるを仕様に書く
 - 同期の DTO ビルダー (`deployRunDTO` のような行 → DTO の純関数) に DB 読み取りを混ぜたくなったら、poll される経路かを先に見る。poll 経路の DTO は変えず、包み (MCP ツール / RSC loader) で足す
+- 2 種類目の提案 (wasawasa 2026-10-19: 審査中のリリースが review 環境に載っていない → `review_env_deploy`) は `Suggestion` を `kind` の union にして同じ配列に載せる。消費側 (バナー・モーダル) は `kind` で絞る (既存の描画は不変)。**提案の主語が 2 つある (リリース側 / 環境側) なら両方の DTO に鏡を置く** (`ReleaseDTO.suggestions` と `EnvironmentDTO.suggestions`) — AI は `env_status` から入ることも `release_get` から入ることもある。「状態値そのもの」だけでは AI は汲み取れないので、状態から導出した `notice { text (人), how (AI、ツール名入り), next_release }` を DTO に同居させ、description は「`notice` に従え」の 1 文で済ませる
+- 「○○環境に載っているべき」型の条件は、環境を新列 (`role`) で識別する前に名前規約 (`^review(?![a-z])` × tier) で足りるかを見る。既存の登録に当たり、migration も UI も増えない

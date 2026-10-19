@@ -86,6 +86,10 @@ npx -y @puppeteer/browsers install chrome@stable --path ~/.cache/chrome-devtools
 - AI エージェントがログイン作業を代行しない (パスワード等を扱わせない)。
 - ★ **ログイン手順の `pkill` で chrome-devtools MCP サーバー自体が落ち、そのセッションでは再接続されない** (2026-09-22 / 2026-10-09 で再現。`ToolSearch` が "failed to connect" を返す)。ログイン後の headless 操作は `Muraki/scripts/ascweb.js` (puppeteer-core、同 userDataDir、`--use-mock-keychain`) で代替する。puppeteer-core は Muraki に無いので scratchpad に `npm install puppeteer-core@24` して `NODE_PATH=<scratchpad>/pup/node_modules node Muraki/scripts/ascweb.js steps.json`。1 回の node 実行 = 1 ブラウザセッション (状態は持ち越せない)。MCP を戻したいなら Claude Code を再起動
 
+### 一度きりの secret (OIDC client secret・API トークン) を会話に出さずに受け取る (2026-10-16)
+
+`evaluate_script` の `filePath` にファイルを指定すると、スクリプトの戻り値が会話でなくファイルに書かれる。**書ける場所は MCP のワークスペースルート内だけ** (`/private/tmp/...` の scratchpad を指定すると `Access denied: path ... is not within any of the configured workspace roots` で**スクリプト自体が実行されない** = 副作用なし、再実行可)。`Muraki/.tmp/<name>.json` (git-ignore) を指定し、`jq -r '.body|fromjson|.client_secret'` で控え (`.tmp/*-secrets.env`) に転記したら即 `rm` する。wasawasa の `POST …/admin-client` (secret は応答 1 回だけ) で実証。
+
 ### ★ MCP が繋がっていないセッションでスクショが要るとき — CDP を使う。`--screenshot` CLI フラグは使うな (2026-07-17)
 
 chrome-devtools MCP が当該セッションに接続されていない場合 (別の MCP セット / headless cron 等) にバイナリを直叩きしたくなるが、**`--headless --screenshot=out.png <url>` / `--dump-dom` のワンショット CLI フラグは Chrome 148 でハングする** (`about:blank` すら固まる。プロセスは生きているが終了しない。`sample` すると main thread が `mach_msg` で待機)。ログも空のまま。**これを「Chrome が壊れた / タブの開きすぎ / ネットワーク不通」と誤診しやすい** — 実際は全部シロで、フラグの選択ミス。

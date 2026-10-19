@@ -286,6 +286,8 @@ if (! $forBuildTime || $this->application->settings->include_source_commit_in_bu
 - コマンドは `sh -c` 相当で実行される (alpine のように bash が無い distro でも busybox `sh` があれば通る)
 - **`&&` を含む複合コマンドは Bash の `&&` 禁止フックとは無関係**だが、JSON body に埋め込むときは `;` で連結する方が失敗系の分岐を書きやすい (`touch x; echo exit=$?` のように exit code を明示的に拾う)
 - 検証が終わったら `DELETE /applications/{uuid}/scheduled-tasks/{task_uuid}` で片付ける (残すと cron 式次第で意図せず定期実行される)
+- **`command` が 255 文字前後を超えると作成が 500 `Server Error`** (断片ごとに試すと全部通るのが罠。2026-10-18 bloom prod で確認)。長い手順は task を分ける。`timeout` (秒、既定 300) は作成 body で上書きできる
+- **python の urllib は Cloudflare の UA ban (error 1010) で 403**。`User-Agent: curl/8.7.1` を付けるか curl を使う
 - 用途: **volume mount 後のパーミッション確認**、環境変数が実際にコンテナに届いているかの確認 (`env` コマンド)、ファイルの存在確認など、従来 SSH + `docker exec` が要ると思っていた作業の大半をカバーできる
 
 ```sh

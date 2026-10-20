@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-10-19
+Generated: 2026-10-20
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -227,6 +227,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [coder/websocket は呼び手の ctx timeout でも接続そのものを閉じる](gotcha/coder-websocket-short-lived-read-context-closes-connection.md) — `global` — bloom P3c の WS (`coder/websocket` v1.8.15) を reviewer がブラックボックス probe するとき、
 - [Coolify の healthcheck が localhost→::1 で落ちる (Node の HOSTNAME=0.0.0.0 は IPv4 のみ bind)](gotcha/coolify-healthcheck-localhost-ipv6-vs-node-bind.md) — `global` — Coolify に app を建てるとき `health_check_host: "localhost"` を設定すると、
 - [Coolify on Cloudflare の 307/302 HTTPS リダイレクトループ](gotcha/coolify-https-redirect-loop.md) — `global` — Coolify (`coolify.aisaba.net`) で新規 application を立てると、HTTP/2 307 or 302 で **location が自分自身** という無限リダイレクトループを起こす。Cloudflar
+- [Coolify の API/UI が 502 — ホスト再起動後にコンテナ内 nginx だけ s6 で down のまま](gotcha/coolify-nginx-down-after-host-reboot.md) — `global` — bloom 0.2.4 のリリース作業で Coolify API (`$COOLIFY_API_BASE/applications/<uuid>/envs`) が Cloudflare の `error code: 502` を返し、`co
 - [Coolify は private GitHub repo を default で clone できない (Public Repo 用フロー)](gotcha/coolify-private-repo-cannot-clone.md) — `global` — Coolify (`coolify.aisaba.net`) で **Public Repo** build pack (`POST /applications/public`) を使ってアプリを作成し、`git_repository: "
 - [Coolify で全パス self-redirect ループになる時の復旧手順](gotcha/coolify-traefik-stale-label-loop.md) — `global` — Coolify (Traefik) で Dockerfile アプリをデプロイ。`fqdn` 個別指定 (例 `https://meishilink.appily.run`) + server に `wildcard_domain=http
 - [CSS Grid で一部だけ明示配置すると自動配置アイテムがズレて流れる](gotcha/css-grid-mixed-explicit-auto-placement-collision.md) — `global` — CSS Grid で背景セル (罫線・ヘッダ・ラベル) を素直に並べ (自動配置)、その上に一部のアイテム (イベントブロック等) だけ `gridColumn`/`gridRow` を明示指定して重ねる構成。「明示したやつだけ位置が決まっ

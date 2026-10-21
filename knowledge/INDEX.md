@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-10-21
+Generated: 2026-10-22
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -26,6 +26,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Claude Haiku 4.5 API 仕様 (2026年5月時点)](library/claude-haiku-4-5-api.md) — `global` — 秘書系・チャット・軽量エージェント用途で Claude を使う際の最新スペック。Haiku 4.5 をデフォルトに据える時の参照。
 - [Cloudflare Tunnel 1 本でオンプレ全公開 (HTTPS + SSH, 2026年5月構成)](library/cloudflare-tunnel-2026.md) — `global` — オンプレ Ubuntu サーバー (`192.168.3.17`、SoftBank光) で運用している全サブドメイン (aisaba.net / appily.run / ceez7.com / SSH) を Cloudflare Tunn
 - [Coolify v4.4.6 のビルド隔離 — custom_docker_run_options の許可リストと BuildKit RUN の cgroup 位置](library/coolify-build-memory-cgroup-v2-2026.md) — `global` — オンプレ 1 台 (2 コア 3.7GB) の Coolify で Next.js ビルドがホストを固める件の cgroup v2 階層化調査 (sessions/2026-10-14-b837d104)。
+- [自宅 Coolify スタックのセキュリティ下限 (2026-10 棚卸し)](library/coolify-stack-security-floors-2026-10.md) — `global` — 2026-10-22 に Touri の自宅 Coolify で動くアプリ群 (Node/React/Go/PG/nginx/Python/各 npm lib) の 8〜10 月の脆弱性・EOL を棚卸しした時の、次回も効く事実だけ抜粋。個
 - [Coolify の static build pack はビルドしない (リポジトリをそのまま nginx で配る)](library/coolify-static-buildpack.md) — `global` — `build_pack` enum に `static` があるが、公式 docs は「静的サイト用」としか言わない。
 - [Coolify v4.4.6 + Traefik v3.6 で同一ドメインをリクエストヘッダで別 app に振り分ける (custom_labels / file provider)](library/coolify-traefik-header-routing-same-domain-2026.md) — `global` — bloom の App Store 審査用環境 (審査中の版だけ `X-Client-Version` で別 backend へ送る) の事前調査 (2026-10-15)。Appily (オンプレ Coolify 4.4.6、Traefi
 - [drift を iOS の 2 つの FlutterEngine (main + headless bg) から同一 DB で使う](library/drift-multi-flutter-engine-ios-wal.md) — `global` — iOS アプリが main engine (UI) と headless の第 2 FlutterEngine (位置/background_downloader で
@@ -354,12 +355,16 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [P2a probe 結果台帳 (設計doc §14 probe #1〜#4)](../projects/bloom/.knowledge/probe-results.md) — `bloom` — P2a の実機依存 probe 4 件の結果を記録する台帳。成否の分岐 (Plan A/B、codec 変換要否、res8 前倒し) は設計doc §14 の表が正典。手順は `app/PROBE.md`。
 - [bloom API セキュリティ backlog (2026-09-16 監査の先送り分)](../projects/bloom/.knowledge/security-backlog.md) — `bloom` — App Store 提出前夜 (2026-09-16) に Codex で read-only 監査を行い 25 件を検出。提出 MVP として edge / privacy / media の 3 レーン (A01, A02, A03, 
 - [dandan-app 既知の失敗テスト台帳](../projects/dandan-app/.knowledge/known-failures.md) — `dandan-app` — 分類: テスト陳腐化 / 環境依存 / 未分類。**未分類を残したままのマージ不可** (Muraki/CLAUDE.md)。
+- [既知の失敗テスト台帳 (kinketsu-taisaku)](../projects/kinketsu-taisaku/.knowledge/known-failures.md) — `kinketsu-taisaku` — `npm test` (vitest) の基線。2026-10-22 のセキュリティ依存更新 (better-auth 1.6.33 / hono 4.13.13 / @hono/node-server 2.1.5 / nodemailer
+- [既知の失敗テスト台帳 (meishilink)](../projects/meishilink/.knowledge/known-failures.md) — `meishilink` — `npm test` (vitest) の基線。2026-10-22 の Next.js 15.5.28 セキュリティ更新時に棚卸しして作成。
 - [Nexom 既知失敗テスト台帳](../projects/nexom/.knowledge/known-failures.md) — `nexom` — `Muraki/CLAUDE.md` 「ベースライン失敗の台帳」準拠。未分類の失敗を残したままのマージは不可。
 - [アーカイブの DB ガードは「保存」を止めるが WS の「中継」は止めない](../projects/omatase/.knowledge/archived-gate-stops-persistence-not-relay.md) — `omatase` — PRODUCT.md §8-7 は「アーカイブ後は読み取り専用。**位置共有は止める**」を要求する。
 - [omatase 既知の失敗テスト台帳](../projects/omatase/.knowledge/known-failures.md) — `omatase` — Muraki 規約: 各 PJ は既知の失敗テストを分類付き (テスト陳腐化 / 環境依存 / **未分類**) で持つ。**未分類の失敗を残したままのマージは不可**。この台帳と照合して初めて「既存破損だから無視」が言える。
+- [Coolify ビルドで next/font/google の取得が一過性に失敗する](../projects/wasawasa/.knowledge/next-build-google-fonts-transient.md) — `wasawasa` — `app/layout.tsx` が `next/font/google` (BIZ UDPGothic / Red Hat Mono) を使う。Turbopack のビルド時に fonts.googleapis.com / fonts.g
 
 ## tool-quirk
 - [block-bash-amp.sh は heredoc/tee 内のコード文字列の論理積もブロックする](tool-quirk/bash-amp-hook-blocks-heredoc-content.md) — `global` — Muraki ルートに置かれた `block-bash-amp.sh` フックは、
+- [Bash ツールは zsh — 変数の単語分割が起きないので for ループは bash -c で包む](tool-quirk/bash-tool-zsh-no-word-splitting.md) — `global` — Claude Code の Bash ツールはこの機体では **zsh** で動く。bash のつもりで `for x in $VAR` や `set -- $pair` を書くと、zsh は変数を単語分割しないため**ループが 1 回しか
 - [chrome-devtools MCP は Chrome for Testing を headless 運用、project 並列は userDataDir 分離](tool-quirk/chrome-for-testing.md) — `global` — chrome-devtools MCP で Web ページを閲覧/操作する場面。普段使い Chrome のプロファイルを汚染せず、Notion など要ログインのサイトではセッションを保持し、かつ複数 Claude Code セッションを *
 - [cloudflared tunnel login は 1 zone しか cert.pem に入れない — 複数 zone は API token を使う](tool-quirk/cloudflared-tunnel-login-multi-zone.md) — `global` — `cloudflared tunnel login` で発行される `~/.cloudflared/cert.pem` (Origin CA cert + Argo Tunnel API service token) は、`cloudfla
 - [Codex (codex exec) の挙動と対処 — 統合ノート](tool-quirk/codex-behavior.md) — `global` — Muraki で `codex exec` を Developer/Reviewer の実行エンジンに使っていた時期 (〜2026-07) に実踏した癖の統合。各項目は「症状 → 対処」。

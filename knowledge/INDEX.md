@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-10-20
+Generated: 2026-10-21
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -61,6 +61,8 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Next.js 15 + Prisma + better-sqlite3 + Coolify スタック概要](library/nextjs15-prisma-sqlite-coolify.md) — `global` — Next.js 15 + Prisma 6.x + better-sqlite3 + SQLite を 1コンテナで Coolify デプロイする構成。`output: "standalone"` で薄い image を作り、SQLite 
 - [Next.js 16 standalone を pnpm workspace モノレポで Docker 化する](library/nextjs16-standalone-pnpm-monorepo.md) — `global` — pnpm workspace + Turborepo のモノレポ (`apps/web` が Next.js、`packages/*` を `workspace:*` 依存) を
 - [公式 Python MCP SDK (FastMCP) — hosted/stateful/認証の現行API (2026-07)](library/python-mcp-sdk-2026.md) — `global` — Python で hosted・stateful・マルチテナントなリモート MCP サーバー (per-member auth, join でセッション確立, claim/poll 系ツール) を組めるかの裏取り。既存 knowledge 
+- [Python Web 依存 (gunicorn / Pillow / multipart) の CVE 下限と Pillow 画像処理の安全既定 (2026-10)](library/python-web-deps-cve-floors-2026.md) — `global` — Nexom (WSGI FW) の静的監査 (2026-10-21) で pyproject の下限 `gunicorn>=21.2`, `multipart>=1.3.0`, `Pillow>=10.0` を OSV + GitHub A
+- [Python WSGI の既定上限 — multipart (defnull) はサイズ無制限、gunicorn はヘッダ CR/LF を 400 で遮断](library/python-wsgi-multipart-gunicorn-limits-2026.md) — `global` — Nexom (自作 WSGI FW) の HTTP 層セキュリティ監査で、FW が自前で検査していない項目を「下層 (multipart / gunicorn) がどこまで守るか」で切り分けた。
 - [鉄道への map matching / 国土数値情報 N02 / 場所を明かさない接近判定 / video_player の差し込み口 (2026-10 時点の実測)](library/rail-map-matching-n02-and-private-proximity-2026-10.md) — `global` — Bloom の軌跡補正 / 移動手段判別 / 接近判定の設計前調査 (2026-10-15)。他 PJ でも使う事実だけ残す。
 - [リモートMCPサーバー + OAuth のホスト対応と認可spec (2026)](library/remote-mcp-oauth-hosts-2026.md) — `global` — クラウド上のリモートMCPサーバーを Claude Code / Codex CLI (agent型ホスト) から URL 追加 + OAuth 認可で使わせる設計の前提確認。
 - [道路 map matching の選択肢 (OSRM / Valhalla / GraphHopper / valhalla-mobile) と Japan での実測 (2026-10)](library/road-map-matching-self-host-and-on-device-2026-10.md) — `global` — Bloom の行動線補正の調査 (2026-10-19)。道路に吸着する手段の事実だけ残す。
@@ -106,6 +108,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Apple Sign in の client secret を node:crypto で同期生成し auth 初期化の async 化を避ける](pattern/apple-client-secret-sync-nodecrypto.md) — `global` — better-auth (や NextAuth) の Apple provider は `clientSecret` を必須にするが、Apple の client secret は **ES256 で署名した JWT** で最長6ヶ月失効す
 - [claude.ai Artifact で MapLibre の実タイル地図を動かす — タイル/グリフを base64 JSON に包んで addProtocol で復号](pattern/artifact-maplibre-offline-bundle.md) — `global` — 地図 UI のモックを Artifact (claude.ai) で共有したい。Artifact の CSP は **外部 script は cdnjs / jsdelivr(npm) のみ、stylesheet は Google Font
 - [出席率の3指標分解 — 「今日まで実績 / 楽観射影 / あとN回休める」標準計算パターン](pattern/attendance-to-date-rate-and-allowed-absences.md) — `global` — 出欠管理アプリで「学期全体の予定回数」を分母にすると、学期序盤は未来分が分母に入って率が不当に低く出る。ユーザーが本当に知りたいのは (1) 今日までの実績率と (2) あと何回休めるか。
+- [自前認証サービスのレート制限は「安い検査 → ハッシュ予算 → 2 軸ロック」の順で、verify を login から守る](pattern/auth-service-hash-budget-two-axis-lockout.md) — `global` — 単一の認証サービス (PBKDF2 でパスワード検証、全アプリが `verify` に依存) に login 洪水が来ると、PBKDF2 の CPU で worker が埋まり verify がタイムアウト → 全アプリが 500 になる連
 - [判定軸 → 視覚チャンネルの割当 — nullable な軸はシルエットに乗せず「外せる」チャンネルに置く](pattern/axis-to-visual-channel-for-generated-character-sets.md) — `global` — N 個の二値軸 (MBTI 型の 2^N タイプ) に画像生成でキャラを与えるとき、どの軸をどの視覚チャンネル (体型 / 色 / 小物 / ポーズ) に割るかで「型が変わったときに絵がどう変わるか」が決まる。bloom の月次キャラ (4
 - [better-auth Cookie session を壊さず bearer plugin でネイティブを併存させる + Google web OAuth の token 中継](pattern/better-auth-bearer-native-token-relay.md) — `global` — 既に web で **better-auth の Cookie session** (`credentials:"include"`, SameSite=Lax, DB session) を運用しているプロダクトに、後から **iOS ネイ
 - [better-auth incremental scope (linkSocial) + cron 文脈での access token 取得パターン](pattern/better-auth-incremental-scope-and-cron-token.md) — `global` — 既に better-auth で Google Sign-In を持つアプリで、後から「Google Calendar 読み取り」など追加 scope が必要になる場面。sign-in 時に sensitive scope を最初から要求す
@@ -191,6 +194,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [TanStack Query を SwiftUI へ移植する — prefix invalidation キャッシュ + 楽観更新を純粋関数に分離](pattern/swiftui-tanstack-query-port-invalidation-cache.md) — `global` — Web (React) が TanStack Query の (a) クエリキャッシュ (b) prefix invalidation マトリクス (c) 楽観更新+ロールバック を持ち、それを SwiftUI ネイティブへ**忠実移植**
 - [TanStack Query の invalidation を設計 doc にマトリクスで書く](pattern/tanstack-query-invalidation-matrix.md) — `global` — TanStack Query (旧 React Query) で SPA を組むとき、「mutation 後にキャッシュが古いままで、ブラウザリロードしないと反映されない」 (= invalidate 漏れ) は最頻ハマり所。
 - [TanStack Query Polling 設計 (refetchInterval 値の選び方と動的停止)](pattern/tanstack-query-polling-strategy.md) — `global` — リアルタイム性が必要だが SSE / WebSocket を導入するほどではない場面 (MVP・遅延数秒許容・stateless backend) で、TanStack Query の `refetchInterval` で polling
+- [自作テンプレートエンジンに自動エスケープを後付けするときの契約 (Markup 型 + render は Markup を返す)](pattern/template-autoescape-markup-contract.md) — `global` — 正規表現 1 パスの `{{ slot }}` 置換器 (Nexom ObjectHTML) にエスケープが無く、本番で HTML 注入が実証された。既存アプリは「部品を render → 親の render のスロットに渡す」「`"\n"
 - [テーマ auto を JS で解決し data-theme 常設 + matchMedia ライブ監視](pattern/theme-auto-resolve-data-theme-matchmedia.md) — `global` — ダーク/ライト + 「自動 (OS 追従)」の 3 モードを持つ Web アプリ。「自動」が OS 設定に追従しない/切り替わらないバグの定番。
 - [地図の fill-pattern 用に継ぎ目の無いテクスチャを端末で手続き生成する (トーラス上の周期ノイズ)](pattern/tileable-procedural-texture-for-map-fill-pattern.md) — `global` — MapLibre の `fill-pattern` は画像をタイル座標に固定して繰り返す。模様 (液体の渦・墨流し) を地図のポリゴンに敷くには、端と端がつながる (tileable) 画像が要る。画像編集ソフトの素材でなく、メンバー色ごと
 - [時間割アプリ UX パターン (Penmark 系 / 学生向け / 2024-2026)](pattern/timetable-app-ux-patterns.md) — `global` — 日本市場で学生向け時間割アプリを設計するとき、Penmark (日本最大級・大学生 100 万人超ユーザー) を主参考に、海外カレンダーアプリ (Notion Calendar / Fantastical) の連続イベント表現と組み合わせる
@@ -200,6 +204,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [小規模グループ UGC アプリの通報・ブロック最小実装 (App Review 1.2 対応、追放なし)](pattern/ugc-report-block-minimal-for-app-review.md) — `global` — App Store 審査 (Guideline 1.2 User-Generated Content) は UGC を持つアプリに (1) 不適切コンテンツのフィルタ手段 (2) 通報と timely な対応 (3) 迷惑ユーザーのブロック
 - [既存 UI を視覚再設計する際に描画テストを壊さない設計規律](pattern/ui-restyle-without-breaking-render-tests.md) — `global` — 既に動いている React アプリの **見た目だけ** を別デザイン言語 (例: Cloudflare dashboard 風) に全面再設計する場面。データモデル/API/挙動は変えない「純 UI 再設計」。Reviewer が既存の描
 - [UI/UX 設計の汎用観点集 (Web + SwiftUI 共通、出典タグ付き)](pattern/ui-ux-design-perspectives.md) — `global` — Muraki の Architect が設計doc の UI/UX 節を書くとき・Leader/Reviewer が UI を評価するときに**通す観点の集合**。Touri の要望「Apple ガイドラインベースの要素感覚 + フォント/
+- [アップロード保存層の fail-closed 既定 — capability 参照 + 所有者変更 / コンテンツ由来の拡張子 / 等分チャンク規則 / 変種プリセット](pattern/upload-storage-fail-closed-defaults.md) — `global` — Nexom の ParallelStorage / MultiPartUploader (public_id を URL に載せる保存層 + チャンクアップロード + 画像変種キャッシュ) を一般ユーザー受け入れ前に安全既定へ倒した設計で採
 - [Web 先行 → Capacitor 後付けを見越した Next.js 設計 (output: 'export' 縛り)](pattern/web-first-capacitor-later-design.md) — `global` — 「最終的に iOS ハイブリッドアプリにしたいが、最初は Web 完結 MVP で検証したい」場面。tomori Phase 1 で採用した戦略。Phase 1 で Server Actions / middleware を 1 箇所でも使
 - [Webhook 通知のカード化は「既定 = 構造化カード / カスタム = 文字だけ」+ 送った本文を台帳に保存](pattern/webhook-notification-block-kit-with-ledger-payload.md) — `global` — 文字テンプレートで Slack Incoming Webhook に通知していたシステム (wasawasa) を、GitHub 通知風の色帯つきカード (Block Kit) に作り直した。既存資産は「ユーザーが書ける文字テンプレート」「
 - [WS のライブ更新は「構造 = 薄い通知 + 再取得」「高頻度の応答 = 差分」で割る](pattern/ws-thin-event-refetch-plus-response-delta.md) — `global` — リアルタイム共有アプリで「ホストが操作したらメンバーの画面が即動く」を作るとき、
@@ -349,6 +354,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [P2a probe 結果台帳 (設計doc §14 probe #1〜#4)](../projects/bloom/.knowledge/probe-results.md) — `bloom` — P2a の実機依存 probe 4 件の結果を記録する台帳。成否の分岐 (Plan A/B、codec 変換要否、res8 前倒し) は設計doc §14 の表が正典。手順は `app/PROBE.md`。
 - [bloom API セキュリティ backlog (2026-09-16 監査の先送り分)](../projects/bloom/.knowledge/security-backlog.md) — `bloom` — App Store 提出前夜 (2026-09-16) に Codex で read-only 監査を行い 25 件を検出。提出 MVP として edge / privacy / media の 3 レーン (A01, A02, A03, 
 - [dandan-app 既知の失敗テスト台帳](../projects/dandan-app/.knowledge/known-failures.md) — `dandan-app` — 分類: テスト陳腐化 / 環境依存 / 未分類。**未分類を残したままのマージ不可** (Muraki/CLAUDE.md)。
+- [Nexom 既知失敗テスト台帳](../projects/nexom/.knowledge/known-failures.md) — `nexom` — `Muraki/CLAUDE.md` 「ベースライン失敗の台帳」準拠。未分類の失敗を残したままのマージは不可。
 - [アーカイブの DB ガードは「保存」を止めるが WS の「中継」は止めない](../projects/omatase/.knowledge/archived-gate-stops-persistence-not-relay.md) — `omatase` — PRODUCT.md §8-7 は「アーカイブ後は読み取り専用。**位置共有は止める**」を要求する。
 - [omatase 既知の失敗テスト台帳](../projects/omatase/.knowledge/known-failures.md) — `omatase` — Muraki 規約: 各 PJ は既知の失敗テストを分類付き (テスト陳腐化 / 環境依存 / **未分類**) で持つ。**未分類の失敗を残したままのマージは不可**。この台帳と照合して初めて「既存破損だから無視」が言える。
 

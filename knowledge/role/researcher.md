@@ -35,3 +35,5 @@
 23. **Apple DocC の「参照先ページ」の slug は推測せず、手元の JSON の `references` マップから `url` を引く。** REST API docs の `id_token` 参照先は `signinwithapplejs/authorizationi/id_token` で、`signinwithapplerestapi/id_token` 系は全部 404 だった。help.apple の `developer.apple.com/help/account/...` は通常 HTML なので `curl` + tag strip で本文が取れる (nav が長いので見出し語で `find` してから切り出す) (2026-10-13, bloom)
 
 24. **PJ の作業ツリーは他セッションのブランチ・未コミット変更が乗っていることがある (bloom はローカル master が古く、checkout 中は別版)。** `git fetch` してから `git archive origin/<ref> <dirs> | tar -x -C <scratchpad>/<ref>` で読む用のコピーを作る (checkout も worktree も不要、共有ツリーを汚さない)。zsh では `grep --include=*.go` が glob 展開で `no matches found` になる — `--include='*.go'` とクォートする (2026-10-15, bloom)
+
+25. **依存の CVE 下限調べは OSV API 1 発で済ませる。** `curl -s -X POST https://api.osv.dev/v1/query -d '{"package":{"name":"<pkg>","ecosystem":"PyPI"}}'` が全 advisory の `fixed` 版を返す (WebSearch の要約は patched 版を取り違える: CVE-2024-6827 を 23.0.0 と言う記事があるが GHSA は 22.0.0)。候補版の `requires_python` は `pypi.org/pypi/<pkg>/<ver>/json` で確認してから下限を提案する (Pillow 13 は 3.11 必須で、PJ の 3.10 対応と衝突した)。静的監査は読むだけで断定せず、scratchpad に使い捨て DB/ディレクトリを作って 5 分の挙動プローブで「fail-open」「警告のみ」を実測してから書く (2026-10-21, nexom)

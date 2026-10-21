@@ -6,6 +6,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
 ## library
 - [アカウント削除 (Guideline 5.1.1(v)) — Sign in with Apple の revoke と better-auth 1.6 deleteUser の実仕様](library/account-deletion-siwa-betterauth-2026.md) — `global` — Atender (iOS, better-auth + Prisma/SQLite, Apple/Google/Magic Link) の初回審査前に、アカウント削除の要件と実装部品を一次ソースで確認した記録 (2026-10-09)。
+- [aisaba ホスト (Ubuntu 22.04) の実態 2026-10 — 毎晩 01:00 再起動 / ufw が Docker も支配 / 24.04 へは docker-ce 先行が必須](library/aisaba-host-ubuntu-jammy-state-2026-10.md) — `global` — Coolify (coolify.aisaba.net) と aisaba_platform (nexom@*) が同居する自宅サーバー `aiserver2` (192.168.3.17、i3-4170 / 16G、ベアメタル)。2026
 - [Aisaba 自作スタック (Appera + Nexom + aisaba_platform)](library/aisaba-stack.md) — `global` — ユーザーが運用している Web アプリ群 (apps.aisaba.net 配下: portfolio_manager / permissions / file_size_sense / カレンダー / MeishiLink ダッシュボード
 - [Anthropic Claude API のデータ保持・学習利用ポリシー (2026年5月時点)](library/anthropic-api-data-retention.md) — `global` — 個人ヘルスケア・メンタル系アプリで Claude API を使うとき、「ユーザーの会話を Anthropic 側にどれだけ残されるか」「学習に使われるか」を正確に知っておく必要がある。ZDR (Zero Data Retention) を契
 - [審査ビルドを別 backend に繋ぐ・承認後に切り替える件の App Review 規約上の扱いと、手動リリース (Pending Developer Release) の期限](library/app-review-separate-backend-and-manual-release-2026.md) — `global` — bloom で「互換を崩す版を本番に出さずに審査を通す」ため、審査中の版のリクエストだけ審査用 backend に振り分け、承認後に外して手動リリースする案の規約確認 (2026-10-15、curl で本文取得)。
@@ -82,6 +83,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Unity CI ビルド (Linux/GameCI) の 2026-10 時点の事実](library/unity-ci-linux-2026.md) — `global` — wasawasa に Unity ビルドを載せる前調査 (2026-10-14)。
 - [vCard 日本語名刺生成 (vCard 3.0 + 振り仮名)](library/vcard-japanese.md) — `global` — 日本向け Web 名刺アプリで、iOS/Android 連絡先に取り込める .vcf を Node で生成する。
 - [Xcode Cloud を ASC API / Webhook / ci_scripts から外部制御する (2026-10 時点の仕様と癖)](library/xcode-cloud-asc-api-2026.md) — `global` — wasawasa から Xcode Cloud を起動して Flutter iOS (bloom dev) をビルド・配布する構成の事前調査 (2026-10-05)。詳細と PJ 固有の含意は `projects/wasawasa/.kn
+- [aisaba 本番サーバーの aisaba_platform 配置 (2026-10-22 読み取り調査)](../projects/aisaba-platform/.knowledge/server-deploy-facts-20261022.md) — `aisaba-platform` — Nexom 1.2.0 移行の設計に必要な、本番サーバー (192.168.3.17, Ubuntu 22.04) 側の事実。リポジトリからは読めないものだけ。
 - [build18 事前調査 — ルームタブ廃止 / 授業変更(振替) / EventKit公欠除外 / build17残課題](../projects/atender/.knowledge/08-build18-research.md) — `atender` — - `MainTab` enum に `.rooms` あり (`App/MainTabView.swift:6,14,24`)。TabView 内で `RoomsView()` を `NavigationStack(path: rooms
 - [build 20 (App Store 初回提出) 設計前リサーチ — アカウント削除 / SIWA revoke / 法務ページ / 収集データ棚卸し](../projects/atender/.knowledge/09-build20-app-review-research.md) — `atender` — 2026-10-09、Atender を App Store 審査に初めて出すための Researcher (Sonnet) 調査。Leader が結論部を整理して保存。実測 (node_modules の実コード / dev.db コピー
 - [クライアント暗号化 / 動画圧縮の手元 probe 結果 (2026-10-03)](../projects/bloom/.knowledge/probe-client-crypto-video.md) — `bloom` — 「動画をクライアントで圧縮+暗号化 / 位置ログをクライアントで暗号化」の方針を決める前に、Leader が macOS ホストで数値を取った。iOS 実機ではない (iPhone のハードエンコーダ・CryptoKit は別物) ので、桁

@@ -21,10 +21,13 @@ Coolify (coolify.aisaba.net) と aisaba_platform (nexom@*) が同居する自宅
 - **`/etc/docker/daemon.json` が `iptables: false`** なので、Docker の published port (Coolify 8000 / soketi 6001・6002) も **ufw の default deny に従う**。Docker 公式の「published port は ufw を迂回する」は**この機体には当てはまらない**。LAN から開いているのは 80 と 51000 だけ (nc で実測)。`default-address-pools` は 10.0.0.0/8 size 24 で、ufw の `10.0.0.0/16 ALLOW` は 10.0.255.x までしか覆わない (network が 256 本を超えたら要見直し)
 - sshd は 51000 / 鍵のみ / root 不可 / PAM 無効 / MaxAuthTries 3。Tunnel 経由 (`ssh aisaba`) と LAN の 2 経路
 - **ルータが 443 をこのホストに転送している** (グローバル IP からの `UFW BLOCK … DPT=443` が毎日数件)。Tunnel 化後は不要なので、ルータ側で転送を消すのが筋 (ホストからは触れない)
-- Docker は Ubuntu の `docker.io` 29.1.3 (jammy-updates 由来。ESM ではない)。**24.04 (noble) の `docker.io` は 20.10.25** なので、`do-release-upgrade` の前に Docker 公式 repo の `docker-ce` に移しておかないと**ダウングレード**になる。Coolify の install.sh は `DOCKER_VERSION=latest` / 最低 24 なので docker-ce 29.x で問題ない
+- Docker は 2026-10-22 まで Ubuntu の `docker.io` 29.1.3 (jammy-updates 由来。ESM ではない) だった。**24.04 (noble) の `docker.io` は 20.10.25** なので、`do-release-upgrade` の前に Docker 公式 repo の `docker-ce` に移しておかないと**ダウングレード**になる (移行済み)。Coolify の install.sh は `DOCKER_VERSION=latest` / 最低 24 なので docker-ce 29.x で問題ない
 - `do-release-upgrade` はサードパーティ repo (docker / nginx.org / nodesource / cloudflared) を**無効化**する。終了後に再有効化が要る。aisaba_platform の venv (python3.10) は 24.04 の python3.12 で全部作り直し
 - Ubuntu 22.04 の standard support は **2027-06-01** まで。GA kernel 5.15.0-198 が最新 (2026-10)
 - cgroup v2 / `iptables-nft` / overlay2 (実機 `docker info`)
+- **2026-10-23 に未使用のものを purge 済み**: apache2 (+php8.1) / mysql-server / samba / vsftpd / shellinabox / telnet / openjdk-17 / open-vm-tools / ModemManager / certbot / pptp、snap の lxd と core20。残る listener は nginx :80 / sshd :51000 / cloudflared / Coolify (docker-proxy 8000・6001・6002・8080 系) / aisaba_platform の gunicorn 群 (60500〜62520) / code-server :8080 / cockpit :9090 / pcp (44321〜44323・4330)。**MySQL / Apache / PHP は無い**前提で設計する
+- `/ais/backups` は ceez7applications の日次バックアップ先だった。ceez7 は 2026-10-22 に停止したので**以後は増えない**。2026-09-04 の 3 世代 (4.7G) だけ残してある
+- Docker は 2026-10-22 から Docker 公式 repo の `docker-ce` 29.9.x (`docker.io` から切替済み)。24.04 へ上げる時の順序障害は解消
 
 ## Why
 

@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-10-22
+Generated: 2026-10-23
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -83,6 +83,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Unity CI ビルド (Linux/GameCI) の 2026-10 時点の事実](library/unity-ci-linux-2026.md) — `global` — wasawasa に Unity ビルドを載せる前調査 (2026-10-14)。
 - [vCard 日本語名刺生成 (vCard 3.0 + 振り仮名)](library/vcard-japanese.md) — `global` — 日本向け Web 名刺アプリで、iOS/Android 連絡先に取り込める .vcf を Node で生成する。
 - [Xcode Cloud を ASC API / Webhook / ci_scripts から外部制御する (2026-10 時点の仕様と癖)](library/xcode-cloud-asc-api-2026.md) — `global` — wasawasa から Xcode Cloud を起動して Flutter iOS (bloom dev) をビルド・配布する構成の事前調査 (2026-10-05)。詳細と PJ 固有の含意は `projects/wasawasa/.kn
+- [aisaba_platform の Nexom 1.1.41 から 1.2.0 への移行 呼び出し箇所インベントリ (設計前サーベイ)](../projects/aisaba-platform/.knowledge/nexom-120-migration-survey.md) — `aisaba-platform` — ★1. **`TRUSTED_PROXY_COUNT` は 2** (Leader メモの「1」は誤り)。実測: `client_ip` は X-Forwarded-For を `,` 分割 → strip → 空要素除去した列 hops 
 - [aisaba 本番サーバーの aisaba_platform 配置 (2026-10-22 読み取り調査)](../projects/aisaba-platform/.knowledge/server-deploy-facts-20261022.md) — `aisaba-platform` — Nexom 1.2.0 移行の設計に必要な、本番サーバー (192.168.3.17, Ubuntu 22.04) 側の事実。リポジトリからは読めないものだけ。
 - [build18 事前調査 — ルームタブ廃止 / 授業変更(振替) / EventKit公欠除外 / build17残課題](../projects/atender/.knowledge/08-build18-research.md) — `atender` — - `MainTab` enum に `.rooms` あり (`App/MainTabView.swift:6,14,24`)。TabView 内で `RoomsView()` を `NavigationStack(path: rooms
 - [build 20 (App Store 初回提出) 設計前リサーチ — アカウント削除 / SIWA revoke / 法務ページ / 収集データ棚卸し](../projects/atender/.knowledge/09-build20-app-review-research.md) — `atender` — 2026-10-09、Atender を App Store 審査に初めて出すための Researcher (Sonnet) 調査。Leader が結論部を整理して保存。実測 (node_modules の実コード / dev.db コピー
@@ -185,6 +186,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Markdown 正典のページに「第二の正典」(構造化データ) を埋める — 本文は id だけのブロック、参照は本文から導出、削除は参照 0 を条件に人が行う](pattern/second-canon-database-block-in-markdown-page.md) — `global` — wasawasa (Markdown を正典にした Notion 風ページ、Tiptap 3 + `@tiptap/markdown`) に Notion のデータベース (型付きプロパティ・タグ・ビューごとのフィルタ・別ページからのリンク
 - [既存の平文行をサーバーで E2E 化するときは「端末が sealed box で鍵を預ける → 退避 → CAS 変換 → 確認 → 別 CLI で削除」の 5 段に分け、退避だけ鍵なしで切替直後に置く](pattern/server-side-reencrypt-with-sealed-group-key-grant.md) — `global` — bloom 0.2.3 で、切替 migration が平文投稿とビーコンの場所を全削除する設計 (T3 / T4) を「サーバーがグループ鍵を一時的に預かって E2E 形式に変換し、平文は別置きで保全、確認とバックアップの後に削除」に置換
 - [オンボーディング完了判定は単一の純粋関数に集約する (二重定義はデッドロックを生む)](pattern/setup-completion-guard-single-source-of-truth.md) — `global` — atender 本番で「新規ユーザーが Setup から抜け出せないデッドロック」が発生。
+- [共有 venv 1 本で動く複数サービスを破壊的な版へ上げるときの切替 — 最終名で venv を作り symlink で切替、書き込みを閉じた検証窓、コミット点以後は前進修正](pattern/shared-venv-breaking-upgrade-cutover.md) — `global` — aisaba_platform は 7 サービス (systemd `nexom@<svc>`、gunicorn) が **1 本の venv** を共有し、`ExecStart` が `services/venv/bin/gunicorn
 - [1 画面圧縮タイムライン (時間割 / シフト表 / カレンダー日 view)](pattern/single-screen-compressed-timetable.md) — `global` — 「複数メンバーの時間割を 1 画面に縦スクロールなしで並べる」「シフト表を viewport 高さに圧縮表示する」「Google Calendar 日 view のように重なるイベントを横並びで表現する」要件を、CSS Grid + パーセ
 - [singleton の封緘秘密を「名前付きアカウントの表」へ移す migration (URL 不変・rolling 安全)](pattern/singleton-secret-to-named-accounts-migration.md) — `global` — wasawasa で `integration_settings` のキー単位 singleton (ASC キー / Firebase SA / Webhook トークン) を、名前付きで複数登録して環境ごとに選ぶ形に変えた設計。既存の 
 - [スケルトンは実UIの外殻クラスを複製し決定的パターンで埋める](pattern/skeleton-structural-parity.md) — `global` — atender のスケルトン (CalendarMonth/Timetable 等) が実 UI と padding/gap/セル形状 (aspect-square vs min-h-24) で乖離し、ロード完了時にレイアウトシフトと違和感
@@ -368,6 +370,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [block-bash-amp.sh は heredoc/tee 内のコード文字列の論理積もブロックする](tool-quirk/bash-amp-hook-blocks-heredoc-content.md) — `global` — Muraki ルートに置かれた `block-bash-amp.sh` フックは、
 - [Bash ツールは zsh — 変数の単語分割が起きないので for ループは bash -c で包む](tool-quirk/bash-tool-zsh-no-word-splitting.md) — `global` — Claude Code の Bash ツールはこの機体では **zsh** で動く。bash のつもりで `for x in $VAR` や `set -- $pair` を書くと、zsh は変数を単語分割しないため**ループが 1 回しか
 - [chrome-devtools MCP は Chrome for Testing を headless 運用、project 並列は userDataDir 分離](tool-quirk/chrome-for-testing.md) — `global` — chrome-devtools MCP で Web ページを閲覧/操作する場面。普段使い Chrome のプロファイルを汚染せず、Notion など要ログインのサイトではセッションを保持し、かつ複数 Claude Code セッションを *
+- [Claude Code の deny ルール `rm -rf ~/*` は ~/ 配下の個別パスも前方一致で拒否する](tool-quirk/claude-code-deny-rm-home-glob.md) — `global` — ディスク整理で `rm -rf ~/Library/Developer/Xcode/DerivedData/*` や `rm -rf ~/Library/Caches/<app>` を実行しようとしたら、ユーザー承認済なのに Bash 呼び
 - [cloudflared tunnel login は 1 zone しか cert.pem に入れない — 複数 zone は API token を使う](tool-quirk/cloudflared-tunnel-login-multi-zone.md) — `global` — `cloudflared tunnel login` で発行される `~/.cloudflared/cert.pem` (Origin CA cert + Argo Tunnel API service token) は、`cloudfla
 - [Codex (codex exec) の挙動と対処 — 統合ノート](tool-quirk/codex-behavior.md) — `global` — Muraki で `codex exec` を Developer/Reviewer の実行エンジンに使っていた時期 (〜2026-07) に実踏した癖の統合。各項目は「症状 → 対処」。
 - [Codex CLI 内蔵 imagegen ツール (gpt-image-1) の使い方](tool-quirk/codex-cli-imagegen-tool.md) — `global` — Codex CLI 経由で OpenAI Images API (gpt-image-1) を叩きたい場面。`OPENAI_API_KEY` 未設定、ChatGPT サブスク認証 (`auth_mode: chatgpt`) のみという前提

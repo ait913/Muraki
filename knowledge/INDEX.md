@@ -135,6 +135,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [専用カレンダーへの一方向エクスポート — 識別子を成果物自身に埋めて差分を取る](pattern/dedicated-calendar-one-way-export-self-describing-key.md) — `global` — 自アプリのデータ (授業・シフト・予約など) を OS のカレンダー (EventKit / CalendarContract 等) に反映したいとき。
 - [同じ規則が 2 実装あるとき「正典 + テストのオラクル」に役割を割る](pattern/dual-implementation-canon-plus-oracle.md) — `global` — 同じ計算規則が 2 箇所に書かれてしまう状況。omatase の自動アーカイブでは
 - [小グループ E2E — epoch 付きグループ鍵 (sealed box 配布) と、鍵付き HMAC セルトークンでの「位置は知らず近さだけ」照合](pattern/e2e-group-epoch-keys-and-proximity-tokens.md) — `global` — bloom (3〜8 人の固定グループの位置 SNS) で、足跡・RT 位置・投稿をサーバーが読めないようにしつつ、接近通知と集合の提案はサーバー側で出し続けたい (2026-10-15)。MLS は過剰。
+- [Email Worker は「印 → raw を R2 → 索引」の順で書き、索引の失敗は throw せず照合ジョブに任せる](pattern/email-worker-raw-first-pending-marker.md) — `global` — AIS Mail (Workers 常駐のメール) の受信設計。Email Workers の `email()` が throw した時に送信側へ何が返るか (再送 / バウンス / 黙殺) は公式 docs に無い。parse (pos
 - [パニック時 UI の設計トークンと挙動原則 (緊急アプリ向け)](pattern/emergency-ui-design-tokens.md) — `global` — 「人が倒れた」「火災が起きた」など極度のパニック時にユーザーが操作する UI の設計。
 - [Postgres + Node でのアプリ層 envelope encryption パターン (Coolify セルフホスト)](pattern/envelope-encryption-postgres-node.md) — `global` — 個人ヘルスケア / メンタル系アプリで「ログ取らない・コード公開可・at-rest 暗号化・LLM 処理時のみ in-memory 復号」を実装したい。バックエンドは Coolify (Docker) + Postgres、ソロ運用。
 - [イベント系アプリの「常設ハブ + ライブカード」IA (時間帯で着地画面を変えない)](pattern/event-hub-permanent-home-live-card.md) — `global` — イベント/旅行/待ち合わせ系アプリで「前日は行程を組む画面が主役、当日は今のプランが主役」と

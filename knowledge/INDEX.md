@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-10-23
+Generated: 2026-10-24
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -27,8 +27,10 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Capacitor 8 + Next.js 16 で iOS ハイブリッドアプリを組む (2026年5月時点)](library/capacitor-nextjs-ios-2026.md) — `global` — 個人開発で「iPhone がメイン、Web も触れる」ハイブリッドアプリを最小コストで作る場面。Expo (React Native) との二択で Capacitor を選んだ時。
 - [ChatGPT developer mode カスタム MCP コネクタの仕様と OAuth 実態 (2026-07)](library/chatgpt-mcp-connector-oauth-2026.md) — `global` — dandan-app 再設計で ChatGPT developer mode を MCP Apps iframe UI の一級ホストに昇格させる。自前 AS (DCR + PKCE) と噛み合うかの事実確認。
 - [Claude Haiku 4.5 API 仕様 (2026年5月時点)](library/claude-haiku-4-5-api.md) — `global` — 秘書系・チャット・軽量エージェント用途で Claude を使う際の最新スペック。Haiku 4.5 をデフォルトに据える時の参照。
-- [Cloudflare Email Service 2026-10 — Email Routing (apex MX 専有、Worker は throw 時の挙動が未記載) と Email Sending (Workers Paid、3,000 通/月込み、Message-ID 指定不可)](library/cloudflare-email-service-2026-10.md) — `global` — AIS Mail (aisaba.net の Web メール) の設計前調査 (2026-10-23)。自宅 MTA を公開せず、受信 = Email Routing → Email Worker → Tunnel 越し webhook、送
+- [Cloudflare Email Service 2026-10 — Email Routing (apex MX 専有、Worker は throw 時の挙動が未記載) と Email Sending (Workers Paid、3,000 通/月込み、Message-ID 指定不可)](library/cloudflare-email-service-2026-10.md) — `global` — AIS Mail (aisaba.net の Web メール) の設計前調査 (2026-10-23)。自宅 MTA を公開せず組めるかを公式 docs で確認した。詳細な比較表は `projects/ais-pass/.knowledge
+- [Cloudflare Email Workers 2026-10 — email() ハンドラ API・wrangler addresses・ローカルテスト・postal-mime のメモリ実測 (throw 時の挙動は公式未記載)](library/cloudflare-email-workers-2026-10.md) — `global` — AIS Mail Phase 3 (Workers 常駐) の設計前調査 (2026-10-24)。詳細: `projects/ais-pass/.knowledge/research-phase3-mail-workers-2026102
 - [Cloudflare Tunnel 1 本でオンプレ全公開 (HTTPS + SSH, 2026年5月構成)](library/cloudflare-tunnel-2026.md) — `global` — オンプレ Ubuntu サーバー (`192.168.3.17`、SoftBank光) で運用している全サブドメイン (aisaba.net / appily.run / ceez7.com / SSH) を Cloudflare Tunn
+- [Cloudflare Workers 常駐アプリの土台 2026-10 — D1 上限と FTS5 (export 不可・日本語は trigram 3 文字以上)・R2・Static Assets SPA・Next.js は vinext 推奨へ・better-auth は workerd で動く](library/cloudflare-workers-d1-r2-assets-2026-10.md) — `global` — AIS Mail Phase 3 を Workers に常駐させる設計前調査 (2026-10-24)。詳細: `projects/ais-pass/.knowledge/research-phase3-mail-workers-20261
 - [Coolify v4.4.6 のビルド隔離 — custom_docker_run_options の許可リストと BuildKit RUN の cgroup 位置](library/coolify-build-memory-cgroup-v2-2026.md) — `global` — オンプレ 1 台 (2 コア 3.7GB) の Coolify で Next.js ビルドがホストを固める件の cgroup v2 階層化調査 (sessions/2026-10-14-b837d104)。
 - [自宅 Coolify スタックのセキュリティ下限 (2026-10 棚卸し)](library/coolify-stack-security-floors-2026-10.md) — `global` — 2026-10-22 に Touri の自宅 Coolify で動くアプリ群 (Node/React/Go/PG/nginx/Python/各 npm lib) の 8〜10 月の脆弱性・EOL を棚卸しした時の、次回も効く事実だけ抜粋。個
 - [Coolify の static build pack はビルドしない (リポジトリをそのまま nginx で配る)](library/coolify-static-buildpack.md) — `global` — `build_pack` enum に `static` があるが、公式 docs は「静的サイト用」としか言わない。
@@ -74,6 +76,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Sign in with Google / Sign in with Apple ボタンのブランド規約 (2026-07 現行)](library/signin-button-branding-google-apple-2026.md) — `global` — ログイン画面に Google / Apple のソーシャルボタンを並べる時、各社のブランド規約が「塗り・フォント・ロゴ・文言」を縛る。自前デザイントークンで統一しようとすると規約と衝突する。2026-07-16 に一次ソースを全て実取得して
 - [Sign in with Apple: identity token のクレーム実仕様 (email は毎回 / 名前は初回のみ / email_verified は string|bool) と App ID グループ化の副作用](library/siwa-identity-token-claims-and-grouping-2026.md) — `global` — bloom で「初回サインインが 426 で止まり氏名が失われて名無しユーザーができた」事故の後、`users.email` 追加と名前の堅牢化を設計する前に Apple 一次ソースで確認した (2026-10-13)。
 - [Slack Incoming Webhook の Block Kit 制約 (色帯は attachments、折り畳み無し)](library/slack-incoming-webhook-block-kit-2026.md) — `global` — Webhook 通知を text のみから Block Kit に作り直す前の調査 (wasawasa)。
+- [技術スタック全量棚卸しとセキュリティ状況 (2026-10-24) — Pillow 13 の 39 件が Python 3.10 を詰ませている](library/stack-inventory-security-2026-10-24.md) — `global` — 2026-10-22 の第 1 回棚卸し ([[coolify-stack-security-floors-2026-10]]、session 2026-10-22-acd89e01) の 2 日後。Dependabot が omatase
 - [Starlette 1.x + Jinja2 + htmx セルフホスト + hatchling データ同梱](library/starlette-jinja-htmx-hatchling.md) — `global` — Python の Starlette アプリに Jinja2 テンプレート + htmx(self-host)で SSR フロントを同居させ、hatchling ビルドで .html/.css/.js を wheel に含めたいとき。SPA
 - [Supabase の匿名アカウントを永続アカウントに昇格させる (user id は保たれる / is_anonymous は 2 段で落ちる)](library/supabase-anonymous-to-permanent-promotion.md) — `global` — 「ゲストは名前だけで参加、後からメール登録して永続アカウントにする」を作りたいとき。
 - [SwiftUI Button の当たり判定は clipShape/background では削れない (実測)](library/swiftui-button-hit-area-measurement.md) — `global` — atender の学期カレンダーで「押せるセルと押せないセルがある」という実機 FB を切り分けた。
@@ -394,6 +397,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
 ## other (uncategorized)
 - [known-failures](../projects/ais-pass/.knowledge/known-failures.md) — `ais-pass` — 未分類を残したマージは不可。
+- [AIS Mail Phase 3 設計前リサーチ — Workers 常駐 (Email Workers / Email Sending binding / D1 / R2 / Hono + Static Assets / OIDC RP / Pass↔Mail S2S)](../projects/ais-pass/.knowledge/research-phase3-mail-workers-20261024.md) — `ais-pass` — 前提 (PRODUCT §4.3 の改訂): Email Worker 自身が Mail サービス。Worker → Tunnel webhook の 1 ホップは不要になった。残るのは Email Routing → Worker、Ema
 - [Atender Pre-design Research Summary](../projects/atender/.knowledge/00-research-summary.md) — `atender` — 調査日: 2026-05-13 / 調査者: researcher (Gemini + WebFetch + WebSearch + `npm view`)。
 - [Atender Redesign UI/UX Research (Phase 2)](../projects/atender/.knowledge/01-redesign-research.md) — `atender` — 調査日: 2026-05-15 / 調査者: researcher (Gemini + WebSearch)。
 - [Atender 入力 UX / 視認性 BP リサーチ (Phase 3)](../projects/atender/.knowledge/02-input-ux-research.md) — `atender` — 調査日: 2026-05-18 / 調査者: researcher (Gemini + Codex)。

@@ -19,6 +19,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [App Store 却下後の返信・再提出 — API だけでは通らない箇所と Web の操作順](library/asc-resubmit-after-rejection-2026.md) — `global` — Bloom. の初回審査が 2.1 Information Needed で却下 (submission は `UNRESOLVED_ISSUES`、item は `REJECTED`)。新 build を紐付けて返信 + 再提出した時の実
 - [Auth.js v5 + PrismaAdapter + SQLite (Magic Link + Google) 最小構成](library/authjs-v5-prisma-sqlite.md) — `global` — Next.js 15 App Router + Prisma + better-sqlite3 で Auth.js v5 を使い、
 - [better-auth 1.6.x (2026-05) — Next.js + Prisma + Magic Link + OAuth 最小構成](library/better-auth-2026.md) — `global` — Next.js (App Router) + Prisma + SQLite で「Magic Link + Google OAuth + DB session」を最小コストで組みたい場面。Auth.js v5 が長らく beta のままなの
+- [better-auth genericOAuth を OIDC RP として使う (1.7.7/1.7.12 実コード確認) — discovery は起動時 1 回・リンクに github_id フックは無い・refresh 失敗は潰される](library/better-auth-genericoauth-oidc-rp-2026.md) — `global` — wasawasa を自前 OIDC IdP (AIS Pass) の RP にする事前調査で dist を全読した結果。
 - [better-auth 1.6.x + Hono + Drizzle + SQLite 構成 (Anonymous Plugin 含む 2026-05)](library/better-auth-hono-drizzle-sqlite.md) — `global` — Web アプリで「Hono + Drizzle + SQLite + better-auth」スタックを採用する場面、特に Anonymous Plugin で「名前のみのゲスト運用」をする場合。既存 [`library/better-au
 - [better-auth 1.7.7 で自前 IdP (OIDC) を立てる — oidcProvider は消滅、mcp() = oauthProvider で max_age/auth_time まで実装済 (2026-10 実コード確認)](library/better-auth-oauth-provider-oidc-idp-2026.md) — `global` — wasawasa (better-auth 1.7.7 + `mcp()`) を管理系サービスの OIDC IdP にできるかの調査。
 - [better-auth 1.7.12 の twoFactor は社会ログインを通さない (hook は /sign-in/email|username|phone-number だけ) — GitHub + TOTP は自前の「2FA 未完了セッション」が要る。admin / 招待 / 許可表フックの現存一覧](library/better-auth-two-factor-admin-social-2026-10.md) — `global` — AIS Pass (GitHub OAuth + TOTP 必須、招待制、owner/admin/member) の設計前に、better-auth 1.7.12 の `twoFactor` / `admin` / 招待 / サインイン拒否
@@ -104,6 +105,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [「今なにしてる？動画リクエスト」設計前リサーチ](../projects/bloom/.knowledge/research-video-request.md) — `bloom` — 新機能は現時点で**未着手** (`feature/video-request` ブランチは `master` から分岐しているだけで、
 - [wasawasa Phase 1 設計前リサーチ (Next.js MCP+OAuth / GitHub Org / Postgres ORM / Coolify / Firebase / Slack / UI)](../projects/wasawasa/.knowledge/research-20261002-phase1.md) — `wasawasa` — wasawasa (n-wasabi 内部開発プラットフォーム) の Phase 1 設計前リサーチ。PRODUCT.md §9-1 の宿題「Next.js + TS MCP SDK で GitHub upstream の OAuth (t
 - [wasawasa 次フェーズ設計前リサーチ (Coolify デプロイ制御 / MCP ツール実装 / レスポンシブ / bloom ブランチ運用)](../projects/wasawasa/.knowledge/research-20261003-deploy-mcp-responsive.md) — `wasawasa` — wasawasa 次フェーズ「wasawasa から Coolify デプロイを実行・制御 + MCP ツール + レスポンシブ」の設計前調査。前回 (`research-20261002-phase1.md` §4) と重複しない差分だけ
+- [wasawasa を AIS Pass の RP にする (Phase 2) の事前調査 — 現状コード・genericOAuth・リンク・セッション失効・テスト](../projects/wasawasa/.knowledge/research-ais-pass-rp-20261023.md) — `wasawasa` — wasawasa (Next 16 + better-auth 1.7.7) の人間ログインを GitHub 直から AIS Pass (OIDC IdP、better-auth 1.7.12 + oauth-provider) 経由にする
 
 ## pattern
 - [アカウント削除で「他人も使う資源」を壊さない — 移譲 / SetNull + 番兵 DTO / 写しは明示削除](pattern/account-deletion-shared-resources.md) — `global` — Atender build 20 (App Store 初回提出) で `DELETE /api/me` を設計した。User から張られた `onDelete: Cascade` を全列挙すると、自分のデータだけでなく他人が使う資源 (自
@@ -391,6 +393,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [plutil -extract は -o - を省くと入力ファイルを抽出結果で上書きする](tool-quirk/plutil-extract-overwrites-input-file.md) — `global` — iOS の検証で Info.plist の値を確認したくなる場面は多い
 
 ## other (uncategorized)
+- [known-failures](../projects/ais-pass/.knowledge/known-failures.md) — `ais-pass` — 未分類を残したマージは不可。
 - [Atender Pre-design Research Summary](../projects/atender/.knowledge/00-research-summary.md) — `atender` — 調査日: 2026-05-13 / 調査者: researcher (Gemini + WebFetch + WebSearch + `npm view`)。
 - [Atender Redesign UI/UX Research (Phase 2)](../projects/atender/.knowledge/01-redesign-research.md) — `atender` — 調査日: 2026-05-15 / 調査者: researcher (Gemini + WebSearch)。
 - [Atender 入力 UX / 視認性 BP リサーチ (Phase 3)](../projects/atender/.knowledge/02-input-ux-research.md) — `atender` — 調査日: 2026-05-18 / 調査者: researcher (Gemini + Codex)。

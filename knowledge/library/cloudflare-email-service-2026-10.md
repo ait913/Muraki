@@ -47,3 +47,9 @@ Email Routing のルール出口は「転送 / Worker / Drop」だけなので H
 - Worker は throw しない設計にする: `rawSize` で 25 MiB を確認 → origin に `fetch` (共有秘密ヘッダ、`Content-Length: rawSize`) → 失敗時は検証済み宛先へ `forward()` か KV / R2 にスプール。`setReject` は失敗時に使わない。
 - 送信を Resend にするなら DNS は `send` (SPF TXT + MX)、`resend._domainkey` (DKIM、DNS only)、`_dmarc` を手動で足す。Email Sending に寄せるなら Routing と同じ zone で `cf-bounce` 配下が自動追加される。
 - Message-ID を自分で決めたい用途 (threading の自前管理) は Email Sending では不可、Postmark なら可、SES は常に上書き、Resend は送信後に `GET /emails/:id` の `message_id` を読む。
+
+## 実測 (2026-10-23、aisaba.net → outlook.com)
+
+- 送信元ホップは `ba-ef.cloudflare-email.net (104.30.10.45)` のみ。HTTP API 経由なので送信側 (自宅) の IP はヘッダに一切出ない (AIS Pass AT1 合格)
+- `Return-Path: bounces@cf-bounce.<domain>`、DKIM は `s=cf-bounce d=<domain>` と `s=cf2024-1 d=cloudflare-email.net` の 2 本、`Feedback-ID: <domain>:4:1:Cloudflare`
+- **Outlook.com は初回送信を SCL 5 で迷惑メール扱い** (SPF / DKIM / DMARC は全 pass)。新規ドメインの評価不足。受信者に迷惑メールフォルダー確認を案内し、「迷惑メールではない」を押してもらう

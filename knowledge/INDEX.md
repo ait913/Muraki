@@ -397,7 +397,10 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [plutil -extract は -o - を省くと入力ファイルを抽出結果で上書きする](tool-quirk/plutil-extract-overwrites-input-file.md) — `global` — iOS の検証で Info.plist の値を確認したくなる場面は多い
 
 ## other (uncategorized)
+- [known-failures](../projects/ais-mail/.knowledge/known-failures.md) — `ais-mail` — | テスト名 | 分類 (テスト陳腐化 / 環境依存 / 未分類) | 根拠 |
+- [spikes-20261024](../projects/ais-mail/.knowledge/spikes-20261024.md) — `ais-mail` — - Cloudflare 認証: API token (secrets env) で可。アカウントで **R2 が未有効** (`wrangler r2 bucket create` → `Please enable R2 through 
 - [known-failures](../projects/ais-pass/.knowledge/known-failures.md) — `ais-pass` — 未分類を残したマージは不可。
+- [Pass を Cloudflare Access の generic OIDC IdP にする — 署名 alg (EdDSA 不可) と RP への影響の調査](../projects/ais-pass/.knowledge/research-cloudflare-access-oidc-20261024.md) — `ais-pass` — - ★ **Cloudflare Access は EdDSA を検証できない** (対応は RS256/RS512/PS512/ES256/ES384/ES512)。Pass の現行署名は EdDSA/Ed25519 (本番 JWKS で
 - [AIS Mail Phase 3 設計前リサーチ — Workers 常駐 (Email Workers / Email Sending binding / D1 / R2 / Hono + Static Assets / OIDC RP / Pass↔Mail S2S)](../projects/ais-pass/.knowledge/research-phase3-mail-workers-20261024.md) — `ais-pass` — 前提 (PRODUCT §4.3 の改訂): Email Worker 自身が Mail サービス。Worker → Tunnel webhook の 1 ホップは不要になった。残るのは Email Routing → Worker、Ema
 - [Atender Pre-design Research Summary](../projects/atender/.knowledge/00-research-summary.md) — `atender` — 調査日: 2026-05-13 / 調査者: researcher (Gemini + WebFetch + WebSearch + `npm view`)。
 - [Atender Redesign UI/UX Research (Phase 2)](../projects/atender/.knowledge/01-redesign-research.md) — `atender` — 調査日: 2026-05-15 / 調査者: researcher (Gemini + WebSearch)。

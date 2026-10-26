@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-10-24
+Generated: 2026-10-26
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -83,6 +83,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [iOS 26 の toolbar item glass 除去 (sharedBackgroundVisibility) と ButtonRole.close / back の実態](library/swiftui-ios26-toolbar-glass-and-button-roles.md) — `global` — atender の toolbar に `ToolbarItem(placement: .topBarLeading) { Menu {...} label: { HStack { Text; chevron } } }`
 - [SwiftUI Liquid Glass (iOS 26) — API 実在確認と availability](library/swiftui-liquid-glass-ios26.md) — `global` — Atender (SwiftUI/iOS) の UI を Apple ネイティブ部品 + Liquid Glass で刷新する設計の事前調査 (Xcode 26.6 / iOS SDK 26.5 実測)。
 - [SwiftUI 横ページングをタブ+NavigationStack+縦ScrollView の中に入れる (iOS 26 実測)](library/swiftui-nested-horizontal-paging-ios26.md) — `global` — atender の月カレンダーを「指でめくれる」ようにしたい。アプリの構造は
+- [電気通信事業の届出 (回線非設置・アプリ内チャット) の書き方](library/telecom-business-notification.md) — `global` — Bloom (グループ内コメント・チャット) の届出内容を決めた時に総務省の様式原本を読んで得た (sessions/2026-10-26-f079ad57)。
 - [Tiptap 3 のブロック選択 (NodeRange)・右クリック・表・ドラッグハンドル位置の実測 (2026-10)](library/tiptap-block-selection-table-2026.md) — `global` — Markdown 正典の Tiptap 3.31.4 エディタを Notion のブロック仕様に寄せる設計前調査 (wasawasa)。素の Tiptap を esbuild で束ねた headless Chromium で実測。詳細は `
 - [Tiptap 3 コードブロックの lowlight 色付けと Mermaid プレビュー、往復の罠 (2026-10)](library/tiptap-code-block-mermaid-2026.md) — `global` — Tiptap 3.31.4 + `@tiptap/markdown` のエディタでコードブロックを Notion 相当 (言語色付け・Mermaid プレビュー) にする検討 (wasawasa)。実機検証済み。詳細は `projects/
 - [Tiptap 3 / BlockNote / Milkdown の Markdown 往復と Next 16 での注意 (2026-10)](library/tiptap-markdown-roundtrip-2026.md) — `global` — Markdown を正典にするドキュメントエディタを Next 16 / React 19 に載せる検討 (wasawasa)。実機 spike で比較した。詳細表は `projects/wasawasa/.knowledge/resear

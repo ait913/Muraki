@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-10-26
+Generated: 2026-10-27
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -248,6 +248,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Cloudflare 配下 (Coolify API / *.appily.run) は Python-urllib の既定 UA を Error 1010 で弾く](gotcha/cloudflare-1010-blocks-python-urllib-ua.md) — `global` — Python 標準の `urllib.request` で `https://coolify.aisaba.net/api/v1/...` や `https://*.appily.run/` を叩くスクリプト。curl では通るのに Pyt
 - [Cloudflare Tunnel 経由は loopback 接続 — Nginx の IP allowlist に 127.0.0.1 を入れ忘れると 403](gotcha/cloudflare-tunnel-nginx-allowlist-loopback.md) — `global` — aisaba_platform の Nginx vhost には Cloudflare edge IP からのみ受け付ける allowlist が `cloudflare_only.conf` として include されている (`all
 - [coder/websocket は呼び手の ctx timeout でも接続そのものを閉じる](gotcha/coder-websocket-short-lived-read-context-closes-connection.md) — `global` — bloom P3c の WS (`coder/websocket` v1.8.15) を reviewer がブラックボックス probe するとき、
+- [Coolify の Docker Compose は全 service に env_file .env を注入する (秘密分離は raw モード必須)](gotcha/coolify-compose-env-injection.md) — `global` — AIS Pass Go 版は「1 プロセスが全秘密を読めない」ことを設計目標にし、compose の service ごとに `environment` を分け、各 binary が自分の env キー集合以外の `PASS_` / `PA
 - [Coolify の healthcheck が localhost→::1 で落ちる (Node の HOSTNAME=0.0.0.0 は IPv4 のみ bind)](gotcha/coolify-healthcheck-localhost-ipv6-vs-node-bind.md) — `global` — Coolify に app を建てるとき `health_check_host: "localhost"` を設定すると、
 - [Coolify on Cloudflare の 307/302 HTTPS リダイレクトループ](gotcha/coolify-https-redirect-loop.md) — `global` — Coolify (`coolify.aisaba.net`) で新規 application を立てると、HTTP/2 307 or 302 で **location が自分自身** という無限リダイレクトループを起こす。Cloudflar
 - [Coolify の API/UI が 502 — ホスト再起動後にコンテナ内 nginx だけ s6 で down のまま](gotcha/coolify-nginx-down-after-host-reboot.md) — `global` — bloom 0.2.4 のリリース作業で Coolify API (`$COOLIFY_API_BASE/applications/<uuid>/envs`) が Cloudflare の `error code: 502` を返し、`co
@@ -405,6 +406,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 ## other (uncategorized)
 - [known-failures](../projects/ais-mail/.knowledge/known-failures.md) — `ais-mail` — | テスト名 | 分類 (テスト陳腐化 / 環境依存 / 未分類) | 根拠 |
 - [spikes-20261024](../projects/ais-mail/.knowledge/spikes-20261024.md) — `ais-mail` — - Cloudflare 認証: API token (secrets env) で可。アカウントで **R2 が未有効** (`wrangler r2 bucket create` → `Please enable R2 through 
+- [受入 A (Go 版 compose リソース ais-pass-go の実機検証 N5〜N9) の結果](../projects/ais-pass/.knowledge/acceptance-a-20261027.md) — `ais-pass` — Go 版のリリース前ゲート最終項目。Coolify に compose リソース `ais-pass-go` (uuid `airwgg39tudo3yftxmndgcll`、branch `feature/go-rewrite`、doma
 - [known-failures](../projects/ais-pass/.knowledge/known-failures.md) — `ais-pass` — 未分類を残したマージは不可。
 - [Pass を Cloudflare Access の generic OIDC IdP にする — 署名 alg (EdDSA 不可) と RP への影響の調査](../projects/ais-pass/.knowledge/research-cloudflare-access-oidc-20261024.md) — `ais-pass` — - ★ **Cloudflare Access は EdDSA を検証できない** (対応は RS256/RS512/PS512/ES256/ES384/ES512)。Pass の現行署名は EdDSA/Ed25519 (本番 JWKS で
 - [AIS Pass を Go で作り直す前の Pre-design Research (OP ライブラリ・周辺・pass-admin・インフラ・テスト・移行)](../projects/ais-pass/.knowledge/research-go-rewrite-20261026.md) — `ais-pass` — 1. **「certified OP lib」の前提は zitadel/oidc に当たらない。** README は **RP だけ** Basic/Config 認定と明記し、「Certify this library as OP」は 

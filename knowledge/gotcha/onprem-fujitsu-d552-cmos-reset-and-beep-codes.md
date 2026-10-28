@@ -30,7 +30,8 @@ sources:
 - **4 回 (ピッ×4) = メモリ未検出**。メモリ無し / DIMM3 (スロット 3) 単独 で鳴る。**1 枚挿しはスロット 1 のみ対応** (製品ガイド 3.3.2 の対応表)。DIMM3 単独の 4 回は「チャネル死亡」ではなく非対応構成の拒否
 - **DVD ドライブにアクセスした後の 1 回 = 起動デバイスが見つからない** (`Bootable Device was not found`)。POST は通っている。画面が出ていればメッセージと Enter → BIOS セットアップ誘導が表示されている
 - **CMOS 電池を交換すると BIOS 設定が初期化**され、セキュアブート「使用する」/ CSM「使用しない」/ 起動順位リセットになり、Ubuntu の UEFI エントリを見失って上記 1 回ビープになる。復旧は F2 押しっぱなしで電源 ON → 起動順位で SSD を選ぶ
-- **画面が出ない**のは別問題。マニュアル指定で「モニタの電源を PC より先に入れる」。出力端子・入力切替も疑う
+- **BIOS / FUJITSU ロゴの表示先** (2026-10-28 実測): **DVI-D→HDMI 変換先の HDMI モニタには firmware 段では出ない** (単独接続でも不可。OS 起動後は i915 が交渉し直すので映る)。EDID を返すモニタを D-Sub 直結すれば BIOS もロゴも出る。DDC 線の無い D-Sub ケーブルは「モニタ無し」扱い (Linux から EDID 0 バイト)。保守は**古いモニタ + D-Sub 直結**、マニュアル指定どおり「モニタの電源を PC より先に入れる」
+- **ssh から BIOS に落とす**: `sudo systemctl reboot --firmware-setup`。firmware は `OsIndicationsSupported` ビット 0 対応 (実測 `01`)、Windows の Shift+再起動と同じ UEFI 変数経路。F2 のタイミングもロゴも不要。終了すれば Ubuntu が通常起動 (フラグは 1 回で消費)。GRUB にも「UEFI Firmware Settings」エントリあるが GRUB_TIMEOUT=0 なので実用性低
 - i3-4170 は G1840 / i3-4160 と同じ CPUID (06_3C stepping 3) で、出荷 BIOS 4.06 の時点で対応。BIOS 更新不要で動いた
 - BIOS 更新は Windows 専用ツール (System Update Tool + Fujitsu BIOS Driver)。Ubuntu からは当てられない。D586 系の「ジャンパ + USB 復旧」は欧州 FTS 板の手順で D552 には無い
 - カバー開放検知は無い。ケースを開けたままでも起動する

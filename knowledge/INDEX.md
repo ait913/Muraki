@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-10-27
+Generated: 2026-10-28
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -404,10 +404,10 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [plutil -extract は -o - を省くと入力ファイルを抽出結果で上書きする](tool-quirk/plutil-extract-overwrites-input-file.md) — `global` — iOS の検証で Info.plist の値を確認したくなる場面は多い
 
 ## other (uncategorized)
-- [known-failures](../projects/ais-mail/.knowledge/known-failures.md) — `ais-mail` — | テスト名 | 分類 (テスト陳腐化 / 環境依存 / 未分類) | 根拠 |
+- [known-failures](../projects/ais-mail/.knowledge/known-failures.md) — `ais-mail` — 最終実測: 2026-10-26、feature/pass-assertion (HEAD cc33ed8 + Reviewer のテスト差分)、`pnpm test:worker` 444 本中 pass 442 / fail 2 (下表
 - [spikes-20261024](../projects/ais-mail/.knowledge/spikes-20261024.md) — `ais-mail` — - Cloudflare 認証: API token (secrets env) で可。アカウントで **R2 が未有効** (`wrangler r2 bucket create` → `Please enable R2 through 
 - [受入 A (Go 版 compose リソース ais-pass-go の実機検証 N5〜N9) の結果](../projects/ais-pass/.knowledge/acceptance-a-20261027.md) — `ais-pass` — Go 版のリリース前ゲート最終項目。Coolify に compose リソース `ais-pass-go` (uuid `airwgg39tudo3yftxmndgcll`、branch `feature/go-rewrite`、doma
-- [known-failures](../projects/ais-pass/.knowledge/known-failures.md) — `ais-pass` — 未分類を残したマージは不可。
+- [known-failures](../projects/ais-pass/.knowledge/known-failures.md) — `ais-pass` — 未分類を残したマージは不可。2026-10-26 以前は Next 版 (旧台帳は git 履歴 / main の同ファイル。Next 版のテストに紐付くのでここでは空にした)。
 - [Pass を Cloudflare Access の generic OIDC IdP にする — 署名 alg (EdDSA 不可) と RP への影響の調査](../projects/ais-pass/.knowledge/research-cloudflare-access-oidc-20261024.md) — `ais-pass` — - ★ **Cloudflare Access は EdDSA を検証できない** (対応は RS256/RS512/PS512/ES256/ES384/ES512)。Pass の現行署名は EdDSA/Ed25519 (本番 JWKS で
 - [AIS Pass を Go で作り直す前の Pre-design Research (OP ライブラリ・周辺・pass-admin・インフラ・テスト・移行)](../projects/ais-pass/.knowledge/research-go-rewrite-20261026.md) — `ais-pass` — 1. **「certified OP lib」の前提は zitadel/oidc に当たらない。** README は **RP だけ** Basic/Config 認定と明記し、「Certify this library as OP」は 
 - [AIS Mail Phase 3 設計前リサーチ — Workers 常駐 (Email Workers / Email Sending binding / D1 / R2 / Hono + Static Assets / OIDC RP / Pass↔Mail S2S)](../projects/ais-pass/.knowledge/research-phase3-mail-workers-20261024.md) — `ais-pass` — 前提 (PRODUCT §4.3 の改訂): Email Worker 自身が Mail サービス。Worker → Tunnel webhook の 1 ホップは不要になった。残るのは Email Routing → Worker、Ema

@@ -51,6 +51,7 @@ Client -> Cloudflare edge (proxied) -> cloudflared (Tunnel, host) -> Nginx :80 (
 
 ### 遮断手段の実測・調査結果
 
+- Traefik は peer が `forwardedHeaders.trustedIPs` 外なら受信 `X-Forwarded-*` を**削除**してから peer を XFF に append する (traefik `pkg/middlewares/forwardedheaders/forwarded_header.go` の `ServeHTTP`、2026-10-29 確認)。Coolify proxy は trustedIPs 未設定なので、Traefik の背後のアプリが見る XFF は直前 hop 1 要素のみ。クライアント IP は `Cf-Connecting-Ip` を使うか trustedIPs を足す (Nexom の `TRUSTED_PROXY_COUNT` のように XFF 段数に依存するアプリは要再設計)
 - Traefik `ipAllowList` は allow 専用 (deny 不可、実測: リスト外は 403)。`ClientIP(...)` ルールマッチャ + `noop@internal` + 403 を返す middleware の組は **peer アドレスにしか効かず XFF/CF ヘッダは見ない** (実測: trustedIPs 設定下でも `X-Forwarded-For: 9.9.9.9` は素通り、peer を含めると 403)。つまり Nginx が前段にいる本構成では Traefik 層での本物の IP deny は実用にならない (forwardAuth で自前判定する経路は残るが、全リクエストに 1 ホップ足し、落ちたら全断 or fail-open の選択になる)
 - Cloudflare IP Access Rules: 全プラン 50,000 件/アカウント、アカウントレベルは**全 zone に効く**。mode は block / challenge / managed_challenge / whitelist など。`ip_range` は IPv4 が **/16 と /24 のみ**、IPv6 が **/32 /48 /64**。必要権限は `Account Firewall Access Rules Write`。**TTL 機能は無い** (admin が rule id を持って期限で DELETE する)。ネイティブアプリ (JS 不可) には challenge は意味がなく block のみ実用
 - CF WAF Custom Rules は Free で 5 本。カスタム IP List は Free で **1 リスト / 10,000 件**

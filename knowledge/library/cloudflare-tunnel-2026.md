@@ -98,18 +98,13 @@ wildcard CNAME のおかげで DNS 操作不要:
 1. Coolify で新規アプリ作成 (`is_force_https_enabled=false` 必須、`[[appily SKILL]]` の標準フロー)
 2. `*.appily.run` wildcard で吸収、即アクセス可能
 
-### 既存サービス用に固有ホスト追加 (例: `aisaba.net` 配下の新サブドメイン)
+### 既存サービス用に固有ホスト追加 (例: `aisaba.net` 配下の新サブドメイン) — 2026-10-30 実測で置換
 
-`*.aisaba.net` wildcard で吸収。Nginx に新 vhost (`listen 80; server_name foo.aisaba.net;` + `proxy_pass`) を追加するだけ。DNS は不要。
+**DNS も cloudflared も Nginx も触らない。Coolify の `domains` に `https://foo.aisaba.net` を入れて deploy するだけ。**
 
-★ **vhost の置き場所は `/etc/nginx/sites-enabled/` ではない** (2026-07-16 実機確認)。`nginx.conf` が include しているのは以下の 2 つだけで、**`sites-enabled` は include されていない** (`sites-enabled/default` は死に設定):
-
-```nginx
-include /var/aisaba_platform/gateway/*.conf;
-include /etc/nginx/conf.d/*.conf;
-```
-
-Coolify アプリを捌く vhost は `/var/aisaba_platform/gateway/` にある (例: `appiy.web.conf` = `*.appily.run` → `proxy_pass http://127.0.0.1:8880`、ファイル名の `appiy` は typo だが実害なし)。
+- DNS: Cloudflare に `*.aisaba.net` CNAME (proxied → Tunnel) と apex CNAME が実在 (zone 一覧 API で確認)。`dig` は未登録名でも CF エッジ IP を返し、`curl https://zzz-nonexistent.aisaba.net/` は 404 `404 page not found` (Traefik の素の本文)
+- 経路: cloudflared → Traefik `127.0.0.1:8880` が唯一の入口。**host nginx は 2026-10-29 に purge 済み**なので、以降の「Nginx に vhost / `gateway/*.conf` を足す」手順は無効 (下の zone 追加手順と 404 の罠も nginx 時代の記述)。今の 404 は Traefik 由来と見てよい
+- `aisaba.net` を含む Coolify リソースは project `ais` の raw compose 2 本 (ais-pass-go / aisaba-nexom、Host() ラベルを自前で持つ) のみ。通常の dockerfile app の fqdn に `aisaba.net` を使う前例は 2026-10-30 時点で無い (全部 `appily.run` / `n-wasabi.org`)。`https://<sub>.aisaba.net` を domains に入れる運用は前例なし → 初回は appily SKILL の force_https=false + fqdn ダンスを前提に確認する
 
 ### 新しい zone を丸ごと足す (例: n-wasabi.org、2026-07-16 実施)
 

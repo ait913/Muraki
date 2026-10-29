@@ -4,13 +4,14 @@ category: pattern
 project: global
 tags: [attendance, stats, denominator, projection, occurrence, ux]
 created: 2026-06-11
-updated: 2026-06-11
+updated: 2026-10-29
 sources:
   - Atender .designs/20260611-semester-redesign.md
   - Atender .designs/20260611-semester-fixes.md
   - Atender .designs/20260611-occurrence-based-denominator.md
   - Atender .designs/20260611-date-input-and-allowed-days.md
   - Atender apps/api/src/services/attendanceStats.ts
+  - Atender .designs/20261029-build21-calendar-removal-course-rules-template-import.md
 model-era: opus-4.8
 ---
 
@@ -83,3 +84,14 @@ input[type="date"], input[type="time"] { display:block; min-width:0; max-width:1
 input[type="date"]::-webkit-date-and-time-value { text-align:left; }  /* block 化で中央寄せになる副作用を打ち消し */
 ```
 個別 className より `styles.css` のグローバルセレクタが最小・確実 (date/time を使う全箇所が共通 Input 経由でも漏れない)。PC では元から width:100% が効くので見た目不変、収まっている input にも無害。**jsdom では検証不能** (`::-webkit-*` 疑似要素も inline-flex 固有挙動も非評価) → 自動テスト対象外にし実機目視で確認する旨を Reviewer に明記
+
+### ★科目別の基準 — 率と「欠席 N 回まで」の併用 (2026-10-29、atender build 21 設計)
+
+大学は科目 (教員) ごとに出席基準が違い、「欠席 5 回まで」「遅刻 3 回で欠席 1 回」と回数で語られる (原文の基準は率でも、運用は回数。`library/japan-school-attendance-requirements.md`)。全科目共通の率 1 本では表現できない。
+- **保存は科目 (Course) に nullable 3 列**: 必要出席率・欠席上限回数・遅刻早退 N 回で欠席 1 回。null = 未設定。学校デフォルトの機構 (AttendanceRule) とは分ける
+- **回数の単位は「授業回 = 同じ科目・同じ日の occurrence の集まり」**にする。限 (コマ) で数えると 2 コマ続きの授業が 2 回になり、教員の言う回数とずれる。既存の「あと N限 (M日)」の日と粒度が揃う
+- 授業回の欠席量 = その回の Σ欠席重み / Σ分母 (未記録は分母にだけ入る)。2 コマのうち 1 コマ欠席 = 0.5 回。遅刻換算は「遅刻・早退を含む授業回の数 / N」を floor して足す (換算前の端数で 1 回早く失格させない)
+- 境界は「上限回数までは OK」: `countAllowed = floor(M − 消化 + 1e-9)`。消化 == M で 0 (まだ失格でない)、超えたら負
+- **合成 (厳しい方) に共通率を混ぜるのは、科目に率を明示したときだけ**。回数だけ設定した科目に共通率 70% を効かせると、15 回中「5 回まで」(66%) が 4 回に上書きされて科目の規定より厳しい嘘が出る
+- 率側を回数単位に揃えるときは既存の `allowedAbsenceDays` (最多コマの曜日で割る保守値) を使う。どちらが効いたか (`limitedBy`) を DTO に出すと、負になったときの文言を「上限を超えた」/「率を下回る見込み」で出し分けられる
+- DTO は既存の率ベース項目 (`allowedAbsences` 等) を壊さず、回数側を別フィールドで足す。旧クライアントは科目の率が反映された限ベースの値を見るだけで済む

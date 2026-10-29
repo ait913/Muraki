@@ -13,6 +13,9 @@ sources:
   - "https://developer.apple.com/documentation/eventkit/ekcalendar/init(for:eventstore:)"
   - "https://developer.apple.com/library/archive/qa/qa1926/_index.html"
   - "https://oleb.net/blog/2012/05/creating-and-deleting-calendars-in-ios/"
+  - "https://developer.apple.com/documentation/eventkit/accessing-the-event-store"
+  - "https://developer.apple.com/documentation/eventkit/accessing-calendar-using-eventkit-and-eventkitui"
+  - "https://developer.apple.com/documentation/bundleresources/information-property-list/nscalendarswriteonlyaccessusagedescription"
 model-era: opus-4.8
 ---
 
@@ -45,7 +48,9 @@ iOS ネイティブアプリから iPhone/iCloud のローカルカレンダー 
 - **source の選び方**: `store.defaultCalendarForNewEvents?.source` を第一候補にする (iCloud が有効なら iCloud source、無ければローカルが返る)。`sourceType == .calDAV` かつ `title == "iCloud"` での判定は **title がユーザー編集可能なので不可**。`sourceType == .local` 決め打ちも不可 — **TN QA1926: リモートアカウント (iCloud 等) が有効だと「空のローカルカレンダー」は非表示にされ、イベントを持つローカルカレンダーは移行/削除を促される**。→ 専用カレンダーをローカル source に作ると「作ったのに標準カレンダー App に出ない」になる。
 - 保存に失敗しうる source: `EKErrorSourceDoesNotAllowCalendarAddDelete` (購読/誕生日など追加不可アカウント)、`EKErrorSourceDoesNotAllowEvents`。エラーは握り潰さず UI に出す。
 - **永続化**: 作成後の `calendarIdentifier` を UserDefaults 等に保存。ただし `calendarIdentifier` は sync-proof でない (上記) + **ユーザーが標準カレンダー App から削除できる** → 起動時に `store.calendar(withIdentifier:)` が `nil` を返したら「消えた」と判定し、**title 一致で再探索 → 見つからなければ再作成**、のフォールバックを必ず持つ。EventKit に「カレンダー削除イベント」は無く、`EKEventStoreChanged` 通知後の再照会が唯一の検知手段。
-- **write-only access では専用カレンダー方式は成立しない**。公式 doc 逐語: 「your app receives write-only access... it can't access any of the existing calendars and events on the device, **including events your app created**. API calls to read event data from the event store don't return any events」。= 作成済みカレンダーの再取得 (`calendar(withIdentifier:)` / `calendars(for:)`) ができず、毎回「見つからない → 再作成」に陥る。**専用カレンダーを使うなら full access 必須**。
+- **write-only access では専用カレンダー方式は成立しない** (2026-10-29 に「Accessing the event store」で再確認)。公式 doc 逐語: 「your app receives write-only access... it can't access any of the existing calendars and events on the device, **including events your app created**. API calls to read event data from the event store don't return any events」+「If your app has write-only access, a request for a list of calendars **returns a single virtual calendar**, that doesn't represent any real calendar in the event store... When your app creates an event, EventKit saves it to a calendar that's **chosen by the person** using your app」。= 書き込み先の指定不可・作成済みカレンダーの再取得 (`calendar(withIdentifier:)` / `calendars(for:)`) 不可・既存イベントの更新/削除不可 → 再エクスポートは重複を作る。**専用カレンダー+差分更新を使うなら full access 必須**。write-only 下の `saveCalendar` 可否は公式に記載なし (未確認)。
+- **iOS 17+ の Info.plist 罠**: 「if your app doesn't include usage description keys, or only includes the older `NSCalendarsUsageDescription` key for describing events access, iOS automatically denies any access request」。write-only を要求するなら `NSCalendarsWriteOnlyAccessUsageDescription` が必須 (full だけ持つアプリが write-only を要求しても自動 deny)。
+- **権限なしの経路**: `EKEventEditViewController` は iOS 17+ でプロセス外 UI として動き、write-only/full を要求せずに 1 件ずつユーザー確認つきで保存できる (sample "DropInLessons")。一括書き出しには不向き。
 
 ## Why
 iOS 17 のプライバシー強化で「予定を書き込むだけ」のアプリに全読み取り権限を求めさせない設計になった。識別子が3種あるのは責務が違うから: `eventIdentifier`=ローカル即時参照 (揮発的)、`calendarItemExternalIdentifier`=デバイス跨ぎの同一性 (準永続だが重複あり)、`calendarIdentifier`=カレンダー参照 (フルシンクで消える)。

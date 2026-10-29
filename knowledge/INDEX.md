@@ -243,6 +243,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
 ## gotcha
 - [API テストの日付 fixture は本番の正規化規約 (JST midnight instant) に合わせる](gotcha/api-test-date-fixtures-must-match-production-normalization.md) — `global` — Atender 学期再設計の Reviewer 検証。`POST /api/attendance/bulk` 等の新 bulk API への
+- [Apple PLA 更新未承諾だと xcodebuild -exportArchive が「No signing certificate iOS Distribution」で落ちる](gotcha/apple-pla-update-blocks-cloud-signing.md) — `global` — atender build 21 を CLI 一気通貫 (archive → export → altool upload、ASC API キー + cloud-managed 署名) で TestFlight に上げようとした。archi
 - [TestFlight に「Upload succeeded」した build が ASC に出てこない時はメール (ITMS-90683 purpose string) / App Store の「言語」は developmentRegion で決まる](gotcha/asc-build-never-appears-itms-email-and-language.md) — `global` — bloom 0.2.0 の審査提出。`xcodebuild -exportArchive`(destination=upload) は「Upload succeeded」で終わり、`altool --validate-app` も no e
 - [状態遷移・権限チェックは先行 read でなく atomic UPDATE の WHERE に置く (asyncpg)](gotcha/asyncpg-check-then-act-must-be-atomic-update.md) — `global` — AgentHub (Python/asyncpg/Postgres の MCP) の実装で、**同じ family のバグを3回踏んだ**。stateless・複数レプリカ・複数 AI が同時接続する前提だと「先に read して Pyth
 - [auditd は `-w <path>` の path が 1 つ無いだけでそこで読込を止め、以降のルール (99-immutable の `-e 2` を含む) が載らない。rules に `-c` を入れ、受入は `auditctl -s` の enabled と `auditctl -l` の本数で取る](gotcha/auditd-missing-watch-path-aborts-rules.md) — `global` — aiserver2 で `rules.d/50-aiserver.rules` (watch 20 本 + syscall 12 本) と `99-immutable.rules` (`-e 2`) を置いて再起動したところ、`system

@@ -17,7 +17,8 @@ aiserver2 の硬化 (2026-10-29) で app 全数に COMMON `--read-only --tmpfs /
 
 - wasawasa は IPA を `os.tmpdir()/wasawasa-app-upload/<run>` に書く (`lib/domain/app-uploads.ts:85`)。IPA は 64 MB を超えるので `ENOSPC: no space left on device` で write に失敗し、worker が同じ run を再試行し続ける (ホストのディスクは 125 GB 空きで、`df` では気付けない)
 - 外形 (MCP `app_upload_status`) は `uploading` のまま、`failure` は null。コンテナログ (`GET /applications/{uuid}/logs`) で初めて `[app-upload] … ENOSPC` が見える
-- 修正: `custom_docker_run_options` の `/tmp` を `size=1g` に PATCH → `POST /applications/{uuid}/restart`。再起動後に pending の run は自動で再開し、そのまま完了した
+- 当夜の暫定: `custom_docker_run_options` の `/tmp` を `size=1g` に PATCH → `POST /applications/{uuid}/restart`。再起動後に pending の run は自動で再開し、そのまま完了した
+- 恒久対応 (2026-10-30、wasawasa main 544079c): 一時保存先を env `WASAWASA_UPLOAD_DIR` (Dockerfile で `/data/app-upload`、`/data` は `POST /applications/{uuid}/storages` の `type:persistent` named volume = ホストディスク) にし、`/tmp` は 64m に戻した。Dockerfile で `/data` を app 所有で作っておくと空 volume の初回マウントで copy-up され non-root でも書ける。併せて ENOSPC / EROFS / EACCES 等の errno を `ArtifactError("storage")` に写し、run を `artifact_storage` で失敗させる (無限再試行をやめ外形に出す)
 
 ## Why
 

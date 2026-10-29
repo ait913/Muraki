@@ -144,6 +144,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [「N件を1値に潰した集計」の拡張は、内訳を additive に足して潰した値を legacy 据え置きにする](pattern/collapsed-summary-add-breakdown-keep-legacy-value.md) — `global` — サーバが「1 日 N 件の出欠」「1 リポジトリ N 件の CI 結果」のような **N 件 → 1 値** の畳み込みを
 - [Coolify アプリのデプロイ詰まり調査フロー](pattern/coolify-deploy-debug-flow.md) — `global` — Coolify でデプロイしてアプリが想定通りアクセス可能にならないとき、原因が「ビルド」「コンテナ起動」「環境変数」「Traefik routing」「Cloudflare proxy」のどこにあるか切り分けるパターン。MeishiLin
 - [出席率の分母から「一括休講日」を除外する標準パターン (Course × Date 中間テーブル)](pattern/course-suspension-denominator-reduction.md) — `global` — 出欠管理アプリで「学園祭振替で来週月曜は休講」のように**科目全体 × 特定日付**で休講を宣言する場面。個別 occurrence の `status=CANCELLED` で手動マークする方式だけだと:
+- [片方のクライアントを正典にして別クライアントを揃えるときは、純粋関数と単体テストの表を写す](pattern/cross-client-parity-port-pure-functions-and-test-tables.md) — `global` — atender で「Web を iOS と全く同じ仕様に」と言われた。iOS は build 18〜21 で学期の引継ぎ・終了提案・公開時間割の取込・科目別の出席基準を足しており、Web は 5 タブ時代のまま。Developer (Cod
 - [専用カレンダーへの一方向エクスポート — 識別子を成果物自身に埋めて差分を取る](pattern/dedicated-calendar-one-way-export-self-describing-key.md) — `global` — 自アプリのデータ (授業・シフト・予約など) を OS のカレンダー (EventKit / CalendarContract 等) に反映したいとき。
 - [同じ規則が 2 実装あるとき「正典 + テストのオラクル」に役割を割る](pattern/dual-implementation-canon-plus-oracle.md) — `global` — 同じ計算規則が 2 箇所に書かれてしまう状況。omatase の自動アーカイブでは
 - [小グループ E2E — epoch 付きグループ鍵 (sealed box 配布) と、鍵付き HMAC セルトークンでの「位置は知らず近さだけ」照合](pattern/e2e-group-epoch-keys-and-proximity-tokens.md) — `global` — bloom (3〜8 人の固定グループの位置 SNS) で、足跡・RT 位置・投稿をサーバーが読めないようにしつつ、接近通知と集合の提案はサーバー側で出し続けたい (2026-10-15)。MLS は過剰。

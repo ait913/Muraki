@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-10-29
+Generated: 2026-10-30
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -216,6 +216,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [「後片付け」の提案は event 時に記録せず現在の状態から毎回導出する](pattern/state-derived-suggestion.md) — `global` — wasawasa で「prod にデプロイした後、リリースの `git_branch` を master に切り替えて」と促したい。素直な案は完了 event (`deploy.finished`) の時にモーダル / toast で聞く・
 - [自前AS の発行JWTに upstream token を AEAD 埋め込みするステートレス federation](pattern/stateless-oauth-federation-encrypted-upstream-token.md) — `global` — リモート MCP サーバー（自前 Authorization Server が upstream IdP=GitHub OAuth に federate）で、
 - [静的サイトの「配信範囲」は PaaS の設定でなく Dockerfile の COPY で定義する](pattern/static-site-serve-scope-as-copy-not-config.md) — `global` — 静的サイト (素の HTML/CSS、ビルド済 SPA 等) を PaaS に載せるとき、
+- [App Store スクショの HTML パイプラインを別アプリへ移植する (寸法換算・文字数上限・素材の撮り方)](pattern/store-screenshot-html-port-between-apps.md) — `global` — Bloom の `mocks/store/` (1290×2796、COPY + CSS + puppeteer-core) を atender (1320×2868、白基調) に移植する設計で決めたこと。
 - [SwiftUI シートをコンテンツ高にフィットさせる — header/content/footer を実測して .height detent](pattern/swiftui-bottomsheet-content-fit-detent.md) — `global` — atender の共通 `BottomSheet` は `detents: [.large]` や `[.medium, .large]` を使っていた。内容が短いシート(授業の詳細など)では**シート高 > コンテンツ高**になり、下部に
 - [SwiftUI 折りたたみドロワー/せり上がりパネルは native sheet でなくカスタム overlay + ジェスチャー空間分離で作る](pattern/swiftui-custom-overlay-drawer-spatial-gesture.md) — `global` — 既存グリッド (縦 ScrollView + 内部に水平 drag する月カレンダー) の上に、上端プルダウン・ドロワーや下端せり上がりパネルを載せたい。native `.sheet` / `presentationDetents` は (
 - [TanStack Query を SwiftUI へ移植する — prefix invalidation キャッシュ + 楽観更新を純粋関数に分離](pattern/swiftui-tanstack-query-port-invalidation-cache.md) — `global` — Web (React) が TanStack Query の (a) クエリキャッシュ (b) prefix invalidation マトリクス (c) 楽観更新+ロールバック を持ち、それを SwiftUI ネイティブへ**忠実移植**

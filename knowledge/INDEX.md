@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-10-30
+Generated: 2026-10-31
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -117,6 +117,10 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [m2 モック UI (ブロブヒートマップ/軌跡タイムライン/ビーコン枠) を Flutter 本体へ移植する前の現状確認](../projects/bloom/.knowledge/research-m2-map-redesign.md) — `bloom` — 1. **maplibre_gl 0.26.2 で全部揃う。**
 - [M3 (現在地マーカーの滑らか移動 / 境界内即時塗り / ソフト追従カメラ) 設計前リサーチ](../projects/bloom/.knowledge/research-m3-live-movement.md) — `bloom` — 1. **前景で地図表示中でも、CLLocation の `didUpdateLocations` は `speed` は一部の fix にしか流れず、`course`/`courseAccuracy`/`speedAccuracy` はど
 - [「今なにしてる？動画リクエスト」設計前リサーチ](../projects/bloom/.knowledge/research-video-request.md) — `bloom` — 新機能は現時点で**未着手** (`feature/video-request` ブランチは `master` から分岐しているだけで、
+- [minigame-pvp Pre-design Research 統合 — 市場・競合・ターゲット・ブランディングの示唆 (2026-10-31)](../projects/minigame-pvp/.knowledge/00-research-summary-20261031.md) — `minigame-pvp` — Touri 構想: 「通話中の恋人・友人と、話しながら脳死でできる PvP/協力ミニゲームが沢山入っていて、とりあえず入れておけば使えるアプリ。Fall Guys 的ブランディング」。
+- [minigame-pvp リサーチ — ターゲット理解・ブランディング・ビジュアル傾向](../projects/minigame-pvp/.knowledge/research-20261031-branding-target.md) — `minigame-pvp` — WebSearch + WebFetch。出典を取れたものは「事実」、取れなかったものは「推測」「未確認」と明記。**WebSearch の要約は誤りうるので、数値は WebFetch で本文確認できたものだけ事実扱いにした。**
+- [競合・先行事例とプラットフォーム機能 (minigame-pvp Pre-design Research)](../projects/minigame-pvp/.knowledge/research-20261031-competitors-platform.md) — `minigame-pvp` — 凡例: 【事実】出典あり / 【推測】本調査者の推論 / 【未確認】取れず。WebSearch は SEO 低品質ページが多く、一次ソース (Apple/Google/公式 doc/ストア) のみ事実扱いにした。
+- [minigame-pvp 市場・ランキング・収益モデル調査 (2026-10-31 時点)](../projects/minigame-pvp/.knowledge/research-20261031-market.md) — `minigame-pvp` — 1. 取得: 2026-10-30 (PDT) の Apple 公式 RSS (ゲーム全体)。JP/US とも無料 TOP は **ブロック/ソート/マージ系カジュアルパズル + 新作大型タイトル**が占め、「対人ミニゲーム集/パーティー」
 - [wasawasa Phase 1 設計前リサーチ (Next.js MCP+OAuth / GitHub Org / Postgres ORM / Coolify / Firebase / Slack / UI)](../projects/wasawasa/.knowledge/research-20261002-phase1.md) — `wasawasa` — wasawasa (n-wasabi 内部開発プラットフォーム) の Phase 1 設計前リサーチ。PRODUCT.md §9-1 の宿題「Next.js + TS MCP SDK で GitHub upstream の OAuth (t
 - [wasawasa 次フェーズ設計前リサーチ (Coolify デプロイ制御 / MCP ツール実装 / レスポンシブ / bloom ブランチ運用)](../projects/wasawasa/.knowledge/research-20261003-deploy-mcp-responsive.md) — `wasawasa` — wasawasa 次フェーズ「wasawasa から Coolify デプロイを実行・制御 + MCP ツール + レスポンシブ」の設計前調査。前回 (`research-20261002-phase1.md` §4) と重複しない差分だけ
 - [wasawasa を AIS Pass の RP にする (Phase 2) の事前調査 — 現状コード・genericOAuth・リンク・セッション失効・テスト](../projects/wasawasa/.knowledge/research-ais-pass-rp-20261023.md) — `wasawasa` — wasawasa (Next 16 + better-auth 1.7.7) の人間ログインを GitHub 直から AIS Pass (OIDC IdP、better-auth 1.7.12 + oauth-provider) 経由にする

@@ -135,6 +135,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [AI が人間 identity を共有する MCP での「承認ゲート」設計 (構造ゲートで代理)](pattern/ai-collab-mcp-shared-identity-approval-gate.md) — `global` — AI グループ開発ツール (agent-hub 等) で「意思決定は人間が承認する (ブラックボックス化を防ぐ)」を
 - [AI 振り返り対話のセッション設計と階層型メモリ](pattern/ai-reflection-dialog-memory.md) — `global` — 夜の振り返り (evening reflection) を AI と対話で行う UX。Stoic / Rosebud / Mindsera の 2025-2026 設計と、長期運用での memory アーキテクチャ。
 - [aisaba.net 系の視覚デザイン言語](pattern/aisaba-design-language.md) — `global` — aisaba.net・apps.aisaba.net・portfolio_manager 等、ユーザー (Touri Aida) が運営する複数サイトで一貫した視覚言語が使われている。新規 UI を作る・既存サイトに追加コンポーネントを差し
+- [交互に当て合う 2 人対戦の先手有利を「後手の最後の 1 回」で均す + 上限手数で尺を保証する](pattern/alternating-turn-race-last-chance-equalization.md) — `global` — wacha のヒット&ブロー (3 桁・重複なし・交互に推測) で、先手後手の公平化と最大手数を決める必要があった。1 試合 5 分以内 (PRODUCT 原則) も満たしたい。
 - [Apple Sign in の client secret を node:crypto で同期生成し auth 初期化の async 化を避ける](pattern/apple-client-secret-sync-nodecrypto.md) — `global` — better-auth (や NextAuth) の Apple provider は `clientSecret` を必須にするが、Apple の client secret は **ES256 で署名した JWT** で最長6ヶ月失効す
 - [claude.ai Artifact で MapLibre の実タイル地図を動かす — タイル/グリフを base64 JSON に包んで addProtocol で復号](pattern/artifact-maplibre-offline-bundle.md) — `global` — 地図 UI のモックを Artifact (claude.ai) で共有したい。Artifact の CSP は **外部 script は cdnjs / jsdelivr(npm) のみ、stylesheet は Google Font
 - [出席率の3指標分解 — 「今日まで実績 / 楽観射影 / あとN回休める」標準計算パターン](pattern/attendance-to-date-rate-and-allowed-absences.md) — `global` — 出欠管理アプリで「学期全体の予定回数」を分母にすると、学期序盤は未来分が分母に入って率が不当に低く出る。ユーザーが本当に知りたいのは (1) 今日までの実績率と (2) あと何回休めるか。
@@ -244,6 +245,8 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [時間割の連続コマは「描画前 coalesce + CSS Grid grid-row span」で結合](pattern/timetable-consecutive-cell-grid-row-span-coalesce.md) — `global` — 時間割グリッドで、同一授業が連続コマ (例 月1限+2限) にまたがるとき 1 つの縦長ブロックとして表示したい。データ上は隣接コマが別レコード (各 periodCount=1) に割れていることがある (後付け追加・テンプレ取込・週ビュ
 - [refresh トークンは単一所有者 + AuthExpired 単一イベントで設計する](pattern/token-refresh-single-owner-and-auth-expired-event.md) — `global` — rotate-on-use の refresh トークン (使用ごとに旧トークンを DELETE) を、前景 + 背景
 - [Touri 流の「シンプル + 並列拡張」設計パターン](pattern/touri-design-philosophy.md) — `global` — ユーザー (Touri Aida) が CGI 時代から積み上げてきたコードベース (ceez7 / マネログ) を読んで抽出した設計パターン。本人いわく「**目的に対してなるべくシンプルな実装と、汎用性・拡張性に長けた設計**」。AI コ
+- [ターン制の物理ゲームは「手番側で確定 + 両端末で毎手番 World を積み直す + 相手側は表示用の物理」で同期する](pattern/turn-based-physics-authoritative-sender-rebuild-and-display-sim.md) — `global` — wacha のつみつみ (交互に積む物理ゲーム、2 端末)。決定論 lockstep もサーバー物理も使わずに、2 端末で同じタワーを持ち、崩れの勝敗を両者の報告の一致で確定させる必要があった。
+- [2 端末で同じ出題を決める (公開 seed + 履歴の和集合の交換 + データ版の錠)](pattern/two-device-deterministic-deck-exchanged-history.md) — `global` — wacha のどっち派 (2 択を同時に答えて一致を数える) で、2 端末が通信で順番を受け渡さずに同じ 10 問を出し、かつ「最近見た問」を避けたかった。ゲームは端末内ストレージ (`GameStorage`) しか持たず、ペアの id 
 - [小規模グループ UGC アプリの通報・ブロック最小実装 (App Review 1.2 対応、追放なし)](pattern/ugc-report-block-minimal-for-app-review.md) — `global` — App Store 審査 (Guideline 1.2 User-Generated Content) は UGC を持つアプリに (1) 不適切コンテンツのフィルタ手段 (2) 通報と timely な対応 (3) 迷惑ユーザーのブロック
 - [既存 UI を視覚再設計する際に描画テストを壊さない設計規律](pattern/ui-restyle-without-breaking-render-tests.md) — `global` — 既に動いている React アプリの **見た目だけ** を別デザイン言語 (例: Cloudflare dashboard 風) に全面再設計する場面。データモデル/API/挙動は変えない「純 UI 再設計」。Reviewer が既存の描
 - [UI/UX 設計の汎用観点集 (Web + SwiftUI 共通、出典タグ付き)](pattern/ui-ux-design-perspectives.md) — `global` — Muraki の Architect が設計doc の UI/UX 節を書くとき・Leader/Reviewer が UI を評価するときに**通す観点の集合**。Touri の要望「Apple ガイドラインベースの要素感覚 + フォント/
@@ -321,6 +324,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [flutter build ios --simulator --no-codesign は Keychain 書き込みが -34018 で死ぬ (shot driver の live が LaunchScreen で止まる) / Riverpod 3 は build 中に他 provider を変更すると AsyncError](gotcha/flutter-sim-no-codesign-keychain-34018.md) — `global` — bloom の shot driver (`shot.json` で画面を再現して `simctl io screenshot`) で `mode: "live"` (dev1 に login-as) だけがネイティブの LaunchScr
 - [flutter test で plugin 同梱 ffi は動かない — ホスト dylib を dlopen 注入する](gotcha/flutter-test-plugin-ffi-needs-host-dylib-injection.md) — `global` — bloom P2a のレビューで、集計パイプライン (h3_flutter の `latLngToCell`) を `flutter test` (ホスト VM) で回そうとした。
 - [負のコントロールの復元に git checkout -- を使うと、レビュー対象の未コミット作業を消す](gotcha/git-checkout-restore-destroys-uncommitted-work.md) — `global` — Reviewer が負のコントロール (mutation testing) を回すとき、対象ファイルを一時的に壊して
+- [Go の json.Number / UseNumber は "5" (引用符付き) を整数として受ける](gotcha/go-json-number-accepts-quoted-integers.md) — `global` — wacha server (Go) の内部 API / 入室 JWT / ゲームモジュールの action は「整数」を設計で規定していた。
 - [Go nil slice が JSON null になり MCP 空状態契約 (空配列) を破る](gotcha/go-nil-slice-null-breaks-mcp-empty-state-contract.md) — `global` — MCP ツールの typed struct 出力 (go-sdk `AddTool[In, Out]`) で「空状態はエラーでなく空コレクションで返す」契約を設計docに書いた。実装は Out struct の slice フィールドを未初
 - [Go ServeMux の PathValue / Pattern は、mux の手前で r.WithContext したコピーにしか付かない (外側 middleware からは見えない)](gotcha/go-servemux-pathvalue-invisible-to-outer-middleware.md) — `global` — bloom のアクセスログに route の `{gid}` 等を足す設計で、「外側の `accessLog` が `next.ServeHTTP` の後に `r.PathValue("gid")` を読めばよい」と書きかけた。
 - [Go slog の Handler wrapper で rec.AddAttrs した属性は WithGroup の中に入る](gotcha/go-slog-handler-wrapper-addattrs-nests-under-withgroup.md) — `global` — bloom S1 (アクセスログ整備) で、`request_id` を ctx から全 slog 行に付ける `requestIDHandler` (slog.Handler を包み `Handle(ctx, rec)` で `rec.A
@@ -423,6 +427,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Nexom 既知失敗テスト台帳](../projects/nexom/.knowledge/known-failures.md) — `nexom` — `Muraki/CLAUDE.md` 「ベースライン失敗の台帳」準拠。未分類の失敗を残したままのマージは不可。
 - [アーカイブの DB ガードは「保存」を止めるが WS の「中継」は止めない](../projects/omatase/.knowledge/archived-gate-stops-persistence-not-relay.md) — `omatase` — PRODUCT.md §8-7 は「アーカイブ後は読み取り専用。**位置共有は止める**」を要求する。
 - [omatase 既知の失敗テスト台帳](../projects/omatase/.knowledge/known-failures.md) — `omatase` — Muraki 規約: 各 PJ は既知の失敗テストを分類付き (テスト陳腐化 / 環境依存 / **未分類**) で持つ。**未分類の失敗を残したままのマージは不可**。この台帳と照合して初めて「既存破損だから無視」が言える。
+- [wacha known-failures 台帳](../projects/wacha/.knowledge/known-failures.md) — `wacha` — ベースライン失敗の台帳 (分類: テスト陳腐化 / 環境依存 / 未分類)。未分類を残してマージしない。
 - [Coolify ビルドで next/font/google の取得が一過性に失敗する](../projects/wasawasa/.knowledge/next-build-google-fonts-transient.md) — `wasawasa` — `app/layout.tsx` が `next/font/google` (BIZ UDPGothic / Red Hat Mono) を使う。Turbopack のビルド時に fonts.googleapis.com / fonts.g
 
 ## tool-quirk

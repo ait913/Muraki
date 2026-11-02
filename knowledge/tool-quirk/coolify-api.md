@@ -320,6 +320,16 @@ Dockerfile で `RUN mkdir -p /data && chown -R app:app /data` した後に `USER
 - 何もしなくても通る場合が多いが、**「たぶん大丈夫」で終わらせず、上記 scheduled-tasks execute で `id` + `touch` を必ず実測する** (SSH 不要)
 - もし実際に権限エラーが出たら、対処は (a) Dockerfile の `ENTRYPOINT` を `sh -c "chown -R app:app /data && exec /bin/api"` に変える (root で起動して chown 後に降格) か、(b) Coolify 側 custom_docker_run_options で `--user` を調整、のいずれか。今回は不要だった
 
+### 複数 destination のサーバーでの作成・deploy key・Redis 型 DB (2026-11-03、Coolify 4.5.3、wacha 構築で実測)
+
+- **`destination_uuid` が必須**: サーバーに destination が複数あると (aiserver2 は app 群ごとに `dst-*` を分けている) app / DB の POST は `Server has multiple destinations and you do not set destination_uuid.` で落ちる。一覧は `GET /destinations`、新規は `POST /servers/{uuid}/destinations` `{"name","network","type":"standalone"}` (network は未使用の名前)。同じ destination の中はコンテナ名 (= app / DB の uuid) で名前解決できる。rolling update のコンテナ名は `<uuid>-<時刻>` になるが uuid の alias で届く
+- **deploy key ソース (`POST /applications/private-deploy-key`) の `git_repository` は SSH 形式** `git@github.com:owner/repo.git`。https URL を渡すと作成は通るがデプロイ時に `could not read Username for 'https://github.com'` で失敗する。作成後に `PATCH {"git_repository":"git@github.com:owner/repo.git"}` で直せる。個人 (非 org) リポジトリなら GitHub App より deploy key が速い (`gh repo deploy-key add <pub> --repo owner/repo` でブラウザ不要。GitHub App にリポジトリを足す操作は OAuth token では 403 でブラウザ必須)
+- **Redis 型 DB の `redis_conf` は base64** (`custom_labels` / `docker_compose_raw` と同じ流儀。生で送ると `The redis_conf should be base64 encoded.`)。`image` に `valkey/valkey:9-alpine` を指定しても普通に動く (healthcheck の `redis-cli` は valkey イメージの互換 symlink で通る)。作成直後の `status` は一瞬 `exited:unhealthy` を返すことがある (数十秒後に `running:healthy`)
+- **`envs/bulk` は各キーを 2 行作るが片方は `is_preview: true`** (preview deployment 用)。`is_preview: false` で絞れば 1 行なので重複掃除は不要 (上の「重複行を作るバグ」はこれだった可能性が高い)
+- **`post_deployment_command` を一時的な「コンテナ内プローブ」に使える**: `sh -c 'wget -qO- http://<他 app uuid>:8081/healthz'` を PATCH して deploy すると、出力が deployment ログ (`GET /deployments/{uuid}` の `logs`) に出る。SSH 不要。確認後は `{"post_deployment_command":""}` で消す (scheduled-tasks execute の裏技と同系)
+- **`POST /databases/{uuid}/backups` に `number_of_backups_locally` は送れない** (`This field is not allowed.`)。`{"frequency":"daily","enabled":true,"save_s3":false}` で通る
+- Cloudflare 配下の `*.appily.run` は **`User-Agent` の無い / Python-urllib の UA のリクエストを 403** で弾く (curl は通る)。スクリプトからの疎通確認は UA を付ける
+
 ## Why
 
 Coolify は Laravel + Livewire 製で、UI 機能が API より先行する傾向。OpenAPI ドキュメントと実装で乖離があるのは「UI 機能が後追いで API 化されてない」だけで、ソースを `bootstrap/helpers/docker.php` 等で読むと挙動が分かる。

@@ -327,6 +327,7 @@ Dockerfile で `RUN mkdir -p /data && chown -R app:app /data` した後に `USER
 - **Redis 型 DB の `redis_conf` は base64** (`custom_labels` / `docker_compose_raw` と同じ流儀。生で送ると `The redis_conf should be base64 encoded.`)。`image` に `valkey/valkey:9-alpine` を指定しても普通に動く (healthcheck の `redis-cli` は valkey イメージの互換 symlink で通る)。作成直後の `status` は一瞬 `exited:unhealthy` を返すことがある (数十秒後に `running:healthy`)
 - **`envs/bulk` は各キーを 2 行作るが片方は `is_preview: true`** (preview deployment 用)。`is_preview: false` で絞れば 1 行なので重複掃除は不要 (上の「重複行を作るバグ」はこれだった可能性が高い)
 - **`post_deployment_command` を一時的な「コンテナ内プローブ」に使える**: `sh -c 'wget -qO- http://<他 app uuid>:8081/healthz'` を PATCH して deploy すると、出力が deployment ログ (`GET /deployments/{uuid}` の `logs`) に出る。SSH 不要。確認後は `{"post_deployment_command":""}` で消す (scheduled-tasks execute の裏技と同系)
+- **Redis 型 DB の硬化も PG と同じ経路**: coolify-db の `standalone_redis.custom_docker_run_options` を UPDATE → `POST /databases/{uuid}/restart`。Coolify の redis compose は `user` を落とさず redis-server が root で動く (`--user` は許可リスト外) ので、`--cap-drop ALL --cap-add CHOWN --cap-add DAC_OVERRIDE --cap-add FOWNER --cap-add SETGID --cap-add SETUID --security-opt no-new-privileges=true --read-only --tmpfs /tmp:rw,noexec,nosuid,size=64m --pids-limit 256` で止める (valkey 9 で healthy、AOF は /data volume に書ける)
 - **`POST /databases/{uuid}/backups` に `number_of_backups_locally` は送れない** (`This field is not allowed.`)。`{"frequency":"daily","enabled":true,"save_s3":false}` で通る
 - Cloudflare 配下の `*.appily.run` は **`User-Agent` の無い / Python-urllib の UA のリクエストを 403** で弾く (curl は通る)。スクリプトからの疎通確認は UA を付ける
 

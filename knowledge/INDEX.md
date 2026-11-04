@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-11-03
+Generated: 2026-11-04
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -94,6 +94,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Tiptap 3 / BlockNote / Milkdown の Markdown 往復と Next 16 での注意 (2026-10)](library/tiptap-markdown-roundtrip-2026.md) — `global` — Markdown を正典にするドキュメントエディタを Next 16 / React 19 に載せる検討 (wasawasa)。実機 spike で比較した。詳細表は `projects/wasawasa/.knowledge/resear
 - [Unity CI ビルド (Linux/GameCI) の 2026-10 時点の事実](library/unity-ci-linux-2026.md) — `global` — wasawasa に Unity ビルドを載せる前調査 (2026-10-14)。
 - [vCard 日本語名刺生成 (vCard 3.0 + 振り仮名)](library/vcard-japanese.md) — `global` — 日本向け Web 名刺アプリで、iOS/Android 連絡先に取り込める .vcf を Node で生成する。
+- [Xcode Cloud を API で「手動開始のみ」にするには manualBranchStartCondition を使う (branchStartCondition は null にできず、残すと手動ビルドが 409)](library/xcode-cloud-api-manual-only-workflow.md) — `global` — wasawasa は環境の「アプリアップロード」で `POST /v1/ciBuildRuns` (workflow + `sourceBranchOrTag`) を打ってビルドを起こす。Xcode のウィザードが作る既定 workflow
 - [Xcode Cloud を ASC API / Webhook / ci_scripts から外部制御する (2026-10 時点の仕様と癖)](library/xcode-cloud-asc-api-2026.md) — `global` — wasawasa から Xcode Cloud を起動して Flutter iOS (bloom dev) をビルド・配布する構成の事前調査 (2026-10-05)。詳細と PJ 固有の含意は `projects/wasawasa/.kn
 - [AIS Pass Phase 1 設計前リサーチ (better-auth 1.7.12 IdP / 2FA / admin / 招待、送信 API 比較、Cloudflare Email Routing + Workers、Tunnel 経路、Coolify)](../projects/ais-pass/.knowledge/research-phase1-20261023.md) — `ais-pass` — AIS Pass (PRODUCT.md §3 / §4.3 / §5.2 / §9) の設計 doc を書く前に、土台候補 (Next.js + better-auth) のプラグイン現存と API、送信 API の選定材料、Cloudf
 - [aisaba_platform の Nexom 1.1.41 から 1.2.0 への移行 呼び出し箇所インベントリ (設計前サーベイ)](../projects/aisaba-platform/.knowledge/nexom-120-migration-survey.md) — `aisaba-platform` — ★1. **`TRUSTED_PROXY_COUNT` は 2** (Leader メモの「1」は誤り)。実測: `client_ip` は X-Forwarded-For を `,` 分割 → strip → 空要素除去した列 hops 
@@ -467,7 +468,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [Bloom UI 修正12項目の現状調査（2026-09-22）](../projects/bloom/.knowledge/research-20260922-ui-fixes.md) — `bloom` — 指定範囲の静的調査。実装変更、Flutter / Go コマンド、テスト実行、実機操作、公開ホストへの通信は実施していない。行番号は現行ファイルを実際に読んだ位置。以下の「変更に必要そうな箇所」「壊れそうなもの」は調査結果に基づく影響候補で
 - [Pre-design research: users.email / 表示名の堅牢化 / ユーザー自身の改名 / アクセスログ拡充 (2026-10-13)](../projects/bloom/.knowledge/research-20261013-identity-and-name.md) — `bloom` — 2026-10-13 に旧アプリからの初回 SIWA が 426 で止まり、Apple が初回しか渡さない氏名が失われて「名無し」ユーザー (ee534ac0) ができた。ゲートは PR #15 で修正済。Touri 裁定で (1) `us
 - [月次キャラ 16 タイプのビジュアル体系 — 設計前リサーチ](../projects/bloom/.knowledge/research-character-design-system.md) — `bloom` — - `PRODUCT.md` §5-2: 4 軸 (時間: 定時↔マイペース / 半径: 放浪↔定住 / 開拓: 探検家↔常連 / 集合: 発起人↔乗っかり)、3 条件 (烙印にしない・固定しない・根拠を見せる)
-- [known-failures](../projects/wasawasa/.knowledge/known-failures.md) — `wasawasa` — 測定: 2026-10-14 (最終) / branch feature/integration-accounts (Developer e59b587 (IX5 の補完変更。i-* + p3a-* の API 12 files / 181
+- [known-failures](../projects/wasawasa/.knowledge/known-failures.md) — `wasawasa` — 測定: 2026-11-03 (最終) / branch feature/distribution-targets (Developer afd059f + Reviewer のテストコミット、設計 20261103-distributio
 - [Notion の DB 行 = ページ / 行ページのサイドバー / DB 外ページのプロパティ (公式確認、2026-10-09)](../projects/wasawasa/.knowledge/research-20261009-row-pages-notion-facts.md) — `wasawasa` — wasawasa の「DB の行をページにする + 全ページにタグ」の設計前調査 (Touri 2026-10-09)。Notion の実挙動を公式ヘルプ / API リファレンスで確認した。
 - [コードブロックを Notion 同等に強化 (言語色付け + Mermaid) の調査と実機検証](../projects/wasawasa/.knowledge/research-code-block-mermaid.md) — `wasawasa` — wasawasa の Tiptap エディタ (Next 16 / React 19 / Tiptap 3.31.4 + `@tiptap/markdown`) のコードブロックは表示のみ。Touri 要望は言語ごとの色付けと Mermai
 - [ドキュメントエディタ + Markdown クラウドの事前調査 (2026-10-05)](../projects/wasawasa/.knowledge/research-doc-editor.md) — `wasawasa` — wasawasa に Notion 同等のページエディタ + Markdown 正典のページ保存 (ツリー、リリースからのリンク、サイドバー「ページ」) を足す設計の事前調査。ローカル spike: `/private/tmp/claude

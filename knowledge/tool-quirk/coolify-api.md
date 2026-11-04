@@ -289,6 +289,7 @@ if (! $forBuildTime || $this->application->settings->include_source_commit_in_bu
 - **`command` が 255 文字前後を超えると作成が 500 `Server Error`** (断片ごとに試すと全部通るのが罠。2026-10-18 bloom prod で確認)。長い手順は task を分ける。`timeout` (秒、既定 300) は作成 body で上書きできる
 - **python の urllib は Cloudflare の UA ban (error 1010) で 403**。`User-Agent: curl/8.7.1` を付けるか curl を使う
 - 用途: **volume mount 後のパーミッション確認**、環境変数が実際にコンテナに届いているかの確認 (`env` コマンド)、ファイルの存在確認など、従来 SSH + `docker exec` が要ると思っていた作業の大半をカバーできる
+- **ssh が外から通らない時の読み取り SQL にも使える** (2026-11-04 wasawasa 切替の確認で実測): psql クライアントの無い Node コンテナでも `node -e "c=new(require('pg').Client)({connectionString:process.env.DATABASE_URL});c.connect().then(()=>c.query('select count(*) from t')).then(r=>console.log(JSON.stringify(r.rows))).finally(()=>c.end())"` で 1 本ずつ (255 文字制限なので SELECT を分ける)。`/api/*` が Cloudflare Access 配下なら CF の 2 ヘッダも付ける。失敗すると HTML のエラーページが返り `jq` が落ちるので `.uuid // empty` の空判定で止める
 
 ```sh
 curl -sS -X POST -H "Authorization: Bearer $COOLIFY_API_TOKEN" -H "Content-Type: application/json" \
@@ -339,6 +340,8 @@ wasawasa の環境サービス設計 R2 は「`GET /applications/{uuid}` の `up
 - **デプロイ時に application 行を書くのは `ApplicationDeploymentJob.php` L3043 の `update(['status' => 'running'])` のみ**。healthcheck 有効で新コンテナが healthy になった時だけ、しかも `finished_at` (L433〜436、`finally`) より**前**。healthcheck 無効 (`running:unknown` のアプリ、27 本中 約半数) なら何も書かない。`handleSuccessfulDeployment` (L6426) の restart 系カウンタは通常 dirty でないので進まない
 - 結果: **status が変わらない再デプロイでは `updated_at` が `finished_at` を超える保証が無い** (上限時間も無い)。「stale なら失敗」にすると healthcheck 無効アプリの全デプロイがタイムアウトする。使うなら「fresh なら即成功」の一方向だけ
 - 実測の謎: 全 27 アプリの `updated_at` が同一秒 (2026-11-04T06:16:02Z) に揃っていた。v4.6.0 のスケジュール (`app/Console/Kernel.php`) に全行 touch は無く、原因未特定 (Coolify 自身の更新/再起動か)。定期的に進むものとして当てにしない
+- 追加実測 (2026-11-04 wacha prod 再デプロイを 5 秒間隔で 12 分観測): status が `running:healthy` のまま一度も変わらない再デプロイでも `applications.updated_at` は **分の頭 (xx:xx:01〜03) に不規則に進む** (09:31:01 / 09:32:03 / 09:33:01 / 09:35:02 / 09:41:01。毎分ではない) し、healthcheck 有効アプリでは deployment `finished` の直後にも進む (上記 L3043 の `status='running'` 書き込み)。つまり「進む = 新コンテナ反映」でも「進まない = 古い」でもない。逆に **deployment 行 (`GET /deployments/{uuid}`) の `updated_at` はビルド中 5〜20 秒おきに進み、最長無音は 26 秒だった** (ログ追記ごとに save)。進捗・喪失検知はこちらを使う
+- `GET /deployments/{uuid}` の JSON は `logs` に不正なエスケープが混ざることがあり **`jq` が parse error で落ちる** (agent-hub の deployment で実測)。status / finished_at だけ要るなら `grep -o '"status":"[a-z_-]*"'` のように文字列で拾う
 - 出典: `github.com/coollabsio/coolify` tag v4.6.0 の上記ファイル。`GET /version` = 4.6.0
 
 ## Why

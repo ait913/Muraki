@@ -331,6 +331,16 @@ Dockerfile で `RUN mkdir -p /data && chown -R app:app /data` した後に `USER
 - **`POST /databases/{uuid}/backups` に `number_of_backups_locally` は送れない** (`This field is not allowed.`)。`{"frequency":"daily","enabled":true,"save_s3":false}` で通る
 - Cloudflare 配下の `*.appily.run` は **`User-Agent` の無い / Python-urllib の UA のリクエストを 403** で弾く (curl は通る)。スクリプトからの疎通確認は UA を付ける
 
+### `applications.updated_at` はデプロイの「鮮度」シグナルにならない (2026-11-04、Coolify 4.6.0 のソース読み + 実測)
+
+wasawasa の環境サービス設計 R2 は「`GET /applications/{uuid}` の `updated_at >= deployment.finished_at` なら status が新コンテナを反映している」と仮定したが、成り立たない。
+
+- **Sentinel 経路 (`app/Jobs/PushServerUpdateJob.php` L673〜676) は status 文字列が変わらない限り save しない** (`if ($application->status !== $containerStatus) { ... save(); }`)。`last_online_at` も書かない。同 status で `last_online_at` を書くのは SSH 経路 (`app/Actions/Docker/GetContainersStatus.php` L526〜532) だけで、それは Sentinel が out of sync の時にしか動かない (`app/Jobs/ServerManagerJob.php` L180〜193)
+- **デプロイ時に application 行を書くのは `ApplicationDeploymentJob.php` L3043 の `update(['status' => 'running'])` のみ**。healthcheck 有効で新コンテナが healthy になった時だけ、しかも `finished_at` (L433〜436、`finally`) より**前**。healthcheck 無効 (`running:unknown` のアプリ、27 本中 約半数) なら何も書かない。`handleSuccessfulDeployment` (L6426) の restart 系カウンタは通常 dirty でないので進まない
+- 結果: **status が変わらない再デプロイでは `updated_at` が `finished_at` を超える保証が無い** (上限時間も無い)。「stale なら失敗」にすると healthcheck 無効アプリの全デプロイがタイムアウトする。使うなら「fresh なら即成功」の一方向だけ
+- 実測の謎: 全 27 アプリの `updated_at` が同一秒 (2026-11-04T06:16:02Z) に揃っていた。v4.6.0 のスケジュール (`app/Console/Kernel.php`) に全行 touch は無く、原因未特定 (Coolify 自身の更新/再起動か)。定期的に進むものとして当てにしない
+- 出典: `github.com/coollabsio/coolify` tag v4.6.0 の上記ファイル。`GET /version` = 4.6.0
+
 ## Why
 
 Coolify は Laravel + Livewire 製で、UI 機能が API より先行する傾向。OpenAPI ドキュメントと実装で乖離があるのは「UI 機能が後追いで API 化されてない」だけで、ソースを `bootstrap/helpers/docker.php` 等で読むと挙動が分かる。

@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Generated: 2026-11-04
+Generated: 2026-11-06
 
 _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 
@@ -125,6 +125,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [社名・アプリ名候補の既存衝突 機械確認 (2026-10-31)](../projects/wacha/.knowledge/research-20261031-name-collision.md) — `wacha` — wacha (仮) の名前候補 8 件について、既存との衝突を WebSearch で機械的に確認した。判断は含まない (評価・推奨なし)。WebSearch の結果は検索エンジンの抜粋ベースで、App Store の評価件数・現在の掲載状
 - [wacha の SDK 開放 (外部デベロッパー) の成立条件と 2 サーバー構成の定番 (2026-10-31 調査)](../projects/wacha/.knowledge/research-20261031-sdk-platform-architecture.md) — `wacha` — 1. ★ **Apple の「HTML5/JS ミニゲームを後から配信してよい」根拠は 2.5.2 でなく 4.7 (「Mini apps, mini games…」) である。** 2.5.2 の現行文言に WebKit/JSC の例外は
 - [wacha スタック・2人同期・通話共存・招待フロー・匿名ID の現存確認 (2026-10-31)](../projects/wacha/.knowledge/research-20261031-stack-sync-audio.md) — `wacha` — 1. **Flutter 3.47 で Flame 1.38.2 + flame_forge2d 0.20.0 + flame_rive 1.11.2 (rive 0.14.11) + flame_audio 2.12.2 + audio_
+- [TestFlight build 10002 フィードバックの現状調査 (スタンプ / ダーク / 途中終了 / H&B / どっち派 / ストア画像)](../projects/wacha/.knowledge/research-20261106-testflight-feedback-1.md) — `wacha` — Touri が build 10002 を実機で触って出した修正点 (2026-11-06) の、設計前の現状調査。行番号は main 4e1c4ed 時点。
 - [wasawasa Phase 1 設計前リサーチ (Next.js MCP+OAuth / GitHub Org / Postgres ORM / Coolify / Firebase / Slack / UI)](../projects/wasawasa/.knowledge/research-20261002-phase1.md) — `wasawasa` — wasawasa (n-wasabi 内部開発プラットフォーム) の Phase 1 設計前リサーチ。PRODUCT.md §9-1 の宿題「Next.js + TS MCP SDK で GitHub upstream の OAuth (t
 - [wasawasa 次フェーズ設計前リサーチ (Coolify デプロイ制御 / MCP ツール実装 / レスポンシブ / bloom ブランチ運用)](../projects/wasawasa/.knowledge/research-20261003-deploy-mcp-responsive.md) — `wasawasa` — wasawasa 次フェーズ「wasawasa から Coolify デプロイを実行・制御 + MCP ツール + レスポンシブ」の設計前調査。前回 (`research-20261002-phase1.md` §4) と重複しない差分だけ
 - [配布先 (distribution target) を環境ごとに汎用化する前調査 — TestFlight / Firebase / 他配布系の API 形と wasawasa の拡張点 (2026-11-03)](../projects/wasawasa/.knowledge/research-20261103-distribution-targets.md) — `wasawasa` — Touri 要望 (2026-11-03): Xcode Cloud のビルド後の「配布先」を環境ごとに汎用的に選べるようにしたい (TestFlight オン/オフ、Firebase App Distribution も同列、将来の別配布
@@ -172,6 +173,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [wildcard DNS 配下ではサブドメインをフラット 1 レベルに固定する](pattern/flat-subdomain-naming-under-wildcard-dns.md) — `global` — `*.appily.run` / `*.n-wasabi.org` のような **wildcard CNAME → Cloudflare Tunnel → Nginx → Coolify Traefik** 構成で、
 - [Flutter で iOS の detent シート (fit / medium / large) — smooth_sheets 1.2.1 + 毎レイアウトで段数を決める SnapGrid](pattern/flutter-ios-detent-sheet-smooth-sheets.md) — `global` — bloom で「中身が少なければ中身の高さ、多ければ半分 (medium) で開いて上スワイプで全高 (large)、中身のスクロールは large になってから、背面は縮まない、暗転 + 外タップで閉じる」(SwiftUI の `.pre
 - [Flutter iOS の Universal Link は SceneDelegate override + MethodChannel で受け、FlutterDeepLinkingEnabled=false にする](pattern/flutter-ios-universal-link-native-bridge.md) — `global` — Flutter 3.47 (UIScene ライフサイクル、`FlutterSceneDelegate` 継承) のアプリで、招待 URL (`https://host/i/<token>`) の Universal Link を「rout
+- [Flutter アプリのストア用実画面は「偽サーバー内蔵の撮影エントリポイント」で撮る (タップ不要・本番を汚さない)](pattern/flutter-store-shots-scripted-fake-backend.md) — `global` — wacha (2 人対戦の Flutter アプリ) のストア画像の設計で、Leader の前提は「シミュレータ 2 台で本番かローカルに繋いで撮る」だった。Mac に UI 操作の道具 (idb / maestro / cliclick)
 - [Flutter の全画面ビューアを「下スワイプで縮んで閉じる」(Instagram ストーリー風) にする骨格](pattern/flutter-story-viewer-drag-dismiss.md) — `global` — bloom の投稿ビューア (PageView 横送り + 全画面動画) に「指に追従して縮小・背景フェード、閾値で閉じ、未満で戻る」を足す設計で決めた骨格。
 - [同じ画面が 2 文脈でフォークしたら、統一するのは「中身」でなく「殻」](pattern/forked-screen-unify-the-shell-not-the-content.md) — `global` — 同じ機能を「自分用」と「グループ用」の 2 文脈で出す画面 (カレンダー / 時間割 / タスク一覧 / ダッシュボード)。
 - [入力フォームモーダル (BottomSheet/Dialog) の視認性 BP (2026)](pattern/form-modal-readability-bp.md) — `global` — Modal / Bottom Sheet 内に入力フォームを置く場面で「文字が見えにくい」「階層が弱い」「フォーカスが分からない」と感じる根因は**たいてい設計トークンの欠陥に集約**される。Atender redesign で実装後に T
@@ -323,6 +325,7 @@ _Run `python3 Muraki/scripts/gen-knowledge-index.py` to regenerate._
 - [AnimatedSize を Duration.zero にすると、サイズが変わる build で debug assertion (RenderAnimatedSize mutated in its own performLayout)](gotcha/flutter-animatedsize-zero-duration-asserts-in-layout.md) — `global` — bloom のクローズ促し (S3 の `ClosePromptBar`) は「出る / 消えるは 240 ms の AnimatedSize + AnimatedOpacity、`MediaQuery.disableAnimations`
 - [Flutter 3.47 の showCupertinoSheet は showDragHandle を捨て、route の掴み手はダークで見えない](gotcha/flutter-cupertino-sheet-drag-handle-dropped-and-invisible-dark.md) — `global` — bloom で S6/S8 を「iOS 純正風の半分シート・背面縮小なし・暗転あり」にする設計中、ブリーフの `showCupertinoSheet(topGap: 0.5, showDragHandle: true)` を SDK で確か
 - [Image の key を変えるだけの「再読込」は、失敗した ImageStream を ImageCache の live image から再利用して再取得しない](gotcha/flutter-image-key-change-reuses-failed-live-image.md) — `global` — `Image(key: ValueKey((id, gen)), image: customProvider)` で、失敗後に `gen` を上げて再構築すれば再取得されると設計した (bloom の ThumbGlow / postThu
+- [Flutter の既定値が黙って効く 3 点 (ステータスバーの文字色 / 視差の軽減で尺が 5% / Positioned.fromRect の押し込みで切れる)](gotcha/flutter-materialapp-overrides-statusbar-and-reduce-motion.md) — `global` — wacha は色を自前 token + `MediaQuery.platformBrightnessOf` で切り替え、`MaterialApp` には theme を渡していなかった。実機のダークモードでステータスバーの時刻が黒のまま、と
 - [Flutter の Navigator.push は操作中のポインタを cancel する (長押し→route を開く→そのまま滑らせる、は成立しない)](gotcha/flutter-navigator-push-cancels-active-pointers.md) — `global` — bloom 0.2.2 スタンプ攻撃の設計は「アバターを長押し → パレットを root Navigator に push → **指を離さずに** セルへ滑らせて離す = 送信」(Zenly 風)。`GestureDetector(onL
 - [Flutter のシートを root Navigator に移すと「開いた側の context で pop」が別の route を閉じる](gotcha/flutter-sheet-root-navigator-opener-context-pop.md) — `global` — bloom の UI 修正第 2 バッチの設計。共通の `showBloomSheet` (showModalBottomSheet) に `useRootNavigator: true` が無く、タブ内の画面 (StatefulShell
 - [flutter build ios --simulator --no-codesign は Keychain 書き込みが -34018 で死ぬ (shot driver の live が LaunchScreen で止まる) / Riverpod 3 は build 中に他 provider を変更すると AsyncError](gotcha/flutter-sim-no-codesign-keychain-34018.md) — `global` — bloom の shot driver (`shot.json` で画面を再現して `simctl io screenshot`) で `mode: "live"` (dev1 に login-as) だけがネイティブの LaunchScr
